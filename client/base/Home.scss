@@ -1,0 +1,13 @@
+@import 'constants';
+@import 'base';
+
+body {
+  padding: 0 !important;
+}
+
+.home-page {
+  background-image: url("/img/background-gradient.svg");
+  background-size: cover;
+  height: 300px;
+  background-color: whitesmoke;
+}

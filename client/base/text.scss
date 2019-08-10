@@ -1,0 +1,73 @@
+@import 'mixins';
+@import 'colors';
+
+.-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.-hyphens {
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.-ellipsis-blue {
+  @include ellipsis($blue);
+}
+
+.-ellipsis-green {
+  @include ellipsis($green);
+}
+
+.-ellipsis-white {
+  @include ellipsis($white);
+}
+
+.-ellipsis-sky-blue {
+  @include ellipsis($sky-blue);
+}
+
+.-ellipsis-violet {
+  @include ellipsis($violet);
+}
+
+.-text {
+  line-height: 1.4;
+}
+
+/* Deprecated */
+
+.-text {
+  &-light {
+    color: $white;
+  }
+  &-primary {
+    color: $blue;
+  }
+  &-success {
+    color: $green-500;
+  }
+  &-danger {
+    color: $red-500;
+  }
+  &-uppercase {
+    text-transform: uppercase;
+  }
+
+  &-center {
+    text-align: center;
+  }
+
+  &-right {
+    text-align: right;
+  }
+
+  &-left {
+    text-align: left;
+  }
+}

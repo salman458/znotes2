@@ -1,0 +1,39 @@
+$border-radius: 2px;
+$border-radius-large: 8px;
+
+$padding-small: 5px;
+$padding: 10px;
+$padding-large: 15px;
+
+$margin-small: 2px;
+$margin: 4px;
+$margin-large: 16px;
+
+$grid-unit: 8px;
+$grid-col: 70px;
+$grid-gap: 30px;
+$grid-size: 12;
+$grid-width: $grid-size * ($grid-col + $grid-gap) - $grid-gap;
+
+$xxsmall: 480px;
+$xsmall: 768px;
+$small: 1024px;
+$medium: 1280px;
+$large: 1440px;
+$xlarge: 1920px;
+$xxlarge: 2560px;
+
+$banner-height: 48px;
+
+$header-height: 64px;
+$ide-header-height: 40px;
+$secondary-header-height: 36px;
+
+$z-index-coin-shower: 100;
+$z-index-tooltip: 90;
+$z-index-tourspot: 80;
+$z-index-growl: 70;
+$z-index-dropdown: 60;
+$z-index-overlay: 50;
+$z-index-modal: 40;
+$z-index-page: 30;

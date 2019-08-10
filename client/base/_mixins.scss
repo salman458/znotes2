@@ -1,0 +1,192 @@
+@import './constants';
+@import './colors';
+
+@mixin font($family, $size, $isImportant: false) {
+  font-family: $family, sans-serif;
+  @if ($isImportant) {
+    font-size: $size !important;
+  } @else {
+    font-size: $size;
+  }
+}
+
+@mixin twoFonts($family1, $family2, $size, $isImportant: false) {
+  font-family: $family1, $family2, sans-serif;
+  @if ($isImportant) {
+    font-size: $size !important;
+  } @else {
+    font-size: $size;
+  }
+}
+
+@mixin gotham($size: inherit, $isImportant: false) {
+  @include twoFonts('Gotham A', 'Gotham B', $size, $isImportant);
+
+  @if ($size != inherit) {
+    @if ($size < 12px) {
+      letter-spacing: 0.3px;
+    } @else if ($size < 14px) {
+      letter-spacing: 0.2px;
+    } @else if ($size < 16px) {
+      letter-spacing: 0.1px;
+    } @else {
+      letter-spacing: 0;
+    }
+  }
+}
+
+@mixin ellipsis($color: $white, $isVertical: false) {
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: '';
+    position: absolute;
+    display: block;
+    right: 0;
+    bottom: 0;
+    @if $isVertical {
+      height: 20px;
+      left: 0;
+      background: linear-gradient(to bottom, rgba($color, 0.4) 0%, rgba($color, 1) 100%);
+    } @else {
+      width: 20px;
+      top: 0;
+      background: linear-gradient(to right, rgba($color, 0.4) 0%, rgba($color, 1) 100%);
+    }
+  }
+}
+
+@mixin desaturate() {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  filter: gray;
+}
+
+@mixin round($size: 0) {
+  @if ($size != 0) {
+    width: $size;
+    min-width: $size;
+    height: $size;
+    min-height: $size;
+  }
+  border-radius: 50%;
+}
+
+// Flex mixins
+
+@mixin layout($dir: null, $inline: false) {
+  // Flexbox type
+
+  @if $inline == true {
+    display: inline-flex;
+  } @else {
+    display: flex;
+  }
+
+  // Flexbox direction
+
+  @if $dir == 'vertical' {
+    flex-direction: column;
+  } @else if $dir == 'vertical-reverse' {
+    flex-direction: column-reverse;
+  } @else if $dir == 'horizontal-reverse' {
+    flex-direction: row-reverse;
+  } @else {
+    flex-direction: row;
+  }
+}
+
+@mixin alignItems($value) {
+  @if $value == 'start' {
+    align-items: flex-start;
+  } @else if $value == 'center' {
+    align-items: center;
+  } @else if $value == 'end' {
+    align-items: flex-end;
+  } @else {
+    align-self: stretch;
+  }
+}
+
+@mixin alignSelf($value) {
+  @if $value == 'start' {
+    align-self: flex-start;
+  } @else if $value == 'center' {
+    align-self: center;
+  } @else if $value == 'end' {
+    align-self: flex-end;
+  } @else if $value == 'stretch' {
+    align-self: stretch;
+  } @else {
+    align-self: auto;
+  }
+}
+
+@mixin justify($value) {
+  @if $value == 'center' {
+    justify-content: center;
+  } @else if $value == 'end' {
+    justify-content: flex-end;
+  } @else if $value == 'around' {
+    justify-content: space-around;
+  } @else if $value == 'between' {
+    justify-content: space-between;
+  } @else {
+    justify-content: flex-start;
+  }
+}
+
+// Elevations
+
+@mixin elevation($level: null) {
+  @if $level == 2 {
+    box-shadow: 0 4px 5px 0 rgba($black, 0.14), 0 1px 10px 0 rgba($black, 0.12),
+      0 2px 4px -1px rgba($black, 0.4);
+  } @else if $level == 3 {
+    box-shadow: 0 6px 10px 0 rgba($black, 0.14), 0 1px 18px 0 rgba($black, 0.12),
+      0 3px 5px -1px rgba($black, 0.4);
+  } @else if $level == 4 {
+    box-shadow: 0 8px 10px 1px rgba($black, 0.14), 0 3px 14px 2px rgba($black, 0.12),
+      0 5px 5px -3px rgba($black, 0.4);
+  } @else if $level == 5 {
+    box-shadow: 0 16px 24px 2px rgba($black, 0.14), 0 6px 30px 5px rgba($black, 0.12),
+      0 8px 10px -5px rgba($black, 0.4);
+  } @else {
+    box-shadow: 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12),
+      0 3px 1px -2px rgba($black, 0.2);
+  }
+}
+
+// Spaces
+
+@mixin margin($size: 7px, $direction: '') {
+  @if $size == '' {
+    $size: $margin;
+  }
+
+  @if $size == 'small' {
+    $size: $margin-small;
+  }
+
+  @if $size == 'large' {
+    $size: $margin-large;
+  }
+
+  @if $direction == 'horizontal' or $direction == '' {
+    margin-left: $size;
+    margin-right: $size;
+  }
+
+  @if $direction == 'vertical' or $direction == '' {
+    margin-top: $size;
+    margin-bottom: $size;
+  }
+}
+
+@mixin marginHorizontal($size: '') {
+  @include margin($size, 'horizontal');
+}
+
+@mixin marginVertical($size: '') {
+  @include margin($size, 'vertical');
+}
