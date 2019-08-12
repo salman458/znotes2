@@ -22,3 +22,5 @@ react-meteor-data       # React higher-order component for reactively tracking M
 accounts-ui
 accounts-password
 fourseven:scss
+kadira:flow-router
+ostrio:flow-router-meta

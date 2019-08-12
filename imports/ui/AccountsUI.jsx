@@ -15,7 +15,7 @@ export default class AccountsUI extends Component {
                     <button type="submit" className="registerbtn">Login</button>
 
                     <div className="container signin">
-                        <p>Forgot password? <a href="">reset password</a>. Or Create new account <a href="">sign up</a>. </p>
+                        <p>Forgot password? <a href="">reset password</a>. Or Create new account <a href="/register">sign up</a>. </p>
                     </div>
 
                 </form>

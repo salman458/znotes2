@@ -1,8 +1,13 @@
 import React from 'react';
-import Home from "./Home";
+// import Home from "./Home";
 
-const App = () => {
-    return (<Home/>);
+const App = props => {
+    console.log(props);
+    return (<div>
+            {props.main}
+        </div>
+    );
 };
+
 
 export default App;

@@ -1,4 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,400i,700");
+.modal{
+    background-color: white;
+
+}
 
 .frame {
     position: absolute;
@@ -26,6 +30,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 12px;
 
     cursor: pointer;
 
