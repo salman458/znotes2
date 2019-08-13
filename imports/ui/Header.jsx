@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import AccountsUI from "./AccountsUI";
+import AccountsUI from "./account/Login";
 import iconService from "./iconService";
 import Popup from "reactjs-popup";
 import '../../client/styles/loginButton.scss';
@@ -10,7 +10,7 @@ export default class Header extends Component {
     renderSingleItem(title, iconName) {
         return (
             <li className="header-navigation-item">
-                <a className="-layout-h -space-h-8 -bold -font-size-16 -white" href="">
+                <a className="-layout-h -space-h-8 -bold -font-size-16 -white" href="/">
                     <div>
                         {iconService.getIcon(iconName)}
                     </div>
@@ -31,8 +31,6 @@ export default class Header extends Component {
                     {this.renderSingleItem("Explore", "explore")}
                     {this.renderSingleItem("Community", "community")}
                     {this.renderSingleItem("Team", "team")}
-
-
                 </ul>
             </div>
         );
@@ -70,6 +68,7 @@ export default class Header extends Component {
                 <polyline className="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
             </svg>
         </div>);
+
     }
 
 
@@ -80,5 +79,6 @@ export default class Header extends Component {
                 {this.renderAccountPopUp()}
             </div>
         );
+
     }
 }

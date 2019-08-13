@@ -5,12 +5,12 @@ import {Accounts} from 'meteor/accounts-base';
 
 
 Accounts.urls.verifyEmail = (token) => {
-  let url = Meteor.absoluteUrl("/account/edit/email/verify/" + token);
+  let url = Meteor.absoluteUrl("/email/verify/" + token);
   console.log(url);
   return url;
 };
 Accounts.urls.resetPassword = (token) => {
-  let url = Meteor.absoluteUrl("/account/password/reset/" + token);
+  let url = Meteor.absoluteUrl("/password/reset/" + token);
   console.log(url);
   return url;
 };
@@ -52,7 +52,7 @@ Meteor.methods({
     Accounts.addEmail(obj.user._id, obj.email);
   },
   sendVerification(user) {
-    Meteor.users.update({_id: Meteor.userId()}, {'$pop': {"services.email.verificationTokens": -1}});
+    Meteor.users.update({_id: user._id}, {'$pop': {"services.email.verificationTokens": -1}});
     Accounts.sendVerificationEmail(user._id);
   },
   verify(token) {

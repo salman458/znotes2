@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import Header from './Header.jsx';
-import AbstractComponent from "./AbstractComponent";
+import Header from '../Header.jsx';
+import AbstractComponent from "../AbstractComponent";
 import {Accounts} from 'meteor/accounts-base';
 import {Meteor} from "meteor/meteor";
 
@@ -14,9 +14,9 @@ class Home extends Component {
             password: '',
             dob: '',
             city: '',
-            school:{
-                name:'',
-                location:'',
+            school: {
+                name: '',
+                location: '',
             }
         };
 
@@ -39,7 +39,7 @@ class Home extends Component {
             password: this.state.password,
             dob: this.state.dob,
             city: this.state.city,
-            school:{
+            school: {
                 name: this.state.school.name,
                 location: this.state.school.location
             }
@@ -53,7 +53,7 @@ class Home extends Component {
             password: this.state.password,
             dob: this.state.dob,
             city: this.state.city,
-            school:{
+            school: {
                 name: this.state.school.name,
                 location: this.state.school.location
             }
@@ -67,7 +67,7 @@ class Home extends Component {
             password: event.target.value,
             dob: this.state.dob,
             city: this.state.city,
-            school:{
+            school: {
                 name: this.state.school.name,
                 location: this.state.school.location
             }
@@ -81,7 +81,7 @@ class Home extends Component {
             password: this.state.password,
             dob: event.target.value,
             city: this.state.city,
-            school:{
+            school: {
                 name: this.state.school.name,
                 location: this.state.school.location
             }
@@ -95,7 +95,7 @@ class Home extends Component {
             password: this.state.password,
             dob: this.state.dob,
             city: event.target.value,
-            school:{
+            school: {
                 name: this.state.school.name,
                 location: this.state.school.location
             }
@@ -109,7 +109,7 @@ class Home extends Component {
             password: this.state.password,
             dob: this.state.dob,
             city: this.state.city,
-            school:{
+            school: {
                 name: event.target.value,
                 location: this.state.school.location
             }
@@ -123,7 +123,7 @@ class Home extends Component {
             password: this.state.password,
             dob: this.state.dob,
             city: this.state.city,
-            school:{
+            school: {
                 name: this.state.school.name,
                 location: event.target.value
             }
@@ -157,13 +157,11 @@ class Home extends Component {
 
                     <button type="submit" className="registerbtn">Register</button>
 
-                    <div className="container signin">
-                        <p>Already have an account? <a href="">Sign In</a>.</p>
-                    </div>
                 </form>
             </div>
         )
     }
+
 
     render() {
         return (
@@ -200,8 +198,8 @@ class Home extends Component {
                             console.log(err);
                             alert('Failed to register');
                         } else {
-                            alert("Successfully registered!");
-                            // Router.go('/account/verification');
+                            alert("Successfully registered please verify your email!");
+                            FlowRouter.go('/');
                         }
                     }
                 );
