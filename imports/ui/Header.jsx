@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import AccountsUI from "./account/Login";
+import Login from "./account/Login";
 import iconService from "./iconService";
 import Popup from "reactjs-popup";
 import '../../client/styles/loginButton.scss';
@@ -38,7 +38,7 @@ export default class Header extends Component {
 
     renderAccount() {
         return (
-            <AccountsUI/>
+            <Login/>
         )
     }
 

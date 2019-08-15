@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import '../../../client/styles/form.css';
 import {Meteor} from "meteor/meteor";
 
-export default class AccountsUI extends Component {
+export default class Login extends Component {
 
     constructor(props) {
         super(props);
@@ -36,16 +36,10 @@ export default class AccountsUI extends Component {
         if (Meteor.user()) {
             return (
                 <div className="container">
-                    <form className="login" onSubmit={this.handleLogout}>
-                        <ul>
-                            <li><a href='#' onClick={this.ChangePassword}>Change Password</a></li>
-                            <li><a href='#' onClick={this.ChangeEmail}>Change Email</a></li>
-                        </ul>
-
-
-                        <button type="submit" className="registerbtn">Log out</button>
-
-
+                    <form>
+                        <button onClick={this.ChangeEmail} className="accountEditBtn">Change Email</button>
+                        <button onClick={this.ChangePassword} className="accountEditBtn">Change Password</button>
+                        <button onClick={this.handleLogout} type="submit" className="registerbtn">Log out</button>
                     </form>
                 </div>
             )
@@ -78,7 +72,7 @@ export default class AccountsUI extends Component {
     }
 
     ChangePassword() {
-        FlowRouter.go('password/change');
+        FlowRouter.go('/password/change');
     }
 
     handleReset() {

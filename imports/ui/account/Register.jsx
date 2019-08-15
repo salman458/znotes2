@@ -132,8 +132,9 @@ class Home extends Component {
 
     renderBody() {
         return (
-            <div className="container">
+            <div className="container -half-width -outer-center">
                 <form onSubmit={this.handleSubmit}>
+
                     <label htmlFor="name"><b>Full Name</b></label>
                     <input type="text" placeholder="Enter Name" name="name" onChange={this.handleChangeName}/>
 
@@ -156,12 +157,18 @@ class Home extends Component {
                     <input type="text" placeholder="Enter School Location" name="schoolLocation" onChange={this.handleChangeSchoolLocation}/>
 
                     <button type="submit" className="registerbtn">Register</button>
+                    <button type="submit" className="registerbtn" onClick={this.handleHome}>Back To Home</button>
+
+
 
                 </form>
             </div>
         )
     }
 
+    handleHome(){
+        FlowRouter.go('/');
+    }
 
     render() {
         return (

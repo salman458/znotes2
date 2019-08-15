@@ -36,7 +36,7 @@ class ChangePassword extends Component {
             <div className="search__container -layout-v -center">
                 <form onSubmit={this.handleSubmit}>
                     <ul>
-                        <li><h1>Change Email Address</h1></li>
+                        <li><h1>Change Password</h1></li>
                         <li><input className="search__input -full-width" type="password" placeholder="old password"
                                    onChange={this.handleChangeOldPassword}/></li>
 

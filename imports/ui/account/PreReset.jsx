@@ -23,10 +23,10 @@ class Reset extends Component {
 
     renderBody() {
         return (
-            <div className="search__container -layout-v -center">
+            <div className="search__container -half-width -outer-center ">
                 <form onSubmit={this.handleSubmit}>
                     <ul>
-                        <li><h1>For Students, By Students</h1></li>
+                        <li><h1>Reset Password</h1></li>
                         <li><input className="search__input -full-width" type="text" placeholder="Please enter your email"
                                    onChange={this.handleChangeEmail}/></li>
                         <li>
