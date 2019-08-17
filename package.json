@@ -14,7 +14,10 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-mounter": "^1.2.0",
-    "reactjs-popup": "^1.4.2"
+    "react-page-scroller": "^1.5.1",
+    "reactjs-popup": "^1.4.2",
+    "simpl-schema": "^1.5.5",
+    "react-bootstrap": "latest"
   },
   "meteor": {
     "mainModule": {
