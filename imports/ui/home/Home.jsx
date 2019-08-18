@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from './Header.jsx';
-import AbstractComponent from "./AbstractComponent";
-import "../../client/styles/cover.scss";
-import "../../client/styles/scroller.css";
+import Header from '../Header.jsx';
+import AbstractComponent from "../AbstractComponent";
+import "../../../client/styles/cover.scss";
+import "../../../client/styles/scroller.css";
 import {Pager} from "react-bootstrap";
 import ReactPageScroller from "react-page-scroller";
 import FirstComponent from "./FirstComponent";

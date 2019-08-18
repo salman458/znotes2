@@ -2,11 +2,26 @@ import {Meteor} from 'meteor/meteor';
 import {Mongo} from 'meteor/mongo'
 import {Accounts} from 'meteor/accounts-base';
 
-const noteSchema = require('./schemas/note.js');
+const board = require('./schemas/board.js');
+const level = require('./schemas/level.js');
+const subject = require('./schemas/subject.js');
+const zModule = require('./schemas/zModule.js');
+const card = require('./schemas/card.js');
 
-const notes = new Mongo.Collection('notes');
-notes.schema = noteSchema;
+const boards = new Mongo.Collection('boards');
+boards.schema = board;
 
+const levels = new Mongo.Collection('levels');
+levels.schema = level;
+
+const subjects = new Mongo.Collection('subjects');
+subjects.schema = subject;
+
+const modules = new Mongo.Collection('modules');
+modules.schema = zModule;
+
+const cards = new Mongo.Collection('cards');
+cards.schema = card;
 
 Accounts.urls.verifyEmail = (token) => {
     let url = Meteor.absoluteUrl("/email/verify/" + token);

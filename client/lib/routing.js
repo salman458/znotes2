@@ -1,7 +1,7 @@
 import React from 'react';
 import {mount} from 'react-mounter';
 
-import Home from '../../imports/ui/Home';
+import Home from '../../imports/ui/home/Home';
 import Register from '../../imports/ui/account/Register';
 import Reset from '../../imports/ui/account/Reset';
 import PreReset from '../../imports/ui/account/PreReset';
