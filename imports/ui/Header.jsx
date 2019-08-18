@@ -7,10 +7,10 @@ import '../../client/styles/loginButton.scss';
 
 export default class Header extends Component {
 
-    renderSingleItem(title, iconName) {
+    renderSingleItem(title, iconName, url) {
         return (
             <li className="header-navigation-item">
-                <a className="-layout-h -space-h-8 -bold -font-size-16 -white" href="/">
+                <a className="-layout-h -space-h-8 -bold -font-size-16 -white" href={url}>
                     <div>
                         {iconService.getIcon(iconName)}
                     </div>
@@ -27,10 +27,10 @@ export default class Header extends Component {
             <div className=" -layout-h -center -space-h-40">
                 <img className="logo-pic" src="/img/logo.png"/>
                 <ul className="-layout-h -space-h-20">
-                    {this.renderSingleItem("Home", "home")}
-                    {this.renderSingleItem("Explore", "explore")}
-                    {this.renderSingleItem("Community", "community")}
-                    {this.renderSingleItem("Team", "team")}
+                    {this.renderSingleItem("Home", "home", "/")}
+                    {this.renderSingleItem("Explore", "explore", "/explore")}
+                    {this.renderSingleItem("Community", "community", "/community")}
+                    {this.renderSingleItem("Team", "team", "/team")}
                 </ul>
             </div>
         );

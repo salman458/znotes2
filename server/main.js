@@ -79,6 +79,19 @@ Meteor.methods({
     },
     addUser(user) {
         Accounts.createUser(user);
+    },
+    loadBoards(selector) {
+        let records = boards.find(selector).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = boards.find(selector).fetch();
+            console.log(res);
+            return res;
+        }
+    },
+    addBoard(board){
+        return boards.insert(board);
     }
 });
 

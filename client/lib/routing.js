@@ -2,6 +2,7 @@ import React from 'react';
 import {mount} from 'react-mounter';
 
 import Home from '../../imports/ui/home/Home';
+import Explore from '../../imports/ui/explore/explore';
 import Register from '../../imports/ui/account/Register';
 import Reset from '../../imports/ui/account/Reset';
 import PreReset from '../../imports/ui/account/PreReset';
@@ -80,4 +81,13 @@ FlowRouter.route('/password/change', {
             main: <ChangePassword/>
         })
     }
-})
+});
+
+FlowRouter.route('/explore', {
+    name: 'Explore',
+    action: function () {
+        mount(App, {
+            main: <Explore/>
+        })
+    }
+});
