@@ -4,6 +4,7 @@ import {mount} from 'react-mounter';
 import Home from '../../imports/ui/home/Home';
 import Explore from '../../imports/ui/explore/Explore';
 import Level from '../../imports/ui/explore/Level';
+import Subject from '../../imports/ui/explore/Subject';
 import Register from '../../imports/ui/account/Register';
 import Reset from '../../imports/ui/account/Reset';
 import PreReset from '../../imports/ui/account/PreReset';
@@ -93,7 +94,7 @@ FlowRouter.route('/explore', {
     }
 });
 
-FlowRouter.route('/explore/level/:id',{
+FlowRouter.route('/explore/level/:id', {
     name: 'Level',
     action: function (params, queryParams) {
         mount(App, {
@@ -101,3 +102,23 @@ FlowRouter.route('/explore/level/:id',{
         });
     }
 });
+
+FlowRouter.route('/explore/level/:id', {
+    name: 'Level',
+    action: function (params, queryParams) {
+        mount(App, {
+            main: <Level boardId={params.id}/>
+        });
+    }
+});
+
+
+FlowRouter.route('/explore/subject/:boardId/:levelId', {
+    name: 'Subject',
+    action: function (params, queryParams) {
+        mount(App, {
+            main: <Subject boardId={params.boardId} levelId={params.levelId}/>
+        });
+    }
+});
+

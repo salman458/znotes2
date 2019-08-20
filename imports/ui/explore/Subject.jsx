@@ -7,49 +7,64 @@ import {Meteor} from "meteor/meteor";
 import Popup from "reactjs-popup";
 
 
-class Level extends Component {
+class Subject extends Component {
 
     constructor(props) {
         console.log(props);
         super(props);
         this.state = {
             boardId: props.boardId,
-            levels: '',
-            newName: ''
+            levelId: props.levelId,
+            subjects: '',
+            newName: '',
+            newColor: ''
         };
 
-        this.handleLevels = this.handleLevels.bind(this);
-        this.handleLevelName = this.handleLevelName.bind(this);
+        this.handleSubjects = this.handleSubjects.bind(this);
+        this.handleSubjectName = this.handleSubjectName.bind(this);
+        this.handleSubjectColor = this.handleSubjectColor.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
     }
 
-    handleLevels(levels) {
+    handleSubjects(subjects) {
         this.setState({
             boardId: this.state.boardId,
-            levels: levels,
-            newName: this.state.newName
+            levelId: this.state.levelId,
+            subjects: subjects,
+            newName: this.state.newName,
+            newColor: this.state.newColor
         })
     }
 
-    handleLevelName(event) {
+    handleSubjectName(event) {
         this.setState({
             boardId: this.state.boardId,
-            levels: this.state.levels,
-            newName: event.target.value
+            levelId: this.state.levelId,
+            newName: event.target.value,
+            newColor: this.state.newColor
         })
     }
 
+
+    handleSubjectColor(event) {
+        this.setState({
+            boardId: this.state.boardId,
+            levelId: this.state.levelId,
+            newName: this.state.newName,
+            newColor: event.target.value
+        })
+    }
 
     componentDidMount() {
-        Meteor.call('loadLevelsByBoardId', this.state.boardId, (err, res) => {
+        console.log(this.state);
+        Meteor.call('loadSubjects', {board: this.state.boardId, level: this.state.levelId}, (err, res) => {
                 if (err) {
                     console.log(err);
                     alert('Failed to load levels');
                 } else {
-                    console.log(this.state);
-                    this.handleLevels(res.map((level) => {
-                        return <li key={level.name}><a href={"/explore/subject/" + this.state.boardId + "/" + level._id}> {level.name}</a></li>;
+                    console.log(res);
+                    this.handleSubjects(res.map((subject) => {
+                        return <li key={subject.name}><a href={"/explore/module/" + subject._id}> {subject.name}</a></li>;
                     }));
                 }
             }
@@ -57,24 +72,29 @@ class Level extends Component {
     }
 
     handleSubmit() {
-        Meteor.call('addLevel', {board: this.state.boardId, name: this.state.newName}, (err, res) => {
+        Meteor.call('addSubject', {
+            board: this.state.boardId,
+            level: this.state.levelId,
+            name: this.state.newName,
+            color: this.state.color
+        }, (err, res) => {
             if (err) {
                 console.log(err);
-                alert('Failed to add new level');
+                alert('Failed to add new subject');
             } else {
                 console.log(res);
-                alert('Successfully added new level!');
+                alert('Successfully added new subject!');
             }
         })
     }
 
 
     renderBody() {
-        console.log(this.state.levels);
+        console.log(this.state.subjects);
         return (
             <div className="containerRes">
                 <ul>
-                    {this.state.levels}
+                    {this.state.subjects}
                 </ul>
             </div>
         )
@@ -100,7 +120,7 @@ class Level extends Component {
 
     renderButton() {
         return (<div className="button">
-            <span>Add Level</span>
+            <span>Add Subject</span>
             <svg>
                 <polyline className="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
                 <polyline className="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
@@ -114,8 +134,9 @@ class Level extends Component {
         return (
             <div className="container">
                 <form className="login" onSubmit={this.handleSubmit}>
-                    <label htmlFor="name"><b>New Board Name</b></label>
-                    <input type="text" placeholder="Enter the Name" name="name" onChange={this.handleLevelName}/>
+                    <label htmlFor="name"><b>New Subject Name</b></label>
+                    <input type="text" placeholder="Enter the Name" name="name" onChange={this.handleSubjectName}/>
+                    <input type="text" placeholder="Enter the Color" name="color" onChange={this.handleSubjectColor}/>
                     <button type="submit" className="registerbtn">Add</button>
 
                 </form>
@@ -137,4 +158,4 @@ class Level extends Component {
 }
 
 
-export default Level;
+export default Subject;

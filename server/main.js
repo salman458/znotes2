@@ -100,6 +100,19 @@ Meteor.methods({
             return res;
         }
     },
+    loadSubjects(selector){
+        let records = subjects.find(selector).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = subjects.find(selector).fetch();
+            console.log(res);
+            return res;
+        }
+    },
+    addSubject(subject){
+      return subjects.insert(subject);
+    },
     addBoard(board) {
         return boards.insert(board);
     },
