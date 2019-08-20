@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Header from '../Header.jsx';
-import AbstractComponent from "../AbstractComponent";
 import "../../../client/styles/cover.scss";
 import "../../../client/styles/scroller.css";
 import "../../../client/styles/boards.css";
@@ -8,66 +7,74 @@ import {Meteor} from "meteor/meteor";
 import Popup from "reactjs-popup";
 
 
-class Home extends AbstractComponent {
+class Level extends Component {
 
     constructor(props) {
+        console.log(props);
         super(props);
         this.state = {
-            boards: '',
+            boardId: props.boardId,
+            levels: '',
             newName: ''
         };
-        this.handleBoards = this.handleBoards.bind(this);
-        this.handleBoardName = this.handleBoardName.bind(this);
+
+        this.handleLevels = this.handleLevels.bind(this);
+        this.handleLevelName = this.handleLevelName.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+
     }
 
-    handleBoards(boards) {
+    handleLevels(levels) {
         this.setState({
-            boards: boards,
+            boardId: this.state.boardId,
+            levels: levels,
             newName: this.state.newName
         })
     }
 
-    handleBoardName(event) {
+    handleLevelName(event) {
         this.setState({
-            boards: this.state.boards,
+            boardId: this.state.boardId,
+            levels: this.state.levels,
             newName: event.target.value
         })
     }
 
-    handleSubmit() {
-        Meteor.call('addBoard', {name: this.state.newName}, (err, res) => {
-            if (err) {
-                console.log(err);
-                alert('Failed to add new board');
-            } else {
-                console.log(res);
-                alert('Successfully added new board!');
-                FlowRouter.go('/explore');
-            }
-        })
-    }
 
     componentDidMount() {
-        Meteor.call('loadBoards', {}, (err, res) => {
+        Meteor.call('loadLevelsByBoardId', this.state.boardId, (err, res) => {
                 if (err) {
                     console.log(err);
                     alert('Failed to load boards');
                 } else {
-                    this.handleBoards(res.map((board) => {
-                        return <li key={board.name}><a href=""> {board.name}</a></li>;
+                    console.log(this.state);
+                    this.handleLevels(res.map((level) => {
+                        return <li key={level.name}><a href={"/explore/subject/" + this.state.boardId + "/" + level._id}> {level.name}</a></li>;
                     }));
                 }
             }
         );
     }
 
+    handleSubmit() {
+        Meteor.call('addLevel', {board: this.state.boardId, name: this.state.newName}, (err, res) => {
+            if (err) {
+                console.log(err);
+                alert('Failed to add new level');
+            } else {
+                console.log(res);
+                alert('Successfully added new level!');
+            }
+        })
+    }
+
 
     renderBody() {
-        console.log(this.state.boards);
+        console.log(this.state.levels);
         return (
             <div className="containerRes">
                 <ul>
-                    {this.state.boards}
+                    {this.state.levels}
                 </ul>
             </div>
         )
@@ -108,7 +115,7 @@ class Home extends AbstractComponent {
             <div className="container">
                 <form className="login" onSubmit={this.handleSubmit}>
                     <label htmlFor="name"><b>New Board Name</b></label>
-                    <input type="text" placeholder="Enter the Name" name="name" onChange={this.handleBoardName}/>
+                    <input type="text" placeholder="Enter the Name" name="name" onChange={this.handleLevelName}/>
                     <button type="submit" className="registerbtn">Add</button>
 
                 </form>
@@ -130,4 +137,4 @@ class Home extends AbstractComponent {
 }
 
 
-export default Home;
+export default Level;

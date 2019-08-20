@@ -90,8 +90,22 @@ Meteor.methods({
             return res;
         }
     },
-    addBoard(board){
+    loadLevelsByBoardId(id) {
+        let records = levels.find({board: id}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = levels.find({board: id}).fetch();
+            console.log(res);
+            return res;
+        }
+    },
+    addBoard(board) {
         return boards.insert(board);
+    },
+    addLevel(level) {
+        console.log(level);
+        return levels.insert(level);
     }
 });
 

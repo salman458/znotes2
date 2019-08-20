@@ -2,7 +2,8 @@ import React from 'react';
 import {mount} from 'react-mounter';
 
 import Home from '../../imports/ui/home/Home';
-import Explore from '../../imports/ui/explore/explore';
+import Explore from '../../imports/ui/explore/Explore';
+import Level from '../../imports/ui/explore/Level';
 import Register from '../../imports/ui/account/Register';
 import Reset from '../../imports/ui/account/Reset';
 import PreReset from '../../imports/ui/account/PreReset';
@@ -89,5 +90,14 @@ FlowRouter.route('/explore', {
         mount(App, {
             main: <Explore/>
         })
+    }
+});
+
+FlowRouter.route('/explore/level/:id',{
+    name: 'Level',
+    action: function (params, queryParams) {
+        mount(App, {
+            main: <Level boardId={params.id}/>
+        });
     }
 });
