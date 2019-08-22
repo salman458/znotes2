@@ -5,6 +5,7 @@ import Home from '../../imports/ui/home/Home';
 import Explore from '../../imports/ui/explore/Explore';
 import Level from '../../imports/ui/explore/Level';
 import Subject from '../../imports/ui/explore/Subject';
+import Module from '../../imports/ui/explore/Module';
 import Register from '../../imports/ui/account/Register';
 import Reset from '../../imports/ui/account/Reset';
 import PreReset from '../../imports/ui/account/PreReset';
@@ -122,3 +123,11 @@ FlowRouter.route('/explore/subject/:boardId/:levelId', {
     }
 });
 
+FlowRouter.route('/explore/module/:subjectId', {
+    name: 'Module',
+    action: function (params, queryParams) {
+        mount(App, {
+            main: <Module subjectId={params.subjectId}/>
+        });
+    }
+});

@@ -12,12 +12,12 @@
     "bcrypt": "^3.0.6",
     "meteor-node-stubs": "^0.4.1",
     "react": "^16.9.0",
+    "react-bootstrap": "^0.32.4",
     "react-dom": "^16.9.0",
     "react-mounter": "^1.2.0",
     "react-page-scroller": "^1.5.1",
     "reactjs-popup": "^1.4.2",
-    "simpl-schema": "^1.5.5",
-    "react-bootstrap": "^0.32.4"
+    "simpl-schema": "^1.5.5"
   },
   "meteor": {
     "mainModule": {
