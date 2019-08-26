@@ -5,6 +5,7 @@ import "../../../client/styles/scroller.css";
 import "../../../client/styles/boards.css";
 import SideNav, {MenuIcon} from 'react-simple-sidenav';
 import {Meteor} from "meteor/meteor";
+import ReactMarkdown from "react-markdown/with-html";
 
 class Subject extends Component {
 
@@ -15,11 +16,39 @@ class Subject extends Component {
             subjectName: props.subjectName,
             moduleName: '',
             chapters: [],
-            showNav: false
+            showNav: false,
+            showMD: false,
+            cards: []
         };
+
+
+        this.chapterHandler = this.chapterHandler.bind(this);
 
     }
 
+
+    chapterHandler(event) {
+        Meteor.call('loadChapters', {_id: event.target.id}, (err, chapter) => {
+            if (err)
+                console.log(err);
+            else {
+                chapter[0].cards.forEach(card => {
+                    this.state.cards.push(card.content);
+                });
+                this.setState({
+                    moduleId: this.state.moduleId,
+                    subjectName: this.state.subjectName,
+                    moduleName: this.state.moduleName,
+                    chapters: this.state.chapters,
+                    showNav: false,
+                    showMD: true,
+                    cards: this.state.cards
+                });
+
+                console.log(this.state);
+            }
+        })
+    }
 
     componentDidMount() {
         Meteor.call('loadModules', {_id: this.state.moduleId}, (err, zModule) => {
@@ -33,7 +62,7 @@ class Subject extends Component {
                         } else {
                             console.log(res);
                             this.state.chapters = res.map(chapter => {
-                                    return <a href={"/explore/chapter/" + chapter._id}> {chapter.name}</a>
+                                    return <button id={chapter._id} onClick={this.chapterHandler}> {chapter.name}</button>
                                 }
                             );
                             this.state.chapters.push(
@@ -82,13 +111,30 @@ class Subject extends Component {
     }
 
     render() {
+        if (this.state.showMD) {
+            return (
+                <div className="home-page -padding-20">
+                    <Header/>
+                    {this.renderBody()}
+                    {this.state.cards.map(card => {
+                        return (
+                            <div className="container">
+                            <ReactMarkdown source={card} escapeHtml={false}/>
+                            </div>
+                            )
+                    })}
 
-        return (
-            <div className="home-page -padding-20">
-                <Header/>
-                {this.renderBody()}
-            </div>
-        )
+                </div>
+            )
+        } else {
+            return (
+                <div className="home-page -padding-20">
+                    <Header/>
+                    {this.renderBody()}
+                </div>
+            )
+        }
+
     }
 
 }

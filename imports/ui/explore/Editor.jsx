@@ -14,7 +14,8 @@ class Editor extends Component {
             value: "**Hello world!!!**",
             tab: "write",
             moduleId: props.moduleId,
-            subjectName: props.subjectName
+            subjectName: props.subjectName,
+            chapterName: ''
         };
         this.converter = new Showdown.Converter({
             tables: true,
@@ -24,7 +25,15 @@ class Editor extends Component {
         });
     }
 
-
+    handleChangeName = (event) => {
+        this.state = {
+            value: this.state.value,
+            tab: this.state.tab,
+            moduleId: this.state.moduleId,
+            subjectName: this.state.subjectName,
+            chapterName: event.target.value
+        }
+    };
     handleValueChange = (value: string) => {
         this.setState({value});
     };
@@ -35,7 +44,7 @@ class Editor extends Component {
 
     handleMDSave = () => {
         let card = {
-            title: 'Some chapter',
+            title: '',
             content: this.state.value,
             data_created: new Date(),
             data_updated: '',
@@ -44,7 +53,7 @@ class Editor extends Component {
         let cardsPopulated = [];
         cardsPopulated.push(card);
         let chapter = {
-            name: 'Some name',
+            name: this.state.chapterName,
             cards: cardsPopulated
         };
         Meteor.call('addChapter', chapter, (err, res) => {
@@ -93,6 +102,13 @@ class Editor extends Component {
                         }
                         selectedTab={this.state.tab}
                     />
+
+                </div>
+                <div className="container -full-width -outer-center">
+                    <form>
+                        <label htmlFor="name"><b>Chapter Name</b></label>
+                        <input type="text" placeholder="Name" name="name" onChange={this.handleChangeName}/>
+                    </form>
                     {this.renderButton()}
                 </div>
 
