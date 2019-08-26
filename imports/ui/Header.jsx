@@ -7,6 +7,7 @@ import '../../client/styles/loginButton.scss';
 
 export default class Header extends Component {
 
+
     renderSingleItem(title, iconName, url) {
         return (
             <li className="header-navigation-item">

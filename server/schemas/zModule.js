@@ -1,5 +1,5 @@
 const subjectSchema = require('./subject');
-const cardSchema = require('./card');
+const chapterSchema = require('./chapter');
 
 moduleSchema = new SimpleSchema({
     subject: {
@@ -10,19 +10,9 @@ moduleSchema = new SimpleSchema({
         type: String,
         label: "name"
     },
-    chapters: {
-        type: [
-            new SimpleSchema({
-                chapter: {
-                    type: String,
-                    label: "chapter_name"
-                },
-                cards: {type: Array},
-                "cards.$": {type: cardSchema}
+    chapters:{type: Array},
+    "chapters.$": {type: chapterSchema}
 
-            })
-        ]
-    }
 
 
 });

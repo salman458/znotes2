@@ -6,6 +6,8 @@ import Explore from '../../imports/ui/explore/Explore';
 import Level from '../../imports/ui/explore/Level';
 import Subject from '../../imports/ui/explore/Subject';
 import Module from '../../imports/ui/explore/Module';
+import Chapters from '../../imports/ui/explore/Chapters';
+import Editor from '../../imports/ui/explore/Editor';
 import Register from '../../imports/ui/account/Register';
 import Reset from '../../imports/ui/account/Reset';
 import PreReset from '../../imports/ui/account/PreReset';
@@ -123,11 +125,29 @@ FlowRouter.route('/explore/subject/:boardId/:levelId', {
     }
 });
 
-FlowRouter.route('/explore/module/:subjectId', {
+FlowRouter.route('/explore/module/:name/:subjectId', {
     name: 'Module',
     action: function (params, queryParams) {
         mount(App, {
-            main: <Module subjectId={params.subjectId}/>
+            main: <Module subjectId={params.subjectId} name={params.name}/>
+        });
+    }
+});
+
+FlowRouter.route('/explore/chapters/module/:moduleId/:subjectName', {
+    name: 'Chapter',
+    action: function (params, queryParams) {
+        mount(App, {
+            main: <Chapters moduleId={params.moduleId} subjectName={params.subjectName}/>
+        });
+    }
+});
+
+FlowRouter.route('/explore/chapters/editor/:moduleId/:subjectName', {
+    name: 'Editor',
+    action: function (params, queryParams) {
+        mount(App, {
+            main: <Editor moduleId={params.moduleId} subjectName={params.subjectName}/>
         });
     }
 });

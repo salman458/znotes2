@@ -64,7 +64,7 @@ class Subject extends Component {
                 } else {
                     console.log(res);
                     this.handleSubjects(res.map((subject) => {
-                        return <li key={subject.name}><a href={"/explore/module/" + subject._id}> {subject.name}</a></li>;
+                        return <li key={subject.name}><a href={"/explore/module/" + subject.name + "/" + subject._id}> {subject.name}</a></li>;
                     }));
                 }
             }
@@ -134,9 +134,8 @@ class Subject extends Component {
         return (
             <div className="container">
                 <form className="login" onSubmit={this.handleSubmit}>
-                    <label htmlFor="name"><b>New Subject Name</b></label>
+                    <label htmlFor="name"><b>New Module Name</b></label>
                     <input type="text" placeholder="Enter the Name" name="name" onChange={this.handleSubjectName}/>
-                    <input type="text" placeholder="Enter the Color" name="color" onChange={this.handleSubjectColor}/>
                     <button type="submit" className="registerbtn">Add</button>
 
                 </form>

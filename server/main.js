@@ -7,6 +7,7 @@ const level = require('./schemas/level.js');
 const subject = require('./schemas/subject.js');
 const zModule = require('./schemas/zModule.js');
 const card = require('./schemas/card.js');
+const chapter = require('./schemas/chapter.js');
 
 const boards = new Mongo.Collection('boards');
 boards.schema = board;
@@ -22,6 +23,9 @@ modules.schema = zModule;
 
 const cards = new Mongo.Collection('cards');
 cards.schema = card;
+
+const chapters = new Mongo.Collection('chapters');
+chapters.schema = chapter;
 
 Accounts.urls.verifyEmail = (token) => {
     let url = Meteor.absoluteUrl("/email/verify/" + token);
@@ -100,7 +104,7 @@ Meteor.methods({
             return res;
         }
     },
-    loadSubjects(selector){
+    loadSubjects(selector) {
         let records = subjects.find(selector).count();
         if (records === 0) {
             return [];
@@ -110,8 +114,8 @@ Meteor.methods({
             return res;
         }
     },
-    addSubject(subject){
-      return subjects.insert(subject);
+    addSubject(subject) {
+        return subjects.insert(subject);
     },
     addBoard(board) {
         return boards.insert(board);
@@ -119,7 +123,38 @@ Meteor.methods({
     addLevel(level) {
         console.log(level);
         return levels.insert(level);
+    },
+    loadModules(selector) {
+        let records = modules.find(selector).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = modules.find(selector).fetch();
+            console.log(res);
+            return res;
+        }
+    },
+    addZModule(module) {
+        return modules.insert(module);
+    },
+    loadChapters(selector) {
+        let records = chapters.find(selector).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = chapters.find(selector).fetch();
+            console.log(res);
+            return res;
+        }
+    },
+    addChapter(chapter) {
+        return chapters.insert(chapter);
+    },
+    updateChapter(obj) {
+        console.log(obj);
+        return modules.update({_id: obj.moduleId}, {$push: {chapters: obj.chapterId}})
     }
+
 });
 
 
