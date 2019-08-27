@@ -153,6 +153,16 @@ Meteor.methods({
     updateChapter(obj) {
         console.log(obj);
         return modules.update({_id: obj.moduleId}, {$push: {chapters: obj.chapterId}})
+    },
+    getKeywords(obj) {
+        let records = chapters.find({}, {fields: {name: 1, _id: 0}}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = chapters.find({}, {fields: {name: 1, _id: 0}}).fetch();
+            console.log(res);
+            return res;
+        }
     }
 
 });

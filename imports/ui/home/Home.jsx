@@ -7,15 +7,79 @@ import {Pager} from "react-bootstrap";
 import ReactPageScroller from "react-page-scroller";
 import FirstComponent from "./FirstComponent";
 import SecondComponent from "./SecondComponent";
+import Autosuggest from 'react-autosuggest';
 
 
 class Home extends AbstractComponent {
 
+
+    keywords = [
+        {
+            name: 'C'
+        },
+        {
+            name: 'Elm'
+        },
+
+    ];
+    getSuggestions = value => {
+        const inputValue = value.trim().toLowerCase();
+        const inputLength = inputValue.length;
+
+        return inputLength === 0 ? [] : this.state.keywords.filter(lang =>
+            lang.name.toLowerCase().slice(0, inputLength) === inputValue
+        );
+    };
+
+    getSuggestionValue = suggestion => suggestion.name;
+
+    renderSuggestion = suggestion => (
+        <div>
+            {suggestion.name}
+        </div>
+    );
+
     constructor(props) {
         super(props);
-        this.state = {currentPage: 1};
+        this.state = {
+            currentPage: 1,
+            value: '',
+            suggestions: [],
+            keywords: []
+        };
         this._pageScroller = null;
     }
+
+    componentDidMount() {
+        Meteor.call('getKeywords', {}, (err, res) => {
+            if (err)
+                console.log(err);
+            else {
+                console.log(res);
+                this.state.keywords = res;
+                console.log(this.state.keywords);
+            }
+        })
+    }
+
+    onChange = (event, {newValue}) => {
+        this.setState({
+            value: newValue
+        });
+    };
+
+    onSuggestionsFetchRequested = ({value}) => {
+        this.setState({
+            suggestions: this.getSuggestions(value)
+        });
+    };
+
+    onSuggestionsClearRequested = () => {
+        this.setState({
+            suggestions: []
+        });
+    };
+
 
     goToPage = (eventKey) => {
         this._pageScroller.goToPage(eventKey);
@@ -40,12 +104,27 @@ class Home extends AbstractComponent {
 
 
     renderBody() {
+        const {value, suggestions} = this.state;
+
+        const inputProps = {
+            placeholder: 'What do you want to study today?',
+            value,
+            onChange: this.onChange
+        };
         return (
             <div className="search__container -layout-v -center">
                 <ul>
                     <li><img className="logo-search" src="/img/logo.png"/></li>
                     <li><h1>For Students, By Students</h1></li>
-                    <li><input className="search__input -full-width" type="text" placeholder="What do you want to study today? E.G. AS Physics"/></li>
+                    <li><Autosuggest
+                        suggestions={suggestions}
+                        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                        getSuggestionValue={this.getSuggestionValue}
+                        renderSuggestion={this.renderSuggestion}
+                        inputProps={inputProps}
+                    /></li>
+                    {/*<li><input className="search__input -full-width" type="text" placeholder="What do you want to study today? E.G. AS Physics"/></li>*/}
                     <li>
                         <button type="submit" className="searchBtn">Search</button>
                     </li>
