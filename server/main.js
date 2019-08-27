@@ -155,15 +155,46 @@ Meteor.methods({
         return modules.update({_id: obj.moduleId}, {$push: {chapters: obj.chapterId}})
     },
     getKeywords(obj) {
-        let records = chapters.find({}, {fields: {name: 1, _id: 0}}).count();
+        let records = modules.find({}, {fields: {name: 1, _id: 0}}).count();
         if (records === 0) {
             return [];
         } else {
-            let res = chapters.find({}, {fields: {name: 1, _id: 0}}).fetch();
+            let res = modules.find({}, {fields: {name: 1, _id: 0}}).fetch();
             console.log(res);
             return res;
         }
-    }
+    },
+    getSubjectKeywords(obj) {
+        let records = subjects.find({}, {fields: {name: 1, _id: 0}}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = subjects.find({}, {fields: {name: 1, _id: 0}}).fetch();
+            console.log(res);
+            return res;
+        }
+    },
+    getLevelKeywords(obj) {
+        let records = levels.find({}, {fields: {name: 1, _id: 0}}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = levels.find({}, {fields: {name: 1, _id: 0}}).fetch();
+            console.log(res);
+            return res;
+        }
+    },
+    getBoardKeywords(obj) {
+        let records = boards.find({}, {fields: {name: 1, _id: 0}}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = boards.find({}, {fields: {name: 1, _id: 0}}).fetch();
+            console.log(res);
+            return res;
+        }
+    },
+
 
 });
 
