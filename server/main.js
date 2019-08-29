@@ -194,6 +194,61 @@ Meteor.methods({
             return res;
         }
     },
+    genericSearch(searchable) {
+        let records;
+        records = modules.find({name: searchable}, {fields: {_id: 1}}).count();
+        if (records !== 0) {
+            return {
+                type: 'module',
+                id: modules.find({name: searchable}, {fields: {_id: 1}}).fetch()
+            }
+        } else {
+            records = subjects.find({name: searchable}, {fields: {_id: 1}}).count();
+            if (records !== 0) {
+                return {
+                    type: 'subject',
+                    id: subjects.find({name: searchable}, {fields: {_id: 1}}).fetch()
+                }
+            } else {
+                records = levels.find({name: searchable}, {fields: {_id: 1}}).count();
+                if (records !== 0) {
+                    return {
+                        type: 'level',
+                        id: levels.find({name: searchable}, {fields: {_id: 1}}).fetch()
+                    }
+                } else {
+                    records = boards.find({name: searchable}, {fields: {_id: 1}}).count();
+                    if (records !== 0) {
+                        return {
+                            type: 'board',
+                            id: boards.find({name: searchable}, {fields: {_id: 1}}).fetch()
+                        }
+                    } else {
+                        return [];
+                    }
+                }
+            }
+        }
+
+    },
+    getBoardIdByLevel(levelId) {
+        let res = levels.find({_id: levelId}).fetch();
+        let level = res[0];
+        return level.board;
+    },
+    loadSubjectName(id) {
+        let res = subjects.find({_id: id}).fetch();
+        let subject = res[0];
+        return subject.name;
+    },
+    getSubjectNameByModuleId(id) {
+        let results = modules.find({_id: id}).fetch();
+        let res = results[0];
+        let subjectId = res.subject;
+        let subjectResults = subjects.find({_id: subjectId}).fetch();
+        let subjectRes = subjectResults[0];
+        return subjectRes.name;
+    }
 
 
 });

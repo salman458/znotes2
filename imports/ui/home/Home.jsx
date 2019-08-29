@@ -5,23 +5,12 @@ import "../../../client/styles/cover.scss";
 import "../../../client/styles/scroller.css";
 import {Pager} from "react-bootstrap";
 import ReactPageScroller from "react-page-scroller";
-import FirstComponent from "./FirstComponent";
 import SecondComponent from "./SecondComponent";
 import Autosuggest from 'react-autosuggest';
 
 
 class Home extends AbstractComponent {
 
-
-    keywords = [
-        {
-            name: 'C'
-        },
-        {
-            name: 'Elm'
-        },
-
-    ];
     getSuggestions = value => {
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
@@ -55,11 +44,36 @@ class Home extends AbstractComponent {
             if (err)
                 console.log(err);
             else {
-                console.log(res);
-                this.state.keywords = res;
-                console.log(this.state.keywords);
+                this.state.keywords = this.state.keywords.concat(res);
             }
-        })
+        });
+
+        Meteor.call('getSubjectKeywords', {}, (err, res) => {
+            if (err)
+                console.log(err);
+            else {
+                this.state.keywords = this.state.keywords.concat(res);
+            }
+        });
+
+        Meteor.call('getLevelKeywords', {}, (err, res) => {
+            if (err)
+                console.log(err);
+            else {
+                this.state.keywords = this.state.keywords.concat(res);
+            }
+        });
+
+
+        Meteor.call('getBoardKeywords', {}, (err, res) => {
+            if (err)
+                console.log(err);
+            else {
+                this.state.keywords = this.state.keywords.concat(res);
+            }
+        });
+
+
     }
 
     onChange = (event, {newValue}) => {
@@ -102,6 +116,50 @@ class Home extends AbstractComponent {
         return [...pageNumbers];
     };
 
+    searchHandler = () => {
+        Meteor.call('genericSearch', this.state.value, (err, res) => {
+            if (err)
+                console.log(err);
+            else {
+                let type = res.type;
+                let id = res.id[0];
+
+                switch (type) {
+                    case 'board':
+                        FlowRouter.go('/explore/level/' + id._id);
+                        break;
+                    case 'level':
+                        Meteor.call('getBoardIdByLevel', id._id, (err, res) => {
+                            if (err)
+                                console.log(err);
+                            else {
+                                FlowRouter.go('/explore/subject/' + res + '/' + id._id);
+                            }
+                        });
+                        break;
+                    case 'subject':
+                        Meteor.call('loadSubjectName', id._id, (err, res) => {
+                            if (err)
+                                console.log(err);
+                            else {
+                                FlowRouter.go('/explore/module/' + res + '/' + id._id);
+                            }
+                        });
+                        break;
+                    case 'module':
+                        Meteor.call('getSubjectNameByModuleId', id._id, (err, res) => {
+                            if (err)
+                                console.log(err);
+                            else {
+                                FlowRouter.go('/explore/chapters/module/' + id._id + '/' + res);
+                            }
+                        })
+
+                }
+            }
+
+        });
+    };
 
     renderBody() {
         const {value, suggestions} = this.state;
@@ -126,7 +184,7 @@ class Home extends AbstractComponent {
                     /></li>
                     {/*<li><input className="search__input -full-width" type="text" placeholder="What do you want to study today? E.G. AS Physics"/></li>*/}
                     <li>
-                        <button type="submit" className="searchBtn">Search</button>
+                        <button onClick={this.searchHandler} type="submit" className="searchBtn">Search</button>
                     </li>
                 </ul>
             </div>
