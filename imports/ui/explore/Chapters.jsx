@@ -71,8 +71,18 @@ class Subject extends Component {
                                 </div>
                             )
                         }
+                        this.setState({
+                            moduleId: this.state.moduleId,
+                            subjectName: this.state.subjectName,
+                            moduleName: this.state.moduleName,
+                            chapters: this.state.chapters,
+                            showNav: true,
+                            showMD: this.state.showMD,
+                            cards: this.state.cards
+                        })
                     }
                 );
+
             }
         })
 
@@ -85,6 +95,9 @@ class Subject extends Component {
             <div>
                 <MenuIcon onClick={() => this.setState({showNav: true})}/>
                 <SideNav
+                    titleStyle={{backgroundColor: '#383838'}}
+                    itemStyle={{backgroundColor:'#282828'}}
+                    navStyle={{backgroundColor:'#282828'}}
                     showNav={this.state.showNav}
                     onHideNav={() => this.setState({showNav: false})}
                     title={this.state.moduleName}
@@ -119,9 +132,9 @@ class Subject extends Component {
                     {this.state.cards.map(card => {
                         return (
                             <div className="container">
-                            <ReactMarkdown source={card} escapeHtml={false}/>
+                                <ReactMarkdown source={card} escapeHtml={false}/>
                             </div>
-                            )
+                        )
                     })}
 
                 </div>

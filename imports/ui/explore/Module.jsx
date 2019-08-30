@@ -48,7 +48,14 @@ class Subject extends Component {
 
 
                         </Popup>
-                    )
+                    );
+                    this.setState({
+                        subjectId: this.state.subjectId,
+                        name: this.state.name,
+                        modules: this.state.modules,
+                        moduleName: this.state.moduleName,
+                        showNav: true
+                    })
                 }
             }
         );
@@ -64,6 +71,9 @@ class Subject extends Component {
             <div>
                 <MenuIcon onClick={() => this.setState({showNav: true})}/>
                 <SideNav
+                    titleStyle={{backgroundColor: '#383838'}}
+                    itemStyle={{backgroundColor:'#282828'}}
+                    navStyle={{backgroundColor:'#282828'}}
                     showNav={this.state.showNav}
                     onHideNav={() => this.setState({showNav: false})}
                     title={this.state.name}
