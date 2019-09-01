@@ -10,7 +10,9 @@
   "dependencies": {
     "@babel/runtime": "^7.3.4",
     "bcrypt": "^3.0.6",
+    "html-react-parser": "^0.9.1",
     "meteor-node-stubs": "^0.4.1",
+    "rc-progress": "^2.5.2",
     "react": "^16.9.0",
     "react-autosuggest": "^9.4.3",
     "react-bootstrap": "^0.32.4",
@@ -19,6 +21,7 @@
     "react-mde": "^7.6.2",
     "react-mounter": "^1.2.0",
     "react-page-scroller": "^1.5.1",
+    "react-showdown": "^1.6.0",
     "react-simple-sidenav": "^1.0.1",
     "reactjs-popup": "^1.4.2",
     "showdown": "^1.9.0",

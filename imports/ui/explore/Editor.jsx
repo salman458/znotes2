@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import ReactMde from "react-mde";
 import Showdown from "showdown";
 import "react-mde/lib/styles/css/react-mde-all.css";
+import "../../../client/styles/editor.css"
+
 import Header from '../Header.jsx';
 
 
@@ -90,7 +92,7 @@ class Editor extends Component {
             <div className="home-page -padding-20">
 
                 <Header/>
-                <div className="container">
+                <div className="customContainer">
                     <ReactMde
                         onChange={this.handleValueChange}
                         onTabChange={this.handleTabChange}
@@ -104,7 +106,7 @@ class Editor extends Component {
                     />
 
                 </div>
-                <div className="container -full-width -outer-center">
+                <div className="customContainer -full-width -outer-center">
                     <form>
                         <label htmlFor="name"><b>Chapter Name</b></label>
                         <input type="text" placeholder="Name" name="name" onChange={this.handleChangeName}/>

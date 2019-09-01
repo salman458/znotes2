@@ -3,9 +3,13 @@ import Header from '../Header.jsx';
 import "../../../client/styles/cover.scss";
 import "../../../client/styles/scroller.css";
 import "../../../client/styles/boards.css";
+import "../../../client/styles/chapter.css"
 import SideNav, {MenuIcon} from 'react-simple-sidenav';
 import {Meteor} from "meteor/meteor";
-import ReactMarkdown from "react-markdown/with-html";
+import {Line, Circle} from 'rc-progress';
+import Showdown from "showdown";
+import parse from 'html-react-parser';
+
 
 class Subject extends Component {
 
@@ -18,9 +22,18 @@ class Subject extends Component {
             chapters: [],
             showNav: false,
             showMD: false,
-            cards: []
+            cards: [],
+            buttonCount: new Map(),
+            totalCount: '',
+            currentChapter: 1,
+            percentage: 0
         };
-
+        this.converter = new Showdown.Converter({
+            tables: true,
+            simplifiedAutoLink: true,
+            strikethrough: true,
+            tasklists: true
+        });
 
         this.chapterHandler = this.chapterHandler.bind(this);
 
@@ -28,6 +41,7 @@ class Subject extends Component {
 
 
     chapterHandler(event) {
+        this.setState({percentage: ((this.state.buttonCount.get(event.target.id)) / (this.state.totalCount)) * 100});
         Meteor.call('loadChapters', {_id: event.target.id}, (err, chapter) => {
             if (err)
                 console.log(err);
@@ -42,7 +56,10 @@ class Subject extends Component {
                     chapters: this.state.chapters,
                     showNav: false,
                     showMD: true,
-                    cards: this.state.cards
+                    cards: this.state.cards,
+                    buttonCount: this.state.buttonCount,
+                    totalCount: this.state.totalCount,
+                    currentChapter: this.state.currentChapter
                 });
 
                 console.log(this.state);
@@ -61,25 +78,31 @@ class Subject extends Component {
                             console.log(err);
                         } else {
                             console.log(res);
-                            this.state.chapters = res.map(chapter => {
-                                    return <button id={chapter._id} onClick={this.chapterHandler}> {chapter.name}</button>
+                            let count = 0;
+                            res.forEach(chapter => {
+                                    count++;
+                                    this.state.buttonCount.set(chapter._id, count);
+                                    this.state.chapters.push(<li className='btn-group' id={chapter._id} onClick={this.chapterHandler}> {chapter.name}</li>);
                                 }
                             );
+                            this.state.totalCount = count;
+
+                            this.state.chapters.push(
+                                <div>
+                                    <Line percent={this.state.percentage} strokeWidth="4"
+                                          strokeColor="rgb(218, 29, 86)"/>
+                                </div>
+                            );
+
                             this.state.chapters.push(
                                 <div>
                                     {this.renderButton()}
                                 </div>
-                            )
+                            );
+
+                            console.log(this.state);
                         }
-                        this.setState({
-                            moduleId: this.state.moduleId,
-                            subjectName: this.state.subjectName,
-                            moduleName: this.state.moduleName,
-                            chapters: this.state.chapters,
-                            showNav: true,
-                            showMD: this.state.showMD,
-                            cards: this.state.cards
-                        })
+                        this.setState({showNav: true});
                     }
                 );
 
@@ -96,8 +119,8 @@ class Subject extends Component {
                 <MenuIcon onClick={() => this.setState({showNav: true})}/>
                 <SideNav
                     titleStyle={{backgroundColor: '#383838'}}
-                    itemStyle={{backgroundColor:'#282828'}}
-                    navStyle={{backgroundColor:'#282828'}}
+                    itemStyle={{backgroundColor: '#282828'}}
+                    navStyle={{backgroundColor: '#282828'}}
                     showNav={this.state.showNav}
                     onHideNav={() => this.setState({showNav: false})}
                     title={this.state.moduleName}
@@ -132,7 +155,9 @@ class Subject extends Component {
                     {this.state.cards.map(card => {
                         return (
                             <div className="container">
-                                <ReactMarkdown source={card} escapeHtml={false}/>
+                                <div>
+                                    {parse(this.converter.makeHtml(card))}
+                                </div>
                             </div>
                         )
                     })}
