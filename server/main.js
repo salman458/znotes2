@@ -150,9 +150,23 @@ Meteor.methods({
     addChapter(chapter) {
         return chapters.insert(chapter);
     },
+    addCard(card) {
+        return cards.insert(card);
+    },
+    loadCards(id) {
+        let records = cards.find({_id: id}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = cards.find({_id: id}).fetch();
+            return res;
+        }
+    },
     updateChapter(obj) {
-        console.log(obj);
         return modules.update({_id: obj.moduleId}, {$push: {chapters: obj.chapterId}})
+    },
+    updateChapterWithCard(obj) {
+        return chapters.update({_id: obj.chapterId}, {$push: {cards: obj.cards}})
     },
     getKeywords(obj) {
         let records = modules.find({}, {fields: {name: 1, _id: 0}}).count();
@@ -248,7 +262,8 @@ Meteor.methods({
         let subjectResults = subjects.find({_id: subjectId}).fetch();
         let subjectRes = subjectResults[0];
         return subjectRes.name;
-    }
+    },
+
 
 
 });

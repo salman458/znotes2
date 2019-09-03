@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import ReactMde from "react-mde";
 import Showdown from "showdown";
 import "react-mde/lib/styles/css/react-mde-all.css";
-import "../../../client/styles/editor.css"
+import "../../../client/styles/editor.css";
+import {Button} from "react-bootstrap";
 
 import Header from '../Header.jsx';
 
@@ -16,8 +17,9 @@ class Editor extends Component {
             value: "**Hello world!!!**",
             tab: "write",
             moduleId: props.moduleId,
+            chapterId: props.chapterId,
             subjectName: props.subjectName,
-            chapterName: ''
+            cardName: ''
         };
         this.converter = new Showdown.Converter({
             tables: true,
@@ -31,9 +33,10 @@ class Editor extends Component {
         this.state = {
             value: this.state.value,
             tab: this.state.tab,
+            chapterId: this.state.chapterId,
             moduleId: this.state.moduleId,
             subjectName: this.state.subjectName,
-            chapterName: event.target.value
+            cardName: event.target.value
         }
     };
     handleValueChange = (value: string) => {
@@ -46,31 +49,34 @@ class Editor extends Component {
 
     handleMDSave = () => {
         let card = {
-            title: '',
+            title: this.state.cardName,
             content: this.state.value,
             data_created: new Date(),
             data_updated: '',
             author: ''
         };
-        let cardsPopulated = [];
-        cardsPopulated.push(card);
-        let chapter = {
-            name: this.state.chapterName,
-            cards: cardsPopulated
-        };
-        Meteor.call('addChapter', chapter, (err, res) => {
+
+        Meteor.call('addCard', card, (err, cardId) => {
             if (err)
                 console.log(err);
             else {
-                Meteor.call('updateChapter', {moduleId: this.state.moduleId, chapterId: res}, (err, res) => {
+                Meteor.call('loadCards', cardId, (err, cards) => {
                     if (err) {
                         console.log(err);
                     } else {
-                        alert('Successfully added new chapter');
-                        FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName);
+                        let obj = {chapterId: this.state.chapterId, cards: cards[0]};
+                        console.log(obj);
+                        alert("something");
+                        Meteor.call('updateChapterWithCard',obj , (err, res) => {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName);
+                            }
+                        });
                     }
-                });
 
+                });
             }
         })
     };
@@ -108,10 +114,10 @@ class Editor extends Component {
                 </div>
                 <div className="customContainer -full-width -outer-center">
                     <form>
-                        <label htmlFor="name"><b>Chapter Name</b></label>
-                        <input type="text" placeholder="Name" name="name" onChange={this.handleChangeName}/>
+                        <label htmlFor="name"><b>Card Title</b></label>
+                        <input type="text" placeholder="Title" name="name" onChange={this.handleChangeName}/>
                     </form>
-                    {this.renderButton()}
+                    <Button onClick={this.handleMDSave} variant="outline-primary">Save</Button>
                 </div>
 
 

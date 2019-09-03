@@ -9,7 +9,9 @@ import {Meteor} from "meteor/meteor";
 import {Line, Circle} from 'rc-progress';
 import Showdown from "showdown";
 import parse from 'html-react-parser';
-
+import Collapsible from 'react-collapsible';
+import Popup from "reactjs-popup";
+import {Button} from 'reactstrap';
 
 class Subject extends Component {
 
@@ -26,7 +28,8 @@ class Subject extends Component {
             buttonCount: new Map(),
             totalCount: '',
             currentChapter: 1,
-            percentage: 0
+            percentage: 0,
+            chapterName: ''
         };
         this.converter = new Showdown.Converter({
             tables: true,
@@ -36,12 +39,17 @@ class Subject extends Component {
         });
 
         this.chapterHandler = this.chapterHandler.bind(this);
+        this.handleChapterName = this.handleChapterName.bind(this);
+        this.addCard = this.addCard.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+
 
     }
 
 
     chapterHandler(event) {
-        this.setState({percentage: ((this.state.buttonCount.get(event.target.id)) / (this.state.totalCount)) * 100});
+        this.setState({currentChapter: event.target.id});
+
         Meteor.call('loadChapters', {_id: event.target.id}, (err, chapter) => {
             if (err)
                 console.log(err);
@@ -59,12 +67,28 @@ class Subject extends Component {
                     cards: this.state.cards,
                     buttonCount: this.state.buttonCount,
                     totalCount: this.state.totalCount,
-                    currentChapter: this.state.currentChapter
+                    currentChapter: this.state.currentChapter,
+                    percentage: this.state.percentage,
+                    chapterName: this.state.chapterName
+
                 });
+                this.setState({percentage: ((this.state.buttonCount.get(this.state.currentChapter)) * 1.0 / (this.state.totalCount)) * 100});
+
 
                 console.log(this.state);
             }
         })
+    }
+
+    renderCollapseButton() {
+        return (
+            <span> <Button variant="outline-primary">Cards</Button></span>
+
+        )
+    }
+
+    addCard(event) {
+        FlowRouter.go('/explore/chapters/editor/' + this.state.moduleId + '/' + this.state.subjectName + '/' + event.target.id);
     }
 
     componentDidMount() {
@@ -73,6 +97,7 @@ class Subject extends Component {
                 console.log(err);
             else {
                 this.state.moduleName = zModule[0].name;
+                console.log(zModule[0]);
                 Meteor.call('loadChapters', {_id: {$in: zModule[0].chapters}}, (err, res) => {
                         if (err) {
                             console.log(err);
@@ -80,25 +105,35 @@ class Subject extends Component {
                             console.log(res);
                             let count = 0;
                             res.forEach(chapter => {
+                                    console.log(chapter.cards);
                                     count++;
                                     this.state.buttonCount.set(chapter._id, count);
-                                    this.state.chapters.push(<li className='btn-group' id={chapter._id} onClick={this.chapterHandler}> {chapter.name}</li>);
+                                    this.state.chapters.push(
+                                        <li className='btn-group' id={chapter._id} onClick={this.chapterHandler}>
+                                            {chapter.name}
+                                            {chapter.cards.map(card=>{
+                                                return <li key={card.name}>{card.name}</li>;
+                                            })}
+                                            <Collapsible trigger={this.renderCollapseButton()}>
+                                                <Button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add Card</Button>
+                                            </Collapsible>
+                                        </li>
+                                    );
                                 }
                             );
                             this.state.totalCount = count;
 
                             this.state.chapters.push(
-                                <div>
-                                    <Line percent={this.state.percentage} strokeWidth="4"
-                                          strokeColor="rgb(218, 29, 86)"/>
-                                </div>
+                                <Line percent={66.6} strokeWidth="4"
+                                      strokeColor="rgb(218, 29, 86)"/>
                             );
 
                             this.state.chapters.push(
                                 <div>
-                                    {this.renderButton()}
+                                    {this.renderAddBoardPopUp()}
                                 </div>
                             );
+
 
                             console.log(this.state);
                         }
@@ -111,7 +146,6 @@ class Subject extends Component {
 
 
     }
-
 
     renderBody() {
         return (
@@ -134,17 +168,86 @@ class Subject extends Component {
         )
     }
 
+    renderAddBoardPopUp() {
+        return (
+            <Popup trigger={this.renderButton} modal>
+                {close => (
+                    <div className="modal">
+                        <a className="close" onClick={close}>
+                            &times;
+                        </a>
+                        {this.renderEdit()}
+                    </div>
+                )}
+
+
+            </Popup>
+        );
+    }
+
+    renderEdit() {
+        return (
+            <div className="container">
+                <form className="login" onSubmit={this.handleSubmit}>
+                    <label htmlFor="name"><b>New Chapter Name</b></label>
+                    <input type="text" placeholder="Enter the Name" name="name" onChange={this.handleChapterName}/>
+                    <button type="submit" className="registerbtn">Add</button>
+
+                </form>
+            </div>
+        );
+    }
+
+    handleChapterName(event) {
+        this.state.chapterName = event.target.value;
+    }
+
+    handleSubmit() {
+        let chapter = {
+            name: this.state.chapterName,
+            created: new Date(),
+            cards: []
+        };
+        console.log(chapter);
+        Meteor.call('addChapter', chapter, (err, id) => {
+            if (err)
+                console.log(err);
+            else {
+                Meteor.call('updateChapter', {moduleId: this.state.moduleId, chapterId: id}, (err, res) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName);
+                    }
+                });
+
+            }
+        });
+    }
+
 
     renderButton() {
-        return (<a href={"/explore/chapters/editor/" + this.state.moduleId + "/" + this.state.subjectName} className="button">
+        return (<div className="button">
             <span>Add Chapter</span>
             <svg>
                 <polyline className="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
                 <polyline className="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
             </svg>
-        </a>);
+        </div>);
 
     }
+
+
+    // renderButton() {
+    //     return (<a href={"/explore/chapters/editor/" + this.state.moduleId + "/" + this.state.subjectName} className="button">
+    //         <span>Add Chapter</span>
+    //         <svg>
+    //             <polyline className="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
+    //             <polyline className="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
+    //         </svg>
+    //     </a>);
+    //
+    // }
 
     render() {
         if (this.state.showMD) {
@@ -154,7 +257,7 @@ class Subject extends Component {
                     {this.renderBody()}
                     {this.state.cards.map(card => {
                         return (
-                            <div className="container">
+                            <div className="chapterContainer">
                                 <div>
                                     {parse(this.converter.makeHtml(card))}
                                 </div>

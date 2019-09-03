@@ -5,6 +5,10 @@ chapterSchema = new SimpleSchema({
         type: String,
         label: "name"
     },
+    created:{
+        type: Date,
+        label: "created"
+    },
     cards: {type: Array},
     "cards.$": {type: cardSchema}
 });

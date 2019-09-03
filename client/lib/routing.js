@@ -143,11 +143,11 @@ FlowRouter.route('/explore/chapters/module/:moduleId/:subjectName', {
     }
 });
 
-FlowRouter.route('/explore/chapters/editor/:moduleId/:subjectName', {
+FlowRouter.route('/explore/chapters/editor/:moduleId/:subjectName/:chapterId', {
     name: 'Editor',
     action: function (params, queryParams) {
         mount(App, {
-            main: <Editor moduleId={params.moduleId} subjectName={params.subjectName}/>
+            main: <Editor moduleId={params.moduleId} subjectName={params.subjectName} chapterId={params.chapterId}/>
         });
     }
 });
