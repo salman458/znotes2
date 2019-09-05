@@ -24,10 +24,10 @@ class Subject extends Component {
             chapters: [],
             showNav: false,
             showMD: false,
-            cards: [],
+            card: '',
             buttonCount: new Map(),
             totalCount: '',
-            currentChapter: 1,
+            currentCard: 1,
             percentage: 0,
             chapterName: ''
         };
@@ -48,15 +48,12 @@ class Subject extends Component {
 
 
     chapterHandler(event) {
-        this.setState({currentChapter: event.target.id});
+        Meteor.call('loadCards', event.target.id, (err, card) => {
+            if (err) {
+                console.log(err)
+            } else {
+                this.state.card = card[0].content;
 
-        Meteor.call('loadChapters', {_id: event.target.id}, (err, chapter) => {
-            if (err)
-                console.log(err);
-            else {
-                chapter[0].cards.forEach(card => {
-                    this.state.cards.push(card.content);
-                });
                 this.setState({
                     moduleId: this.state.moduleId,
                     subjectName: this.state.subjectName,
@@ -74,10 +71,8 @@ class Subject extends Component {
                 });
                 this.setState({percentage: ((this.state.buttonCount.get(this.state.currentChapter)) * 1.0 / (this.state.totalCount)) * 100});
 
-
-                console.log(this.state);
             }
-        })
+        });
     }
 
     renderCollapseButton() {
@@ -97,26 +92,28 @@ class Subject extends Component {
                 console.log(err);
             else {
                 this.state.moduleName = zModule[0].name;
-                console.log(zModule[0]);
                 Meteor.call('loadChapters', {_id: {$in: zModule[0].chapters}}, (err, res) => {
                         if (err) {
                             console.log(err);
                         } else {
-                            console.log(res);
                             let count = 0;
                             res.forEach(chapter => {
-                                    console.log(chapter.cards);
                                     count++;
                                     this.state.buttonCount.set(chapter._id, count);
                                     this.state.chapters.push(
-                                        <li className='btn-group' id={chapter._id} onClick={this.chapterHandler}>
-                                            {chapter.name}
-                                            {chapter.cards.map(card=>{
-                                                return <li key={card.name}>{card.name}</li>;
-                                            })}
-                                            <Collapsible trigger={this.renderCollapseButton()}>
-                                                <Button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add Card</Button>
-                                            </Collapsible>
+                                        // onClick={this.chapterHandler}
+                                        <li className='btn-group' id={chapter._id}>
+                                            <ul>
+                                                {chapter.name}
+                                                <Collapsible trigger={this.renderCollapseButton()}>
+                                                    <Button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add Card</Button>
+                                                    {chapter.cards.map(card => {
+                                                        alert("klir");
+                                                        console.log(card);
+                                                        return <Button id={card._id} onClick={this.chapterHandler}>{card.title}</Button>;
+                                                    })}
+                                                </Collapsible>
+                                            </ul>
                                         </li>
                                     );
                                 }
@@ -135,7 +132,6 @@ class Subject extends Component {
                             );
 
 
-                            console.log(this.state);
                         }
                         this.setState({showNav: true});
                     }
@@ -153,7 +149,7 @@ class Subject extends Component {
                 <MenuIcon onClick={() => this.setState({showNav: true})}/>
                 <SideNav
                     titleStyle={{backgroundColor: '#383838'}}
-                    itemStyle={{backgroundColor: '#282828'}}
+                    itemStyle={{backgroundColor: '#282828', color: 'white', font: 'bold'}}
                     navStyle={{backgroundColor: '#282828'}}
                     showNav={this.state.showNav}
                     onHideNav={() => this.setState({showNav: false})}
@@ -208,7 +204,6 @@ class Subject extends Component {
             created: new Date(),
             cards: []
         };
-        console.log(chapter);
         Meteor.call('addChapter', chapter, (err, id) => {
             if (err)
                 console.log(err);
@@ -255,15 +250,13 @@ class Subject extends Component {
                 <div className="home-page -padding-20">
                     <Header/>
                     {this.renderBody()}
-                    {this.state.cards.map(card => {
-                        return (
-                            <div className="chapterContainer">
-                                <div>
-                                    {parse(this.converter.makeHtml(card))}
-                                </div>
-                            </div>
-                        )
-                    })}
+                    <div className="chapterContainer">
+                        <div>
+                            {parse(this.converter.makeHtml(this.state.card))}
+                        </div>
+                    </div>
+                    )
+                    )}
 
                 </div>
             )
