@@ -29,7 +29,8 @@ class Subject extends Component {
             totalCount: '',
             currentCard: 1,
             percentage: 0,
-            chapterName: ''
+            chapterName: '',
+            cardId: props.cardId,
         };
         this.converter = new Showdown.Converter({
             tables: true,
@@ -46,14 +47,13 @@ class Subject extends Component {
 
     }
 
-
-    chapterHandler(event) {
-        Meteor.call('loadCards', event.target.id, (err, card) => {
+    renderContent() {
+        Meteor.call('loadCards', this.state.cardId, (err, card) => {
             if (err) {
                 console.log(err)
             } else {
                 this.state.card = card[0].content;
-
+                console.log(this.state);
                 this.setState({
                     moduleId: this.state.moduleId,
                     subjectName: this.state.subjectName,
@@ -73,6 +73,12 @@ class Subject extends Component {
 
             }
         });
+    }
+
+
+    chapterHandler(event) {
+        FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName + '/' + event.target.id);
+        window.location.reload();
     }
 
     renderCollapseButton() {
@@ -108,8 +114,6 @@ class Subject extends Component {
                                                 <Collapsible trigger={this.renderCollapseButton()}>
                                                     <Button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add Card</Button>
                                                     {chapter.cards.map(card => {
-                                                        alert("klir");
-                                                        console.log(card);
                                                         return <Button id={card._id} onClick={this.chapterHandler}>{card.title}</Button>;
                                                     })}
                                                 </Collapsible>
@@ -132,6 +136,8 @@ class Subject extends Component {
                             );
 
 
+                            if (this.state.cardId !== 1)
+                                this.renderContent();
                         }
                         this.setState({showNav: true});
                     }

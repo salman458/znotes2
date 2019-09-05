@@ -134,11 +134,11 @@ FlowRouter.route('/explore/module/:name/:subjectId', {
     }
 });
 
-FlowRouter.route('/explore/chapters/module/:moduleId/:subjectName', {
+FlowRouter.route('/explore/chapters/module/:moduleId/:subjectName/:cardId', {
     name: 'Chapter',
     action: function (params, queryParams) {
         mount(App, {
-            main: <Chapters moduleId={params.moduleId} subjectName={params.subjectName}/>
+            main: <Chapters moduleId={params.moduleId} subjectName={params.subjectName} cardId={params.cardId}/>
         });
     }
 });

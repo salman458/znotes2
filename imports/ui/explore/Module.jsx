@@ -32,7 +32,7 @@ class Subject extends Component {
                     console.log(err);
                 } else {
                     this.state.modules = res.map(module => {
-                            return <a href={"/explore/chapters/module/" + module._id + "/" + this.state.name}> {module.name}</a>
+                            return <a href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}> {module.name}</a>
                         }
                     );
                     this.state.modules.push(
