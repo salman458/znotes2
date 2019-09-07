@@ -151,7 +151,7 @@ class Home extends AbstractComponent {
                             if (err)
                                 console.log(err);
                             else {
-                                FlowRouter.go('/explore/chapters/module/' + id._id + '/' + res);
+                                FlowRouter.go('/explore/chapters/module/' + id._id + '/' + res + '/' + 1);
                             }
                         })
 

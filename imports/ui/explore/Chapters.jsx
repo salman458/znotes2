@@ -42,6 +42,8 @@ class Subject extends Component {
         this.chapterHandler = this.chapterHandler.bind(this);
         this.handleChapterName = this.handleChapterName.bind(this);
         this.addCard = this.addCard.bind(this);
+        this.editHandler = this.editHandler.bind(this);
+        this.deleteHandler = this.deleteHandler.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
 
@@ -89,7 +91,7 @@ class Subject extends Component {
     }
 
     addCard(event) {
-        FlowRouter.go('/explore/chapters/editor/' + this.state.moduleId + '/' + this.state.subjectName + '/' + event.target.id);
+        FlowRouter.go('/explore/chapters/editor/' + this.state.moduleId + '/' + this.state.subjectName + '/' + event.target.id + '/' + 1);
     }
 
     componentDidMount() {
@@ -102,10 +104,8 @@ class Subject extends Component {
                         if (err) {
                             console.log(err);
                         } else {
-                            let count = 0;
+                            console.log('aaaaaa', res);
                             res.forEach(chapter => {
-                                    count++;
-                                    this.state.buttonCount.set(chapter._id, count);
                                     this.state.chapters.push(
                                         // onClick={this.chapterHandler}
                                         <li className='btn-group' id={chapter._id}>
@@ -114,6 +114,7 @@ class Subject extends Component {
                                                 <Collapsible trigger={this.renderCollapseButton()}>
                                                     <Button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add Card</Button>
                                                     {chapter.cards.map(card => {
+                                                        this.state.buttonCount.set(card._id, chapter._id);
                                                         return <Button id={card._id} onClick={this.chapterHandler}>{card.title}</Button>;
                                                     })}
                                                 </Collapsible>
@@ -122,7 +123,6 @@ class Subject extends Component {
                                     );
                                 }
                             );
-                            this.state.totalCount = count;
 
                             this.state.chapters.push(
                                 <Line percent={66.6} strokeWidth="4"
@@ -136,7 +136,7 @@ class Subject extends Component {
                             );
 
 
-                            if (this.state.cardId !== 1)
+                            if (this.state.cardId != 1)
                                 this.renderContent();
                         }
                         this.setState({showNav: true});
@@ -190,10 +190,10 @@ class Subject extends Component {
     renderEdit() {
         return (
             <div className="container">
-                <form className="login" onSubmit={this.handleSubmit}>
+                <form className="login">
                     <label htmlFor="name"><b>New Chapter Name</b></label>
                     <input type="text" placeholder="Enter the Name" name="name" onChange={this.handleChapterName}/>
-                    <button type="submit" className="registerbtn">Add</button>
+                    <Button onClick={this.handleSubmit} className="registerbtn">Add</Button>
 
                 </form>
             </div>
@@ -214,9 +214,14 @@ class Subject extends Component {
             if (err)
                 console.log(err);
             else {
-                Meteor.call('updateChapter', {moduleId: this.state.moduleId, chapterId: id}, (err, res) => {
+                let chapterMod = {
+                    name: chapter.name,
+                    created: chapter.created,
+                    cards: chapter.cards,
+                    _id: id
+                };
+                Meteor.call('updateChapter', {moduleId: this.state.moduleId, chapter: chapterMod}, (err, res) => {
                     if (err) {
-                        console.log(err);
                     } else {
                         FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName);
                     }
@@ -250,6 +255,29 @@ class Subject extends Component {
     //
     // }
 
+    editHandler() {
+        let chapterId = this.state.buttonCount.get(this.state.cardId);
+        FlowRouter.go('/explore/chapters/editor/' + this.state.moduleId + '/' + this.state.subjectName + '/' + chapterId + '/' + this.state.cardId);
+    }
+
+    deleteHandler() {
+        console.log('bbbb', this.state.cardId);
+        Meteor.call('deleteCard', this.state.cardId, (err, res) => {
+            if (err)
+                console.log(err);
+            else {
+                Meteor.call('removeCardRef', {chapterId: this.state.buttonCount.get(this.state.cardId), cardId: this.state.cardId}, (err, res) => {
+                    if (err)
+                        console.log(err);
+                    else {
+                        FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName + '/' + 1);
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+    }
+
     render() {
         if (this.state.showMD) {
             return (
@@ -258,6 +286,10 @@ class Subject extends Component {
                     {this.renderBody()}
                     <div className="chapterContainer">
                         <div>
+                            <ul className="cardEditor">
+                                <li><Button onClick={this.editHandler}>Edit</Button></li>
+                                <li><Button onClick={this.deleteHandler}>Delete</Button></li>
+                            </ul>
                             {parse(this.converter.makeHtml(this.state.card))}
                         </div>
                     </div>

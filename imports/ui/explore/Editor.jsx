@@ -19,6 +19,7 @@ class Editor extends Component {
             moduleId: props.moduleId,
             chapterId: props.chapterId,
             subjectName: props.subjectName,
+            cardId: props.cardId,
             cardName: ''
         };
         this.converter = new Showdown.Converter({
@@ -27,6 +28,19 @@ class Editor extends Component {
             strikethrough: true,
             tasklists: true
         });
+    }
+
+    componentDidMount() {
+        if (this.state.cardId != 1) {
+            Meteor.call('loadCards', this.state.cardId, (err, res) => {
+                if (err)
+                    console.log(err);
+                else {
+                    this.setState({value: res[0].content});
+                    this.setState({cardName: res[0].title});
+                }
+            });
+        }
     }
 
     handleChangeName = (event) => {
@@ -67,11 +81,11 @@ class Editor extends Component {
                         let obj = {chapterId: this.state.chapterId, cards: cards[0]};
                         console.log(obj);
                         alert("something");
-                        Meteor.call('updateChapterWithCard',obj , (err, res) => {
+                        Meteor.call('updateChapterWithCard', obj, (err, res) => {
                             if (err) {
                                 console.log(err);
                             } else {
-                                FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName);
+                                FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName + '/' + cardId);
                             }
                         });
                     }
@@ -115,7 +129,7 @@ class Editor extends Component {
                 <div className="customContainer -full-width -outer-center">
                     <form>
                         <label htmlFor="name"><b>Card Title</b></label>
-                        <input type="text" placeholder="Title" name="name" onChange={this.handleChangeName}/>
+                        <input type="text" placeholder={this.state.cardName || 'title'} name="name" onChange={this.handleChangeName}/>
                     </form>
                     <Button onClick={this.handleMDSave} variant="outline-primary">Save</Button>
                 </div>

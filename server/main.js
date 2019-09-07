@@ -163,7 +163,7 @@ Meteor.methods({
         }
     },
     updateChapter(obj) {
-        return modules.update({_id: obj.moduleId}, {$push: {chapters: obj.chapterId}})
+        return modules.update({_id: obj.moduleId}, {$push: {chapters: obj.chapter}})
     },
     updateChapterWithCard(obj) {
         return chapters.update({_id: obj.chapterId}, {$push: {cards: obj.cards}})
@@ -263,7 +263,12 @@ Meteor.methods({
         let subjectRes = subjectResults[0];
         return subjectRes.name;
     },
-
+    deleteCard(id) {
+        return cards.remove({_id: id});
+    },
+    removeCardRef(selector) {
+        return chapters.update({_id: selector.chapterId}, {$pull: {cards: {_id: selector.cardId}}})
+    }
 
 
 });

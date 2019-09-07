@@ -5,3 +5,6 @@
     position: relative;
     top: 50px;
 }
+.cardEditor li{
+    display: inline;
+}

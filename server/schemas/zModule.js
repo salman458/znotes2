@@ -13,8 +13,6 @@ moduleSchema = new SimpleSchema({
     chapters:{type: Array},
     "chapters.$": {type: chapterSchema}
 
-
-
 });
 
 module.exports = moduleSchema;
