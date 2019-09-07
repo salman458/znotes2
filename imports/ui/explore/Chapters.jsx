@@ -26,11 +26,13 @@ class Subject extends Component {
             showMD: false,
             card: '',
             buttonCount: new Map(),
+            progressTracker: new Map(),
             totalCount: '',
             currentCard: 1,
             percentage: 0,
             chapterName: '',
             cardId: props.cardId,
+            progress: 1
         };
         this.converter = new Showdown.Converter({
             tables: true,
@@ -80,6 +82,12 @@ class Subject extends Component {
 
 
     chapterHandler(event) {
+        let chapterId = this.state.buttonCount.get(event.target.id);
+        let newProgress = this.state.progressTracker.get(chapterId);
+        console.log('ccer',newProgress);
+        this.setState({progress: newProgress });
+        console.log('dzec', this.state.progress);
+        alert('aaa');
         FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName + '/' + event.target.id);
         window.location.reload();
     }
@@ -105,7 +113,15 @@ class Subject extends Component {
                     if (err)
                         console.log(err);
                     else {
+                        this.state.totalCount = chapters.length;
+                        this.state.chapters.push(
+                            <Line percent={66.6} strokeWidth="4"
+                                  strokeColor="#66ff33"/>
+                        );
+                        let counter = 0;
                         chapters.forEach(chapter => {
+                                counter++;
+                                this.state.progressTracker.set(chapter._id, counter);
                                 this.state.chapters.push(
                                     // onClick={this.chapterHandler}
                                     <li className='btn-group' id={chapter._id}>
@@ -124,10 +140,7 @@ class Subject extends Component {
                                 );
                             }
                         );
-                        this.state.chapters.push(
-                            <Line percent={66.6} strokeWidth="4"
-                                  strokeColor="rgb(218, 29, 86)"/>
-                        );
+
                         this.state.chapters.push(
                             <div>
                                 {this.renderAddBoardPopUp()}
@@ -138,6 +151,7 @@ class Subject extends Component {
                     }
                     this.setState({showNav: true});
                 });
+                console.log('state',this.state);
             }
         });
     }

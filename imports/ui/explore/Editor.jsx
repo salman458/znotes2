@@ -20,7 +20,8 @@ class Editor extends Component {
             chapterId: props.chapterId,
             subjectName: props.subjectName,
             cardId: props.cardId,
-            cardName: ''
+            cardName: '',
+            sortKey: '',
         };
         this.converter = new Showdown.Converter({
             tables: true,
@@ -53,6 +54,17 @@ class Editor extends Component {
             cardName: event.target.value
         }
     };
+    handleChangeKey = (event) => {
+        this.state = {
+            value: this.state.value,
+            tab: this.state.tab,
+            chapterId: this.state.chapterId,
+            moduleId: this.state.moduleId,
+            subjectName: this.state.subjectName,
+            cardName: this.state.cardName,
+            sortKey: event.target.value
+        }
+    };
     handleValueChange = (value: string) => {
         this.setState({value});
     };
@@ -67,7 +79,8 @@ class Editor extends Component {
             content: this.state.value,
             data_created: new Date(),
             data_updated: '',
-            author: ''
+            author: '',
+            sortKey: this.state.sortKey
         };
 
         Meteor.call('addCard', card, (err, cardId) => {
@@ -130,6 +143,8 @@ class Editor extends Component {
                     <form>
                         <label htmlFor="name"><b>Card Title</b></label>
                         <input type="text" placeholder={this.state.cardName || 'title'} name="name" onChange={this.handleChangeName}/>
+                        <label htmlFor="key"><b>Sort Key</b></label>
+                        <input type="text" placeholder={this.state.sortKey || 'key'} name="name" onChange={this.handleChangeKey}/>
                     </form>
                     <Button onClick={this.handleMDSave} variant="outline-primary">Save</Button>
                 </div>

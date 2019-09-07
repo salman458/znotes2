@@ -268,6 +268,9 @@ Meteor.methods({
     },
     removeCardRef(selector) {
         return chapters.update({_id: selector.chapterId}, {$pull: {cards: {_id: selector.cardId}}})
+    },
+    getAllUsers(selector) {
+        return Meteor.users.find(selector).fetch();
     }
 
 

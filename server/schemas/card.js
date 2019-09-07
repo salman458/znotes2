@@ -18,6 +18,10 @@ cardSchema = new SimpleSchema({
     author:{
         type: Meteor.users.schema,
         label: "author"
+    },
+    sortKey:{
+        type: Number,
+        label: "sortKey"
     }
 });
 

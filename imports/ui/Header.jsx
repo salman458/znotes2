@@ -3,6 +3,7 @@ import Login from "./account/Login";
 import iconService from "./iconService";
 import Popup from "reactjs-popup";
 import '../../client/styles/loginButton.scss';
+import {Button} from "reactstrap";
 
 
 export default class Header extends Component {
@@ -73,11 +74,23 @@ export default class Header extends Component {
     }
 
 
+    renderAdminButton() {
+        return (
+            <Button onClick={this.adminHandler}>Admin Page</Button>
+        )
+    }
+
+    adminHandler() {
+        FlowRouter.go('/admin');
+    }
+
+
     render() {
         return (
             <div className="-layout-h -justify">
                 {this.renderNavigation()}
                 {this.renderAccountPopUp()}
+                {this.renderAdminButton()}
             </div>
         );
 

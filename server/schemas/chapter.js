@@ -9,6 +9,10 @@ chapterSchema = new SimpleSchema({
         type: Date,
         label: "created"
     },
+    sortKey:{
+        type: Number,
+        label: "sortKey"
+    },
     cards: {type: Array},
     "cards.$": {type: cardSchema}
 });

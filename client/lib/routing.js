@@ -15,6 +15,7 @@ import ChangeEmail from '../../imports/ui/account/ChangeEmail';
 import ChangePassword from '../../imports/ui/account/ChangePassword';
 import App from '../../imports/ui/App';
 import {Accounts} from "meteor/accounts-base";
+import Admin from "../../imports/ui/Admin";
 
 
 FlowRouter.route('/', {
@@ -151,3 +152,13 @@ FlowRouter.route('/explore/chapters/editor/:moduleId/:subjectName/:chapterId/:ca
         });
     }
 });
+
+FlowRouter.route('/admin', {
+    name: 'Admin',
+    action: function (params, queryParams) {
+        mount(App, {
+            main: <Admin/>
+        });
+    }
+});
+

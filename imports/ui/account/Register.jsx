@@ -160,13 +160,12 @@ class Home extends Component {
                     <button type="submit" className="registerbtn" onClick={this.handleHome}>Back To Home</button>
 
 
-
                 </form>
             </div>
         )
     }
 
-    handleHome(){
+    handleHome() {
         FlowRouter.go('/');
     }
 
@@ -189,8 +188,10 @@ class Home extends Component {
                 let dbObject = {
                     userId: userId,
                     fields: {
+                        "username": this.state.name,
                         "dob": this.state.dob,
                         "city": this.state.city,
+                        "role": '',
                         "school": {
                             "name":
                             this.state.school.name,
