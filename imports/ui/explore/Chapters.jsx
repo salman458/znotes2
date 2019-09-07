@@ -45,6 +45,7 @@ class Subject extends Component {
         this.editHandler = this.editHandler.bind(this);
         this.deleteHandler = this.deleteHandler.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.renderButton = this.renderButton.bind(this);
 
 
     }
@@ -100,54 +101,47 @@ class Subject extends Component {
                 console.log(err);
             else {
                 this.state.moduleName = zModule[0].name;
-                Meteor.call('loadChapters', {_id: {$in: zModule[0].chapters}}, (err, res) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log('aaaaaa', res);
-                            res.forEach(chapter => {
-                                    this.state.chapters.push(
-                                        // onClick={this.chapterHandler}
-                                        <li className='btn-group' id={chapter._id}>
-                                            <ul>
-                                                {chapter.name}
-                                                <Collapsible trigger={this.renderCollapseButton()}>
-                                                    <Button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add Card</Button>
-                                                    {chapter.cards.map(card => {
-                                                        this.state.buttonCount.set(card._id, chapter._id);
-                                                        return <Button id={card._id} onClick={this.chapterHandler}>{card.title}</Button>;
-                                                    })}
-                                                </Collapsible>
-                                            </ul>
-                                        </li>
-                                    );
-                                }
-                            );
+                Meteor.call('loadChapters', {_id: {$in: zModule[0].chapters.map(chapter => chapter._id)}}, (err, chapters) => {
+                    if (err)
+                        console.log(err);
+                    else {
+                        chapters.forEach(chapter => {
+                                this.state.chapters.push(
+                                    // onClick={this.chapterHandler}
+                                    <li className='btn-group' id={chapter._id}>
+                                        <ul>
+                                            {chapter.name}
+                                            <Collapsible trigger={this.renderCollapseButton()}>
+                                                <Button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add Card</Button>
 
-                            this.state.chapters.push(
-                                <Line percent={66.6} strokeWidth="4"
-                                      strokeColor="rgb(218, 29, 86)"/>
-                            );
-
-                            this.state.chapters.push(
-                                <div>
-                                    {this.renderAddBoardPopUp()}
-                                </div>
-                            );
-
-
-                            if (this.state.cardId != 1)
-                                this.renderContent();
-                        }
-                        this.setState({showNav: true});
+                                                {chapter.cards.map(card => {
+                                                    this.state.buttonCount.set(card._id, chapter._id);
+                                                    return <Button id={card._id} onClick={this.chapterHandler}>{card.title}</Button>;
+                                                })}
+                                            </Collapsible>
+                                        </ul>
+                                    </li>
+                                );
+                            }
+                        );
+                        this.state.chapters.push(
+                            <Line percent={66.6} strokeWidth="4"
+                                  strokeColor="rgb(218, 29, 86)"/>
+                        );
+                        this.state.chapters.push(
+                            <div>
+                                {this.renderAddBoardPopUp()}
+                            </div>
+                        );
+                        if (this.state.cardId != 1)
+                            this.renderContent();
                     }
-                );
-
+                    this.setState({showNav: true});
+                });
             }
-        })
-
-
+        });
     }
+
 
     renderBody() {
         return (
@@ -193,9 +187,8 @@ class Subject extends Component {
                 <form className="login">
                     <label htmlFor="name"><b>New Chapter Name</b></label>
                     <input type="text" placeholder="Enter the Name" name="name" onChange={this.handleChapterName}/>
-                    <Button onClick={this.handleSubmit} className="registerbtn">Add</Button>
-
                 </form>
+                <Button onClick={this.handleSubmit} className="registerbtn">Add</Button>
             </div>
         );
     }
@@ -222,8 +215,10 @@ class Subject extends Component {
                 };
                 Meteor.call('updateChapter', {moduleId: this.state.moduleId, chapter: chapterMod}, (err, res) => {
                     if (err) {
+                        alert('eee');
                     } else {
-                        FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName);
+                        FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName + '/' + 1);
+                        window.location.reload();
                     }
                 });
 
@@ -233,27 +228,9 @@ class Subject extends Component {
 
 
     renderButton() {
-        return (<div className="button">
-            <span>Add Chapter</span>
-            <svg>
-                <polyline className="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
-                <polyline className="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
-            </svg>
-        </div>);
+        return (<Button>Add Chapter</Button>);
 
     }
-
-
-    // renderButton() {
-    //     return (<a href={"/explore/chapters/editor/" + this.state.moduleId + "/" + this.state.subjectName} className="button">
-    //         <span>Add Chapter</span>
-    //         <svg>
-    //             <polyline className="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
-    //             <polyline className="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
-    //         </svg>
-    //     </a>);
-    //
-    // }
 
     editHandler() {
         let chapterId = this.state.buttonCount.get(this.state.cardId);
