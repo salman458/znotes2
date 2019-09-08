@@ -153,11 +153,11 @@ FlowRouter.route('/explore/chapters/editor/:moduleId/:subjectName/:chapterId/:ca
     }
 });
 
-FlowRouter.route('/admin', {
+FlowRouter.route('/admin/:offset/:limit', {
     name: 'Admin',
     action: function (params, queryParams) {
         mount(App, {
-            main: <Admin/>
+            main: <Admin offset={params.offset} limit={params.limit}/>
         });
     }
 });

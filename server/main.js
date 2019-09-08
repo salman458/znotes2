@@ -270,8 +270,18 @@ Meteor.methods({
         return chapters.update({_id: selector.chapterId}, {$pull: {cards: {_id: selector.cardId}}})
     },
     getAllUsers(selector) {
-        return Meteor.users.find(selector).fetch();
-    }
+        return Meteor.users.find({}, {skip: parseInt(selector.offset), limit: parseInt(selector.limit)}, {sort: {createdAt: -1}}).fetch();
+    },
+    getAllSubjects() {
+        let records = subjects.find({}, {fields: {name: 1, _id: 1}}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = subjects.find({}, {fields: {name: 1, _id: 1}}).fetch();
+            console.log(res);
+            return res;
+        }
+    },
 
 
 });

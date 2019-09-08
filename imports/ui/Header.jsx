@@ -81,7 +81,7 @@ export default class Header extends Component {
     }
 
     adminHandler() {
-        FlowRouter.go('/admin');
+        FlowRouter.go('/admin/0/20');
     }
 
 
