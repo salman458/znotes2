@@ -13,7 +13,8 @@ class Explore extends Component {
         super(props);
         this.state = {
             boards: '',
-            newName: ''
+            newName: '',
+            role: false,
         };
         this.handleBoards = this.handleBoards.bind(this);
         this.handleBoardName = this.handleBoardName.bind(this);
@@ -59,6 +60,16 @@ class Explore extends Component {
                 }
             }
         );
+
+        Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
+            if (err)
+                console.log(err);
+            else {
+                if (role[0].role === 'team')
+                    this.setState({role: true});
+            }
+        });
+
     }
 
 
@@ -117,14 +128,34 @@ class Explore extends Component {
     }
 
     render() {
+        if (Meteor.user()) {
+            if (this.state.role) {
+                return (
+                    <div className="home-page -padding-20">
+                        <Header/>
+                        {this.renderBody()}
+                        {this.renderAddBoardPopUp()}
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="home-page -padding-20">
+                        <Header/>
+                        {this.renderBody()}
+                    </div>
+                )
+            }
 
-        return (
-            <div className="home-page -padding-20">
-                <Header/>
-                {this.renderBody()}
-                {this.renderAddBoardPopUp()}
-            </div>
-        )
+
+        } else {
+            return (
+                <div className="home-page -padding-20">
+                    <Header/>
+                    {this.renderBody()}
+                </div>
+            )
+        }
+
     }
 
 }

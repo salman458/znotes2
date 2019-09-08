@@ -15,7 +15,8 @@ class Level extends Component {
         this.state = {
             boardId: props.boardId,
             levels: '',
-            newName: ''
+            newName: '',
+            role: false
         };
 
         this.handleLevels = this.handleLevels.bind(this);
@@ -54,6 +55,15 @@ class Level extends Component {
                 }
             }
         );
+
+        Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
+            if (err)
+                console.log(err);
+            else {
+                if (role[0].role === 'team')
+                    this.setState({role: true});
+            }
+        });
     }
 
     handleSubmit() {
@@ -124,14 +134,32 @@ class Level extends Component {
     }
 
     render() {
+        if (Meteor.user()) {
+            if(this.state.role) {
+                return (
+                    <div className="home-page -padding-20">
+                        <Header/>
+                        {this.renderBody()}
+                        {this.renderAddBoardPopUp()}
+                    </div>
+                )
+            }else{
+                return (
+                    <div className="home-page -padding-20">
+                        <Header/>
+                        {this.renderBody()}
+                    </div>
+                )
+            }
+        } else {
+            return (
+                <div className="home-page -padding-20">
+                    <Header/>
+                    {this.renderBody()}
+                </div>
+            )
+        }
 
-        return (
-            <div className="home-page -padding-20">
-                <Header/>
-                {this.renderBody()}
-                {this.renderAddBoardPopUp()}
-            </div>
-        )
     }
 
 }

@@ -35,20 +35,22 @@ class Subject extends Component {
                             return <a href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}> {module.name}</a>
                         }
                     );
-                    this.state.modules.push(
-                        <Popup trigger={this.renderButton} modal>
-                            {close => (
-                                <div className="modal">
-                                    <a className="close" onClick={close}>
-                                        &times;
-                                    </a>
-                                    {this.renderEdit()}
-                                </div>
-                            )}
+                    if (Meteor.user()) {
+                        this.state.modules.push(
+                            <Popup trigger={this.renderButton} modal>
+                                {close => (
+                                    <div className="modal">
+                                        <a className="close" onClick={close}>
+                                            &times;
+                                        </a>
+                                        {this.renderEdit()}
+                                    </div>
+                                )}
 
 
-                        </Popup>
-                    );
+                            </Popup>
+                        );
+                    }
                     this.setState({
                         subjectId: this.state.subjectId,
                         name: this.state.name,
@@ -72,8 +74,8 @@ class Subject extends Component {
                 <MenuIcon onClick={() => this.setState({showNav: true})}/>
                 <SideNav
                     titleStyle={{backgroundColor: '#383838'}}
-                    itemStyle={{backgroundColor:'#282828'}}
-                    navStyle={{backgroundColor:'#282828'}}
+                    itemStyle={{backgroundColor: '#282828'}}
+                    navStyle={{backgroundColor: '#282828'}}
                     showNav={this.state.showNav}
                     onHideNav={() => this.setState({showNav: false})}
                     title={this.state.name}

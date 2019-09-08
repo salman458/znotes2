@@ -84,10 +84,7 @@ class Subject extends Component {
     chapterHandler(event) {
         let chapterId = this.state.buttonCount.get(event.target.id);
         let newProgress = this.state.progressTracker.get(chapterId);
-        console.log('ccer',newProgress);
-        this.setState({progress: newProgress });
-        console.log('dzec', this.state.progress);
-        alert('aaa');
+        this.setState({progress: newProgress});
         FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName + '/' + event.target.id);
         window.location.reload();
     }
@@ -122,36 +119,54 @@ class Subject extends Component {
                         chapters.forEach(chapter => {
                                 counter++;
                                 this.state.progressTracker.set(chapter._id, counter);
-                                this.state.chapters.push(
-                                    // onClick={this.chapterHandler}
-                                    <li className='btn-group' id={chapter._id}>
-                                        <ul>
-                                            {chapter.name}
-                                            <Collapsible trigger={this.renderCollapseButton()}>
-                                                <Button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add Card</Button>
+                                if (Meteor.user()) {
+                                    this.state.chapters.push(
+                                        // onClick={this.chapterHandler}
+                                        <li className='btn-group' id={chapter._id}>
+                                            <ul>
+                                                {chapter.name}
+                                                <Collapsible trigger={this.renderCollapseButton()}>
+                                                    <Button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add Card</Button>
 
-                                                {chapter.cards.map(card => {
-                                                    this.state.buttonCount.set(card._id, chapter._id);
-                                                    return <Button id={card._id} onClick={this.chapterHandler}>{card.title}</Button>;
-                                                })}
-                                            </Collapsible>
-                                        </ul>
-                                    </li>
-                                );
+                                                    {chapter.cards.map(card => {
+                                                        this.state.buttonCount.set(card._id, chapter._id);
+                                                        return <Button id={card._id} onClick={this.chapterHandler}>{card.title}</Button>;
+                                                    })}
+                                                </Collapsible>
+                                            </ul>
+                                        </li>
+                                    );
+                                } else {
+                                    this.state.chapters.push(
+                                        // onClick={this.chapterHandler}
+                                        <li className='btn-group' id={chapter._id}>
+                                            <ul>
+                                                {chapter.name}
+                                                <Collapsible trigger={this.renderCollapseButton()}>
+                                                    {chapter.cards.map(card => {
+                                                        this.state.buttonCount.set(card._id, chapter._id);
+                                                        return <Button id={card._id} onClick={this.chapterHandler}>{card.title}</Button>;
+                                                    })}
+                                                </Collapsible>
+                                            </ul>
+                                        </li>
+                                    );
+                                }
                             }
                         );
-
-                        this.state.chapters.push(
-                            <div>
-                                {this.renderAddBoardPopUp()}
-                            </div>
-                        );
+                        if (Meteor.user()) {
+                            this.state.chapters.push(
+                                <div>
+                                    {this.renderAddBoardPopUp()}
+                                </div>
+                            );
+                        }
                         if (this.state.cardId != 1)
                             this.renderContent();
                     }
                     this.setState({showNav: true});
                 });
-                console.log('state',this.state);
+                console.log('state', this.state);
             }
         });
     }
@@ -271,24 +286,42 @@ class Subject extends Component {
 
     render() {
         if (this.state.showMD) {
-            return (
-                <div className="home-page -padding-20">
-                    <Header/>
-                    {this.renderBody()}
-                    <div className="chapterContainer">
-                        <div>
-                            <ul className="cardEditor">
-                                <li><Button onClick={this.editHandler}>Edit</Button></li>
-                                <li><Button onClick={this.deleteHandler}>Delete</Button></li>
-                            </ul>
-                            {parse(this.converter.makeHtml(this.state.card))}
+            if (Meteor.user()) {
+                return (
+                    <div className="home-page -padding-20">
+                        <Header/>
+                        {this.renderBody()}
+                        <div className="chapterContainer">
+                            <div>
+                                <ul className="cardEditor">
+                                    <li><Button onClick={this.editHandler}>Edit</Button></li>
+                                    <li><Button onClick={this.deleteHandler}>Delete</Button></li>
+                                </ul>
+                                {parse(this.converter.makeHtml(this.state.card))}
+                            </div>
                         </div>
-                    </div>
-                    )
-                    )}
+                        )
+                        )}
 
-                </div>
-            )
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="home-page -padding-20">
+                        <Header/>
+                        {this.renderBody()}
+                        <div className="chapterContainer">
+                            <div>
+                                {parse(this.converter.makeHtml(this.state.card))}
+                            </div>
+                        </div>
+                        )
+                        )}
+
+                    </div>
+                )
+            }
+
         } else {
             return (
                 <div className="home-page -padding-20">

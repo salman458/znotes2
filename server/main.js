@@ -282,6 +282,15 @@ Meteor.methods({
             return res;
         }
     },
+    findUserRole(id){
+        let records = Meteor.users.find({_id: id}, {fields: {role: 1, _id: 0}}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = Meteor.users.find({_id: id}, {fields: {role: 1, _id: 0}}).fetch();
+            return res;
+        }
+    }
 
 
 });
