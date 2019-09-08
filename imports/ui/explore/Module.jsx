@@ -18,7 +18,9 @@ class Subject extends Component {
             name: props.name,
             modules: [],
             moduleName: '',
-            showNav: false
+            showNav: false,
+            role: false,
+            superSubjects: []
         };
 
         this.handleModuleName = this.handleModuleName.bind(this);
@@ -27,40 +29,67 @@ class Subject extends Component {
 
 
     componentDidMount() {
-        Meteor.call('loadModules', {subject: this.state.subjectId}, (err, res) => {
+        Meteor.call('loadModules', {subject: this.state.subjectId}, (err, ress) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    this.state.modules = res.map(module => {
-                            return <a href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}> {module.name}</a>
+                    Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
+                        if (err)
+                            console.log(err);
+                        else {
+                            if (role[0].role === 'team')
+                                this.setState({role: true});
+
+                            Meteor.call('findUserSubjects', Meteor.userId(), (err, res) => {
+                                if (err)
+                                    console.log(err);
+                                else {
+                                    this.setState({superSubjects: res[0].sucjects.map(x => x.value)});
+
+                                    this.state.modules = ress.map(module => {
+                                            return <a href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}> {module.name}</a>
+                                        }
+                                    );
+                                    if (Meteor.user()) {
+                                        if (this.state.superSubjects.includes(this.state.subjectId)) {
+                                            console.log('zibil');
+                                            this.state.modules.push(
+                                                <Popup trigger={this.renderButton} modal>
+                                                    {close => (
+                                                        <div className="modal">
+                                                            <a className="close" onClick={close}>
+                                                                &times;
+                                                            </a>
+                                                            {this.renderEdit()}
+                                                        </div>
+                                                    )}
+
+
+                                                </Popup>
+                                            );
+                                        }
+                                    }
+                                    this.setState({
+                                        subjectId: this.state.subjectId,
+                                        name: this.state.name,
+                                        modules: this.state.modules,
+                                        moduleName: this.state.moduleName,
+                                        showNav: true
+                                    })
+
+                                }
+                            })
+
+
                         }
-                    );
-                    if (Meteor.user()) {
-                        this.state.modules.push(
-                            <Popup trigger={this.renderButton} modal>
-                                {close => (
-                                    <div className="modal">
-                                        <a className="close" onClick={close}>
-                                            &times;
-                                        </a>
-                                        {this.renderEdit()}
-                                    </div>
-                                )}
+                    });
 
 
-                            </Popup>
-                        );
-                    }
-                    this.setState({
-                        subjectId: this.state.subjectId,
-                        name: this.state.name,
-                        modules: this.state.modules,
-                        moduleName: this.state.moduleName,
-                        showNav: true
-                    })
                 }
             }
         );
+
+
     }
 
     handleSubmit() {
