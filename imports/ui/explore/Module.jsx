@@ -33,56 +33,71 @@ class Subject extends Component {
                 if (err) {
                     console.log(err);
                 } else {
-                    Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
-                        if (err)
-                            console.log(err);
-                        else {
-                            if (role[0].role === 'team')
-                                this.setState({role: true});
+                    if (Meteor.userId()) {
+                        Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
+                            if (err)
+                                console.log(err);
+                            else {
+                                if (role[0].role === 'team')
+                                    this.setState({role: true});
 
-                            Meteor.call('findUserSubjects', Meteor.userId(), (err, res) => {
-                                if (err)
-                                    console.log(err);
-                                else {
-                                    this.setState({superSubjects: res[0].sucjects.map(x => x.value)});
+                                Meteor.call('findUserSubjects', Meteor.userId(), (err, res) => {
+                                    if (err)
+                                        console.log(err);
+                                    else {
+                                        this.setState({superSubjects: res[0].sucjects.map(x => x.value)});
 
-                                    this.state.modules = ress.map(module => {
-                                            return <a href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}> {module.name}</a>
+                                        this.state.modules = ress.map(module => {
+                                                return <a
+                                                    href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}> {module.name}</a>
+                                            }
+                                        );
+                                        if (Meteor.user()) {
+                                            if (this.state.superSubjects.includes(this.state.subjectId)) {
+                                                this.state.modules.push(
+                                                    <Popup trigger={this.renderButton} modal>
+                                                        {close => (
+                                                            <div className="modal">
+                                                                <a className="close" onClick={close}>
+                                                                    &times;
+                                                                </a>
+                                                                {this.renderEdit()}
+                                                            </div>
+                                                        )}
+
+
+                                                    </Popup>
+                                                );
+                                            }
                                         }
-                                    );
-                                    if (Meteor.user()) {
-                                        if (this.state.superSubjects.includes(this.state.subjectId)) {
-                                            console.log('zibil');
-                                            this.state.modules.push(
-                                                <Popup trigger={this.renderButton} modal>
-                                                    {close => (
-                                                        <div className="modal">
-                                                            <a className="close" onClick={close}>
-                                                                &times;
-                                                            </a>
-                                                            {this.renderEdit()}
-                                                        </div>
-                                                    )}
+                                        this.setState({
+                                            subjectId: this.state.subjectId,
+                                            name: this.state.name,
+                                            modules: this.state.modules,
+                                            moduleName: this.state.moduleName,
+                                            showNav: true
+                                        })
 
-
-                                                </Popup>
-                                            );
-                                        }
                                     }
-                                    this.setState({
-                                        subjectId: this.state.subjectId,
-                                        name: this.state.name,
-                                        modules: this.state.modules,
-                                        moduleName: this.state.moduleName,
-                                        showNav: true
-                                    })
-
-                                }
-                            })
+                                })
 
 
-                        }
-                    });
+                            }
+                        });
+                    }else{
+                        this.state.modules = ress.map(module => {
+                                return <a
+                                    href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}> {module.name}</a>
+                            }
+                        );
+                        this.setState({
+                            subjectId: this.state.subjectId,
+                            name: this.state.name,
+                            modules: this.state.modules,
+                            moduleName: this.state.moduleName,
+                            showNav: true
+                        })
+                    }
 
 
                 }
