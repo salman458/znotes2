@@ -10,6 +10,7 @@ import Chapters from '../../imports/ui/explore/Chapters';
 import Editor from '../../imports/ui/explore/Editor';
 import Register from '../../imports/ui/account/Register';
 import Reset from '../../imports/ui/account/Reset';
+import AddBio from '../../imports/ui/account/AddBio';
 import PreReset from '../../imports/ui/account/PreReset';
 import ChangeEmail from '../../imports/ui/account/ChangeEmail';
 import ChangePassword from '../../imports/ui/account/ChangePassword';
@@ -34,6 +35,15 @@ FlowRouter.route('/register', {
             main: <Register/>,
         });
     },
+});
+
+FlowRouter.route('/addBio', {
+    name: 'AddBio',
+    action() {
+        mount(App, {
+            main: <AddBio/>
+        })
+    }
 });
 
 FlowRouter.route('/email/verify/:token', {

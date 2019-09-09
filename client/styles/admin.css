@@ -1,0 +1,10 @@
+.adminContainer {
+    padding: 15px;
+    background-color: whitesmoke;
+    position: relative;
+    top: 50px;
+
+}
+.cardEditor li{
+    display: inline;
+}

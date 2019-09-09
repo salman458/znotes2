@@ -9,6 +9,7 @@ export default class Login extends Component {
         this.state = {
             email: '',
             password: '',
+            role: false
         };
 
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
@@ -17,6 +18,22 @@ export default class Login extends Component {
 
 
     }
+
+    componentDidMount(): void {
+        if (Meteor.userId()) {
+            Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
+                if (err)
+                    console.log(err);
+                else {
+                    if (role[0].role === 'team') {
+                        this.setState({role: true});
+                    }
+
+                }
+            });
+        }
+    }
+
 
     handleChangeEmail(event) {
         this.setState({
@@ -34,15 +51,28 @@ export default class Login extends Component {
 
     renderLogin() {
         if (Meteor.user()) {
-            return (
-                <div className="container">
-                    <form>
-                        <button onClick={this.ChangeEmail} className="accountEditBtn">Change Email</button>
-                        <button onClick={this.ChangePassword} className="accountEditBtn">Change Password</button>
-                        <button onClick={this.handleLogout} type="submit" className="registerbtn">Log out</button>
-                    </form>
-                </div>
-            )
+            if (this.state.role) {
+                return (
+                    <div className="container">
+                        <form>
+                            <button onClick={this.ChangeEmail} className="accountEditBtn">Change Email</button>
+                            <button onClick={this.ChangePassword} className="accountEditBtn">Change Password</button>
+                            <button onClick={this.addBio} type="submit" className="accountEditBtn">Add Bio</button>
+                            <button onClick={this.handleLogout} type="submit" className="registerbtn">Log out</button>
+                        </form>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="container">
+                        <form>
+                            <button onClick={this.ChangeEmail} className="accountEditBtn">Change Email</button>
+                            <button onClick={this.ChangePassword} className="accountEditBtn">Change Password</button>
+                            <button onClick={this.handleLogout} type="submit" className="registerbtn">Log out</button>
+                        </form>
+                    </div>
+                )
+            }
         } else {
             return (
                 <div className="container">
@@ -65,6 +95,10 @@ export default class Login extends Component {
                 </div>
             );
         }
+    }
+
+    addBio() {
+        FlowRouter.go('/addBio');
     }
 
     ChangeEmail() {
@@ -100,6 +134,7 @@ export default class Login extends Component {
         Meteor.logout();
         alert("Are you sure that you want to log out?");
         FlowRouter.go('/');
+        window.location.reload();
     }
 
     render() {

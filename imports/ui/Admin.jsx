@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 // import "react-mde/lib/styles/css/react-mde-all.css";
 import "../../client/styles/table.css";
+import "../../client/styles/admin.css";
 
 import Header from './Header.jsx';
 import {Button} from "react-bootstrap";
@@ -111,9 +112,9 @@ class Admin extends Component {
 
     render() {
         return (
-            <div>
+            <div className="home-page">
                 <Header/>
-                <div className="container">
+                <div className="adminContainer">
                     <div>
                         <h1 id='title'>All users</h1>
                         <table id='students'>
@@ -124,8 +125,8 @@ class Admin extends Component {
                         </table>
                     </div>
                     <ul>
-                        <li><Button onClick={this.next}>Next</Button></li>
-                        <li><Button onClick={this.previous}>Previous</Button></li>
+                        <li><Button variant="primary" onClick={this.next}>Next</Button></li>
+                        <li><Button variant="primary" onClick={this.previous}>Previous</Button></li>
                     </ul>
                 </div>
             </div>
