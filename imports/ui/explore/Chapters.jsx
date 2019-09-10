@@ -35,6 +35,9 @@ class Subject extends Component {
             progress: 1,
             superSubjects: [],
             role: false,
+            grade: '',
+            conf: '',
+            haveSubjects: []
 
         };
         this.converter = new Showdown.Converter({
@@ -51,6 +54,9 @@ class Subject extends Component {
         this.deleteHandler = this.deleteHandler.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.renderButton = this.renderButton.bind(this);
+        this.addSubject = this.addSubject.bind(this);
+        this.gradeHandler = this.gradeHandler.bind(this);
+        this.confHandler = this.confHandler.bind(this);
 
 
     }
@@ -118,8 +124,9 @@ class Subject extends Component {
                                 if (err)
                                     console.log(err);
                                 else {
-                                    if (role[0].role === 'team')
+                                    if (role[0].role === 'team') {
                                         this.setState({role: true});
+                                    }
 
                                     Meteor.call('findUserSubjects', Meteor.userId(), (err, res) => {
                                         if (err)
@@ -137,7 +144,6 @@ class Subject extends Component {
                                                     counter++;
                                                     this.state.progressTracker.set(chapter._id, counter);
                                                     if (Meteor.user()) {
-                                                        console.log('arraaaa');
                                                         this.state.chapters.push(
                                                             // onClick={this.chapterHandler}
                                                             <li className='btn-group' id={chapter._id}>
@@ -176,15 +182,35 @@ class Subject extends Component {
                                                     }
                                                 }
                                             );
-                                            if (Meteor.user()) {
+                                            if (this.state.role) {
                                                 this.state.chapters.push(
                                                     <div>
                                                         {this.renderAddBoardPopUp()}
                                                     </div>
                                                 );
+                                                this.forceUpdate();
                                             }
                                             if (this.state.cardId != 1)
                                                 this.renderContent();
+                                            if (Meteor.user()) {
+                                                Meteor.call("getUserSubjects", Meteor.userId(), (err, res) => {
+                                                    if (err)
+                                                        console.log(err);
+                                                    else {
+                                                        if (!res[0].subjects.map(x => x.id).includes(this.state.subjectName)) {
+                                                            this.state.chapters.push(
+                                                                <div>
+                                                                    {this.renderAddSubjectPopUp()}
+                                                                </div>
+                                                            );
+                                                            this.forceUpdate();
+                                                        }
+
+                                                    }
+                                                });
+
+                                            }
+
 
                                         }
                                     });
@@ -275,6 +301,23 @@ class Subject extends Component {
         );
     }
 
+    renderAddSubjectPopUp() {
+        return (
+            <Popup trigger={this.renderAddSubjectButton} modal>
+                {close => (
+                    <div className="modal">
+                        <a className="close" onClick={close}>
+                            &times;
+                        </a>
+                        {this.renderSubjectEdit()}
+                    </div>
+                )}
+
+
+            </Popup>
+        );
+    }
+
     renderEdit() {
         return (
             <div className="container">
@@ -283,6 +326,27 @@ class Subject extends Component {
                     <input type="text" placeholder="Enter the Name" name="name" onChange={this.handleChapterName}/>
                 </form>
                 <Button onClick={this.handleSubmit} className="registerbtn">Add</Button>
+            </div>
+        );
+    }
+
+    gradeHandler(event) {
+        this.setState({grade: event.target.value})
+    }
+
+    confHandler(event) {
+        this.setState({conf: event.target.value})
+    }
+
+    renderSubjectEdit() {
+        return (
+            <div className="container">
+                <form className="login">
+                    <label htmlFor="name"><b>Add to My Subjects</b></label>
+                    <input type="text" placeholder="What is your target grade?" name="grade" onChange={this.gradeHandler}/>
+                    <input type="text" placeholder="How confident are you about it (1-5)?" name="confidence" onChange={this.confHandler}/>
+                </form>
+                <Button onClick={this.addSubject} className="registerbtn">Add</Button>
             </div>
         );
     }
@@ -309,7 +373,7 @@ class Subject extends Component {
                 };
                 Meteor.call('updateChapter', {moduleId: this.state.moduleId, chapter: chapterMod}, (err, res) => {
                     if (err) {
-                        alert('eee');
+                        console.log(err);
                     } else {
                         FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName + '/' + 1);
                         window.location.reload();
@@ -324,6 +388,10 @@ class Subject extends Component {
     renderButton() {
         return (<Button>Add Chapter</Button>);
 
+    }
+
+    renderAddSubjectButton() {
+        return (<Button>Add to My Subjects</Button>);
     }
 
     editHandler() {
@@ -350,6 +418,28 @@ class Subject extends Component {
                 });
             }
         });
+    }
+
+    addSubject() {
+        let userId = Meteor.userId();
+        let dbObject = {
+            userId: userId,
+            subject: {
+                id: this.state.subjectName,
+                targetGrade: this.state.grade,
+                confidence: this.state.conf
+            }
+
+        };
+        console.log("ppppp", dbObject);
+        Meteor.call('addSubjectToUser', dbObject, (err, res) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    window.location.reload();
+                }
+            }
+        );
     }
 
     render() {

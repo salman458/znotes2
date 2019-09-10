@@ -197,7 +197,9 @@ class Home extends Component {
                             this.state.school.name,
                             "location":
                             this.state.school.location
-                        }
+                        },
+                        "subjects": [],
+                        "lastPositions": []
                     }
                 };
 

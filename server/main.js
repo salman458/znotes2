@@ -165,6 +165,9 @@ Meteor.methods({
     updateChapter(obj) {
         return modules.update({_id: obj.moduleId}, {$push: {chapters: obj.chapter}})
     },
+    addSubjectToUser(obj){
+      return Meteor.users.update({_id: obj.userId},{$push:{subjects: obj.subject}})
+    },
     updateChapterWithCard(obj) {
         return chapters.update({_id: obj.chapterId}, {$push: {cards: obj.cards}})
     },
@@ -297,6 +300,15 @@ Meteor.methods({
             return [];
         } else {
             let res = Meteor.users.find({_id: id}, {fields: {sucjects: 1, _id: 0}}).fetch();
+            return res;
+        }
+    },
+    getUserSubjects(id){
+        let records = Meteor.users.find({_id: id}, {fields: {subjects: 1, _id: 0}}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = Meteor.users.find({_id: id}, {fields: {subjects: 1, _id: 0}}).fetch();
             return res;
         }
     }

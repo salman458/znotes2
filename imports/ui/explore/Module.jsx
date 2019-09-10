@@ -41,6 +41,7 @@ class Subject extends Component {
                                 if (role[0].role === 'team')
                                     this.setState({role: true});
 
+
                                 Meteor.call('findUserSubjects', Meteor.userId(), (err, res) => {
                                     if (err)
                                         console.log(err);
@@ -49,10 +50,26 @@ class Subject extends Component {
 
                                         this.state.modules = ress.map(module => {
                                                 return <a
-                                                    href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}> {module.name}</a>
+                                                    href={"/explore/chapters/module/" + module._id + "/" + this.state.subjectId + "/" + 1}> {module.name}</a>
                                             }
                                         );
                                         if (Meteor.user()) {
+                                            if(this.state.role){
+                                                this.state.modules.push(
+                                                    <Popup trigger={this.renderButton} modal>
+                                                        {close => (
+                                                            <div className="modal">
+                                                                <a className="close" onClick={close}>
+                                                                    &times;
+                                                                </a>
+                                                                {this.renderEdit()}
+                                                            </div>
+                                                        )}
+
+
+                                                    </Popup>
+                                                );
+                                            }
                                             if (this.state.superSubjects.includes(this.state.subjectId)) {
                                                 this.state.modules.push(
                                                     <Popup trigger={this.renderButton} modal>
