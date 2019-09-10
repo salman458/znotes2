@@ -94,8 +94,25 @@ class Subject extends Component {
         let chapterId = this.state.buttonCount.get(event.target.id);
         let newProgress = this.state.progressTracker.get(chapterId);
         this.setState({progress: newProgress});
-        FlowRouter.go('/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName + '/' + event.target.id);
-        window.location.reload();
+        let uri = '/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName + '/' + event.target.id;
+        let obj = {
+            userId: Meteor.userId(), subject: {
+                id: this.state.subjectName,
+                position: uri
+            }
+        };
+        console.log("asfasdasas",obj);
+        Meteor.call('addLastPosition', obj,(err,res)=>{
+            if(err) {
+                console.log(err);
+                // FlowRouter.go(uri);
+                // window.location.reload();
+            }else {
+                console.log("aaaaaaaaaaaaaa");
+                FlowRouter.go(uri);
+                window.location.reload();
+            }
+        })
     }
 
     renderCollapseButton() {

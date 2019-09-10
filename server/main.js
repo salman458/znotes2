@@ -165,8 +165,8 @@ Meteor.methods({
     updateChapter(obj) {
         return modules.update({_id: obj.moduleId}, {$push: {chapters: obj.chapter}})
     },
-    addSubjectToUser(obj){
-      return Meteor.users.update({_id: obj.userId},{$push:{subjects: obj.subject}})
+    addSubjectToUser(obj) {
+        return Meteor.users.update({_id: obj.userId}, {$push: {subjects: obj.subject}})
     },
     updateChapterWithCard(obj) {
         return chapters.update({_id: obj.chapterId}, {$push: {cards: obj.cards}})
@@ -285,7 +285,7 @@ Meteor.methods({
             return res;
         }
     },
-    findUserRole(id){
+    findUserRole(id) {
         let records = Meteor.users.find({_id: id}, {fields: {role: 1, _id: 0}}).count();
         if (records === 0) {
             return [];
@@ -294,7 +294,7 @@ Meteor.methods({
             return res;
         }
     },
-    findUserSubjects(id){
+    findUserSubjects(id) {
         let records = Meteor.users.find({_id: id}, {fields: {sucjects: 1, _id: 0}}).count();
         if (records === 0) {
             return [];
@@ -303,7 +303,7 @@ Meteor.methods({
             return res;
         }
     },
-    getUserSubjects(id){
+    getUserSubjects(id) {
         let records = Meteor.users.find({_id: id}, {fields: {subjects: 1, _id: 0}}).count();
         if (records === 0) {
             return [];
@@ -311,6 +311,29 @@ Meteor.methods({
             let res = Meteor.users.find({_id: id}, {fields: {subjects: 1, _id: 0}}).fetch();
             return res;
         }
+    },
+    addLastPosition(obj) {
+        Meteor.users.update(
+            {_id: obj.userId, "lastPositions.id": {$eq: obj.subject.id}},
+            {
+                $set: {"lastPositions.$.position": obj.subject.position}
+            },
+            {}, function (err, result) {
+                if (err) {
+                    console.log("eeeee", err);
+                } else {
+                    if (result != 1) {
+                        Meteor.users.upsert({_id: obj.userId}, {$push: {lastPositions: {id: obj.subject.id, position: obj.subject.position}}});
+                    }
+                }
+
+                // if result.nMatched == 0 then make your $addToSet
+                // because there are no query
+
+            }
+        );
+
+        // return Meteor.users.upsert({_id: obj.userId}, {$push: {lastPositions: {id: obj.subject.id, position: obj.subject.position}}});
     }
 
 
