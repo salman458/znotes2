@@ -142,7 +142,7 @@ Meteor.methods({
         if (records === 0) {
             return [];
         } else {
-            let res = chapters.find(selector).fetch();
+            let res = chapters.find(selector, {sort: {created: 1}}).fetch();
             console.log(res);
             return res;
         }
@@ -316,14 +316,27 @@ Meteor.methods({
         Meteor.users.update(
             {_id: obj.userId, "lastPositions.id": {$eq: obj.subject.id}},
             {
-                $set: {"lastPositions.$.position": obj.subject.position}
+                $set: {
+                    "lastPositions.$.position": obj.subject.position,
+                    "lastPositions.$.progress": obj.subject.progress,
+                    "lastPositions.$.timestamp": new Date(),
+                }
             },
             {}, function (err, result) {
                 if (err) {
                     console.log("eeeee", err);
                 } else {
                     if (result != 1) {
-                        Meteor.users.upsert({_id: obj.userId}, {$push: {lastPositions: {id: obj.subject.id, position: obj.subject.position}}});
+                        Meteor.users.upsert({_id: obj.userId}, {
+                            $push: {
+                                lastPositions: {
+                                    id: obj.subject.id,
+                                    position: obj.subject.position,
+                                    progress: obj.subject.progress,
+                                    timestamp: new Date()
+                                }
+                            }
+                        });
                     }
                 }
 
@@ -334,8 +347,27 @@ Meteor.methods({
         );
 
         // return Meteor.users.upsert({_id: obj.userId}, {$push: {lastPositions: {id: obj.subject.id, position: obj.subject.position}}});
+    },
+    getUser(id) {
+        let records = Meteor.users.find({_id: id},
+            {fields: {lastPositions: 1, _id: 0}},
+            {sort: {timestamp: 1}}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = Meteor.users.find({_id: id}, {fields: {lastPositions: 1, _id: 0}}).fetch();
+            return res;
+        }
+    },
+    getSubjectById(id) {
+        let records = subjects.find({_id: id}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = subjects.find({_id: id}).fetch();
+            return res;
+        }
     }
-
 
 });
 

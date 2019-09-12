@@ -70,3 +70,14 @@ h2 {
 .demo-page-contain__hint {
     margin-bottom: 20px;
 }
+
+.resumeContainer {
+    padding: 15px;
+    background-color: whitesmoke;
+    border-radius: 25px;
+    position: relative;
+    top: 50px;
+}
+.resumeContainer li{
+    display: inline;
+}

@@ -7,6 +7,8 @@ import {Pager} from "react-bootstrap";
 import ReactPageScroller from "react-page-scroller";
 import SecondComponent from "./SecondComponent";
 import Autosuggest from 'react-autosuggest';
+import {Line} from "rc-progress";
+import {Button} from "react-bootstrap";
 
 
 class Home extends AbstractComponent {
@@ -34,9 +36,15 @@ class Home extends AbstractComponent {
             currentPage: 1,
             value: '',
             suggestions: [],
-            keywords: []
+            keywords: [],
+            progress: 1,
+            lastPosition: '',
+            userSubjects: [],
+            drawUsers: []
         };
         this._pageScroller = null;
+
+        this.resumeHandler = this.resumeHandler.bind(this);
     }
 
     componentDidMount() {
@@ -72,6 +80,42 @@ class Home extends AbstractComponent {
                 this.state.keywords = this.state.keywords.concat(res);
             }
         });
+
+        if (Meteor.userId()) {
+            Meteor.call('getUser', Meteor.userId(), (err, res) => {
+                if (err)
+                    console.log(err);
+                else {
+                    let lastPositions = res[0].lastPositions;
+                    this.setState({lastPosition: lastPositions[0].position});
+                    this.setState({progress: lastPositions[0].progress});
+                    console.log('bbb', this.state);
+                }
+            });
+
+            Meteor.call('getUserSubjects', Meteor.userId(), (err, res) => {
+                if (err)
+                    console.log(err);
+                else {
+                    let subjects = res[0].subjects;
+                    subjects.forEach(subject => {
+                        Meteor.call('getSubjectById', subject.id, (err, res) => {
+                            if (err)
+                                console.log(err);
+                            else {
+                                this.state.userSubjects.push(res[0]);
+                                this.state.drawUsers.push(<a href={'/explore/module/' + res[0].name + '/' + res[0]._id}> {res[0].name}</a>)
+                            }
+                        });
+                    });
+
+
+                    console.log('bbbb', this.state);
+
+
+                }
+            })
+        }
 
 
     }
@@ -161,36 +205,83 @@ class Home extends AbstractComponent {
         });
     };
 
+    resumeHandler() {
+        FlowRouter.go(this.state.lastPosition);
+        window.location.reload();
+    }
+
     renderBody() {
-        const {value, suggestions} = this.state;
+        if (Meteor.user()) {
+            const {value, suggestions} = this.state;
 
-        const inputProps = {
-            placeholder: 'What do you want to study today?',
-            value,
-            onChange: this.onChange
-        };
-        return (
-            <div className="search__container -layout-v -center">
-                <ul>
-                    <li><img className="logo-search" src="/img/logo.png"/></li>
-                    <li><h1>For Students, By Students</h1></li>
-                    <li><Autosuggest
-                        suggestions={suggestions}
-                        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                        getSuggestionValue={this.getSuggestionValue}
-                        renderSuggestion={this.renderSuggestion}
-                        inputProps={inputProps}
-                    /></li>
-                    {/*<li><input className="search__input -full-width" type="text" placeholder="What do you want to study today? E.G. AS Physics"/></li>*/}
-                    <li>
-                        <button onClick={this.searchHandler} type="submit" className="searchBtn">Search</button>
-                    </li>
-                </ul>
-            </div>
+            const inputProps = {
+                placeholder: 'What do you want to study today?',
+                value,
+                onChange: this.onChange
+            };
+            return (
+                <div>
+                    <div className="resumeContainer">
+                        <ul>
+                            <li>
+                                <Button onClick={this.resumeHandler}>Resume</Button>
+                                <Line percent={this.state.progress} strokeWidth="4"
+                                      strokeColor="#66ff33"/>
+                            </li>
+                            <li><Autosuggest
+                                suggestions={suggestions}
+                                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                                getSuggestionValue={this.getSuggestionValue}
+                                renderSuggestion={this.renderSuggestion}
+                                inputProps={inputProps}
+                            /></li>
+                            <li>
+                                <button onClick={this.searchHandler} type="submit" className="searchBtn">Search</button>
+                            </li>
+                            <li>
+                                <ul>
+                                    {this.state.drawUsers}
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
 
 
-        )
+            )
+        } else {
+            const {value, suggestions} = this.state;
+
+            const inputProps = {
+                placeholder: 'What do you want to study today?',
+                value,
+                onChange: this.onChange
+            };
+            return (
+                <div className="search__container -layout-v -center">
+                    <ul>
+                        <li><img className="logo-search" src="/img/logo.png"/></li>
+                        <li><h1>For Students, By Students</h1></li>
+                        <li><Autosuggest
+                            suggestions={suggestions}
+                            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                            getSuggestionValue={this.getSuggestionValue}
+                            renderSuggestion={this.renderSuggestion}
+                            inputProps={inputProps}
+                        /></li>
+                        {/*<li><input className="search__input -full-width" type="text" placeholder="What do you want to study today? E.G. AS Physics"/></li>*/}
+                        <li>
+                            <button onClick={this.searchHandler} type="submit" className="searchBtn">Search</button>
+                        </li>
+                    </ul>
+                </div>
+
+
+            )
+        }
     }
 
     // render() {

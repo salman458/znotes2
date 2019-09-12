@@ -83,7 +83,7 @@ class Subject extends Component {
                     chapterName: this.state.chapterName
 
                 });
-                this.setState({percentage: ((this.state.buttonCount.get(this.state.currentChapter)) * 1.0 / (this.state.totalCount)) * 100});
+                // this.setState({percentage: ((this.state.buttonCount.get(this.state.currentChapter)) * 1.0 / (this.state.totalCount)) * 100});
 
             }
         });
@@ -98,19 +98,20 @@ class Subject extends Component {
         let obj = {
             userId: Meteor.userId(), subject: {
                 id: this.state.subjectName,
-                position: uri
+                position: uri,
+                progress: this.state.progress
             }
         };
-        console.log("asfasdasas",obj);
-        Meteor.call('addLastPosition', obj,(err,res)=>{
-            if(err) {
+
+        Meteor.call('addLastPosition', obj, (err, res) => {
+            if (err) {
                 console.log(err);
-                // FlowRouter.go(uri);
-                // window.location.reload();
-            }else {
-                console.log("aaaaaaaaaaaaaa");
                 FlowRouter.go(uri);
                 window.location.reload();
+            } else {
+                FlowRouter.go(uri);
+                window.location.reload();
+
             }
         })
     }
@@ -152,10 +153,7 @@ class Subject extends Component {
                                             this.setState({superSubjects: res[0].sucjects.map(x => x.value)});
 
                                             this.state.totalCount = chapters.length;
-                                            this.state.chapters.push(
-                                                <Line percent={66.6} strokeWidth="4"
-                                                      strokeColor="#66ff33"/>
-                                            );
+
                                             let counter = 0;
                                             chapters.forEach(chapter => {
                                                     counter++;
@@ -171,7 +169,8 @@ class Subject extends Component {
                                                                             Card</Button>
 
                                                                         {chapter.cards.map(card => {
-                                                                            this.state.buttonCount.set(card._id, chapter._id);
+                                                                            this.state.buttonCount.set(String(card._id), chapter._id);
+
                                                                             return <Button id={card._id}
                                                                                            onClick={this.chapterHandler}>{card.title}</Button>;
                                                                         })}
@@ -179,6 +178,9 @@ class Subject extends Component {
                                                                 </ul>
                                                             </li>
                                                         );
+                                                        let currChapter = this.state.progressTracker.get(this.state.buttonCount.get(this.state.cardId));
+                                                        let total = this.state.progressTracker.size;
+                                                        this.setState({progress: (currChapter / total) * 100});
                                                         this.forceUpdate();
                                                     } else {
                                                         this.state.chapters.push(
@@ -188,7 +190,8 @@ class Subject extends Component {
                                                                     {chapter.name}
                                                                     <Collapsible trigger={this.renderCollapseButton()}>
                                                                         {chapter.cards.map(card => {
-                                                                            this.state.buttonCount.set(card._id, chapter._id);
+                                                                            this.state.buttonCount.set(String(card._id), chapter._id);
+
                                                                             return <Button id={card._id}
                                                                                            onClick={this.chapterHandler}>{card.title}</Button>;
                                                                         })}
@@ -196,8 +199,16 @@ class Subject extends Component {
                                                                 </ul>
                                                             </li>
                                                         );
+                                                        let currChapter = this.state.progressTracker.get(this.state.buttonCount.get(this.state.cardId));
+                                                        let total = this.state.progressTracker.size;
+                                                        this.setState({progress: (currChapter / total) * 100});
+                                                        this.forceUpdate();
                                                     }
                                                 }
+                                            );
+                                            this.state.chapters.push(
+                                                <Line percent={this.state.progress} strokeWidth="4"
+                                                      strokeColor="#66ff33"/>
                                             );
                                             if (this.state.role) {
                                                 this.state.chapters.push(
@@ -235,6 +246,7 @@ class Subject extends Component {
                             });
                         } else {
                             let counter = 0;
+
                             chapters.forEach(chapter => {
 
                                     counter++;
@@ -246,7 +258,7 @@ class Subject extends Component {
                                                 {chapter.name}
                                                 <Collapsible trigger={this.renderCollapseButton()}>
                                                     {chapter.cards.map(card => {
-                                                        this.state.buttonCount.set(card._id, chapter._id);
+                                                        this.state.buttonCount.set(String(card._id), chapter._id);
                                                         return <Button id={card._id}
                                                                        onClick={this.chapterHandler}>{card.title}</Button>;
                                                     })}
@@ -255,8 +267,19 @@ class Subject extends Component {
                                         </li>
                                     );
 
+
                                 }
                             );
+                            let currChapter = this.state.progressTracker.get(this.state.buttonCount.get(this.state.cardId));
+                            let total = this.state.progressTracker.size;
+                            this.setState({progress: (currChapter / total) * 100});
+                            this.forceUpdate();
+
+                            this.state.chapters.push(
+                                <Line percent={this.state.progress} strokeWidth="4"
+                                      strokeColor="#66ff33"/>
+                            );
+
                             if (Meteor.user()) {
                                 this.state.chapters.push(
                                     <div>
@@ -274,8 +297,9 @@ class Subject extends Component {
                     }
                     this.setState({showNav: true});
                 });
-                console.log('state', this.state);
+
             }
+
         });
     }
 
@@ -486,9 +510,8 @@ class Subject extends Component {
                         <Header/>
                         {this.renderBody()}
                         <div className="chapterContainer">
-                            <div>
-                                {parse(this.converter.makeHtml(this.state.card))}
-                            </div>
+                            <div dangerouslySetInnerHTML={this.converter.makeHtml(this.state.card)}/>
+
                         </div>
                         )
                         )}
