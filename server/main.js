@@ -320,6 +320,7 @@ Meteor.methods({
                     "lastPositions.$.position": obj.subject.position,
                     "lastPositions.$.progress": obj.subject.progress,
                     "lastPositions.$.timestamp": new Date(),
+                    "lastPositions.$.moduleName": obj.subject.moduleName,
                 }
             },
             {}, function (err, result) {
@@ -333,6 +334,7 @@ Meteor.methods({
                                     id: obj.subject.id,
                                     position: obj.subject.position,
                                     progress: obj.subject.progress,
+                                    moduleName: obj.subject.moduleName,
                                     timestamp: new Date()
                                 }
                             }

@@ -99,7 +99,8 @@ class Subject extends Component {
             userId: Meteor.userId(), subject: {
                 id: this.state.subjectName,
                 position: uri,
-                progress: this.state.progress
+                progress: this.state.progress,
+                moduleName: this.state.moduleName,
             }
         };
 

@@ -3,12 +3,36 @@ import Header from '../Header.jsx';
 import AbstractComponent from "../AbstractComponent";
 import "../../../client/styles/cover.scss";
 import "../../../client/styles/scroller.css";
+import "../../../client/styles/userPage.css";
+import {lighten, makeStyles, withStyles} from '@material-ui/core/styles';
+
 import {Pager} from "react-bootstrap";
 import ReactPageScroller from "react-page-scroller";
 import SecondComponent from "./SecondComponent";
 import Autosuggest from 'react-autosuggest';
 import {Line} from "rc-progress";
 import {Button} from "react-bootstrap";
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+const ColorLinearProgress = withStyles({
+    colorPrimary: {
+        backgroundColor: '#b2dfdb',
+    },
+    barColorPrimary: {
+        backgroundColor: '#00695c',
+    },
+})(LinearProgress);
+
+const BorderLinearProgress = withStyles({
+    root: {
+        height: 10,
+        backgroundColor: lighten('#0cb046', 0.5),
+    },
+    bar: {
+        borderRadius: 20,
+        backgroundColor: '#0ec74f',
+    },
+})(LinearProgress);
 
 
 class Home extends AbstractComponent {
@@ -40,7 +64,8 @@ class Home extends AbstractComponent {
             progress: 1,
             lastPosition: '',
             userSubjects: [],
-            drawUsers: []
+            drawUsers: [],
+            lastModule: ''
         };
         this._pageScroller = null;
 
@@ -89,6 +114,7 @@ class Home extends AbstractComponent {
                     let lastPositions = res[0].lastPositions;
                     this.setState({lastPosition: lastPositions[0].position});
                     this.setState({progress: lastPositions[0].progress});
+                    this.setState({lastModule: lastPositions[0].moduleName});
                     console.log('bbb', this.state);
                 }
             });
@@ -105,12 +131,10 @@ class Home extends AbstractComponent {
                             else {
                                 this.state.userSubjects.push(res[0]);
                                 this.state.drawUsers.push(<a href={'/explore/module/' + res[0].name + '/' + res[0]._id}> {res[0].name}</a>)
+                                this.forceUpdate();
                             }
                         });
                     });
-
-
-                    console.log('bbbb', this.state);
 
 
                 }
@@ -220,34 +244,78 @@ class Home extends AbstractComponent {
                 onChange: this.onChange
             };
             return (
-                <div>
-                    <div className="resumeContainer">
-                        <ul>
-                            <li>
-                                <Button onClick={this.resumeHandler}>Resume</Button>
-                                <Line percent={this.state.progress} strokeWidth="4"
-                                      strokeColor="#66ff33"/>
-                            </li>
-                            <li><Autosuggest
+                <ul className="userPage">
+                    <li>
+                        <h1><b>Resume</b></h1>
+                        <h2>{this.state.lastModule}</h2>
+                        <div className="bdsm">
+                            <div className="play-button">
+                                <svg width="188px" height="188px" viewBox="0 0 188 188" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                     xmlnsXlink="http://www.w3.org/1999/xlink">
+                                    <defs>
+                                        <circle id="path-1" cx="41" cy="41" r="41"></circle>
+                                        <filter x="-102.4%" y="-102.4%" width="304.9%" height="304.9%" filterUnits="objectBoundingBox" id="filter-2">
+                                            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                            <feGaussianBlur stdDeviation="28" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                            <feColorMatrix values="0 0 0 0 0.529411765   0 0 0 0 0.945098039   0 0 0 0 0.764705882  0 0 0 1 0"
+                                                           type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                                        </filter>
+                                    </defs>
+                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g id="dark-dashboard" transform="translate(-88.000000, -373.000000)">
+                                            <g id="resume" transform="translate(141.000000, 259.000000)">
+                                                <g id="Group-8" transform="translate(0.000000, 167.000000)">
+                                                    <g id="Oval">
+                                                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlinkHref="#path-1"></use>
+                                                        <use fill="#87F1C3" fill-rule="evenodd" xlinkHref="#path-1"></use>
+                                                    </g>
+                                                    <polygon id="Triangle" fill="#FFFFFF"
+                                                             transform="translate(43.500000, 42.000000) rotate(90.000000) translate(-43.500000, -42.000000) "
+                                                             points="43.5 28 61 56 26 56"></polygon>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div className="progress-wrapper">
+                                <div className="progress-bar"><BorderLinearProgress
+                                    variant="determinate"
+                                    color="secondary"
+                                    value={this.state.progress}
+                                /></div>
+                            </div>
+
+                        </div>
+
+                    </li>
+
+                    <li>
+
+                        <div className="resumeContainer">
+                            <Autosuggest
                                 suggestions={suggestions}
                                 onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
                                 onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                                 getSuggestionValue={this.getSuggestionValue}
                                 renderSuggestion={this.renderSuggestion}
                                 inputProps={inputProps}
-                            /></li>
-                            <li>
-                                <button onClick={this.searchHandler} type="submit" className="searchBtn">Search</button>
-                            </li>
-                            <li>
-                                <ul>
-                                    {this.state.drawUsers}
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+                            />
+                            <button onClick={this.searchHandler} type="submit" className="searchBtn">Search</button>
 
-                </div>
+                        </div>
+
+                    </li>
+
+
+                    <li>
+                        <div className="resumeContainer">
+                            {this.state.drawUsers}
+
+                        </div>
+                    </li>
+
+                </ul>
 
 
             )
