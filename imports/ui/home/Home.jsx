@@ -13,15 +13,9 @@ import Autosuggest from 'react-autosuggest';
 import {Line} from "rc-progress";
 import {Button} from "react-bootstrap";
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
-const ColorLinearProgress = withStyles({
-    colorPrimary: {
-        backgroundColor: '#b2dfdb',
-    },
-    barColorPrimary: {
-        backgroundColor: '#00695c',
-    },
-})(LinearProgress);
 
 const BorderLinearProgress = withStyles({
     root: {
@@ -129,8 +123,13 @@ class Home extends AbstractComponent {
                             if (err)
                                 console.log(err);
                             else {
-                                this.state.userSubjects.push(res[0]);
-                                this.state.drawUsers.push(<a href={'/explore/module/' + res[0].name + '/' + res[0]._id}> {res[0].name}</a>)
+                                this.state.userSubjects.push(
+                                    <Grid item xs={6}>
+                                        <Paper className="paper"><a
+                                            href={'/explore/module/' + res[0].name + '/' + res[0]._id}>{res[0].name}</a>
+                                        </Paper>
+                                    </Grid>);
+                                // this.state.drawUsers.push(<a href={'/explore/module/' + res[0].name + '/' + res[0]._id}> {res[0].name}</a>)
                                 this.forceUpdate();
                             }
                         });
@@ -250,7 +249,8 @@ class Home extends AbstractComponent {
                         <h2>{this.state.lastModule}</h2>
                         <div className="bdsm">
                             <div className="play-button">
-                                <svg width="188px" height="188px" viewBox="0 0 188 188" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                <svg onClick={this.resumeHandler} className="playIcon" width="188px" height="188px" viewBox="0 0 188 188"
+                                     version="1.1" xmlns="http://www.w3.org/2000/svg"
                                      xmlnsXlink="http://www.w3.org/1999/xlink">
                                     <defs>
                                         <circle id="path-1" cx="41" cy="41" r="41"></circle>
@@ -287,12 +287,13 @@ class Home extends AbstractComponent {
                             </div>
 
                         </div>
-
                     </li>
 
                     <li>
-
+                        <h1><b>Browse Courses</b></h1>
                         <div className="resumeContainer">
+                            <p className="exploreInvite"><b>Search for a course, or go to the</b> <a href="/explore">Explore</a><b> page to see whole
+                                content.</b></p>
                             <Autosuggest
                                 suggestions={suggestions}
                                 onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -301,7 +302,7 @@ class Home extends AbstractComponent {
                                 renderSuggestion={this.renderSuggestion}
                                 inputProps={inputProps}
                             />
-                            <button onClick={this.searchHandler} type="submit" className="searchBtn">Search</button>
+                            <button onClick={this.searchHandler} type="submit" className="resumeSearchBtn">Search</button>
 
                         </div>
 
@@ -309,9 +310,36 @@ class Home extends AbstractComponent {
 
 
                     <li>
-                        <div className="resumeContainer">
-                            {this.state.drawUsers}
+                        <h1><b>My Subjects</b></h1>
 
+                        <div className="resumeContainer">
+                            <Grid container spacing={3}>
+                                {this.state.userSubjects}
+
+                            </Grid>
+
+                            {/*{this.state.drawUsers}*/}
+                        </div>
+                    </li>
+
+                    <li>
+                        <h1><b>Community</b></h1>
+                        <div className="resumeContainer">
+                            <Grid container spacing={3}>
+                                <Grid item xs={6}>
+                                    <Paper className="paper">
+                                        xs=7
+                                       </Paper>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Paper className="paper">xs=6</Paper>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Paper className="paper">xs=6</Paper>
+                                </Grid>
+                            </Grid>
+
+                            {/*{this.state.drawUsers}*/}
                         </div>
                     </li>
 
@@ -363,19 +391,28 @@ class Home extends AbstractComponent {
     // }
     render() {
         const pagesNumbers = this.getPagesNumbers();
-
-        return <React.Fragment>
-            <ReactPageScroller ref={c => this._pageScroller = c} pageOnChange={this.pageOnChange}>
+        if (Meteor.user()) {
+            return <React.Fragment>
                 <div className="home-page -padding-20">
                     <Header/>
                     {this.renderBody()}
                 </div>
-                <SecondComponent/>
-            </ReactPageScroller>
-            <Pager className="pagination-additional-class" bsSize="large">
-                {pagesNumbers}
-            </Pager>
-        </React.Fragment>
+            </React.Fragment>
+        } else {
+            return <React.Fragment>
+                <ReactPageScroller ref={c => this._pageScroller = c} pageOnChange={this.pageOnChange}>
+                    <div className="home-page -padding-20">
+                        <Header/>
+                        {this.renderBody()}
+                    </div>
+                    <SecondComponent/>
+                </ReactPageScroller>
+                <Pager className="pagination-additional-class" bsSize="large">
+                    {pagesNumbers}
+                </Pager>
+            </React.Fragment>
+        }
+
     }
 
 

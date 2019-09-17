@@ -46,7 +46,7 @@ input[type=text],input[type=email], input[type=password], input[type=date] {
     margin: 5px 0 22px 0;
     display: inline-block;
     border: none;
-    background:ghostwhite;
+    background:#383838;
     color: gray;
 }
 .registerbtn {

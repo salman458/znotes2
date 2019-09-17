@@ -9,7 +9,7 @@
 
 .userPage li {
     display: block;
-    padding-top: 50px;
+    padding-top: 4%;
     color:white;
 
 }
@@ -40,4 +40,32 @@
     position: relative;
     top: 45%;
     padding: 0 30px;
+}
+.playIcon:hover {
+    fill:red;
+}
+
+.resumeSearchBtn {
+    background-color: rgb(218, 29, 86);
+    color: #303030	;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 15%;
+    alignment: center;
+    opacity: 0.9;
+    border-radius: 20px;
+    position: relative;
+    left: 42.5%;
+}
+
+.exploreInvite {
+    padding-bottom: 10px;
+}
+
+.paper {
+    padding: 10px;
+    text-align: center;
+    color: white;
 }
