@@ -6,15 +6,46 @@ import "../../../client/styles/scroller.css";
 import "../../../client/styles/userPage.css";
 import {lighten, makeStyles, withStyles} from '@material-ui/core/styles';
 
+
 import {Pager} from "react-bootstrap";
 import ReactPageScroller from "react-page-scroller";
 import SecondComponent from "./SecondComponent";
+import ThirdComponent from "./ThirdComponent";
+import FourthComponent from "./FourthComponent";
+import FifthComponent from "./FifthComponent";
 import Autosuggest from 'react-autosuggest';
 import {Line} from "rc-progress";
 import {Button} from "react-bootstrap";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        overflowX: 'scroll',
+        backgroundColor: theme.palette.background.paper,
+        position: "relative",
+        top: "30%",
+        height: "50%"
+
+    },
+    gridList: {
+        flexWrap: 'nowrap',
+        // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+        transform: 'translateZ(0)',
+    },
+    title: {
+        height: "100%",
+        color: theme.palette.primary.light,
+    },
+    titleBar: {
+        background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+    },
+}));
 
 
 const BorderLinearProgress = withStyles({
@@ -125,8 +156,8 @@ class Home extends AbstractComponent {
                             else {
                                 this.state.userSubjects.push(
                                     <Grid item xs={6}>
-                                        <Paper className="paper"><a
-                                            href={'/explore/module/' + res[0].name + '/' + res[0]._id}>{res[0].name}</a>
+                                        <Paper className="paper">
+                                            <a href={'/explore/module/' + res[0].name + '/' + res[0]._id}>{res[0].name}</a>
                                         </Paper>
                                     </Grid>);
                                 // this.state.drawUsers.push(<a href={'/explore/module/' + res[0].name + '/' + res[0]._id}> {res[0].name}</a>)
@@ -174,10 +205,38 @@ class Home extends AbstractComponent {
 
         const pageNumbers = [];
 
-        for (let i = 1; i <= 6; i++) {
-            pageNumbers.push(
-                <Pager.Item key={i} eventKey={i - 1} onSelect={this.goToPage}>{i}</Pager.Item>
-            )
+        for (let i = 1; i <= 5; i++) {
+            if (i == this.state.currentPage) {
+                pageNumbers.push(
+                    <li>
+                        <svg width="31px" height="31px" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                             xmlnsXlink="http://www.w3.org/1999/xlink">
+                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="homepage-dark" transform="translate(-1820.000000, -514.000000)" fill="#FFFFFF">
+                                    <g id="Group-10" transform="translate(1820.000000, 514.000000)">
+                                        <circle id="Oval" cx="15.5" cy="15.5" r="15.5"></circle>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                    </li>
+                )
+            } else {
+                pageNumbers.push(
+                    <li>
+                        <svg width="31px" height="31px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                             xmlnsXlink="http://www.w3.org/1999/xlink">
+                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="homepage-dark" transform="translate(-1824.000000, -683.000000)" fill="#383838">
+                                    <g id="Group-10" transform="translate(1820.000000, 514.000000)">
+                                        <circle id="Oval" cx="16" cy="181" r="12"></circle>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                    </li>
+                )
+            }
         }
 
         return [...pageNumbers];
@@ -327,15 +386,17 @@ class Home extends AbstractComponent {
                         <div className="resumeContainer">
                             <Grid container spacing={3}>
                                 <Grid item xs={6}>
-                                    <Paper className="paper">
-                                        xs=7
-                                       </Paper>
+                                    <h1 className='customh1'>Our Podcasts</h1>
+                                    <Paper className="communityPaper">
+                                        <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="300" height="380"
+                                                frameBorder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                                    </Paper>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <Paper className="paper">xs=6</Paper>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Paper className="paper">xs=6</Paper>
+                                <Grid item xs={5}>
+                                    <h1 className='customh1'>Community</h1>
+                                    <Paper className="discordPaper">
+                                        <iframe className="discord" src="https://discordapp.com/widget?id=201798443583143936&theme=dark"/>
+                                    </Paper>
                                 </Grid>
                             </Grid>
 
@@ -406,6 +467,9 @@ class Home extends AbstractComponent {
                         {this.renderBody()}
                     </div>
                     <SecondComponent/>
+                    <ThirdComponent/>
+                    <FourthComponent/>
+                    <FifthComponent/>
                 </ReactPageScroller>
                 <Pager className="pagination-additional-class" bsSize="large">
                     {pagesNumbers}

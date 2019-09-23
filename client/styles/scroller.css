@@ -49,10 +49,14 @@ h2 {
 .pagination-additional-class {
     margin: 0;
     position: fixed;
-    bottom: 20px;
-    display: flex;
+    right: 2%;
+    top:35%;
+    display: block;
     justify-content: center;
-    width: 100%;
+}
+
+.pagination-additional-class li{
+    padding-top: 20px;
 }
 
 .pagination-additional-class > li:not(:last-of-type) > a, .pagination-additional-class > li:not(:last-of-type) > span {

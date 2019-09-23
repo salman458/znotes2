@@ -68,4 +68,34 @@
     padding: 10px;
     text-align: center;
     color: white;
+    height: 100%;
+    width: 20%;
+}
+
+.communityPaper{
+    padding: 0;
+    text-align: center;
+    color: white;
+    height: 80%;
+    width: 20%;
+}
+.discordPaper{
+    padding: 0;
+    text-align: center;
+    color: black;
+    height: 80%;
+    width: 20%;
+}
+.customh1{
+    padding-bottom: 2%;
+    padding-left: 5%;
+}
+
+.discord{
+    height: 110%;
+}
+
+.subject{
+    width: 100px;
+    height: 200px;
 }

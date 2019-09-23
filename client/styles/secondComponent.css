@@ -1,0 +1,23 @@
+.secondContainer{
+    position: relative;
+    left: 2%;
+    width:60% ;
+    top: 75%;
+    background-color: transparent;
+    color: white;
+
+}
+.youtubeFrame{
+    position: relative;
+    right: 25%;
+    top: 60%;
+}
+.second-component ul{
+    display: inline-flex;
+}
+.second-component h1 {
+    padding-bottom: 15%;
+}
+.second-component h2{
+    text-align: left;
+}

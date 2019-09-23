@@ -2,7 +2,7 @@ import React from "react";
 
 export default () => {
     return (
-        <div className="component first-component">
+        <div>
             <h2>First Component</h2>
         </div>
     )
