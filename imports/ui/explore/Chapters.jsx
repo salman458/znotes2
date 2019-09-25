@@ -511,7 +511,7 @@ class Subject extends Component {
                         <Header/>
                         {this.renderBody()}
                         <div className="chapterContainer">
-                            <div dangerouslySetInnerHTML={this.converter.makeHtml(this.state.card)}/>
+                            <div dangerouslySetInnerHTML={this.createMarkup()}/>
 
                         </div>
                         )
@@ -530,6 +530,10 @@ class Subject extends Component {
             )
         }
 
+    }
+
+     createMarkup() {
+        return {__html: this.converter.makeHtml(this.state.card)};
     }
 
 }
