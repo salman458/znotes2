@@ -1,0 +1,44 @@
+.community li{
+    padding-top: 7%;
+
+}
+
+.communityHeader{
+    padding-bottom: 2%;
+    color: white;
+}
+
+.communityContainer{
+    background-color: #1E1E1E;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.50);
+
+}
+
+.communitySpotify{
+    width: 100%;
+    height: 250px;
+}
+
+.communityDiscord{
+    width: 100%;
+    height: 250px;
+}
+
+.social {
+    position: relative;
+    bottom: 1%;
+    display: flex;
+    left: 3%;
+}
+.social li{
+    padding-left: 3%;
+    padding-top: 10%;
+}
+
+.team{
+    padding-right: 15%;
+}
+
+.term{
+    padding-left: 15% !important;
+}
