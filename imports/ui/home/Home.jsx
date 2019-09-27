@@ -5,8 +5,6 @@ import "../../../client/styles/cover.scss";
 import "../../../client/styles/scroller.css";
 import "../../../client/styles/userPage.css";
 import {lighten, makeStyles, withStyles} from '@material-ui/core/styles';
-
-
 import {Pager} from "react-bootstrap";
 import ReactPageScroller from "react-page-scroller";
 import SecondComponent from "./SecondComponent";
@@ -14,41 +12,13 @@ import ThirdComponent from "./ThirdComponent";
 import FourthComponent from "./FourthComponent";
 import FifthComponent from "./FifthComponent";
 import Autosuggest from 'react-autosuggest';
-import {Line} from "rc-progress";
-import {Button} from "react-bootstrap";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import theme from './theme.css';
 
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext} from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        overflowX: 'scroll',
-        backgroundColor: theme.palette.background.paper,
-        position: "relative",
-        top: "30%",
-        height: "50%"
-
-    },
-    gridList: {
-        flexWrap: 'nowrap',
-        // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-        transform: 'translateZ(0)',
-    },
-    title: {
-        height: "100%",
-        color: theme.palette.primary.light,
-    },
-    titleBar: {
-        background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-    },
-}));
 
 
 const BorderLinearProgress = withStyles({
@@ -66,6 +36,7 @@ const BorderLinearProgress = withStyles({
 class Home extends AbstractComponent {
 
     getSuggestions = value => {
+        //
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
 
@@ -77,9 +48,9 @@ class Home extends AbstractComponent {
     getSuggestionValue = suggestion => suggestion.name;
 
     renderSuggestion = suggestion => (
-        <div>
+        <span>
             {suggestion.name}
-        </div>
+        </span>
     );
 
     constructor(props) {
@@ -125,7 +96,6 @@ class Home extends AbstractComponent {
             }
         });
 
-
         Meteor.call('getBoardKeywords', {}, (err, res) => {
             if (err)
                 console.log(err);
@@ -135,11 +105,14 @@ class Home extends AbstractComponent {
         });
 
         if (Meteor.userId()) {
+
             Meteor.call('getUser', Meteor.userId(), (err, res) => {
                 if (err)
                     console.log(err);
                 else {
-                    let lastPositions = res[0].lastPositions.sort((x,y)=>{return y.timestamp - x.timestamp});
+                    let lastPositions = res[0].lastPositions.sort((x, y) => {
+                        return y.timestamp - x.timestamp
+                    });
                     this.setState({lastPosition: lastPositions[0].position});
                     this.setState({progress: lastPositions[0].progress});
                     this.setState({lastModule: lastPositions[0].moduleName});
@@ -177,8 +150,8 @@ class Home extends AbstractComponent {
             })
         }
 
-
     }
+
 
     onChange = (event, {newValue}) => {
         this.setState({
@@ -197,7 +170,6 @@ class Home extends AbstractComponent {
             suggestions: []
         });
     };
-
 
     goToPage = (eventKey) => {
         this._pageScroller.goToPage(eventKey);
@@ -353,7 +325,6 @@ class Home extends AbstractComponent {
 
                         </div>
                     </li>
-
                     <li>
                         <h1><b>Browse Courses</b></h1>
                         <div className="resumeContainer">
@@ -366,18 +337,15 @@ class Home extends AbstractComponent {
                                 getSuggestionValue={this.getSuggestionValue}
                                 renderSuggestion={this.renderSuggestion}
                                 inputProps={inputProps}
+                                highlightFirstSuggestion={true}
                             />
                             <button onClick={this.searchHandler} type="submit" className="resumeSearchBtn">Search</button>
 
                         </div>
 
                     </li>
-
-
                     <li>
                         <h1 className="subjectHeader"><b>My Subjects</b></h1>
-
-
                         <CarouselProvider
                             naturalSlideWidth={50}
                             naturalSlideHeight={20}
@@ -391,7 +359,6 @@ class Home extends AbstractComponent {
                             {/*<ButtonNext>Next</ButtonNext>*/}
                         </CarouselProvider>
                     </li>
-
                     <li>
                         <h1><b>Community</b></h1>
                         <div className="resumeContainer">
@@ -410,14 +377,9 @@ class Home extends AbstractComponent {
                                     </Paper>
                                 </Grid>
                             </Grid>
-
-                            {/*{this.state.drawUsers}*/}
                         </div>
                     </li>
-
                 </ul>
-
-
             )
         } else {
             const {value, suggestions} = this.state;

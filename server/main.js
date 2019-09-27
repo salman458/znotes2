@@ -181,6 +181,17 @@ Meteor.methods({
             return res;
         }
     },
+    getSubjectName(id){
+        let records = subjects.find({}, {fields: {name: 1, _id: 0}}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = subjects.find({}, {fields: {name: 1, _id: 0}}).fetch();
+            console.log(res);
+            return res;
+        }
+    },
+
     getSubjectKeywords(obj) {
         let records = subjects.find({}, {fields: {name: 1, _id: 0}}).count();
         if (records === 0) {
@@ -192,7 +203,7 @@ Meteor.methods({
         }
     },
     getLevelKeywords(obj) {
-        let records = levels.find({}, {fields: {name: 1, _id: 0}}).count();
+        let records = levels.find({}, {fields: {name: 1,  _id: 0}}).count();
         if (records === 0) {
             return [];
         } else {
@@ -207,6 +218,16 @@ Meteor.methods({
             return [];
         } else {
             let res = boards.find({}, {fields: {name: 1, _id: 0}}).fetch();
+            console.log(res);
+            return res;
+        }
+    },
+    getBoardKeyword(id) {
+        let records = boards.find({_id: id}, {fields: {name: 1, _id: 0}}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = boards.find({_id: id}, {fields: {name: 1, _id: 0}}).fetch();
             console.log(res);
             return res;
         }
