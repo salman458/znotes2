@@ -12,6 +12,7 @@ import parse from 'html-react-parser';
 import Collapsible from 'react-collapsible';
 import Popup from "reactjs-popup";
 import {Button} from 'reactstrap';
+import { Carousel } from 'react-responsive-carousel';
 
 class Subject extends Component {
 

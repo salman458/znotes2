@@ -7,6 +7,30 @@
     box-shadow: 5px 5px rgba(0, 0, 0, 0.50);
 }
 
+.container1 {
+    background-color: #1E1E1E;
+    border-radius: 32px;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.50);
+    height: 100%;
+    width:50%;
+    background-image: url("/img/wave.svg");
+    background-repeat:no-repeat;
+}
+
+.carousel{
+    padding-top: 5%;
+}
+.subject {
+    position: relative;
+    top: 50%;
+    left: 40%;
+    color: white;
+    font-weight: bold;
+}
+.subjectHeader{
+    padding-top: 5%;
+}
+
 .userPage li {
     display: block;
     padding-top: 4%;
@@ -95,7 +119,3 @@
     height: 110%;
 }
 
-.subject{
-    width: 100px;
-    height: 200px;
-}

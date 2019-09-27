@@ -20,6 +20,9 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
+import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext} from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -136,7 +139,7 @@ class Home extends AbstractComponent {
                 if (err)
                     console.log(err);
                 else {
-                    let lastPositions = res[0].lastPositions;
+                    let lastPositions = res[0].lastPositions.sort((x,y)=>{return y.timestamp - x.timestamp});
                     this.setState({lastPosition: lastPositions[0].position});
                     this.setState({progress: lastPositions[0].progress});
                     this.setState({lastModule: lastPositions[0].moduleName});
@@ -149,18 +152,21 @@ class Home extends AbstractComponent {
                     console.log(err);
                 else {
                     let subjects = res[0].subjects;
+                    let index = 0;
                     subjects.forEach(subject => {
                         Meteor.call('getSubjectById', subject.id, (err, res) => {
                             if (err)
                                 console.log(err);
                             else {
+                                index++;
                                 this.state.userSubjects.push(
-                                    <Grid item xs={6}>
-                                        <Paper className="paper">
-                                            <a href={'/explore/module/' + res[0].name + '/' + res[0]._id}>{res[0].name}</a>
-                                        </Paper>
-                                    </Grid>);
-                                // this.state.drawUsers.push(<a href={'/explore/module/' + res[0].name + '/' + res[0]._id}> {res[0].name}</a>)
+                                    <Slide index={index}>
+                                        <div className="container1">
+                                            <a className="subject" href={'/explore/module/' + res[0].name + '/' + res[0]._id}>{res[0].name}
+                                            </a>
+                                        </div>
+                                    </Slide>
+                                );
                                 this.forceUpdate();
                             }
                         });
@@ -369,16 +375,21 @@ class Home extends AbstractComponent {
 
 
                     <li>
-                        <h1><b>My Subjects</b></h1>
+                        <h1 className="subjectHeader"><b>My Subjects</b></h1>
 
-                        <div className="resumeContainer">
-                            <Grid container spacing={3}>
+
+                        <CarouselProvider
+                            naturalSlideWidth={50}
+                            naturalSlideHeight={20}
+                            totalSlides={this.state.userSubjects.length}
+                            visibleSlides={4}
+                        >
+                            <Slider>
                                 {this.state.userSubjects}
-
-                            </Grid>
-
-                            {/*{this.state.drawUsers}*/}
-                        </div>
+                            </Slider>
+                            {/*<ButtonBack>Back</ButtonBack>*/}
+                            {/*<ButtonNext>Next</ButtonNext>*/}
+                        </CarouselProvider>
                     </li>
 
                     <li>
