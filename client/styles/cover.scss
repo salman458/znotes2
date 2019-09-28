@@ -10,6 +10,12 @@ body{
 //  color: black;
 //}
 
+.searchUl{
+  position: relative;
+  top: -100px;
+
+}
+
 .search__container h1 {
   color: white;
   font-weight: bold;
@@ -115,3 +121,4 @@ body{
     }
   }
 }
+

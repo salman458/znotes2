@@ -1,9 +1,16 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,400i,700");
 .modal{
-    background-color: white;
+    background-color: #1E1E1E;
+    border: none;
 
 }
-
+.modal > .popup-content {
+    width: 100%;
+    border-bottom: 1px solid black;
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+}
 .frame {
     position: absolute;
     top: 50%;
@@ -16,7 +23,7 @@
     box-shadow: 4px 8px 16px 0 rgba(0, 0, 0, 0.1);
     overflow: hidden;
     background: rgb(218, 29, 86);;
-    color: white;
+    color: #383838;
     font-family: Raleway, Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -41,8 +48,8 @@
         stroke-width: 5;
 
         .o1 {
-            stroke: white;
-            fill: whitesmoke;
+            stroke: whitesmoke;
+            fill: white;
             transition: all 1s ease-in-out;
         }
 

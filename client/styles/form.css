@@ -29,29 +29,39 @@
 . form .active {
     background-color: #4CAF50;
 }
+
 . form * {
     box-sizing: border-box;
 }
 
 /* Add padding to containers */
- .container {
+.container {
     padding: 15px;
-    background-color: whitesmoke;
- }
+    background-color: #1E1E1E;
+    color: whitesmoke;
+}
+
+.rgContainer {
+    padding-top: 10%;
+    background-color: #383838;
+}
 
 /* Full-width input fields */
-input[type=text],input[type=email], input[type=password], input[type=date] {
+input[type=text], input[type=email], input[type=password], input[type=date] {
     width: 100%;
     padding: 15px;
     margin: 5px 0 22px 0;
     display: inline-block;
     border: none;
-    background:#383838;
+    background: #383838;
     color: gray;
 }
+
+
+
 .registerbtn {
     background-color: rgb(218, 29, 86);
-    color: #303030	;
+    color: whitesmoke;
     padding: 16px 20px;
     margin: 8px 0;
     border: none;
@@ -59,11 +69,13 @@ input[type=text],input[type=email], input[type=password], input[type=date] {
     width: 100%;
     opacity: 0.9;
 }
+
 .registerbtn:hover {
     opacity: 1;
 }
+
 .signin {
-    background-color: whitesmoke;
+    background-color: #383838;
     text-align: center;
 }
 
@@ -94,24 +106,24 @@ input[type="date"] {
     color: #95a5a6;
     font-family: "Helvetica", arial, sans-serif;
     font-size: 18px;
-    border:1px solid #ecf0f1;
+    border: 1px solid #ecf0f1;
     margin: 5px 0 22px 0;
     padding: 15px;
-    background:#f1f1f1;
+    background: #f1f1f1;
     display: inline-block !important;
     visibility: visible !important;
 }
 
 input[type="date"], focus {
-    color: #95a5a6;
+    color: whitesmoke;
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
 }
 
 .accountEditBtn {
-    background-color: antiquewhite;
-    color: #303030	;
+    background-color: whitesmoke;
+    color: #303030;
     padding: 16px 20px;
     margin: 8px 0;
     border: none;
@@ -119,6 +131,7 @@ input[type="date"], focus {
     width: 100%;
     opacity: 0.9;
 }
+
 .accountEditBtn:hover {
     opacity: 1;
 }

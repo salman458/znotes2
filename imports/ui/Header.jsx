@@ -12,11 +12,11 @@ export default class Header extends Component {
     renderSingleItem(title, iconName, url) {
         return (
             <li className="header-navigation-item">
-                <a className="-layout-h -space-h-8 -bold -font-size-16 -white" href={url}>
+                <a className="-layout-h -space-h-8 -bold -font-size-16 -white " href={url}>
                     <div>
                         {iconService.getIcon(iconName)}
                     </div>
-                    <div className="-layout-h -center">
+                    <div className="-layout-h -center ">
                         <span>{title}</span>
                     </div>
                 </a>
@@ -74,25 +74,15 @@ export default class Header extends Component {
     }
 
 
-    renderAdminButton() {
-        return (
-            <Button onClick={this.adminHandler}>Admin Page</Button>
-        )
-    }
-
-    adminHandler() {
-        FlowRouter.go('/admin/0/20');
-    }
-
-
     render() {
         return (
             <div className="-layout-h -justify">
                 {this.renderNavigation()}
                 {this.renderAccountPopUp()}
-                {this.renderAdminButton()}
+
             </div>
         );
+
 
     }
 }

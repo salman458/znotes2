@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import '../../../client/styles/form.css';
 import {Meteor} from "meteor/meteor";
+import {confirmAlert} from 'react-confirm-alert'; // Import
+import '../../../client/styles/consfirm.css'; // Import css
+
 
 export default class Login extends Component {
 
@@ -35,6 +38,41 @@ export default class Login extends Component {
     }
 
 
+    logout = () => {
+        confirmAlert({
+            title: 'Logout',
+            message: 'Are you sure you want to logout?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => this.handleLogout()
+                },
+                {
+                    label: 'No',
+                    onClick: () => FlowRouter.go('/')
+                }
+            ]
+        });
+    };
+
+    login = () => {
+        confirmAlert({
+            title: 'LogIn',
+            message: 'Click continue to proceed to the content',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        FlowRouter.go('/');
+                        window.location.reload();
+
+                    }
+                }
+            ]
+        });
+    };
+
+
     handleChangeEmail(event) {
         this.setState({
             email: event.target.value,
@@ -48,28 +86,38 @@ export default class Login extends Component {
             password: event.target.value,
         });
     }
+    adminHandler() {
+        FlowRouter.go('/admin/0/20');
+    }
 
     renderLogin() {
         if (Meteor.user()) {
-            if (this.state.role) {
+            if (Meteor.userId() == 'KzBo9TzspQNLzPeyj') {
                 return (
                     <div className="container">
-                        <form>
-                            <button onClick={this.ChangeEmail} className="accountEditBtn">Change Email</button>
-                            <button onClick={this.ChangePassword} className="accountEditBtn">Change Password</button>
-                            <button onClick={this.addBio} type="submit" className="accountEditBtn">Add Bio</button>
-                            <button onClick={this.handleLogout} type="submit" className="registerbtn">Log out</button>
-                        </form>
+                        <button onClick={this.ChangeEmail} className="accountEditBtn">Change Email</button>
+                        <button onClick={this.ChangePassword} className="accountEditBtn">Change Password</button>
+                        <button onClick={this.adminHandler} className="accountEditBtn">Admin Page</button>
+                        <button onClick={this.addBio} type="submit" className="accountEditBtn">Add Bio</button>
+                        <button onClick={this.logout} type="submit" className="registerbtn">Log out</button>
+
+                    </div>
+                )
+            } else if (this.state.role) {
+                return (
+                    <div className="container">
+                        <button onClick={this.ChangeEmail} className="accountEditBtn">Change Email</button>
+                        <button onClick={this.ChangePassword} className="accountEditBtn">Change Password</button>
+                        <button onClick={this.addBio} type="submit" className="accountEditBtn">Add Bio</button>
+                        <button onClick={this.logout} type="submit" className="registerbtn">Log out</button>
                     </div>
                 )
             } else {
                 return (
                     <div className="container">
-                        <form>
-                            <button onClick={this.ChangeEmail} className="accountEditBtn">Change Email</button>
-                            <button onClick={this.ChangePassword} className="accountEditBtn">Change Password</button>
-                            <button onClick={this.handleLogout} type="submit" className="registerbtn">Log out</button>
-                        </form>
+                        <button onClick={this.ChangeEmail} className="accountEditBtn">Change Email</button>
+                        <button onClick={this.ChangePassword} className="accountEditBtn">Change Password</button>
+                        <button onClick={this.logout} type="submit" className="registerbtn">Log out</button>
                     </div>
                 )
             }
@@ -122,18 +170,14 @@ export default class Login extends Component {
             if (error)
                 console.log(error);
             else {
-                alert("Successfully logged in!");
-                FlowRouter.go('/');
-                window.location.reload();
+                this.login();
             }
         }));
         event.preventDefault();
     }
 
     handleLogout() {
-        event.preventDefault();
         Meteor.logout();
-        alert("Are you sure that you want to log out?");
         FlowRouter.go('/');
         window.location.reload();
     }
