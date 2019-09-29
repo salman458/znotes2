@@ -7,6 +7,9 @@ import {Meteor} from "meteor/meteor";
 import Popup from "reactjs-popup";
 
 
+import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext} from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
+
 class Level extends Component {
 
     constructor(props) {
@@ -14,7 +17,7 @@ class Level extends Component {
         super(props);
         this.state = {
             boardId: props.boardId,
-            levels: '',
+            levels: [],
             newName: '',
             role: false
         };
@@ -48,22 +51,35 @@ class Level extends Component {
                     console.log(err);
                     alert('Failed to load levels');
                 } else {
-                    console.log(this.state);
-                    this.handleLevels(res.map((level) => {
-                        return <li key={level.name}><a href={"/explore/subject/" + this.state.boardId + "/" + level._id}> {level.name}</a></li>;
-                    }));
+                    let index = 0;
+                    let tmp = []
+                    res.forEach(level => {
+                        tmp.push(
+                            <Slide index={index++}>
+                                <div className="container1">
+                                    <a className="subject" href={"/explore/subject/" + this.state.boardId + "/" + level._id}>{level.name}</a>
+                                </div>
+                            </Slide>
+                        )
+                    });
+                    this.setState({levels:tmp});
+
+                    if (Meteor.userId()) {
+                        Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
+                            if (err)
+                                console.log(err);
+                            else {
+                                if (role[0].role === 'team')
+                                    this.setState({role: true});
+                            }
+                        });
+                    }
+
                 }
             }
         );
 
-        Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
-            if (err)
-                console.log(err);
-            else {
-                if (role[0].role === 'team')
-                    this.setState({role: true});
-            }
-        });
+
     }
 
     handleSubmit() {
@@ -73,7 +89,6 @@ class Level extends Component {
                 alert('Failed to add new level');
             } else {
                 console.log(res);
-                alert('Successfully added new level!');
             }
         })
     }
@@ -81,13 +96,44 @@ class Level extends Component {
 
     renderBody() {
         console.log(this.state.levels);
-        return (
-            <div className="containerRes">
-                <ul>
-                    {this.state.levels}
-                </ul>
-            </div>
-        )
+        if (Meteor.userId()) {
+            if (this.state.role) {
+                return (
+                    <div className="containerRes1">
+                        {this.renderAddBoardPopUp()}
+                        <CarouselProvider
+                            naturalSlideWidth={50}
+                            naturalSlideHeight={25}
+                            totalSlides={this.state.levels.length}
+                            visibleSlides={4}
+                        >
+                            <Slider>
+                                {this.state.levels}
+                            </Slider>
+                            {/*<ButtonBack>Back</ButtonBack>*/}
+                            {/*<ButtonNext>Next</ButtonNext>*/}
+                        </CarouselProvider>
+                    </div>
+                )
+            }
+        } else {
+            return (
+                <div className="containerRes1">
+                    <CarouselProvider
+                        naturalSlideWidth={50}
+                        naturalSlideHeight={25}
+                        totalSlides={this.state.levels.length}
+                        visibleSlides={4}
+                    >
+                        <Slider>
+                            {this.state.levels}
+                        </Slider>
+                        {/*<ButtonBack>Back</ButtonBack>*/}
+                        {/*<ButtonNext>Next</ButtonNext>*/}
+                    </CarouselProvider>
+                </div>
+            )
+        }
     }
 
     renderAddBoardPopUp() {
@@ -124,7 +170,7 @@ class Level extends Component {
         return (
             <div className="container">
                 <form className="login" onSubmit={this.handleSubmit}>
-                    <label htmlFor="name"><b>New Board Name</b></label>
+                    <label htmlFor="name"><b>Level Name</b></label>
                     <input type="text" placeholder="Enter the Name" name="name" onChange={this.handleLevelName}/>
                     <button type="submit" className="registerbtn">Add</button>
 
@@ -134,32 +180,12 @@ class Level extends Component {
     }
 
     render() {
-        if (Meteor.user()) {
-            if(this.state.role) {
-                return (
-                    <div className="home-page -padding-20">
-                        <Header/>
-                        {this.renderBody()}
-                        {this.renderAddBoardPopUp()}
-                    </div>
-                )
-            }else{
-                return (
-                    <div className="home-page -padding-20">
-                        <Header/>
-                        {this.renderBody()}
-                    </div>
-                )
-            }
-        } else {
-            return (
-                <div className="home-page -padding-20">
-                    <Header/>
-                    {this.renderBody()}
-                </div>
-            )
-        }
-
+        return (
+            <div className="home-page -padding-20">
+                <Header/>
+                {this.renderBody()}
+            </div>
+        )
     }
 
 }

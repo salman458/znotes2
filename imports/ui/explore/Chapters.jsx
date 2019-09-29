@@ -12,7 +12,7 @@ import parse from 'html-react-parser';
 import Collapsible from 'react-collapsible';
 import Popup from "reactjs-popup";
 import {Button} from 'reactstrap';
-import { Carousel } from 'react-responsive-carousel';
+import {Carousel} from 'react-responsive-carousel';
 
 class Subject extends Component {
 
@@ -165,17 +165,18 @@ class Subject extends Component {
                                                             // onClick={this.chapterHandler}
                                                             <li className='btn-group' id={chapter._id}>
                                                                 <ul>
-                                                                    {chapter.name}
-                                                                    <Collapsible trigger={this.renderCollapseButton()}>
-                                                                        <Button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add
-                                                                            Card</Button>
 
+                                                                    <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
                                                                         {chapter.cards.map(card => {
                                                                             this.state.buttonCount.set(String(card._id), chapter._id);
 
-                                                                            return <Button id={card._id}
-                                                                                           onClick={this.chapterHandler}>{card.title}</Button>;
+                                                                            return <p style={{paddingTop: "1%", paddingLeft: "1%", fontSize: "large"}}
+                                                                                      id={card._id}
+                                                                                      onClick={this.chapterHandler}><b>{card.title}</b></p>;
                                                                         })}
+                                                                        <Button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add
+                                                                            Card</Button>
+
                                                                     </Collapsible>
                                                                 </ul>
                                                             </li>
@@ -189,13 +190,13 @@ class Subject extends Component {
                                                             // onClick={this.chapterHandler}
                                                             <li className='btn-group' id={chapter._id}>
                                                                 <ul>
-                                                                    {chapter.name}
-                                                                    <Collapsible trigger={this.renderCollapseButton()}>
+                                                                    <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
                                                                         {chapter.cards.map(card => {
                                                                             this.state.buttonCount.set(String(card._id), chapter._id);
 
-                                                                            return <Button id={card._id}
-                                                                                           onClick={this.chapterHandler}>{card.title}</Button>;
+                                                                            return <p style={{paddingTop: "1%", paddingLeft: "1%", fontSize: "large"}}
+                                                                                      id={card._id}
+                                                                                      onClick={this.chapterHandler}>{card.title}</p>;
                                                                         })}
                                                                     </Collapsible>
                                                                 </ul>
@@ -208,10 +209,12 @@ class Subject extends Component {
                                                     }
                                                 }
                                             );
-                                            this.state.chapters.push(
-                                                <Line percent={this.state.progress} strokeWidth="4"
-                                                      strokeColor="#66ff33"/>
-                                            );
+
+
+                                            // this.state.chapters.push(
+                                            //     <Line percent={this.state.progress} strokeWidth="4"
+                                            //           strokeColor="#66ff33"/>
+                                            // );
                                             if (this.state.role) {
                                                 this.state.chapters.push(
                                                     <div>
@@ -257,12 +260,11 @@ class Subject extends Component {
                                         // onClick={this.chapterHandler}
                                         <li className='btn-group' id={chapter._id}>
                                             <ul>
-                                                {chapter.name}
-                                                <Collapsible trigger={this.renderCollapseButton()}>
+                                                    <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
                                                     {chapter.cards.map(card => {
                                                         this.state.buttonCount.set(String(card._id), chapter._id);
-                                                        return <Button id={card._id}
-                                                                       onClick={this.chapterHandler}>{card.title}</Button>;
+                                                        return <p style={{paddingTop: "1%", paddingLeft: "1%", fontSize: "large"}} id={card._id}
+                                                                  onClick={this.chapterHandler}>{card.title}</p>;
                                                     })}
                                                 </Collapsible>
                                             </ul>
@@ -277,10 +279,10 @@ class Subject extends Component {
                             this.setState({progress: (currChapter / total) * 100});
                             this.forceUpdate();
 
-                            this.state.chapters.push(
-                                <Line percent={this.state.progress} strokeWidth="4"
-                                      strokeColor="#66ff33"/>
-                            );
+                            // this.state.chapters.push(
+                            //     <Line percent={this.state.progress} strokeWidth="4"
+                            //           strokeColor="#66ff33"/>
+                            // );
 
                             if (Meteor.user()) {
                                 this.state.chapters.push(
@@ -316,7 +318,13 @@ class Subject extends Component {
                     navStyle={{backgroundColor: '#282828'}}
                     showNav={this.state.showNav}
                     onHideNav={() => this.setState({showNav: false})}
-                    title={this.state.moduleName}
+                    title={
+                        <div>
+                            <h1>{this.state.moduleName}</h1>
+                            <Line percent={this.state.progress} strokeWidth="4"
+                                  strokeColor="#66ff33"/>
+                        </div>
+                    }
                     items={
                         this.state.chapters
                     }
@@ -533,7 +541,7 @@ class Subject extends Component {
 
     }
 
-     createMarkup() {
+    createMarkup() {
         return {__html: this.converter.makeHtml(this.state.card)};
     }
 
