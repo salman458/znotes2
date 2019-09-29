@@ -195,7 +195,7 @@ class Home extends AbstractComponent {
 
         const pageNumbers = [];
 
-        for (let i = 1; i <= 5; i++) {
+        for (let i = 1; i <= 6; i++) {
             if (i == this.state.currentPage) {
                 pageNumbers.push(
                     <li>
