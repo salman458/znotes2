@@ -5,6 +5,12 @@ import ReactHover from 'react-hover'
 export default () => {
     return (
         <div className="thirdContainer">
+            <h1 style={{
+                color: "white",
+                position: "relative",
+                "top": "-400px",
+                "padding-left": "20px"
+            }}><b>ZNotes Process</b></h1>
             <div className="hover1">
                 <ReactHover>
                     <ReactHover.Trigger type='trigger'>
