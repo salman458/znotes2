@@ -1,7 +1,53 @@
 .thirdContainer{
     background-image: url("/img/third-background.svg"),url("/img/third.svg");
-    width: 100%;
+    background-size: cover;
     height: 50%;
     position: relative;
     top:50%;
+}
+.hoverContainer{
+    ont-size: 25px;
+    background-color: whitesmoke;
+    width: 20%;
+    border-radius: 25px;
+    padding: 15px;
+    z-index: 100;
+    position: relative;
+}
+
+.hover1{
+    position: relative;
+    left: 14%;
+    bottom: 3%;
+}
+
+.hover2{
+    position: relative;
+    left: 26%;
+    bottom: -10%;
+}
+
+.hover3{
+    position: relative;
+    left: 40%;
+    bottom: -22%;
+}
+
+.hover4{
+    position: relative;
+    left: 55%;
+    bottom: 6%;
+}
+
+
+.hover5{
+    position: relative;
+    left: 70%;
+    bottom: 37%;
+}
+
+.hover6{
+    position: relative;
+    left: 85%;
+    bottom: 37%;
 }

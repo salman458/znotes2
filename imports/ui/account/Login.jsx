@@ -73,6 +73,29 @@ export default class Login extends Component {
     };
 
 
+    wrongPassword = () => {
+        confirmAlert({
+            title: 'LogIn',
+            message: 'The password that you have entered is wrong please try again',
+            buttons: [
+                {
+                    label: 'Retry',
+                    onClick: () => {
+
+
+                    }
+                }, {
+                    label: 'Cancel',
+                    onClick: () => {
+                        FlowRouter.go('/');
+                        window.location.reload();
+                    }
+                }
+            ]
+        });
+    };
+
+
     handleChangeEmail(event) {
         this.setState({
             email: event.target.value,
@@ -86,6 +109,7 @@ export default class Login extends Component {
             password: event.target.value,
         });
     }
+
     adminHandler() {
         FlowRouter.go('/admin/0/20');
     }
@@ -167,9 +191,10 @@ export default class Login extends Component {
 
     handleSubmit() {
         Meteor.loginWithPassword(this.state.email, this.state.password, (error => {
-            if (error)
+            if (error) {
                 console.log(error);
-            else {
+                this.wrongPassword();
+            } else {
                 this.login();
             }
         }));

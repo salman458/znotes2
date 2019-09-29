@@ -49,9 +49,9 @@ class Home extends AbstractComponent {
     getSuggestionValue = suggestion => suggestion.name;
 
     renderSuggestion = suggestion => (
-        <div> <span>
+        <span>
             {suggestion.name}
-        </span></div>
+        </span>
     );
 
     constructor(props) {
@@ -377,16 +377,18 @@ class Home extends AbstractComponent {
                             <Grid item xs={6}>
                                 <h1 className='customh1'>Our Podcasts</h1>
                                 <Paper className="communityPaper">
-                                    <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="300" height="380"
-                                            frameBorder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                                    <iframe src="https://open.spotify.com/embed-podcast/show/7jPpEntVVviSy0SNOqnZMq" width="100%" height="232" frameBorder="0"
+                                            allowTransparency="true" allow="encrypted-media"></iframe>
                                 </Paper>
                             </Grid>
                             <Grid item xs={5}>
                                 <h1 className='customh1'>Community</h1>
                                 <Paper className="discordPaper">
-                                    <iframe className="discord" src="https://discordapp.com/widget?id=201798443583143936&theme=dark"/>
+                                    <iframe src="https://discordapp.com/widget?id=513750483572097034&amp;theme=dark" width="100%" height="232"
+                                            allowTransparency="true" frameBorder="0"></iframe>
                                 </Paper>
                             </Grid>
+
                         </Grid>
                     </div>
                 </li>
