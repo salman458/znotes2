@@ -6,13 +6,15 @@ import "../../../client/styles/boards.css";
 import {Meteor} from "meteor/meteor";
 import Popup from "reactjs-popup";
 
+import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext} from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 
 class Explore extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            boards: '',
+            boards: [],
             newName: '',
             role: false,
         };
@@ -54,9 +56,17 @@ class Explore extends Component {
                     console.log(err);
                     alert('Failed to load boards');
                 } else {
-                    this.handleBoards(res.map((board) => {
-                        return <li key={board.name}><a href={"/explore/level/" + board._id}> {board.name}</a></li>;
-                    }));
+                    let index = 0;
+                    res.forEach(board=>{
+                        this.state.boards.push(
+                            <Slide index={index++}>
+                                <div className="container1">
+                                    <a className="subject" href={"/explore/level/" + board._id}> {board.name}</a>
+                                </div>
+                            </Slide>
+
+                        )
+                    });
                 }
             }
         );
@@ -76,10 +86,20 @@ class Explore extends Component {
     renderBody() {
         console.log(this.state.boards);
         return (
-            <div className="containerRes">
-                <ul>
-                    {this.state.boards}
-                </ul>
+            <div className="containerRes1">
+                { this.renderAddBoardPopUp()}
+                <CarouselProvider
+                    naturalSlideWidth={50}
+                    naturalSlideHeight={25}
+                    totalSlides={this.state.boards.length}
+                    visibleSlides={4}
+                >
+                    <Slider>
+                        {this.state.boards}
+                    </Slider>
+                    {/*<ButtonBack>Back</ButtonBack>*/}
+                    {/*<ButtonNext>Next</ButtonNext>*/}
+                </CarouselProvider>
             </div>
         )
     }
@@ -134,7 +154,6 @@ class Explore extends Component {
                     <div className="home-page -padding-20">
                         <Header/>
                         {this.renderBody()}
-                        {this.renderAddBoardPopUp()}
                     </div>
                 )
             } else {
