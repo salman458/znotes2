@@ -1,0 +1,19 @@
+.fifthContainer{
+    position: relative;
+    left: 2%;
+    width:60% ;
+    top: 25%;
+    background-color: transparent;
+    color: white;
+
+}
+
+.fifth-component ul{
+    display: inline-flex;
+}
+.fifth-component h1 {
+    padding-bottom: 20%;
+}
+.fifth-component h2{
+    text-align: left;
+}
