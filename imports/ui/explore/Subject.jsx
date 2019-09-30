@@ -121,6 +121,7 @@ class Subject extends Component {
 
                 return (
                     <div className="containerRes1">
+                        <h1 style={{color:"white"}}><b>Subjects</b></h1>
                         {this.renderAddBoardPopUp()}
                         <CarouselProvider
                             naturalSlideWidth={50}
@@ -140,6 +141,7 @@ class Subject extends Component {
         } else {
             return (
                 <div className="containerRes1">
+                    <h1 style={{color:"white"}}><b>Boards</b></h1>
                     <CarouselProvider
                         naturalSlideWidth={50}
                         naturalSlideHeight={25}
@@ -199,6 +201,7 @@ class Subject extends Component {
             </div>
         );
     }
+
 
     render() {
         return (

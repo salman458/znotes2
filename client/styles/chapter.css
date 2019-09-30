@@ -8,3 +8,42 @@
 .cardEditor li{
     display: inline;
 }
+
+
+.nest:hover{
+    background-color: #f44336;
+}
+
+.mnu{
+    position: fixed;
+    top: 12%;
+    left: 2.7%;
+}
+
+
+
+.baton {
+    background-color: #66ff33; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.baton1 {
+    background-color: white;
+    color: black;
+    border: #66ff33;
+}
+
+.baton1:hover {
+    background-color: #66ff33;
+    color: white;
+}

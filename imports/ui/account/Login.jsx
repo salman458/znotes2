@@ -116,7 +116,7 @@ export default class Login extends Component {
 
     renderLogin() {
         if (Meteor.user()) {
-            if (Meteor.userId() == 'KzBo9TzspQNLzPeyj') {
+            if (Meteor.userId() == 'TkstRmXM3GRrnsmjH') {
                 return (
                     <div className="container">
                         <button onClick={this.ChangeEmail} className="accountEditBtn">Change Email</button>

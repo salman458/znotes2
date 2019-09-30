@@ -100,6 +100,7 @@ class Level extends Component {
             if (this.state.role) {
                 return (
                     <div className="containerRes1">
+                        <h1 style={{color:"white"}}><b>Levels</b></h1>
                         {this.renderAddBoardPopUp()}
                         <CarouselProvider
                             naturalSlideWidth={50}
@@ -119,6 +120,7 @@ class Level extends Component {
         } else {
             return (
                 <div className="containerRes1">
+                    <h1 style={{color:"white"}}><b>Levels</b></h1>
                     <CarouselProvider
                         naturalSlideWidth={50}
                         naturalSlideHeight={25}

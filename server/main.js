@@ -181,7 +181,7 @@ Meteor.methods({
             return res;
         }
     },
-    getSubjectName(id){
+    getSubjectName(id) {
         let records = subjects.find({}, {fields: {name: 1, _id: 0}}).count();
         if (records === 0) {
             return [];
@@ -203,7 +203,7 @@ Meteor.methods({
         }
     },
     getLevelKeywords(obj) {
-        let records = levels.find({}, {fields: {name: 1,  _id: 0}}).count();
+        let records = levels.find({}, {fields: {name: 1, _id: 0}}).count();
         if (records === 0) {
             return [];
         } else {
@@ -292,6 +292,9 @@ Meteor.methods({
     },
     removeCardRef(selector) {
         return chapters.update({_id: selector.chapterId}, {$pull: {cards: {_id: selector.cardId}}})
+    },
+    getTeam(selector) {
+        return Meteor.users.find({}).fetch();
     },
     getAllUsers(selector) {
         return Meteor.users.find({}, {skip: parseInt(selector.offset), limit: parseInt(selector.limit)}, {sort: {createdAt: -1}}).fetch();

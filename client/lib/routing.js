@@ -15,6 +15,7 @@ import PreReset from '../../imports/ui/account/PreReset';
 import ChangeEmail from '../../imports/ui/account/ChangeEmail';
 import ChangePassword from '../../imports/ui/account/ChangePassword';
 import Community from "../../imports/ui/community/Community";
+import Team from "../../imports/ui/Team";
 import App from '../../imports/ui/App';
 import {Accounts} from "meteor/accounts-base";
 import Admin from "../../imports/ui/Admin";
@@ -34,6 +35,15 @@ FlowRouter.route('/community', {
     action() {
         mount(App, {
             main: <Community/>,
+        });
+    },
+});
+
+FlowRouter.route('/team', {
+    name: 'Team',
+    action() {
+        mount(App, {
+            main: <Team/>,
         });
     },
 });

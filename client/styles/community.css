@@ -30,11 +30,21 @@
     display: flex;
     left: 3%;
 }
+
+
 .social li{
     padding-left: 3%;
     padding-top: 10%;
 }
 
+.chaptersFooter{
+    position: fixed;
+    bottom: 1%;
+}
+
+.chaptersFooter{
+    padding-left: 10px;
+}
 .team{
     padding-right: 15%;
 }

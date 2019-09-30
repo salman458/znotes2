@@ -61,29 +61,30 @@ class Explore extends Component {
                         )
                     });
                     this.setState({boards:tmp});
-                    if (Meteor.userId()) {
-                        Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
-                            if (err)
-                                console.log(err);
-                            else {
-                                if (role[0].role === 'team')
-                                    this.setState({role: true});
-                            }
-                        });
-                    }
+
 
                 }
             }
         );
+        if (Meteor.user()) {
+            Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
+                if (err)
+                    console.log(err);
+                else {
+                    if (role[0].role === 'team')
+                        this.setState({role: true});
+                }
+            });
+        }
     }
 
 
     renderBody() {
-        console.log('valod', this.state);
         if (Meteor.userId()) {
             if (this.state.role) {
                 return (
                     <div className="containerRes1">
+                        <h1>Boards</h1>
                         {this.renderAddBoardPopUp()}
                         <CarouselProvider
                             naturalSlideWidth={50}
@@ -103,6 +104,7 @@ class Explore extends Component {
         } else {
             return (
                 <div className="containerRes1">
+                    <h1 style={{color:"white"}}><b>Boards</b></h1>
                     <CarouselProvider
                         naturalSlideWidth={50}
                         naturalSlideHeight={25}

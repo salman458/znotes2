@@ -4,6 +4,7 @@ import "../../../client/styles/cover.scss";
 import "../../../client/styles/scroller.css";
 import "../../../client/styles/boards.css";
 import "../../../client/styles/chapter.css"
+import "../../../client/styles/community.css"
 import SideNav, {MenuIcon} from 'react-simple-sidenav';
 import {Meteor} from "meteor/meteor";
 import {Line, Circle} from 'rc-progress';
@@ -11,7 +12,7 @@ import Showdown from "showdown";
 import parse from 'html-react-parser';
 import Collapsible from 'react-collapsible';
 import Popup from "reactjs-popup";
-import {Button} from 'reactstrap';
+import {button} from 'reactstrap';
 import {Carousel} from 'react-responsive-carousel';
 
 class Subject extends Component {
@@ -54,7 +55,7 @@ class Subject extends Component {
         this.editHandler = this.editHandler.bind(this);
         this.deleteHandler = this.deleteHandler.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.renderButton = this.renderButton.bind(this);
+        this.renderbutton = this.renderbutton.bind(this);
         this.addSubject = this.addSubject.bind(this);
         this.gradeHandler = this.gradeHandler.bind(this);
         this.confHandler = this.confHandler.bind(this);
@@ -95,6 +96,7 @@ class Subject extends Component {
         let chapterId = this.state.buttonCount.get(event.target.id);
         let newProgress = this.state.progressTracker.get(chapterId);
         this.setState({progress: newProgress});
+
         let uri = '/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName + '/' + event.target.id;
         let obj = {
             userId: Meteor.userId(), subject: {
@@ -118,10 +120,9 @@ class Subject extends Component {
         })
     }
 
-    renderCollapseButton() {
+    renderCollapsebutton() {
         return (
-            <span> <Button variant="outline-primary">Cards</Button></span>
-
+            <span> <button variant="outline-primary">Cards</button></span>
         )
     }
 
@@ -161,47 +162,92 @@ class Subject extends Component {
                                                     counter++;
                                                     this.state.progressTracker.set(chapter._id, counter);
                                                     if (Meteor.user()) {
-                                                        this.state.chapters.push(
-                                                            // onClick={this.chapterHandler}
-                                                            <li className='btn-group' id={chapter._id}>
-                                                                <ul>
+                                                        if (this.state.role) {
+                                                            this.state.chapters.push(
+                                                                // onClick={this.chapterHandler}
+                                                                <li style={{display:"flex"}} className='btn-group' id={chapter._id}>
+                                                                    <ul>
+                                                                        <Collapsible
+                                                                            trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
+                                                                            <button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add
+                                                                                Card</button>
+                                                                            {chapter.cards.map(card => {
+                                                                                this.state.buttonCount.set(String(card._id), chapter._id);
+                                                                                return <button className="nest" style={{
+                                                                                    paddingTop: "1%",
+                                                                                    color: "white",
+                                                                                    paddingLeft: "1%",
+                                                                                    fontSize: "large",
+                                                                                    background: "transparent",
+                                                                                    border: "none"
+                                                                                }}
+                                                                                               id={card._id}
+                                                                                               onClick={this.chapterHandler}><b>{card.title}</b></button>;
+                                                                            })}
+                                                                        </Collapsible>
+                                                                    </ul>
+                                                                </li>
+                                                            );
+                                                        } else {
+                                                            this.state.chapters.push(
+                                                                <li className='btn-group' id={chapter._id}>
+                                                                    <ul>
 
-                                                                    <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
-                                                                        {chapter.cards.map(card => {
-                                                                            this.state.buttonCount.set(String(card._id), chapter._id);
-
-                                                                            return <p style={{paddingTop: "1%", paddingLeft: "1%", fontSize: "large"}}
-                                                                                      id={card._id}
-                                                                                      onClick={this.chapterHandler}><b>{card.title}</b></p>;
-                                                                        })}
-                                                                        <Button id={chapter._id} onClick={this.addCard} variant="outline-primary">Add
-                                                                            Card</Button>
-
-                                                                    </Collapsible>
-                                                                </ul>
-                                                            </li>
-                                                        );
+                                                                        <Collapsible
+                                                                            trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
+                                                                            {chapter.cards.map(card => {
+                                                                                this.state.buttonCount.set(String(card._id), chapter._id);
+                                                                                console.log(card._id);
+                                                                                alert('debil');
+                                                                                return <button className="nest" style={{
+                                                                                    paddingTop: "1%",
+                                                                                    color: "white",
+                                                                                    paddingLeft: "1%",
+                                                                                    fontSize: "large",
+                                                                                    background: "transparent",
+                                                                                    border: "none"
+                                                                                }}
+                                                                                               id={card._id}
+                                                                                               onClick={this.chapterHandler}><b>{card.title}</b></button>;
+                                                                            })}
+                                                                        </Collapsible>
+                                                                    </ul>
+                                                                </li>
+                                                            );
+                                                        }
                                                         let currChapter = this.state.progressTracker.get(this.state.buttonCount.get(this.state.cardId));
                                                         let total = this.state.progressTracker.size;
                                                         this.setState({progress: (currChapter / total) * 100});
                                                         this.forceUpdate();
                                                     } else {
-                                                        this.state.chapters.push(
-                                                            // onClick={this.chapterHandler}
-                                                            <li className='btn-group' id={chapter._id}>
-                                                                <ul>
-                                                                    <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
-                                                                        {chapter.cards.map(card => {
-                                                                            this.state.buttonCount.set(String(card._id), chapter._id);
+                                                        if (this.state.role) {
+                                                            this.state.chapters.push(
+                                                                // onClick={this.chapterHandler}
+                                                                <li className='btn-group' id={chapter._id}>
+                                                                    <ul>
+                                                                        <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
+                                                                            {chapter.cards.map(card => {
+                                                                                this.state.buttonCount.set(String(card._id), chapter._id);
 
-                                                                            return <p style={{paddingTop: "1%", paddingLeft: "1%", fontSize: "large"}}
-                                                                                      id={card._id}
-                                                                                      onClick={this.chapterHandler}>{card.title}</p>;
-                                                                        })}
-                                                                    </Collapsible>
-                                                                </ul>
-                                                            </li>
-                                                        );
+                                                                                return <button className="nest" style={{
+                                                                                    paddingTop: "1%",
+                                                                                    color: "white",
+                                                                                    paddingLeft: "1%",
+                                                                                    fontSize: "large",
+                                                                                    background: "transparent",
+                                                                                    border: "none"
+                                                                                }}
+                                                                                               id={card._id}
+                                                                                               onClick={this.chapterHandler}>{card.title}</button>;
+                                                                            })}
+                                                                        </Collapsible>
+                                                                    </ul>
+                                                                </li>
+                                                            );
+                                                        } else {
+
+                                                        }
+
                                                         let currChapter = this.state.progressTracker.get(this.state.buttonCount.get(this.state.cardId));
                                                         let total = this.state.progressTracker.size;
                                                         this.setState({progress: (currChapter / total) * 100});
@@ -260,11 +306,18 @@ class Subject extends Component {
                                         // onClick={this.chapterHandler}
                                         <li className='btn-group' id={chapter._id}>
                                             <ul>
-                                                    <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
+                                                <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
                                                     {chapter.cards.map(card => {
                                                         this.state.buttonCount.set(String(card._id), chapter._id);
-                                                        return <p style={{paddingTop: "1%", paddingLeft: "1%", fontSize: "large"}} id={card._id}
-                                                                  onClick={this.chapterHandler}>{card.title}</p>;
+                                                        return <button className="nest" style={{
+                                                            paddingTop: "1%",
+                                                            paddingLeft: "1%",
+                                                            color: "white",
+                                                            fontSize: "large",
+                                                            background: "transparent",
+                                                            border: "none"
+                                                        }} id={card._id}
+                                                                       onClick={this.chapterHandler}>{card.title}</button>;
                                                     })}
                                                 </Collapsible>
                                             </ul>
@@ -311,7 +364,7 @@ class Subject extends Component {
     renderBody() {
         return (
             <div>
-                <MenuIcon onClick={() => this.setState({showNav: true})}/>
+                <MenuIcon className="mnu"  onClick={() => this.setState({showNav: true})}/>
                 <SideNav
                     titleStyle={{backgroundColor: '#383838'}}
                     itemStyle={{backgroundColor: '#282828', color: 'white', font: 'bold'}}
@@ -337,7 +390,7 @@ class Subject extends Component {
 
     renderAddBoardPopUp() {
         return (
-            <Popup trigger={this.renderButton} modal>
+            <Popup trigger={this.renderbutton} modal>
                 {close => (
                     <div className="modal">
                         <a className="close" onClick={close}>
@@ -354,7 +407,7 @@ class Subject extends Component {
 
     renderAddSubjectPopUp() {
         return (
-            <Popup trigger={this.renderAddSubjectButton} modal>
+            <Popup trigger={this.renderAddSubjectbutton} modal>
                 {close => (
                     <div className="modal">
                         <a className="close" onClick={close}>
@@ -376,7 +429,7 @@ class Subject extends Component {
                     <label htmlFor="name"><b>New Chapter Name</b></label>
                     <input type="text" placeholder="Enter the Name" name="name" onChange={this.handleChapterName}/>
                 </form>
-                <Button onClick={this.handleSubmit} className="registerbtn">Add</Button>
+                <button onClick={this.handleSubmit} className="registerbtn">Add</button>
             </div>
         );
     }
@@ -397,7 +450,7 @@ class Subject extends Component {
                     <input type="text" placeholder="What is your target grade?" name="grade" onChange={this.gradeHandler}/>
                     <input type="text" placeholder="How confident are you about it (1-5)?" name="confidence" onChange={this.confHandler}/>
                 </form>
-                <Button onClick={this.addSubject} className="registerbtn">Add</Button>
+                <button onClick={this.addSubject} className="registerbtn">Add</button>
             </div>
         );
     }
@@ -436,13 +489,13 @@ class Subject extends Component {
     }
 
 
-    renderButton() {
-        return (<Button>Add Chapter</Button>);
+    renderbutton() {
+        return (<button className="baton baton1">Add Chapter</button>);
 
     }
 
-    renderAddSubjectButton() {
-        return (<Button>Add to My Subjects</Button>);
+    renderAddSubjectbutton() {
+        return (<button className="baton baton1">Add to My Subjects</button>);
     }
 
     editHandler() {
@@ -503,8 +556,8 @@ class Subject extends Component {
                         <div className="chapterContainer">
                             <div>
                                 <ul className="cardEditor">
-                                    <li><Button onClick={this.editHandler}>Edit</Button></li>
-                                    <li><Button onClick={this.deleteHandler}>Delete</Button></li>
+                                    <li><button onClick={this.editHandler}>Edit</button></li>
+                                    <li><button onClick={this.deleteHandler}>Delete</button></li>
                                 </ul>
                                 {parse(this.converter.makeHtml(this.state.card))}
                             </div>
@@ -544,6 +597,10 @@ class Subject extends Component {
     createMarkup() {
         return {__html: this.converter.makeHtml(this.state.card)};
     }
+
+
+
+
 
 }
 
