@@ -1,0 +1,28 @@
+
+<svg width="562px" height="593px" viewBox="0 0 562 593" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <rect id="path-1" x="0.126199557" y="0.0993492736" width="372.020997" height="403.021792" rx="40"></rect>
+        <filter x="-43.1%" y="-31.6%" width="186.3%" height="179.6%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="33" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="48" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="team-dark" transform="translate(-475.000000, -1693.000000)">
+            <g id="Group-3" transform="translate(570.000000, 1755.000000)">
+                <g id="Path-5" transform="translate(0.128906, 0.101562)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Mask">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-1"></use>
+                        <use fill="#1E1E1E" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                    <path d="M-139.075332,215.794265 C-128.485078,138.905569 -81.7550447,119.119779 1.11476675,156.436895 C125.419484,212.412568 239.877837,159.505259 287.347473,90.0524743 C318.993897,43.7506179 385.399507,85.664548 486.564304,215.794265 L486.564304,-11.7384988 L-182.094488,-11.7384988 L-139.075332,215.794265 Z" fill="#D8D8D8" opacity="0.130836124" mask="url(#mask-2)"></path>
+                    <path d="M-143.924765,191.828163 C-134.590456,121.088394 -93.4023454,102.884909 -20.3604325,137.217708 C89.2024369,188.716907 190.086666,140.040689 231.926667,76.1421682 C259.820001,33.543154 318.350276,72.1051522 407.517491,191.828163 L407.517491,-17.5083989 L-181.842089,-17.5083989 L-143.924765,191.828163 Z" fill="#D8D8D8" opacity="0.130836124" mask="url(#mask-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
