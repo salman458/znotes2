@@ -550,7 +550,7 @@ class Subject extends Component {
         if (this.state.showMD) {
             if (Meteor.user()) {
                 return (
-                    <div className="home-page -padding-20">
+                    <div className="home-page1 -padding-20">
                         <Header/>
                         {this.renderBody()}
                         <div className="chapterContainer">
@@ -569,7 +569,7 @@ class Subject extends Component {
                 )
             } else {
                 return (
-                    <div className="home-page -padding-20">
+                    <div className="home-page1 -padding-20">
                         <Header/>
                         {this.renderBody()}
                         <div className="chapterContainer">
@@ -585,7 +585,7 @@ class Subject extends Component {
 
         } else {
             return (
-                <div className="home-page -padding-20">
+                <div className="home-page1 -padding-20">
                     <Header/>
                     {this.renderBody()}
                 </div>
