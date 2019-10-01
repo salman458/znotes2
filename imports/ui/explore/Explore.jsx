@@ -76,6 +76,7 @@ class Explore extends Component {
                 }
             });
         }
+        console.log()
     }
 
 
@@ -86,6 +87,24 @@ class Explore extends Component {
                     <div className="containerRes1">
                         <h1>Boards</h1>
                         {this.renderAddBoardPopUp()}
+                        <CarouselProvider
+                            naturalSlideWidth={50}
+                            naturalSlideHeight={25}
+                            totalSlides={this.state.boards.length}
+                            visibleSlides={4}
+                        >
+                            <Slider>
+                                {this.state.boards}
+                            </Slider>
+                            {/*<ButtonBack>Back</ButtonBack>*/}
+                            {/*<ButtonNext>Next</ButtonNext>*/}
+                        </CarouselProvider>
+                    </div>
+                )
+            }else{
+                return (
+                    <div className="containerRes1">
+                        <h1>Boards</h1>
                         <CarouselProvider
                             naturalSlideWidth={50}
                             naturalSlideHeight={25}
