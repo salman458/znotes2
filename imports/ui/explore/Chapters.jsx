@@ -368,6 +368,7 @@ class Subject extends Component {
                 <SideNav
                     titleStyle={{backgroundColor: '#383838'}}
                     itemStyle={{backgroundColor: '#282828', color: 'white', font: 'bold'}}
+                    itemHoverStyle={{backgroundColor: '#383838', color: 'white', font: 'bold'}}
                     navStyle={{backgroundColor: '#282828'}}
                     showNav={this.state.showNav}
                     onHideNav={() => this.setState({showNav: false})}
