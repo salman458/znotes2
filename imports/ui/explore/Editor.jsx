@@ -108,21 +108,12 @@ class Editor extends Component {
         })
     };
 
-    renderButton() {
-        return (<div onClick={this.handleMDSave} className="button">
-            <span>Save</span>
-            <svg>
-                <polyline className="o1" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
-                <polyline className="o2" points="0 0, 150 0, 150 55, 0 55, 0 0"></polyline>
-            </svg>
-        </div>);
 
-    }
 
 
     render() {
         return (
-            <div className="home-page -padding-20">
+            <div className="home-page1 -padding-20">
 
                 <Header/>
                 <div className="customContainer">
@@ -146,7 +137,7 @@ class Editor extends Component {
                         <label htmlFor="key"><b>Sort Key</b></label>
                         <input type="text" placeholder={this.state.sortKey || 'key'} name="name" onChange={this.handleChangeKey}/>
                     </form>
-                    <Button onClick={this.handleMDSave} variant="outline-primary">Save</Button>
+                    <button className="baton baton1 -center" onClick={this.handleMDSave} variant="outline-primary">Save</button>
                 </div>
 
 

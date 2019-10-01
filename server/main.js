@@ -78,7 +78,6 @@ Meteor.methods({
         });
     },
     extendProfile(obj) {
-
         return Meteor.users.update({_id: obj.userId}, {$set: obj.fields});
     },
     addUser(user) {

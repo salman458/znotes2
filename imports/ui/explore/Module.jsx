@@ -34,6 +34,13 @@ class Subject extends Component {
                     console.log(err);
                 } else {
                     if (Meteor.userId()) {
+                        this.setState({
+                                modules: ress.map(module => {
+                                    return <a style={{color: "white"}}
+                                              href={"/explore/chapters/module/" + module._id + "/" + this.state.subjectId + "/" + 1}><b> {module.name}</b></a>
+                                })
+                            }
+                        );
                         Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
                             if (err)
                                 console.log(err);
@@ -47,65 +54,40 @@ class Subject extends Component {
                                         console.log(err);
                                     else {
                                         this.setState({superSubjects: res[0].sucjects.map(x => x.value)});
-
-                                        this.setState({
-                                                modules: ress.map(module => {
-                                                    return <a style={{color: "white"}}
-                                                              href={"/explore/chapters/module/" + module._id + "/" + this.state.subjectId + "/" + 1}><b> {module.name}</b></a>
-                                                })
-                                            }
-                                        );
-
-
-                                        if (Meteor.user()) {
-                                            if (this.state.role) {
-                                                this.state.modules.push(
-                                                    <Popup trigger={this.renderButton} modal>
-                                                        {close => (
-                                                            <div className="modal">
-                                                                <a className="close" onClick={close}>
-                                                                    &times;
-                                                                </a>
-                                                                {this.renderEdit()}
-                                                            </div>
-                                                        )}
+                                        if (this.state.role || this.state.superSubjects.includes(this.state.subjectId)) {
+                                            this.state.modules.push(
+                                                <Popup trigger={this.renderButton} modal>
+                                                    {close => (
+                                                        <div className="modal">
+                                                            <a className="close" onClick={close}>
+                                                                &times;
+                                                            </a>
+                                                            {this.renderEdit()}
+                                                        </div>
+                                                    )}
 
 
-                                                    </Popup>
-                                                );
-                                            } else if (this.state.superSubjects.includes(this.state.subjectId)) {
-                                                this.state.modules.push(
-                                                    <Popup trigger={this.renderButton} modal>
-                                                        {close => (
-                                                            <div className="modal">
-                                                                <a className="close" onClick={close}>
-                                                                    &times;
-                                                                </a>
-                                                                {this.renderEdit()}
-                                                            </div>
-                                                        )}
-
-
-                                                    </Popup>
-                                                );
-                                            }
+                                                </Popup>
+                                            );
+                                            this.forceUpdate();
                                         }
-                                        this.setState({
-                                            subjectId: this.state.subjectId,
-                                            name: this.state.name,
-                                            modules: this.state.modules,
-                                            moduleName: this.state.moduleName,
-                                            showNav: true
-                                        })
+
+
 
                                     }
                                 })
 
 
                             }
+                            this.setState({
+                                subjectId: this.state.subjectId,
+                                name: this.state.name,
+                                modules: this.state.modules,
+                                moduleName: this.state.moduleName,
+                                showNav: true
+                            })
                         });
-                    }
-                    else {
+                    } else {
                         this.state.modules = ress.map(module => {
                                 return <a style={{color: "white"}}
                                           href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}><b> {module.name}</b></a>
@@ -129,11 +111,10 @@ class Subject extends Component {
     }
 
 
-
     renderBody() {
         return (
             <div>
-                <MenuIcon className ="mnu" onClick={() => this.setState({showNav: true})}/>
+                <MenuIcon className="mnu" onClick={() => this.setState({showNav: true})}/>
                 <SideNav
                     titleStyle={{backgroundColor: '#383838'}}
                     itemStyle={{backgroundColor: '#282828'}}
@@ -149,7 +130,7 @@ class Subject extends Component {
 
 
                 />
-                <div style={{height:"500px"}}></div>
+                <div style={{height: "500px"}}></div>
             </div>
         )
     }
