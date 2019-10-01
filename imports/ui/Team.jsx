@@ -11,7 +11,7 @@ class Team extends Component {
         this.state = {
             users: [],
             num: '',
-            checked:false
+            checked: false
         };
         this.handleChange = this.handleChange.bind(this);
     }
@@ -34,15 +34,15 @@ class Team extends Component {
 
     FormRow() {
         let gridlist = [];
-        this.state.users.filter(user=>{
-            if(this.state.checked){
-                if(user.sucjects.length>0)
+        this.state.users.filter(user => {
+            if (this.state.checked) {
+                if (user.sucjects.length > 0)
                     return user;
-            }else{
-                if(user.role=="team")
+            } else {
+                if (user.role == "team")
                     return user;
             }
-        }).forEach(user=>{
+        }).forEach(user => {
             gridlist.push(
                 <Grid item xs={4}>
                     <div className="container69">
@@ -59,12 +59,14 @@ class Team extends Component {
     }
 
     handleChange(checked) {
-        this.setState({ checked });
+        this.setState({checked});
     }
+
     renderBody() {
         return (
             <div className="something">
-                <p style={{color:"white"}} className="sv"><b>Management     </b> <label> <Switch  onChange={this.handleChange} checked={this.state.checked} /></label>     Contributors</p>
+                <p style={{color: "white"}} className="sv"><b>Management </b> <label style={{position: "relative", top: "10px"}}> <Switch
+                    onChange={this.handleChange} checked={this.state.checked}/></label> Contributors</p>
 
                 <Grid container spacing={1}>
                     <Grid container item xs={12} spacing={3}>

@@ -37,7 +37,7 @@ class Subject extends Component {
                         this.setState({
                                 modules: ress.map(module => {
                                     return <a style={{color: "white"}}
-                                              href={"/explore/chapters/module/" + module._id + "/" + this.state.subjectId + "/" + 1}><b> {module.name}</b></a>
+                                              href={"/explore/chapters/module/" + module._id + "/" + this.state.subjectId + "/" + 1}><b>{module.name}</b></a>
                                 })
                             }
                         );
@@ -90,7 +90,7 @@ class Subject extends Component {
                     } else {
                         this.state.modules = ress.map(module => {
                                 return <a style={{color: "white"}}
-                                          href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}><b> {module.name}</b></a>
+                                          href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}><div> {module.name}</div></a>
                             }
                         );
                         this.setState({
@@ -125,7 +125,6 @@ class Subject extends Component {
                     title={this.state.name}
                     items={
                         this.state.modules
-
                     }
 
 
