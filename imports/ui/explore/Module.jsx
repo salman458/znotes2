@@ -46,13 +46,18 @@ class Subject extends Component {
                                     if (err)
                                         console.log(err);
                                     else {
+                                        console.log('valodik', res)
                                         this.setState({superSubjects: res[0].sucjects.map(x => x.value)});
 
-                                        this.state.modules = ress.map(module => {
-                                                return <a style={{color: "white"}}
-                                                          href={"/explore/chapters/module/" + module._id + "/" + this.state.subjectId + "/" + 1}><b> {module.name}</b></a>
+                                        this.setState({
+                                                modules: ress.map(module => {
+                                                    return <a style={{color: "white"}}
+                                                              href={"/explore/chapters/module/" + module._id + "/" + this.state.subjectId + "/" + 1}><b> {module.name}</b></a>
+                                                })
                                             }
                                         );
+
+
                                         if (Meteor.user()) {
                                             if (this.state.role) {
                                                 this.state.modules.push(
@@ -69,8 +74,7 @@ class Subject extends Component {
 
                                                     </Popup>
                                                 );
-                                            }
-                                            if (this.state.superSubjects.includes(this.state.subjectId)) {
+                                            } else if (this.state.superSubjects.includes(this.state.subjectId)) {
                                                 this.state.modules.push(
                                                     <Popup trigger={this.renderButton} modal>
                                                         {close => (
@@ -101,7 +105,8 @@ class Subject extends Component {
 
                             }
                         });
-                    } else {
+                    }
+                    else {
                         this.state.modules = ress.map(module => {
                                 return <a style={{color: "white"}}
                                           href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}><b> {module.name}</b></a>

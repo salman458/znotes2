@@ -242,6 +242,7 @@ class Home extends Component {
                         "livingPlace": this.state.city,
                         "birthPlace": this.state.birthPlace,
                         "role": '',
+                        "sucjects":[],
                         "gender": this.state.gender,
                         "school": {
                             "name":

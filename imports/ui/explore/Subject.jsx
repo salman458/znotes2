@@ -137,6 +137,24 @@ class Subject extends Component {
                         </CarouselProvider>
                     </div>
                 )
+            }else{
+                return (
+                    <div className="containerRes1">
+                        <h1 style={{color:"white"}}><b>Subjects</b></h1>
+                        <CarouselProvider
+                            naturalSlideWidth={50}
+                            naturalSlideHeight={25}
+                            totalSlides={this.state.subjects.length}
+                            visibleSlides={4}
+                        >
+                            <Slider>
+                                {this.state.subjects}
+                            </Slider>
+                            {/*<ButtonBack>Back</ButtonBack>*/}
+                            {/*<ButtonNext>Next</ButtonNext>*/}
+                        </CarouselProvider>
+                    </div>
+                )
             }
         } else {
             return (

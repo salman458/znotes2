@@ -116,6 +116,24 @@ class Level extends Component {
                         </CarouselProvider>
                     </div>
                 )
+            }else{
+                return (
+                    <div className="containerRes1">
+                        <h1 style={{color:"white"}}><b>Levels</b></h1>
+                        <CarouselProvider
+                            naturalSlideWidth={50}
+                            naturalSlideHeight={25}
+                            totalSlides={this.state.levels.length}
+                            visibleSlides={4}
+                        >
+                            <Slider>
+                                {this.state.levels}
+                            </Slider>
+                            {/*<ButtonBack>Back</ButtonBack>*/}
+                            {/*<ButtonNext>Next</ButtonNext>*/}
+                        </CarouselProvider>
+                    </div>
+                )
             }
         } else {
             return (

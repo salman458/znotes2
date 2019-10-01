@@ -197,8 +197,6 @@ class Subject extends Component {
                                                                             trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
                                                                             {chapter.cards.map(card => {
                                                                                 this.state.buttonCount.set(String(card._id), chapter._id);
-                                                                                console.log(card._id);
-                                                                                alert('debil');
                                                                                 return <button className="nest" style={{
                                                                                     paddingTop: "1%",
                                                                                     color: "white",
