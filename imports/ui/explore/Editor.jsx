@@ -122,6 +122,7 @@ class Editor extends Component {
                         onTabChange={this.handleTabChange}
                         value={this.state.value}
                         generateMarkdownPreview={markdown => {
+
                             return Promise.resolve(this.converter.makeHtml(markdown))
                         }
 

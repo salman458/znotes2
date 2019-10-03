@@ -15,6 +15,11 @@ import Popup from "reactjs-popup";
 import {button} from 'reactstrap';
 import {Carousel} from 'react-responsive-carousel';
 
+const ReactMarkdown = require('react-markdown');
+import ReactMde from "react-mde";
+
+
+
 class Subject extends Component {
 
     constructor(props) {
@@ -146,8 +151,6 @@ class Subject extends Component {
                                         if (err)
                                             console.log(err);
                                         else {
-                                            console.log(Meteor.userId());
-                                            console.log('aziz', res[0]);
                                             this.setState({superSubjects: res[0].sucjects.map(x => x.value)});
                                             this.state.totalCount = chapters.length;
 
@@ -168,7 +171,8 @@ class Subject extends Component {
                                                                                 color: "white",
                                                                                 fontSize: "large",
                                                                                 background: "transparent",
-                                                                                border: "none"
+                                                                                border: "none",
+                                                                                display: "block"
                                                                             }} id={card._id}
                                                                                            onClick={this.chapterHandler}>{card.title}</button>;
                                                                         })}
@@ -194,7 +198,9 @@ class Subject extends Component {
                                                                                 color: "white",
                                                                                 fontSize: "large",
                                                                                 background: "transparent",
-                                                                                border: "none"
+                                                                                border: "none",
+                                                                                display: "block"
+
                                                                             }} id={card._id}
                                                                                            onClick={this.chapterHandler}>{card.title}</button>;
                                                                         })}
@@ -249,7 +255,9 @@ class Subject extends Component {
                                                             color: "white",
                                                             fontSize: "large",
                                                             background: "transparent",
-                                                            border: "none"
+                                                            border: "none",
+                                                            display: "block"
+
                                                         }} id={card._id}
                                                                        onClick={this.chapterHandler}>{card.title}</button>;
                                                     })}
@@ -487,7 +495,23 @@ class Subject extends Component {
                         <Header/>
                         {this.renderBody()}
                         <div className="chapterContainer">
-                            {parse(this.converter.makeHtml(this.state.card))}
+                            <div style={{position: "relative",
+                                width: "130px",
+                                top: "40px",
+                                left: "15px",
+                                height: "36px",
+                                background: "whitesmoke"}}></div>
+                            {/*{parse(this.converter.makeHtml(this.state.card))}*/}
+                            <ReactMde
+                                value={this.state.card}
+                                generateMarkdownPreview={markdown => {
+
+                                    return Promise.resolve(this.converter.makeHtml(markdown))
+                                }
+
+                                }
+                                selectedTab={"preview"}
+                            />
                             <ul style={{display: "inline-table"}} className="cardEditor">
                                 <li>
                                     <button className="baton baton1" onClick={this.editHandler}>Edit</button>
@@ -507,7 +531,8 @@ class Subject extends Component {
                         <Header/>
                         {this.renderBody()}
                         <div className="chapterContainer">
-                            <div dangerouslySetInnerHTML={this.createMarkup()}/>
+                            {/*<div dangerouslySetInnerHTML={this.createMarkup()}/>*/}
+                            <ReactMarkdown source={this.state.card}/>
                         </div>
                     </div>
                 )
@@ -525,6 +550,7 @@ class Subject extends Component {
     }
 
     createMarkup() {
+        console.log('ARMMM ',this.state.card)
         return {__html: this.converter.makeHtml(this.state.card)};
     }
 
