@@ -185,7 +185,8 @@ class Subject extends Component {
                                                                 </ul>
                                                             </li>
                                                         );
-                                                    } else {
+                                                    }
+                                                    else {
                                                         this.state.chapters.push(
                                                             <li className='btn-group' id={chapter._id}>
                                                                 <ul>
@@ -223,21 +224,23 @@ class Subject extends Component {
                                                         {this.renderAddBoardPopUp()}
                                                     </div>
                                                 );
-                                                this.state.chapters.push(
-                                                    <div>
-                                                        {this.renderAddSubjectPopUp()}
-                                                    </div>
-                                                );
-                                                this.forceUpdate();
                                             }
+
+                                            this.state.chapters.push(
+                                                <div>
+                                                    {this.renderAddSubjectPopUp()}
+                                                </div>
+                                            );
+                                            this.forceUpdate();
+
                                             if (this.state.cardId != 1)
                                                 this.renderContent();
                                         }
                                     });
                                 }
                             });
-                        } else {
-                            console.log('gago');
+                        }
+                        else {
                             let counter = 0;
                             chapters.forEach(chapter => {
                                     counter++;
