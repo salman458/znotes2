@@ -551,14 +551,6 @@ class Subject extends Component {
                                 }
                                 selectedTab={"preview"}
                             />
-                            <ul style={{display: "inline-table"}} className="cardEditor">
-                                <li>
-                                    <button className="baton baton1" onClick={this.editHandler}>Edit</button>
-                                </li>
-                                <li>
-                                    <button className="baton baton1" onClick={this.deleteHandler}>Delete</button>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 )
