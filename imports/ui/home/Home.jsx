@@ -415,7 +415,7 @@ class Home extends AbstractComponent {
             </React.Fragment>
         } else {
             return <React.Fragment>
-                <ReactPageScroller ref={c => this._pageScroller = c} pageOnChange={this.pageOnChange}>
+                <ReactPageScroller ref={c => this._pageScroller = c} pageOnChange={this.pageOnChange} containerHeight={1000}>
                     <div className="home-page1 -padding-20">
                         <Header/>
                         {this.renderDefaultBody()}
