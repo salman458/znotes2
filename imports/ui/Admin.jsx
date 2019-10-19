@@ -33,7 +33,6 @@ class Admin extends Component {
             if (err)
                 console.log(err);
             else {
-                console.log('klir', res);
                 this.setState({
                     users: res.filter(user => {
                         return user.emails !== undefined
@@ -46,7 +45,6 @@ class Admin extends Component {
                 })
             }
         );
-        console.log('state', this.state);
     }
 }
 
@@ -64,7 +62,6 @@ Meteor.call('getAllSubjects', {}, (err, res) => {
                 }
             })
         });
-        console.log('subjects', this.state);
     }
 });
 }
@@ -164,7 +161,7 @@ updatedAccountPermission(userId, role, subjects)
         userId: userId,
         fields: {
             "role": role,
-            "sucjects": subjects,
+            "sucjects": subjects || [],
         }
     };
     Meteor.call('extendProfile', dbObject, (err, res) => {

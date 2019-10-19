@@ -51,9 +51,9 @@ class Subject extends Component {
 
                                 Meteor.call('findUserSubjects', Meteor.userId(), (err, res) => {
                                     if (err)
-                                        console.log(err);
+                                        console.log("kkk",err);
                                     else {
-                                        this.setState({superSubjects: res[0].sucjects.map(x => x.value)});
+                                        this.state.superSubjects = res[0].sucjects.map(x => x.value);
                                         if (this.state.role || this.state.superSubjects.includes(this.state.subjectId)) {
                                             this.state.modules.push(
                                                 <Popup trigger={this.renderButton} modal>
@@ -87,7 +87,8 @@ class Subject extends Component {
                                 showNav: true
                             })
                         });
-                    } else {
+                    }
+                    else {
                         this.state.modules = ress.map(module => {
                                 return <a style={{color: "white"}}
                                           href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}><div> {module.name}</div></a>
