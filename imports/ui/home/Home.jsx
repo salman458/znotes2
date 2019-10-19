@@ -198,7 +198,7 @@ class Home extends AbstractComponent {
         for (let i = 1; i <= 6; i++) {
             if (i == this.state.currentPage) {
                 pageNumbers.push(<Pager.Item key={i} eventKey={i - 1} onSelect={this.goToPage}>
-                    <svg className="dot" width="31px" height="31px" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    <svg width="31px" height="31px" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlnsXlink="http://www.w3.org/1999/xlink">
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <g id="homepage-dark" transform="translate(-1820.000000, -514.000000)" fill="#FFFFFF">
@@ -212,7 +212,7 @@ class Home extends AbstractComponent {
 
             } else {
                 pageNumbers.push(<Pager.Item key={i} eventKey={i - 1} onSelect={this.goToPage}>
-                    <svg className="dot" width="31px" height="31px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    <svg  width="31px" height="31px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlnsXlink="http://www.w3.org/1999/xlink">
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <g id="homepage-dark" transform="translate(-1824.000000, -683.000000)" fill="#383838">

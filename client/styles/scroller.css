@@ -49,7 +49,7 @@ h2 {
 .pagination-additional-class {
     margin: 0;
     position: fixed;
-    right: 2%;
+    right: 0;
     top:35%;
     display: block;
     justify-content: center;
@@ -74,10 +74,5 @@ h2 {
 .demo-page-contain__hint {
     margin-bottom: 20px;
 }
-.dot {
-    position: absolute;
-    right: 0;
-    padding-bottom: 10px;
 
-}
 
