@@ -534,8 +534,31 @@ class Subject extends Component {
                         <Header/>
                         {this.renderBody()}
                         <div className="chapterContainer">
-                            {/*<div dangerouslySetInnerHTML={this.createMarkup()}/>*/}
-                            <ReactMarkdown source={this.state.card}/>
+                            <div style={{position: "relative",
+                                width: "130px",
+                                top: "40px",
+                                left: "15px",
+                                height: "36px",
+                                background: "whitesmoke"}}></div>
+                            {/*{parse(this.converter.makeHtml(this.state.card))}*/}
+                            <ReactMde
+                                value={this.state.card}
+                                generateMarkdownPreview={markdown => {
+
+                                    return Promise.resolve(this.converter.makeHtml(markdown))
+                                }
+
+                                }
+                                selectedTab={"preview"}
+                            />
+                            <ul style={{display: "inline-table"}} className="cardEditor">
+                                <li>
+                                    <button className="baton baton1" onClick={this.editHandler}>Edit</button>
+                                </li>
+                                <li>
+                                    <button className="baton baton1" onClick={this.deleteHandler}>Delete</button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 )
