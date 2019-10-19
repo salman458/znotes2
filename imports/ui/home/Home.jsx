@@ -197,35 +197,32 @@ class Home extends AbstractComponent {
 
         for (let i = 1; i <= 6; i++) {
             if (i == this.state.currentPage) {
-                pageNumbers.push(
-                    <li>
-                        <svg width="31px" height="31px" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                             xmlnsXlink="http://www.w3.org/1999/xlink">
-                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <g id="homepage-dark" transform="translate(-1820.000000, -514.000000)" fill="#FFFFFF">
-                                    <g id="Group-10" transform="translate(1820.000000, 514.000000)">
-                                        <circle id="Oval" cx="15.5" cy="15.5" r="15.5"></circle>
-                                    </g>
+                pageNumbers.push(<Pager.Item key={i} eventKey={i - 1} onSelect={this.goToPage}>
+                    <svg className="dot" width="31px" height="31px" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         xmlnsXlink="http://www.w3.org/1999/xlink">
+                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="homepage-dark" transform="translate(-1820.000000, -514.000000)" fill="#FFFFFF">
+                                <g id="Group-10" transform="translate(1820.000000, 514.000000)">
+                                    <circle id="Oval" cx="15.5" cy="15.5" r="15.5"></circle>
                                 </g>
                             </g>
-                        </svg>
-                    </li>
-                )
+                        </g>
+                    </svg>
+                </Pager.Item>);
+
             } else {
-                pageNumbers.push(
-                    <li>
-                        <svg width="31px" height="31px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                             xmlnsXlink="http://www.w3.org/1999/xlink">
-                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <g id="homepage-dark" transform="translate(-1824.000000, -683.000000)" fill="#383838">
-                                    <g id="Group-10" transform="translate(1820.000000, 514.000000)">
-                                        <circle id="Oval" cx="16" cy="181" r="12"></circle>
-                                    </g>
+                pageNumbers.push(<Pager.Item key={i} eventKey={i - 1} onSelect={this.goToPage}>
+                    <svg className="dot" width="31px" height="31px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         xmlnsXlink="http://www.w3.org/1999/xlink">
+                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="homepage-dark" transform="translate(-1824.000000, -683.000000)" fill="#383838">
+                                <g id="Group-10" transform="translate(1820.000000, 514.000000)">
+                                    <circle id="Oval" cx="16" cy="181" r="12"></circle>
                                 </g>
                             </g>
-                        </svg>
-                    </li>
-                )
+                        </g>
+                    </svg>
+                </Pager.Item>);
             }
         }
 
@@ -377,7 +374,8 @@ class Home extends AbstractComponent {
                             <Grid item xs={6}>
                                 <h1 className='customh1'>Our Podcasts</h1>
                                 <Paper className="communityPaper">
-                                    <iframe src="https://open.spotify.com/embed-podcast/show/7jPpEntVVviSy0SNOqnZMq" width="100%" height="232" frameBorder="0"
+                                    <iframe src="https://open.spotify.com/embed-podcast/show/7jPpEntVVviSy0SNOqnZMq" width="100%" height="232"
+                                            frameBorder="0"
                                             allowTransparency="true" allow="encrypted-media"></iframe>
                                 </Paper>
                             </Grid>
