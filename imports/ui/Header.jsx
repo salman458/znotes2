@@ -27,7 +27,7 @@ export default class Header extends Component {
     renderNavigation() {
         return (
             <div className=" -layout-h -center -space-h-40">
-                <img className="logo-pic" src="/img/logo.png"/>
+                <a href="/"> <img className="logo-pic" src="/img/logo.png"/></a>
                 <ul className="-layout-h -space-h-20">
                     {this.renderSingleItem("Home", "home", "/")}
                     {this.renderSingleItem("Explore", "explore", "/explore")}
