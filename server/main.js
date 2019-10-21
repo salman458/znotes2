@@ -161,6 +161,17 @@ Meteor.methods({
             return res;
         }
     },
+    updateCard(obj) {
+        return cards.update({_id: obj.cardId}, {
+            $set: {
+                content: obj.content,
+                data_updated: obj.data_updated,
+                sortKey: obj.sortKey,
+                title: obj.title,
+                author: obj.author
+            }
+        })
+    },
     updateChapter(obj) {
         return modules.update({_id: obj.moduleId}, {$push: {chapters: obj.chapter}})
     },
