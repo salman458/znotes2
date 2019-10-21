@@ -39,6 +39,7 @@ class Editor extends Component {
                 else {
                     this.setState({value: res[0].content});
                     this.setState({cardName: res[0].title});
+                    this.setState({sortKey: res[0].sortKey});
                 }
             });
         }
