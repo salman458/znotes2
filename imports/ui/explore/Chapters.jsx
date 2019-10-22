@@ -506,6 +506,7 @@ class Subject extends Component {
                                 background: "whitesmoke"}}></div>
                             {/*{parse(this.converter.makeHtml(this.state.card))}*/}
                             <ReactMde
+                                className='mdegago'
                                 value={this.state.card}
                                 generateMarkdownPreview={markdown => {
 

@@ -54,3 +54,8 @@
     background-color: #66ff33;
     color: white;
 }
+
+.mdegago{
+    overflow-y: auto;
+    max-height: 30vw;
+}
