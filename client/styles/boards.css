@@ -48,11 +48,13 @@
 }
 
 .containerRes1 {
-    opacity: 0.7;
     padding: 60px;
     position: relative;
     border-radius: 25px;
     top: 200px;
     background-color:#2e2b2b;
     box-shadow: 0 33px 96px 0 rgba(0,0,0,0.50);
+}
+.subject:hover {
+    color: #da1d56;
 }
