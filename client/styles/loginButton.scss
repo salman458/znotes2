@@ -4,12 +4,18 @@
     border: none;
 
 }
+.popup-content{
+    width: 70% !important;
+    border: none !important;
+    background-color: #1a1a1a !important;
+}
 .modal > .popup-content {
     width: 100%;
     border-bottom: 1px solid black;
     font-size: 18px;
     text-align: center;
     padding: 5px;
+    width: 200px;
 }
 .frame {
     position: absolute;
@@ -70,7 +76,7 @@
 
     &:hover {
         .o1{
-            fill: rgba(#CC8110, 0.3);
+            fill: rgba(#da1d56, 0.3);
         }
 
         .o2 {

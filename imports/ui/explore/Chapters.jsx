@@ -334,7 +334,7 @@ class Subject extends Component {
 
     renderAddBoardPopUp() {
         return (
-            <Popup trigger={this.renderbutton} modal>
+            <Popup className="dibil" trigger={this.renderbutton} modal>
                 {close => (
                     <div className="modal">
                         <a className="close" onClick={close}>
