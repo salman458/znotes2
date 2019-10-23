@@ -159,9 +159,9 @@ class Editor extends Component {
                 <div className="customContainer -full-width -outer-center">
                     <form>
                         <label htmlFor="name"><b>Card Title</b></label>
-                        <input type="text" placeholder={this.state.cardName || 'title'} name="name" onChange={this.handleChangeName}/>
+                        <input style={{backgroundColor:"white"}} type="text" placeholder={this.state.cardName || 'title'} name="name" onChange={this.handleChangeName}/>
                         <label htmlFor="key"><b>Sort Key</b></label>
-                        <input type="text" placeholder={this.state.sortKey || 'key'} name="name" onChange={this.handleChangeKey}/>
+                        <input style={{backgroundColor:"white"}} type="text" placeholder={this.state.sortKey || 'key'} name="name" onChange={this.handleChangeKey}/>
                     </form>
                     <button className="baton baton1 -center" onClick={this.handleMDSave} variant="outline-primary">Save</button>
                 </div>
