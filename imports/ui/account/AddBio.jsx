@@ -45,11 +45,11 @@ class AddBio extends Component {
         return (
             <div className="search__container -layout-v -center">
                 <form onSubmit={this.handleSubmit}>
-                    <div className="container">
+                    <div className="containerBio">
                         <ul>
                             <li><h1>Add Contributor Info</h1></li>
 
-                            <li><input className="search__input -full-width" type="text" placeholder="Your Title"
+                            <li><input className="search__input -full-width" type="text" placeholder="Your Name"
                                        onChange={this.handleChangeTitle}/>
                             </li>
 
@@ -61,7 +61,7 @@ class AddBio extends Component {
                                        onChange={this.handleChangeFacebook}/>
                             </li>
 
-                            <li><input className="search__input -full-width" type="text" placeholder="Facebook Profile"
+                            <li><input className="search__input -full-width" type="text" placeholder="LinkedIn Profile"
                                        onChange={this.handleChangeLinkedIn}/>
                             </li>
 

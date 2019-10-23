@@ -41,6 +41,13 @@
     color: whitesmoke;
 }
 
+.containerBio{
+    padding: 15px;
+    background-color: #1E1E1E;
+    color: whitesmoke;
+    width: 600px;
+}
+
 .rgContainer {
     padding-top: 10%;
     background-color: #383838;
