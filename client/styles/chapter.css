@@ -20,9 +20,9 @@
 }
 
 .mnu{
-    position: fixed;
-    top: 12%;
-    left: 2.7%;
+    position: relative;
+    top: 30px;
+    left: 25px;
 }
 
 
