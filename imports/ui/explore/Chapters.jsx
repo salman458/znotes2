@@ -19,7 +19,6 @@ const ReactMarkdown = require('react-markdown');
 import ReactMde from "react-mde";
 
 
-
 class Subject extends Component {
 
     constructor(props) {
@@ -185,8 +184,7 @@ class Subject extends Component {
                                                                 </ul>
                                                             </li>
                                                         );
-                                                    }
-                                                    else {
+                                                    } else {
                                                         this.state.chapters.push(
                                                             <li className='btn-group' id={chapter._id}>
                                                                 <ul>
@@ -239,8 +237,7 @@ class Subject extends Component {
                                     });
                                 }
                             });
-                        }
-                        else {
+                        } else {
                             let counter = 0;
                             chapters.forEach(chapter => {
                                     counter++;
@@ -498,12 +495,14 @@ class Subject extends Component {
                         <Header/>
                         {this.renderBody()}
                         <div className="chapterContainer">
-                            <div style={{position: "relative",
+                            <div style={{
+                                position: "relative",
                                 width: "130px",
                                 top: "40px",
                                 left: "15px",
                                 height: "36px",
-                                background: "whitesmoke"}}></div>
+                                background: "whitesmoke"
+                            }}></div>
                             {/*{parse(this.converter.makeHtml(this.state.card))}*/}
                             <ReactMde
                                 className='mdegago'
@@ -535,12 +534,14 @@ class Subject extends Component {
                         <Header/>
                         {this.renderBody()}
                         <div className="chapterContainer">
-                            <div style={{position: "relative",
+                            <div style={{
+                                position: "relative",
                                 width: "130px",
                                 top: "40px",
                                 left: "15px",
                                 height: "36px",
-                                background: "whitesmoke"}}></div>
+                                background: "whitesmoke"
+                            }}></div>
                             {/*{parse(this.converter.makeHtml(this.state.card))}*/}
                             <ReactMde
                                 className="mdegago"
@@ -564,15 +565,11 @@ class Subject extends Component {
                 <div className="home-page1 -padding-20">
                     <Header/>
                     {this.renderBody()}
+                    <div style={{height: "500px"}}></div>
                 </div>
             )
         }
 
-    }
-
-    createMarkup() {
-        console.log('ARMMM ',this.state.card)
-        return {__html: this.converter.makeHtml(this.state.card)};
     }
 
     renderFooter() {
