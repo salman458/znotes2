@@ -73,7 +73,6 @@ class Subject extends Component {
                 console.log(err)
             } else {
                 this.state.card = card[0].content;
-                console.log(this.state);
                 this.setState({
                     moduleId: this.state.moduleId,
                     subjectName: this.state.subjectName,
@@ -162,7 +161,10 @@ class Subject extends Component {
                                                             <li className='btn-group' id={chapter._id}>
                                                                 <ul>
                                                                     <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
-                                                                        {chapter.cards.map(card => {
+                                                                        {chapter.cards.sort((a, b) => {
+                                                                            console.log("cit",a.sortKey);
+                                                                            return a.sortKey - b.sortKey
+                                                                        }).map(card => {
                                                                             this.state.buttonCount.set(String(card._id), chapter._id);
                                                                             return <button className="nest" style={{
                                                                                 paddingTop: "1%",
