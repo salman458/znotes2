@@ -1,0 +1,8 @@
+{
+  "public": {},
+  "private": {},
+  "meteor-google-cloud": {
+    "project": "znotes2",
+    "stop-previous-version": ""
+  }
+}

@@ -1,0 +1,26 @@
+runtime: custom
+env: flex
+service: default
+threadsafe: true
+zones:
+- us-east1-b
+- us-east1-c
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+network:
+  session_affinity: true
+automatic_scaling:
+  max_num_instances: 2
+env_variables:
+  ROOT_URL: "http://alpha.znotes.org" 
+  MONGO_URL: "mongodb://admin:admin@cluster0-shard-00-00-dk5v1.gcp.mongodb.net:27017,cluster0-shard-00-01-dk5v1.gcp.mongodb.net:27017,cluster0-shard-00-02-dk5v1.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority" 
+  MAIL_URL: "smtp://team%40znotes.org:1%40Brooklands@smtp.gmail.com:587"
+skip_files:
+- ^(.*/)?\.dockerignore$
+- ^(.*/)?\yarn-error.log$
+- ^(.*/)?\.git$
+- ^(.*/)?\.hg$
+- ^(.*/)?\.svn$
+  
