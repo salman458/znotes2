@@ -5,7 +5,16 @@
     position: relative;
     top: 50px;
     box-shadow: 5px 5px rgba(0, 0, 0, 0.50);
+
 }
+
+#react-autowhatever-1 {
+    max-height: 150px;
+    overflow-x: overlay;
+}
+
+
+
 
 .container1 {
     background-color: #1E1E1E;

@@ -17,6 +17,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import theme from './theme.css';
+import IsolatedScroll from 'react-isolated-scroll';
+
 
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext} from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
@@ -70,6 +72,21 @@ class Home extends AbstractComponent {
         this._pageScroller = null;
 
         this.resumeHandler = this.resumeHandler.bind(this);
+    }
+
+    renderSuggestionsContainer({containerProps, children}) {
+        const {ref, ...restContainerProps} = containerProps;
+        const callRef = isolatedScroll => {
+            if (isolatedScroll !== null) {
+                ref(isolatedScroll.component);
+            }
+        };
+
+        return (
+            <IsolatedScroll ref={callRef} {...restContainerProps}>
+                {children}
+            </IsolatedScroll>
+        );
     }
 
     componentDidMount() {
@@ -339,6 +356,7 @@ class Home extends AbstractComponent {
                         <p className="exploreInvite"><b>Search for a course, or go to the</b> <a href="/explore">Explore</a><b> page to see whole
                             content.</b></p>
                         <Autosuggest
+                            renderSuggestionsContainer={this.renderSuggestionsContainer}
                             suggestions={suggestions}
                             onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
                             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
@@ -346,6 +364,7 @@ class Home extends AbstractComponent {
                             renderSuggestion={this.renderSuggestion}
                             inputProps={inputProps}
                             highlightFirstSuggestion={true}
+                            theme={theme}
                         />
                         <button onClick={this.searchHandler} type="submit" className="resumeSearchBtn">Search</button>
 
@@ -576,6 +595,7 @@ class Home extends AbstractComponent {
                     <li><img style={{height: 200}} className="logo-search" src="/img/logo.png"/></li>
                     <li><h1>For Students, By Students</h1></li>
                     <li><Autosuggest
+                        renderSuggestionsContainer={this.renderSuggestionsContainer}
                         suggestions={suggestions}
                         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
                         onSuggestionsClearRequested={this.onSuggestionsClearRequested}

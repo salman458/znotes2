@@ -27,6 +27,7 @@
     "react-dropdown-select": "^3.5.0",
     "react-expand-collapse": "^0.2.0",
     "react-hover": "^1.4.0",
+    "react-isolated-scroll": "^0.1.1",
     "react-markdown": "^4.1.0",
     "react-mde": "^7.6.2",
     "react-mounter": "^1.2.0",
