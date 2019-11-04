@@ -6,6 +6,9 @@
     top: 50px;
     margin-top: 70px;
 }
+#mde-header {
+    visibility: hidden;
+}
 
 .chapterContainer .write{
     visibility: hidden;
@@ -58,4 +61,8 @@
 .mdegago{
     overflow-y: auto;
     max-height: 35vw;
+}
+
+.mdegago .mde-header{
+    visibility: hidden;
 }

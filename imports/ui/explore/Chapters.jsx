@@ -497,14 +497,6 @@ class Subject extends Component {
                         <Header/>
                         {this.renderBody()}
                         <div className="chapterContainer">
-                            <div style={{
-                                position: "relative",
-                                width: "130px",
-                                top: "40px",
-                                left: "15px",
-                                height: "36px",
-                                background: "whitesmoke"
-                            }}></div>
                             {/*{parse(this.converter.makeHtml(this.state.card))}*/}
                             <ReactMde
                                 className='mdegago'
@@ -536,14 +528,6 @@ class Subject extends Component {
                         <Header/>
                         {this.renderBody()}
                         <div className="chapterContainer">
-                            <div style={{
-                                position: "relative",
-                                width: "130px",
-                                top: "40px",
-                                left: "15px",
-                                height: "36px",
-                                background: "whitesmoke"
-                            }}></div>
                             {/*{parse(this.converter.makeHtml(this.state.card))}*/}
                             <ReactMde
                                 className="mdegago"
