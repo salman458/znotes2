@@ -15,3 +15,6 @@ are `ROOT_URL` - root url for the application, `MONGO_URL` - url for outer mongo
 and `MAIL_URL` - which is the smtp URL to the company email which is needed to perform account registration process. The only configurable field in 
 `settings.json` is the project name which is going to be used in the cloud.
 
+To be able to follow the logs of the application backend run the following command:
+
+`gcloud app logs tail -s default`
