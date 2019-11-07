@@ -6,7 +6,7 @@ export default () => {
         <div className="six">
 
             <div className="sixth-component">
-                <h1 style={{color:"white"}}><b>Contact</b></h1>
+                <h1 style={{color:"white",position: "relative", top: "30px", left: "20px"}}><b>Contact</b></h1>
 
                 <div className="mapouter">
                     <div className="gmap_canvas">

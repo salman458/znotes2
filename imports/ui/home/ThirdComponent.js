@@ -8,8 +8,8 @@ export default () => {
             <h1 style={{
                 color: "white",
                 position: "relative",
-                "top": "-400px",
-                "padding-left": "20px"
+                top: "-75%",
+                paddingLeft: "20px"
             }}><b>ZNotes Process</b></h1>
             <div className="hover1">
                 <ReactHover>

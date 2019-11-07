@@ -18,7 +18,7 @@ export default () => {
                         <br/>
                         <br/>
                         <h1><b>ZNotes is supporting goal number 4:</b></h1>
-                        <h2>Ensure inclusive and quality education for all and promote lifelong learning.</h2>
+                        <h2 style={{position:"fixed"}}>Ensure inclusive and quality education for all and promote lifelong learning.</h2>
                     </div>
                 </li>
 

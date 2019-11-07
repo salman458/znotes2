@@ -6,7 +6,7 @@ export default function SingleLineGridList() {
 
     return (
         <div className="carTestContainer">
-            <h1 style={{color:"white"}}><b>Testimonials</b></h1>
+            <h1 style={{color:"white",position: "relative", left: "3%"}}><b>Testimonials</b></h1>
             <CarouselProvider
                 naturalSlideWidth={50}
                 naturalSlideHeight={100}
