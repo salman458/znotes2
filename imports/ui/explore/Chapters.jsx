@@ -45,7 +45,8 @@ class Subject extends Component {
             conf: '',
             haveSubjects: [],
             sponsorMapper: [],
-            everyN: 2
+            everyN: 2,
+            isSponsor: false
 
         };
         this.converter = new Showdown.Converter({
@@ -84,7 +85,8 @@ class Subject extends Component {
                             this.setState({
                                 card: add[0].content[this.getRandomInt(add[0].content.length)],
                                 showNav: false,
-                                showMD: true
+                                showMD: true,
+                                isSponsor: true
                             })
                         }
                     })
@@ -566,7 +568,7 @@ class Subject extends Component {
                                 }
                                 selectedTab={"preview"}
                             />
-                            <ul style={{display: "inline-table"}} className="cardEditor">
+                            <ul style={{display: "inline-table", visibility: this.state.isSponsor?'hidden':'visible'}} className="cardEditor">
                                 <li>
                                     <button className="baton baton1" onClick={this.editHandler}>Edit</button>
                                 </li>
