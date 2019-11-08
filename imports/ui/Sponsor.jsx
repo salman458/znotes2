@@ -154,7 +154,7 @@ class Editor extends Component {
                         <Select multi={true} options={
                             this.state.subjects
                         } onChange={(values) => {
-                            this.state.subjectPermissions.push(values[0]);
+                            this.state.subjectPermissions.push(values[0].value);
                             console.log('perm', this.state.subjectPermissions)
                         }}/>
                     </form>

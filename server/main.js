@@ -431,6 +431,15 @@ Meteor.methods({
             let res = sponsorCards.find({sponsor: id}).fetch();
             return res;
         }
+    },
+    getAllSponsorCards(obj){
+        let records = sponsorCards.find({}).count();
+        if(records ===0){
+            return [];
+        }else{
+            let res = sponsorCards.find({}).fetch();
+            return res;
+        }
     }
 
 });

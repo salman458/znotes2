@@ -43,7 +43,8 @@ class Subject extends Component {
             role: false,
             grade: '',
             conf: '',
-            haveSubjects: []
+            haveSubjects: [],
+            sponsorMapper: []
 
         };
         this.converter = new Showdown.Converter({
@@ -63,6 +64,7 @@ class Subject extends Component {
         this.addSubject = this.addSubject.bind(this);
         this.gradeHandler = this.gradeHandler.bind(this);
         this.confHandler = this.confHandler.bind(this);
+        this.addHandler = this.addHandler.bind(this);
 
 
     }
@@ -72,22 +74,37 @@ class Subject extends Component {
             if (err) {
                 console.log(err)
             } else {
-                this.state.card = card[0].content;
-                this.setState({
-                    moduleId: this.state.moduleId,
-                    subjectName: this.state.subjectName,
-                    moduleName: this.state.moduleName,
-                    chapters: this.state.chapters,
-                    showNav: false,
-                    showMD: true,
-                    cards: this.state.cards,
-                    buttonCount: this.state.buttonCount,
-                    totalCount: this.state.totalCount,
-                    currentChapter: this.state.currentChapter,
-                    percentage: this.state.percentage,
-                    chapterName: this.state.chapterName
+                if (card.length===0) {
+                    console.log('yashik')
+                    Meteor.call('getSponsorCard', this.state.cardId, (err, add) => {
+                        if (err)
+                            console.log(err);
+                        else {
+                            this.setState({
+                                card: add[0].content[this.getRandomInt(add[0].content.length)],
+                                showNav: false,
+                                showMD: true
+                            })
+                        }
+                    })
+                } else {
+                    this.state.card = card[0].content;
+                    this.setState({
+                        moduleId: this.state.moduleId,
+                        subjectName: this.state.subjectName,
+                        moduleName: this.state.moduleName,
+                        chapters: this.state.chapters,
+                        showNav: false,
+                        showMD: true,
+                        cards: this.state.cards,
+                        buttonCount: this.state.buttonCount,
+                        totalCount: this.state.totalCount,
+                        currentChapter: this.state.currentChapter,
+                        percentage: this.state.percentage,
+                        chapterName: this.state.chapterName
 
-                });
+                    });
+                }
                 // this.setState({percentage: ((this.state.buttonCount.get(this.state.currentChapter)) * 1.0 / (this.state.totalCount)) * 100});
 
             }
@@ -123,183 +140,217 @@ class Subject extends Component {
         })
     }
 
+    addHandler(event){
+        let uri = '/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName + '/' + event.target.id;
+        FlowRouter.go(uri);
+        window.location.reload();
+    }
+
     addCard(event) {
         FlowRouter.go('/explore/chapters/editor/' + this.state.moduleId + '/' + this.state.subjectName + '/' + event.target.id + '/' + 1);
     }
 
     componentDidMount() {
-        Meteor.call('loadModules', {_id: this.state.moduleId}, (err, zModule) => {
+        Meteor.call('getAllSponsorCards', {}, (err, res) => {
             if (err)
                 console.log(err);
-            else {
-                this.state.moduleName = zModule[0].name;
-                Meteor.call('loadChapters', {_id: {$in: zModule[0].chapters.map(chapter => chapter._id)}}, (err, chapters) => {
-                    if (err)
-                        console.log(err);
-                    else {
-                        if (Meteor.userId()) {
-                            Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
-                                if (err)
-                                    console.log(err);
-                                else {
-                                    if (role[0].role === 'team') {
-                                        this.setState({role: true});
-                                    }
-                                    Meteor.call('findUserSubjects', Meteor.userId(), (err, res) => {
-                                        if (err)
-                                            console.log(err);
-                                        else {
-                                            this.setState({superSubjects: res[0].sucjects.map(x => x.value)});
-                                            this.state.totalCount = chapters.length;
+            if (res) {
+                let mapVal = 0;
+                this.shuffle(res).forEach(record => {
+                    if (record.subjects.includes(this.state.subjectName)) {
+                        this.state.sponsorMapper.push(
+                            <button className="nest" style={{
+                                paddingTop: "1%",
+                                paddingLeft: "1%",
+                                color: "white",
+                                fontSize: "large",
+                                background: "transparent",
+                                border: "none",
+                                display: "block"
+                            }} id={record.sponsor}
+                                    onClick={this.addHandler}>{'Sponsor Content'}</button>
+                        );
+                        mapVal++;
+                    }
+                });
+                console.log('jorik', this.state.sponsorMapper);
+            }
+            Meteor.call('loadModules', {_id: this.state.moduleId}, (err, zModule) => {
+                if (err)
+                    console.log(err);
+                else {
+                    this.state.moduleName = zModule[0].name;
+                    Meteor.call('loadChapters', {_id: {$in: zModule[0].chapters.map(chapter => chapter._id)}}, (err, chapters) => {
+                        if (err)
+                            console.log(err);
+                        else {
+                            if (Meteor.userId()) {
+                                Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
+                                    if (err)
+                                        console.log(err);
+                                    else {
+                                        if (role[0].role === 'team') {
+                                            this.setState({role: true});
+                                        }
+                                        Meteor.call('findUserSubjects', Meteor.userId(), (err, res) => {
+                                            if (err)
+                                                console.log(err);
+                                            else {
+                                                this.setState({superSubjects: res[0].sucjects.map(x => x.value)});
+                                                this.state.totalCount = chapters.length;
 
-                                            let counter = 0;
-                                            chapters.forEach(chapter => {
-                                                    counter++;
-                                                    this.state.progressTracker.set(chapter._id, counter);
-                                                    if (this.state.role || this.state.superSubjects.includes(this.state.subjectName)) {
-                                                        this.state.chapters.push(
-                                                            <li className='btn-group' id={chapter._id}>
-                                                                <ul>
-                                                                    <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
-                                                                        {chapter.cards.sort((a, b) => {
-                                                                            console.log("cit",a.sortKey);
-                                                                            return a.sortKey - b.sortKey
-                                                                        }).map(card => {
-                                                                            this.state.buttonCount.set(String(card._id), chapter._id);
-                                                                            return <button className="nest" style={{
-                                                                                paddingTop: "1%",
-                                                                                paddingLeft: "1%",
-                                                                                color: "white",
-                                                                                fontSize: "large",
-                                                                                background: "transparent",
-                                                                                border: "none",
-                                                                                display: "block"
-                                                                            }} id={card._id}
-                                                                                           onClick={this.chapterHandler}>{card.title}</button>;
-                                                                        })}
-                                                                        <br/>
-                                                                        <button className="baton baton1" id={chapter._id} onClick={this.addCard}
-                                                                                variant="outline-primary">Add
-                                                                            Card
-                                                                        </button>
-                                                                    </Collapsible>
-                                                                </ul>
-                                                            </li>
-                                                        );
-                                                    } else {
-                                                        this.state.chapters.push(
-                                                            <li className='btn-group' id={chapter._id}>
-                                                                <ul>
-                                                                    <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
-                                                                        {chapter.cards.map(card => {
-                                                                            this.state.buttonCount.set(String(card._id), chapter._id);
-                                                                            return <button className="nest" style={{
-                                                                                paddingTop: "1%",
-                                                                                paddingLeft: "1%",
-                                                                                color: "white",
-                                                                                fontSize: "large",
-                                                                                background: "transparent",
-                                                                                border: "none",
-                                                                                display: "block"
+                                                let counter = 0;
+                                                chapters.forEach(chapter => {
+                                                        counter++;
+                                                        this.state.progressTracker.set(chapter._id, counter);
+                                                        if (this.state.role || this.state.superSubjects.includes(this.state.subjectName)) {
 
-                                                                            }} id={card._id}
-                                                                                           onClick={this.chapterHandler}>{card.title}</button>;
-                                                                        })}
-                                                                    </Collapsible>
-                                                                </ul>
-                                                            </li>
-                                                        );
+                                                            this.state.chapters.push(
+                                                                <li className='btn-group' id={chapter._id}>
+                                                                    <ul>
+                                                                        <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
+                                                                            {this.insertTokenEveryN(chapter.cards.sort((a, b) => {
+                                                                                console.log("cit", a.sortKey);
+                                                                                return a.sortKey - b.sortKey
+                                                                            }).map(card => {
+                                                                                this.state.buttonCount.set(String(card._id), chapter._id);
+                                                                                return <button className="nest" style={{
+                                                                                    paddingTop: "1%",
+                                                                                    paddingLeft: "1%",
+                                                                                    color: "white",
+                                                                                    fontSize: "large",
+                                                                                    background: "transparent",
+                                                                                    border: "none",
+                                                                                    display: "block"
+                                                                                }} id={card._id}
+                                                                                               onClick={this.chapterHandler}>{card.title}</button>;
+                                                                            }), this.state.sponsorMapper, 2, false)
+                                                                            }
+                                                                            <br/>
+                                                                            <button className="baton baton1" id={chapter._id} onClick={this.addCard}
+                                                                                    variant="outline-primary">Add
+                                                                                Card
+                                                                            </button>
+                                                                        </Collapsible>
+                                                                    </ul>
+                                                                </li>
+                                                            );
+                                                        } else {
+                                                            this.state.chapters.push(
+                                                                <li className='btn-group' id={chapter._id}>
+                                                                    <ul>
+                                                                        <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
+                                                                            {chapter.cards.map(card => {
+                                                                                this.state.buttonCount.set(String(card._id), chapter._id);
+                                                                                return <button className="nest" style={{
+                                                                                    paddingTop: "1%",
+                                                                                    paddingLeft: "1%",
+                                                                                    color: "white",
+                                                                                    fontSize: "large",
+                                                                                    background: "transparent",
+                                                                                    border: "none",
+                                                                                    display: "block"
+
+                                                                                }} id={card._id}
+                                                                                               onClick={this.chapterHandler}>{card.title}</button>;
+                                                                            })}
+                                                                        </Collapsible>
+                                                                    </ul>
+                                                                </li>
+                                                            );
+                                                        }
+                                                        let currChapter = this.state.progressTracker.get(this.state.buttonCount.get(this.state.cardId));
+                                                        let total = this.state.progressTracker.size;
+                                                        this.setState({progress: (currChapter / total) * 100});
+                                                        this.forceUpdate();
                                                     }
-                                                    let currChapter = this.state.progressTracker.get(this.state.buttonCount.get(this.state.cardId));
-                                                    let total = this.state.progressTracker.size;
-                                                    this.setState({progress: (currChapter / total) * 100});
-                                                    this.forceUpdate();
+                                                );
+
+
+                                                if (this.state.role || this.state.superSubjects.includes(this.state.subjectName)) {
+                                                    this.state.chapters.push(
+                                                        <div>
+                                                            {this.renderAddBoardPopUp()}
+                                                        </div>
+                                                    );
                                                 }
-                                            );
 
-
-                                            if (this.state.role || this.state.superSubjects.includes(this.state.subjectName)) {
                                                 this.state.chapters.push(
                                                     <div>
-                                                        {this.renderAddBoardPopUp()}
+                                                        {this.renderAddSubjectPopUp()}
                                                     </div>
                                                 );
+                                                this.forceUpdate();
+
+                                                if (this.state.cardId != 1)
+                                                    this.renderContent();
                                             }
+                                        });
+                                    }
+                                });
+                            } else {
+                                let counter = 0;
+                                chapters.forEach(chapter => {
+                                        counter++;
+                                        this.state.progressTracker.set(chapter._id, counter);
+                                        this.state.chapters.push(
+                                            // onClick={this.chapterHandler}
+                                            <li className='btn-group' id={chapter._id}>
+                                                <ul>
+                                                    <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
+                                                        {chapter.cards.map(card => {
+                                                            this.state.buttonCount.set(String(card._id), chapter._id);
+                                                            return <button className="nest" style={{
+                                                                paddingTop: "1%",
+                                                                paddingLeft: "1%",
+                                                                color: "white",
+                                                                fontSize: "large",
+                                                                background: "transparent",
+                                                                border: "none",
+                                                                display: "block"
 
-                                            this.state.chapters.push(
-                                                <div>
-                                                    {this.renderAddSubjectPopUp()}
-                                                </div>
-                                            );
-                                            this.forceUpdate();
-
-                                            if (this.state.cardId != 1)
-                                                this.renderContent();
-                                        }
-                                    });
-                                }
-                            });
-                        } else {
-                            let counter = 0;
-                            chapters.forEach(chapter => {
-                                    counter++;
-                                    this.state.progressTracker.set(chapter._id, counter);
-                                    this.state.chapters.push(
-                                        // onClick={this.chapterHandler}
-                                        <li className='btn-group' id={chapter._id}>
-                                            <ul>
-                                                <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
-                                                    {chapter.cards.map(card => {
-                                                        this.state.buttonCount.set(String(card._id), chapter._id);
-                                                        return <button className="nest" style={{
-                                                            paddingTop: "1%",
-                                                            paddingLeft: "1%",
-                                                            color: "white",
-                                                            fontSize: "large",
-                                                            background: "transparent",
-                                                            border: "none",
-                                                            display: "block"
-
-                                                        }} id={card._id}
-                                                                       onClick={this.chapterHandler}>{card.title}</button>;
-                                                    })}
-                                                </Collapsible>
-                                            </ul>
-                                        </li>
-                                    );
+                                                            }} id={card._id}
+                                                                           onClick={this.chapterHandler}>{card.title}</button>;
+                                                        })}
+                                                    </Collapsible>
+                                                </ul>
+                                            </li>
+                                        );
 
 
-                                }
-                            );
-                            let currChapter = this.state.progressTracker.get(this.state.buttonCount.get(this.state.cardId));
-                            let total = this.state.progressTracker.size;
-                            this.setState({progress: (currChapter / total) * 100});
-                            this.forceUpdate();
-
-                            // this.state.chapters.push(
-                            //     <Line percent={this.state.progress} strokeWidth="4"
-                            //           strokeColor="#66ff33"/>
-                            // );
-
-                            if (Meteor.user()) {
-                                this.state.chapters.push(
-                                    <div>
-                                        {this.renderAddBoardPopUp()}
-                                    </div>
+                                    }
                                 );
+                                let currChapter = this.state.progressTracker.get(this.state.buttonCount.get(this.state.cardId));
+                                let total = this.state.progressTracker.size;
+                                this.setState({progress: (currChapter / total) * 100});
+                                this.forceUpdate();
+
+                                // this.state.chapters.push(
+                                //     <Line percent={this.state.progress} strokeWidth="4"
+                                //           strokeColor="#66ff33"/>
+                                // );
+
+                                if (Meteor.user()) {
+                                    this.state.chapters.push(
+                                        <div>
+                                            {this.renderAddBoardPopUp()}
+                                        </div>
+                                    );
+                                }
+                                if (this.state.cardId != 1)
+                                    this.renderContent();
+
+
                             }
-                            if (this.state.cardId != 1)
-                                this.renderContent();
-
-
                         }
-                    }
-                    this.setState({showNav: true});
-                });
+                        this.setState({showNav: true});
+                    });
 
-            }
+                }
 
+            });
         });
+
     }
 
 
@@ -687,6 +738,32 @@ class Subject extends Component {
     }
 
 
+    shuffle(a) {
+        var j, x, i;
+        for (i = a.length - 1; i > 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            x = a[i];
+            a[i] = a[j];
+            a[j] = x;
+        }
+        return a;
+    }
+
+    insertTokenEveryN = (arr, token, n, fromEnd) => {
+        let a = arr.slice(0);
+        let idx = fromEnd ? a.length - n : n;
+
+        while ((fromEnd ? idx >= 1 : idx <= a.length)) {
+            a.splice(idx, 0, token.pop());
+            idx = (fromEnd ? idx - n : idx + n + 1);
+        }
+
+        return a;
+    };
+
+    getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
 }
 
 
