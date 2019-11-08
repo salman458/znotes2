@@ -58,13 +58,13 @@ FlowRouter.route('/register', {
     },
 });
 
-FlowRouter.route('/sponsorContent', {
+FlowRouter.route('/sponsorContent/:id', {
     name: 'AddSponsorContnet',
-    action() {
+    action: function (params, queryParams) {
         mount(App, {
-            main: <Sponsor/>,
+            main: <Sponsor id={params.id}/>,
         });
-    },
+    }
 });
 
 FlowRouter.route('/addBio', {

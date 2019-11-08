@@ -1,28 +1,28 @@
-cardSchema = new SimpleSchema({
+schema = new SimpleSchema({
     title: {
         type: String,
         label: "title"
     },
-    sponsor:{
+    sponsor: {
         type: String,
-        label: "sponsorId"
+        label: "sponsor"
     },
     logo: {
         type: String,
         label: "logo"
     },
     content: {
-        type: Array,
+        type: [Object],
         label: "content"
     },
     created: {
         type: Date,
-        label: "data_created"
+        label: "created"
     },
     subjects: {
-        type: Array,
-        label: "visibleIn"
+        type: [Object],
+        label: "subjects"
     }
 });
 
-module.exports = cardSchema;
+module.exports = schema;

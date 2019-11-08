@@ -8,6 +8,10 @@ const subject = require('./schemas/subject.js');
 const zModule = require('./schemas/zModule.js');
 const card = require('./schemas/card.js');
 const chapter = require('./schemas/chapter.js');
+const sponsorCard = require('./schemas/sponsorCard.js');
+
+const sponsorCards = new Mongo.Collection('sponsorCards');
+sponsorCards.schema = sponsorCard;
 
 const boards = new Mongo.Collection('boards');
 boards.schema = board;
@@ -401,6 +405,42 @@ Meteor.methods({
             return [];
         } else {
             let res = subjects.find({_id: id}).fetch();
+            return res;
+        }
+    },
+    addSponsorContent(card) {
+        let records = sponsorCards.find({sponsor: card.sponsor}).count();
+        if (records === 0) {
+            return sponsorCards.insert(card)
+        } else {
+            this.updateSponsorContent(card)
+        }
+    },
+    updateSponsorContent(card) {
+        sponsorCards.upsert({sponsor: card.sponsor}, {
+            $push: {
+                content: card.content
+            }
+        }, {}, (err, resp) => {
+            if (err) {
+                console.log(err)
+            } else {
+                sponsorCards.update({sponsor: card.sponsor}, {
+                    $set: {
+                        logo: card.logo,
+                        subjects: card.subjects
+                    }
+                })
+            }
+        });
+
+    },
+    getSponsorCard(id) {
+        let records = sponsorCards.find({sponsor: id}).count();
+        if (records === 0) {
+            return [];
+        } else {
+            let res = sponsorCards.find({sponsor: id}).fetch();
             return res;
         }
     }
