@@ -21,7 +21,8 @@ class Editor extends Component {
             id: props.id || undefined,
             logo: '',
             subjects: '',
-            subjectPermissions: []
+            subjectPermissions: [],
+            isNew: false
         };
         this.converter = new Showdown.Converter({
             tables: true,
@@ -33,7 +34,7 @@ class Editor extends Component {
 
     componentDidMount() {
         if (this.state.id && parseInt(this.state.id) !== 1) {
-            console.log('valod',this.state.id);
+            console.log('valod', this.state.id);
             Meteor.call('getSponsorCard', this.state.id, (err, res) => {
                 if (err)
                     console.log(err);
@@ -61,6 +62,12 @@ class Editor extends Component {
         });
     }
 
+    checkBoxHandler = (event) => {
+        this.setState({
+            isNew: !this.state.isNew
+        });
+    };
+
     handleChangeId = (event) => {
         this.setState({
             id: event.target.value
@@ -86,9 +93,10 @@ class Editor extends Component {
             title: 'Sponsor Content',
             sponsor: this.state.id,
             logo: this.state.logo,
-            content: '',
+            content: [this.state.value],
             created: new Date(),
-            subjects: this.state.subjectPermissions
+            subjects: this.state.subjectPermissions.filter(x => x !== undefined),
+            isNew: this.state.isNew
         };
 
         Meteor.call('addSponsorContent', card, (err, res) => {
@@ -108,7 +116,8 @@ class Editor extends Component {
             <div className="home-page1 -padding-20">
 
                 <Header/>
-                <div className="customContainer">
+
+                <div style={{visibility: this.state.isNew ? 'visible' : 'hidden'}} className="customContainer">
                     <ReactMde
                         onChange={this.handleValueChange}
                         onTabChange={this.handleTabChange}
@@ -125,6 +134,13 @@ class Editor extends Component {
                 </div>
                 <div className="customContainer -full-width -outer-center">
                     <form>
+                        <label htmlFor="name"><b>New Card</b></label>
+                        <br/>
+                        <input onChange={this.checkBoxHandler} type="checkbox" name="vehicle1" value="true"/>
+                        <br/>
+                        <br/>
+                        <br/>
+
                         <label htmlFor="name"><b>Sponsor Identifier</b></label>
                         <input style={{backgroundColor: "white"}} type="text"
                                placeholder={this.state.id || 'id (input unique identifier for the sponsor)'} name="name"
@@ -139,6 +155,7 @@ class Editor extends Component {
                             this.state.subjects
                         } onChange={(values) => {
                             this.state.subjectPermissions.push(values[0]);
+                            console.log('perm', this.state.subjectPermissions)
                         }}/>
                     </form>
                     <button className="baton baton1 -center" onClick={this.handleMDSave} variant="outline-primary">Save</button>

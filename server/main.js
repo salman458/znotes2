@@ -413,27 +413,15 @@ Meteor.methods({
         if (records === 0) {
             return sponsorCards.insert(card)
         } else {
-            this.updateSponsorContent(card)
-        }
-    },
-    updateSponsorContent(card) {
-        sponsorCards.upsert({sponsor: card.sponsor}, {
-            $push: {
-                content: card.content
+            if(card.isNew){
+                delete card.isNew;
+                updateSponsorContent(card)
+            }else{
+                delete card.isNew;
+                updateSponsorContentWithoutContent(card)
             }
-        }, {}, (err, resp) => {
-            if (err) {
-                console.log(err)
-            } else {
-                sponsorCards.update({sponsor: card.sponsor}, {
-                    $set: {
-                        logo: card.logo,
-                        subjects: card.subjects
-                    }
-                })
-            }
-        });
 
+        }
     },
     getSponsorCard(id) {
         let records = sponsorCards.find({sponsor: id}).count();
@@ -447,6 +435,35 @@ Meteor.methods({
 
 });
 
+function updateSponsorContent(card) {
+    console.log('zibil')
+    sponsorCards.update({sponsor: card.sponsor}, {
+        $push: {
+            content: card.content[0]
+        }
+    }, {}, (err, resp) => {
+        if (err) {
+            console.log(err)
+        } else {
+            sponsorCards.update({sponsor: card.sponsor}, {
+                $set: {
+                    logo: card.logo,
+                    subjects: card.subjects
+                }
+            })
+        }
+    });
+
+}
+function updateSponsorContentWithoutContent(card){
+    console.log('vrej')
+    return sponsorCards.update({sponsor: card.sponsor}, {
+        $set: {
+            logo: card.logo,
+            subjects: card.subjects
+        }
+    })
+}
 
 Meteor.startup(() => {
 
