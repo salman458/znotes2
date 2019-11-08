@@ -44,7 +44,8 @@ class Subject extends Component {
             grade: '',
             conf: '',
             haveSubjects: [],
-            sponsorMapper: []
+            sponsorMapper: [],
+            everyN: 2
 
         };
         this.converter = new Showdown.Converter({
@@ -74,7 +75,7 @@ class Subject extends Component {
             if (err) {
                 console.log(err)
             } else {
-                if (card.length===0) {
+                if (card.length === 0) {
                     console.log('yashik')
                     Meteor.call('getSponsorCard', this.state.cardId, (err, add) => {
                         if (err)
@@ -140,7 +141,7 @@ class Subject extends Component {
         })
     }
 
-    addHandler(event){
+    addHandler(event) {
         let uri = '/explore/chapters/module/' + this.state.moduleId + '/' + this.state.subjectName + '/' + event.target.id;
         FlowRouter.go(uri);
         window.location.reload();
@@ -224,7 +225,7 @@ class Subject extends Component {
                                                                                     display: "block"
                                                                                 }} id={card._id}
                                                                                                onClick={this.chapterHandler}>{card.title}</button>;
-                                                                            }), this.state.sponsorMapper, 2, false)
+                                                                            }), this.state.sponsorMapper, this.state.everyN, false)
                                                                             }
                                                                             <br/>
                                                                             <button className="baton baton1" id={chapter._id} onClick={this.addCard}
@@ -240,20 +241,22 @@ class Subject extends Component {
                                                                 <li className='btn-group' id={chapter._id}>
                                                                     <ul>
                                                                         <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
-                                                                            {chapter.cards.map(card => {
-                                                                                this.state.buttonCount.set(String(card._id), chapter._id);
-                                                                                return <button className="nest" style={{
-                                                                                    paddingTop: "1%",
-                                                                                    paddingLeft: "1%",
-                                                                                    color: "white",
-                                                                                    fontSize: "large",
-                                                                                    background: "transparent",
-                                                                                    border: "none",
-                                                                                    display: "block"
+                                                                            {
+                                                                                this.insertTokenEveryN(chapter.cards.map(card => {
+                                                                                    this.state.buttonCount.set(String(card._id), chapter._id);
+                                                                                    return <button className="nest" style={{
+                                                                                        paddingTop: "1%",
+                                                                                        paddingLeft: "1%",
+                                                                                        color: "white",
+                                                                                        fontSize: "large",
+                                                                                        background: "transparent",
+                                                                                        border: "none",
+                                                                                        display: "block"
 
-                                                                                }} id={card._id}
-                                                                                               onClick={this.chapterHandler}>{card.title}</button>;
-                                                                            })}
+                                                                                    }} id={card._id}
+                                                                                                   onClick={this.chapterHandler}>{card.title}</button>;
+                                                                                }),this.state.sponsorMapper,this.state.everyN,false)
+                                                                            }
                                                                         </Collapsible>
                                                                     </ul>
                                                                 </li>
@@ -298,7 +301,8 @@ class Subject extends Component {
                                             <li className='btn-group' id={chapter._id}>
                                                 <ul>
                                                     <Collapsible trigger={<p style={{fontSize: "large"}}><b>{chapter.name}</b></p>}>
-                                                        {chapter.cards.map(card => {
+                                                        {
+                                                            this.insertTokenEveryN(chapter.cards.map(card => {
                                                             this.state.buttonCount.set(String(card._id), chapter._id);
                                                             return <button className="nest" style={{
                                                                 paddingTop: "1%",
@@ -311,7 +315,9 @@ class Subject extends Component {
 
                                                             }} id={card._id}
                                                                            onClick={this.chapterHandler}>{card.title}</button>;
-                                                        })}
+                                                        }),this.state.sponsorMapper,this.state.everyN,false)
+
+                                                        }
                                                     </Collapsible>
                                                 </ul>
                                             </li>
