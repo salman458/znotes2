@@ -19,6 +19,7 @@ import Team from "../../imports/ui/Team";
 import App from '../../imports/ui/App';
 import {Accounts} from "meteor/accounts-base";
 import Admin from "../../imports/ui/Admin";
+import Sponsor from "../../imports/ui/Sponsor";
 
 
 FlowRouter.route('/', {
@@ -53,6 +54,15 @@ FlowRouter.route('/register', {
     action() {
         mount(App, {
             main: <Register/>,
+        });
+    },
+});
+
+FlowRouter.route('/sponsorContent', {
+    name: 'AddSponsorContnet',
+    action() {
+        mount(App, {
+            main: <Sponsor/>,
         });
     },
 });
