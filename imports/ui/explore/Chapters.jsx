@@ -176,7 +176,6 @@ class Subject extends Component {
                         mapVal++;
                     }
                 });
-                console.log('jorik', this.state.sponsorMapper);
             }
             Meteor.call('loadModules', {_id: this.state.moduleId}, (err, zModule) => {
                 if (err)

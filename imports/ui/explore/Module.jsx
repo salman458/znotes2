@@ -48,10 +48,9 @@ class Subject extends Component {
                                 if (role[0].role === 'team')
                                     this.setState({role: true});
 
-
                                 Meteor.call('findUserSubjects', Meteor.userId(), (err, res) => {
                                     if (err)
-                                        console.log("kkk",err);
+                                        console.log("kkk", err);
                                     else {
                                         this.state.superSubjects = res[0].sucjects.map(x => x.value);
                                         if (this.state.role || this.state.superSubjects.includes(this.state.subjectId)) {
@@ -73,7 +72,6 @@ class Subject extends Component {
                                         }
 
 
-
                                     }
                                 })
 
@@ -87,11 +85,12 @@ class Subject extends Component {
                                 showNav: true
                             })
                         });
-                    }
-                    else {
+                    } else {
                         this.state.modules = ress.map(module => {
                                 return <a style={{color: "white"}}
-                                          href={"/explore/chapters/module/" + module._id + "/" + this.state.name + "/" + 1}><div> {module.name}</div></a>
+                                          href={"/explore/chapters/module/" + module._id + "/" + this.state.subjectId + "/" + 1}>
+                                    <div> {module.name}</div>
+                                </a>
                             }
                         );
                         this.setState({
