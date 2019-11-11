@@ -24,6 +24,7 @@
     width:50%;
     background-image: url("/img/wave.svg");
     background-repeat:no-repeat;
+    text-align: -webkit-center;
 }
 
 .carousel{
@@ -32,7 +33,6 @@
 .subject {
     position: relative;
     top: 50%;
-    left: 40%;
     color: white;
     font-weight: bold;
 }

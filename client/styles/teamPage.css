@@ -5,6 +5,7 @@
     height: 300px;
     width:60%;
     background-repeat:no-repeat;
+    text-align: -webkit-center;
 }
 .something{
     padding-top: 10%;
