@@ -18,3 +18,9 @@ and `MAIL_URL` - which is the smtp URL to the company email which is needed to p
 To be able to follow the logs of the application backend run the following command:
 
 `gcloud app logs tail -s default`
+
+In order to access admin page navigate to `http://hostName/admin/0/20`
+
+In order to add sponsor content go to  `http://hostName/sponsorContent/:sponsorId`
+    if you want to add new sponsor record enter 1 for `sponsorId` if not enter sponsorId that you 
+    had previously specified in the system. The sponsored content is being displayed after each 10 cards(frequency can be easily modified code-sight)
