@@ -40,6 +40,7 @@ class Home extends AbstractComponent {
 
     getSuggestions = value => {
         //
+        this.block();
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
 
@@ -48,7 +49,9 @@ class Home extends AbstractComponent {
         );
     };
 
-    getSuggestionValue = suggestion => suggestion.name;
+    getSuggestionValue = suggestion => {
+        return suggestion.name
+    };
 
     renderSuggestion = suggestion => (
         <span>
@@ -67,12 +70,27 @@ class Home extends AbstractComponent {
             lastPosition: '',
             userSubjects: [],
             drawUsers: [],
-            lastModule: ''
+            lastModule: '',
+            blocker: false
         };
         this._pageScroller = null;
 
         this.resumeHandler = this.resumeHandler.bind(this);
+        this.block = this.block.bind(this);
+        this.unBlock = this.unBlock.bind(this);
     }
+
+    block(){
+        this.setState({
+            blocker: true
+        })
+    }
+    unBlock(){
+        this.setState({
+            blocker: false
+        })
+    }
+
 
     renderSuggestionsContainer({containerProps, children}) {
         const {ref, ...restContainerProps} = containerProps;
@@ -186,6 +204,7 @@ class Home extends AbstractComponent {
         this.setState({
             value: newValue
         });
+        this.unBlock();
     };
 
     onSuggestionsFetchRequested = ({value}) => {
@@ -195,6 +214,7 @@ class Home extends AbstractComponent {
     };
 
     onSuggestionsClearRequested = () => {
+        this.unBlock();
         this.setState({
             suggestions: []
         });
@@ -434,7 +454,7 @@ class Home extends AbstractComponent {
             </React.Fragment>
         } else {
             return <React.Fragment>
-                <ReactPageScroller ref={c => this._pageScroller = c} pageOnChange={this.pageOnChange}>
+                <ReactPageScroller blockScrollDown={this.state.blocker} ref={c => this._pageScroller = c} pageOnChange={this.pageOnChange}>
                     <div className="home-page1 -padding-20">
                         <Header/>
                         {this.renderDefaultBody()}
