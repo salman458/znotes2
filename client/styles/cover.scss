@@ -1,14 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,700,900');
 
-/* Base styling */
-body{
+body {
   background-color: #121212;
 }
-//.search__container ul{
-//  position: absolute;
-//  top: 10%;
-//  color: black;
-//}
 
 .searchUl {
   position: relative;
@@ -25,9 +19,8 @@ body{
 
 .search__container li{
   padding-top: 50px;
-
-
 }
+
 .searchBtn {
   background-color: rgb(218, 29, 86);
   color: #303030	;
@@ -39,6 +32,7 @@ body{
   opacity: 0.9;
   border-radius: 20px;
 }
+
 .searchBtn:hover {
   opacity: 1;
 }
