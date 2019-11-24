@@ -231,7 +231,7 @@ class Home extends AbstractComponent {
                 </g>
               </g>
             </svg>
-          </Pager.Item>);
+                           </Pager.Item>);
         } else {
           pageNumbers.push(<Pager.Item key={i} eventKey={i - 1} onSelect={this.goToPage}>
             <svg
@@ -250,7 +250,7 @@ class Home extends AbstractComponent {
                 </g>
               </g>
             </svg>
-                           </Pager.Item>);
+          </Pager.Item>);
         }
       }
 
@@ -450,22 +450,12 @@ page to see whole
       );
     }
 
-    // render() {
-    //
-    //     return (
-    //         <div className="home-page -padding-20">
-    //             <Header/>
-    //             {this.renderBody()}
-    //         </div>
-    //     )
-    // }
     render() {
       const pagesNumbers = this.getPagesNumbers();
       if (Meteor.user()) {
         return (
           <>
             <div className="home-page -padding-20">
-              <Header />
               {this.renderBody()}
               {this.renderFooter()}
             </div>
@@ -476,7 +466,6 @@ page to see whole
         <>
           <ReactPageScroller blockScrollDown={this.state.blocker} ref={(c) => this._pageScroller = c} pageOnChange={this.pageOnChange}>
             <div className="home-page1 -padding-20">
-              <Header />
               {this.renderDefaultBody()}
             </div>
             <SecondComponent />

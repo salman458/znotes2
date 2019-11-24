@@ -187,7 +187,6 @@ class Level extends Component {
   render() {
     return (
       <div className="home-page1 -padding-20">
-        <Header />
         {this.renderBody()}
       </div>
     );

@@ -100,8 +100,6 @@ class Editor extends Component {
       return (
         <div className="home-page1 -padding-20">
 
-          <Header />
-
           <div style={{ visibility: this.state.isNew ? 'visible' : 'hidden' }} className="customContainer">
             <ReactMde
               onChange={this.handleValueChange}

@@ -1,0 +1,27 @@
+.atom_flexbox {
+	display: flex;
+	&.column {
+		flex-direction: column;
+	}
+	&.justify-center {
+		justify-content: center;
+	}
+	&.justify-end {
+		justify-content: flex-end;
+	}
+	&.align-end {
+		align-items: flex-end;
+	}
+	&.align-center {
+		align-items: center;
+	}
+	&.justify-between {
+		justify-content: space-between;
+	}
+	&.full-width {
+		width: 100%;
+	}
+	&.no-shrink {
+		flex-shrink: 0;
+	}
+}

@@ -29,11 +29,12 @@ class ChangePassword extends Component {
     });
   }
 
-  renderBody() {
+  render() {
     return (
-      <div className="search__container -layout-v -center">
-        <form onSubmit={this.handleSubmit}>
-          <ul>
+      <div className="home-page1 -padding-20">
+        <div className="search__container -layout-v -center">
+          <form onSubmit={this.handleSubmit}>
+            <ul>
             <li><h1>Change Password</h1></li>
             <li>
               <input
@@ -56,17 +57,8 @@ class ChangePassword extends Component {
               <button type="submit" className="searchBtn">Save</button>
             </li>
           </ul>
-        </form>
-      </div>
-
-    );
-  }
-
-  render() {
-    return (
-      <div className="home-page1 -padding-20">
-        <Header />
-        {this.renderBody()}
+          </form>
+        </div>
       </div>
     );
   }

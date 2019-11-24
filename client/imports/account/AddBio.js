@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import Header from '../Header';
 import '../../styles/cover.scss';
 
 class AddBio extends Component {
@@ -39,12 +38,13 @@ class AddBio extends Component {
     this.state.mediaLinks.push({ linkedIn: event.target.value });
   }
 
-  renderBody() {
+  render() {
     return (
-      <div className="search__container -layout-v -center">
-        <form onSubmit={this.handleSubmit}>
-          <div className="containerBio">
-            <ul>
+      <div className="home-page1 -padding-20">
+        <div className="search__container -layout-v -center">
+          <form onSubmit={this.handleSubmit}>
+            <div className="containerBio">
+              <ul>
               <li><h1>Add Contributor Info</h1></li>
 
               <li>
@@ -87,18 +87,9 @@ class AddBio extends Component {
                 <button type="submit" className="searchBtn">Save</button>
               </li>
             </ul>
-          </div>
-        </form>
-      </div>
-
-    );
-  }
-
-  render() {
-    return (
-      <div className="home-page1 -padding-20">
-        <Header />
-        {this.renderBody()}
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

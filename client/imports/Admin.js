@@ -104,7 +104,6 @@ class Admin extends Component {
   render() {
     return (
       <div className="home-page1">
-        <Header />
         <div className="adminContainer">
           <div>
             <h1 id="title">All users</h1>

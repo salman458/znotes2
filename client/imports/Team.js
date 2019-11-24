@@ -249,7 +249,6 @@ Copyright @ 2019 ZNotes
   render() {
     return (
       <div className="home-page -padding-20">
-        <Header />
         {this.renderBody()}
         {this.renderFooter()}
       </div>

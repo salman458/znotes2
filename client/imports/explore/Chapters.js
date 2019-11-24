@@ -550,7 +550,6 @@ Add
       if (this.state.role || this.state.superSubjects.includes(this.state.subjectName)) {
         return (
           <div className="home-page1 -padding-20">
-            <Header />
             {this.renderBody()}
             <div className="chapterContainer">
               {/* {parse(this.converter.makeHtml(this.state.card))} */}
@@ -576,7 +575,6 @@ Add
       }
       return (
         <div className="home-page1 -padding-20">
-          <Header />
           {this.renderBody()}
           <div className="chapterContainer">
             {/* {parse(this.converter.makeHtml(this.state.card))} */}
@@ -593,7 +591,6 @@ Add
     }
     return (
       <div className="home-page1 -padding-20">
-        <Header />
         {this.renderBody()}
         <div style={{ height: '500px' }} />
       </div>

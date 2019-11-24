@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Header from '../Header';
 import '../../styles/cover.scss';
 import { Accounts } from 'meteor/accounts-base';
 
@@ -19,35 +18,27 @@ class ChangeEmail extends Component {
     });
   }
 
-  renderBody() {
+  render() {
     return (
-      <div className="search__container -layout-v -center">
-        <form onSubmit={this.handleSubmit}>
-          <ul>
-            <li><h1>Change Email Address</h1></li>
-            <li>
-              <input
+      <div className="home-page1 -padding-20">
+        <div className="search__container -layout-v -center">
+          <form onSubmit={this.handleSubmit}>
+            <ul>
+              <li><h1>Change Email Address</h1></li>
+              <li>
+                      <input
                 className="search__input -full-width"
                 type="email"
                 placeholder="Please enter your new email"
                 onChange={this.handleChangeEmail}
               />
-            </li>
-            <li>
-              <button type="submit" className="searchBtn">Save</button>
-            </li>
-          </ul>
-        </form>
-      </div>
-
-    );
-  }
-
-  render() {
-    return (
-      <div className="home-page1 -padding-20">
-        <Header />
-        {this.renderBody()}
+                    </li>
+              <li>
+                      <button type="submit" className="searchBtn">Save</button>
+                    </li>
+            </ul>
+          </form>
+        </div>
       </div>
     );
   }

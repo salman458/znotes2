@@ -161,10 +161,15 @@ class Home extends Component {
       });
     }
 
-    renderBody() {
+    handleHome() {
+      FlowRouter.go('/');
+    }
+
+    render() {
       return (
-        <div className="container -half-width -outer-center">
-          <form onSubmit={this.handleSubmit}>
+        <div className="home-page1 -padding-20">
+          <div className="container -half-width -outer-center">
+            <form onSubmit={this.handleSubmit}>
 
             <label htmlFor="name"><b>Full Name</b></label>
             <input type="text" placeholder="What is your name?" name="name" onChange={this.handleChangeName} />
@@ -215,19 +220,7 @@ class Home extends Component {
             <button type="submit" className="registerbtn" onClick={this.handleHome}>Back To Home</button>
 
           </form>
-        </div>
-      );
-    }
-
-    handleHome() {
-      FlowRouter.go('/');
-    }
-
-    render() {
-      return (
-        <div className="home-page1 -padding-20">
-          <Header />
-          {this.renderBody()}
+          </div>
         </div>
       );
     }

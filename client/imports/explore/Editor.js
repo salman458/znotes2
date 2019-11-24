@@ -130,8 +130,6 @@ class Editor extends Component {
     render() {
       return (
         <div className="home-page1 -padding-20">
-
-          <Header />
           <div className="customContainer">
             <ReactMde
               onChange={this.handleValueChange}

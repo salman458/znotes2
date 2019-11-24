@@ -20,35 +20,27 @@ class Reset extends Component {
     });
   }
 
-  renderBody() {
-    return (
-      <div className="search__container -layout-v -center">
-        <form onSubmit={this.handleSubmit}>
-          <ul>
-            <li><h1>Password reset</h1></li>
-            <li>
-              <input
-                className="search__input -full-width"
-                type="password"
-                placeholder="Please enter your new password"
-                onChange={this.handleChangePassword}
-              />
-            </li>
-            <li>
-              <button type="submit" className="searchBtn">Save</button>
-            </li>
-          </ul>
-        </form>
-      </div>
-
-    );
-  }
-
   render() {
     return (
       <div className="home-page1 -padding-20">
-        <Header />
-        {this.renderBody()}
+        <div className="search__container -layout-v -center">
+          <form onSubmit={this.handleSubmit}>
+            <ul>
+              <li><h1>Password reset</h1></li>
+              <li>
+                <input
+                  className="search__input -full-width"
+                  type="password"
+                  placeholder="Please enter your new password"
+                  onChange={this.handleChangePassword}
+                />
+              </li>
+              <li>
+                <button type="submit" className="searchBtn">Save</button>
+              </li>
+            </ul>
+          </form>
+        </div>
       </div>
     );
   }

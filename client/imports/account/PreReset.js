@@ -20,9 +20,10 @@ class Reset extends Component {
     });
   }
 
-  renderBody() {
+  render() {
     return (
-      <div className="search__container -half-width -outer-center ">
+      <div className="home-page1 -padding-20">
+        <div className="search__container -half-width -outer-center ">
         <form onSubmit={this.handleSubmit}>
           <ul>
             <li><h1>Reset Password</h1></li>
@@ -40,15 +41,6 @@ class Reset extends Component {
           </ul>
         </form>
       </div>
-
-    );
-  }
-
-  render() {
-    return (
-      <div className="home-page1 -padding-20">
-        <Header />
-        {this.renderBody()}
       </div>
     );
   }

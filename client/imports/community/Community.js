@@ -12,41 +12,7 @@ class Community extends Component {
 
   }
 
-  renderBody() {
-    return (
-      <div className="community">
-        <ul>
-          <li>
-            <h1 className="communityHeader"><b>Our podcasts</b></h1>
-            <div className="communityContainer">
-              <iframe
-                src="https://open.spotify.com/embed-podcast/show/7jPpEntVVviSy0SNOqnZMq"
-                width="100%"
-                height="232"
-                frameBorder="0"
-                allowTransparency="true"
-                allow="encrypted-media"
-              />
-            </div>
-          </li>
-          <li>
-            <h1 className="communityHeader"><b>Join the discussion</b></h1>
-            <div className="communityContainer">
-              <iframe
-                src="https://discordapp.com/widget?id=513750483572097034&amp;theme=dark"
-                width="100%"
-                height="232"
-                allowTransparency="true"
-                frameBorder="0"
-              />
-            </div>
-          </li>
-        </ul>
-
-      </div>
-    );
-  }
-
+  // NOTE: FOOTER
   renderFooter() {
     return (
       <div>
@@ -220,8 +186,36 @@ Copyright @ 2019 ZNotes
   render() {
     return (
       <div className="home-page -padding-20">
-        <Header />
-        {this.renderBody()}
+        <div className="community">
+          <ul>
+            <li>
+              <h1 className="communityHeader"><b>Our podcasts</b></h1>
+              <div className="communityContainer">
+                <iframe
+                  src="https://open.spotify.com/embed-podcast/show/7jPpEntVVviSy0SNOqnZMq"
+                  width="100%"
+                  height="232"
+                  frameBorder="0"
+                  allowTransparency="true"
+                  allow="encrypted-media"
+                />
+              </div>
+            </li>
+            <li>
+              <h1 className="communityHeader"><b>Join the discussion</b></h1>
+              <div className="communityContainer">
+                <iframe
+                  src="https://discordapp.com/widget?id=513750483572097034&amp;theme=dark"
+                  width="100%"
+                  height="232"
+                  allowTransparency="true"
+                  frameBorder="0"
+                />
+              </div>
+            </li>
+          </ul>
+
+        </div>
         {this.renderFooter()}
       </div>
     );
