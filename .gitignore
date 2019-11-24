@@ -1,6 +1,5 @@
 node_modules/
 .idea/
 semantic/
-package-lock.json
-package-lock 2.json
 semantic.json
+.DS_Store

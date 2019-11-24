@@ -1,0 +1,20 @@
+{
+	"env": {
+		"node": true,
+		"browser": true,
+		"es6": true
+	},
+	"extends": "@meteorjs/eslint-config-meteor",
+	"rules": {
+		"no-multiple-empty-lines": [
+			2,
+			{
+				"max": 1,
+				"maxEOF": 0,
+				"maxBOF": 0
+			}
+		],
+		"jsx-a11y/click-events-have-key-events": 0,
+		"jsx-a11y/anchor-is-valid": 0
+	}
+}
