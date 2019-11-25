@@ -3,7 +3,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import AbstractComponent from '../AbstractComponent';
-import Header from '../Header';
+;
 import '../../styles/consfirm.css'; // Import css
 
 class Home extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Switch from 'react-switch';
-import Header from './Header';
+
 
 class Team extends Component {
   constructor(props) {

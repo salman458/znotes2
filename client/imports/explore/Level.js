@@ -8,7 +8,7 @@ import Popup from 'reactjs-popup';
 import {
   CarouselProvider, Slider, Slide, ButtonBack, ButtonNext,
 } from 'pure-react-carousel';
-import Header from '../Header';
+;
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 class Level extends Component {

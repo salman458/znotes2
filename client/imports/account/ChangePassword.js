@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Header from '../Header';
 import '../../styles/cover.scss';
 import { Accounts } from 'meteor/accounts-base';
 

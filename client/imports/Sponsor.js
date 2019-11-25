@@ -6,7 +6,7 @@ import '../styles/editor.css';
 import Select from 'react-dropdown-select';
 
 import { Meteor } from 'meteor/meteor';
-import Header from './Header';
+
 
 class Editor extends Component {
   constructor(props) {

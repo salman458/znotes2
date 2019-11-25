@@ -9,7 +9,7 @@ const Link = ({ to, children, ...props }) => (
 
 Link.propTypes = {
   to: PropTypes.string.isRequired,
-  children: PropTypes.oneOf(PropTypes.element, PropTypes.string).isRequired,
+  children: PropTypes.oneOf([PropTypes.element, PropTypes.string]).isRequired,
 };
 
 export default Link;

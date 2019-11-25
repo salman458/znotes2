@@ -14,7 +14,7 @@ import Popup from 'reactjs-popup';
 import { button } from 'reactstrap';
 import { Carousel } from 'react-responsive-carousel';
 import ReactMde from 'react-mde';
-import Header from '../Header';
+;
 
 const ReactMarkdown = require('react-markdown');
 

@@ -6,7 +6,6 @@ import '../styles/admin.css';
 import { Button } from 'react-bootstrap';
 import Select from 'react-dropdown-select';
 import { Meteor } from 'meteor/meteor';
-import Header from './Header';
 
 class Admin extends Component {
   constructor(props) {

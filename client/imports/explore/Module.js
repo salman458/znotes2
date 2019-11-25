@@ -5,7 +5,7 @@ import '../../styles/boards.css';
 import SideNav, { MenuIcon } from 'react-simple-sidenav';
 import { Meteor } from 'meteor/meteor';
 import Popup from 'reactjs-popup';
-import Header from '../Header';
+;
 
 class Subject extends Component {
   constructor(props) {

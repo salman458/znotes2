@@ -5,7 +5,7 @@ import 'react-mde/lib/styles/css/react-mde-all.css';
 import '../../styles/editor.css';
 import { Button } from 'react-bootstrap';
 
-import Header from '../Header';
+;
 
 class Editor extends Component {
   constructor(props) {

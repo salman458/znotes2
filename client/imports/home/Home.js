@@ -22,7 +22,6 @@ import '../../styles/userPage.css';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 import AbstractComponent from '../AbstractComponent';
-import Header from '../Header';
 
 const BorderLinearProgress = withStyles({
   root: {
