@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../styles/cover.scss';
+
 import { Accounts } from 'meteor/accounts-base';
 
 class ChangePassword extends Component {

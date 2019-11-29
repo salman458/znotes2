@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Team = () => (
-  <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+const Team = (props) => (
+  <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" {...props}>
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="explorer-dark" transform="translate(-732.000000, -86.000000)" fill="#FFFFFF" fillRule="nonzero">
         <g id="Group" transform="translate(215.000000, 79.000000)">

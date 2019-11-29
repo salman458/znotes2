@@ -1,0 +1,9 @@
+.page_landing-root {
+  position: relative;
+  .page_landing-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+}

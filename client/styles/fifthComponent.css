@@ -11,9 +11,6 @@
 .fifth-component ul{
     display: inline-flex;
 }
-.fifth-component h1 {
-    padding-bottom: 20%;
-}
 .fifth-component h2{
     text-align: left;
 }

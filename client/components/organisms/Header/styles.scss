@@ -1,0 +1,10 @@
+@import "{}/client/styles/variables";
+
+.organism_header-root {
+  height: $header_size;
+  width: 100vw;
+  position: fixed;
+  z-index: 2;
+  padding: 0 35px;
+  margin-top: 15px;
+}

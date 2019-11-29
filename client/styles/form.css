@@ -54,7 +54,7 @@
 }
 
 /* Full-width input fields */
-input[type=text], input[type=email], input[type=password], input[type=date] {
+/* input[type=text], input[type=email], input[type=password], input[type=date] {
     width: 100%;
     padding: 15px;
     margin: 5px 0 22px 0;
@@ -62,9 +62,7 @@ input[type=text], input[type=email], input[type=password], input[type=date] {
     border: none;
     background: #383838;
     color: gray;
-}
-
-
+} */
 
 .registerbtn {
     background-color: rgb(218, 29, 86);

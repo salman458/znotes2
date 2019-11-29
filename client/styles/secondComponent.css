@@ -14,9 +14,6 @@
 .second-component ul{
     display: inline-flex;
 }
-.second-component h1 {
-    padding-bottom: 15%;
-}
 .second-component h2{
     text-align: left;
 }

@@ -4,7 +4,7 @@ import Navigation from './Navigation';
 import LoginPopup from './LoginPopup';
 
 const Header = () => (
-  <FlexBox align justifyBetween>
+  <FlexBox align justifyBetween className="organism_header-root">
     <Navigation />
     <LoginPopup />
   </FlexBox>

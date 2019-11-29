@@ -1,0 +1,7 @@
+@import "{}/client/styles/variables";
+
+$layouts_gap: 15px;
+
+.molecule_layout {
+	padding-top: $header_size + $layouts_gap;
+}

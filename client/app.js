@@ -1,14 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from '/client/components/organisms/Header';
+import { Layout } from '/client/components/atoms';
+import { Header, Footer } from '/client/components/organisms';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import theme from './theme';
 
-// TODO: Create general layout here,
-// Add header and footer.
+import './styles/root.scss';
+
 const App = ({ content }) => (
-  <>
+  <MuiThemeProvider theme={theme}>
     <Header />
-    {content}
-  </>
+    <Layout>
+      {content}
+    </Layout>
+    <Footer />
+  </MuiThemeProvider>
 );
 
 App.propTypes = {

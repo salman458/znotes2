@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import '../../styles/cover.scss';
 
 class AddBio extends Component {
   constructor(props) {
@@ -45,9 +44,9 @@ class AddBio extends Component {
           <form onSubmit={this.handleSubmit}>
             <div className="containerBio">
               <ul>
-              <li><h1>Add Contributor Info</h1></li>
+                <li><h1>Add Contributor Info</h1></li>
 
-              <li>
+                <li>
                 <input
                   className="search__input -full-width"
                   type="text"
@@ -56,7 +55,7 @@ class AddBio extends Component {
                 />
               </li>
 
-              <li>
+                <li>
                 <input
                   className="search__input -full-width"
                   type="text"
@@ -65,7 +64,7 @@ class AddBio extends Component {
                 />
               </li>
 
-              <li>
+                <li>
                 <input
                   className="search__input -full-width"
                   type="text"
@@ -74,7 +73,7 @@ class AddBio extends Component {
                 />
               </li>
 
-              <li>
+                <li>
                 <input
                   className="search__input -full-width"
                   type="text"
@@ -83,10 +82,10 @@ class AddBio extends Component {
                 />
               </li>
 
-              <li>
+                <li>
                 <button type="submit" className="searchBtn">Save</button>
               </li>
-            </ul>
+              </ul>
             </div>
           </form>
         </div>

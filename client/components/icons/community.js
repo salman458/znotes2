@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Community = () => (
-  <svg width="30px" height="22px" viewBox="0 0 30 22" version="1.1">
+const Community = (props) => (
+  <svg width="30px" height="22px" viewBox="0 0 30 22" version="1.1" {...props}>
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="dashboard" transform="translate(-523.000000, -87.000000)">
         <g id="Group" transform="translate(208.000000, 78.000000)">

@@ -1,0 +1,35 @@
+@import "{}/client/styles/variables";
+
+.react-autosuggest__container {
+  flex-grow: 1;
+  position: relative;
+  width: 65%;
+  margin: 55px 0;
+}
+.react-autosuggest__suggestions-container {
+  padding: 0;
+}
+.react-autosuggest__input {
+  width: 100%;
+  padding: 22px 45px;
+  border-radius: 45px;
+  border: none;
+  background: #383838;
+  color: #4F4F4F;
+  font-size: $content_text_size;
+}
+.react-autosuggest__suggestions-container--open {
+  padding: 10;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.react-autosuggest__suggestion {
+  display: block;
+}
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}

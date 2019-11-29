@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import '../../styles/cover.scss';
-import '../../styles/scroller.css';
+
+
 import '../../styles/boards.css';
 import { Meteor } from 'meteor/meteor';
-import Popup from 'reactjs-popup';
+// import Popup from 'reactjs-popup';
 
 import {
   CarouselProvider, Slider, Slide, ButtonBack, ButtonNext,
 } from 'pure-react-carousel';
-;
 import 'pure-react-carousel/dist/react-carousel.es.css';
+
 
 class Explore extends Component {
   constructor(props) {
@@ -134,19 +134,20 @@ class Explore extends Component {
   }
 
   renderAddBoardPopUp() {
-    return (
-      <Popup trigger={this.renderButton} modal>
-        {(close) => (
-          <div className="modal">
-            <a className="close" onClick={close}>
-                            &times;
-            </a>
-            {this.renderEdit()}
-          </div>
-        )}
+    return null;
+    // return (
+    //   <Popup trigger={this.renderButton} modal>
+    //     {(close) => (
+    //       <div className="modal">
+    //         <a className="close" onClick={close}>
+    //                         &times;
+    //         </a>
+    //         {this.renderEdit()}
+    //       </div>
+    //     )}
 
-      </Popup>
-    );
+    //   </Popup>
+    // );
   }
 
   renderButton() {

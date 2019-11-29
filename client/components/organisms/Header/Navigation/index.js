@@ -38,20 +38,20 @@ const NavigationItems = [
 ];
 
 const Navigation = () => (
-  <FlexBox center>
+  <FlexBox align>
     <Link to="/">
       <Image
-        className="logo-pic"
+        className="organism_header-logo"
         src="/img/logo.png"
       />
     </Link>
-    <FlexBox center>
+    <FlexBox align>
       {NavigationItems.map(({ title, to }) => {
         const Icon = NavigationIcons[title];
         return (
-          <Link to={to}>
-            <FlexBox center>
-              <Icon />
+          <Link key={title} to={to} className="organism_header-link">
+            <FlexBox align>
+              <Icon className="organism_header-icon" />
               {title}
             </FlexBox>
           </Link>

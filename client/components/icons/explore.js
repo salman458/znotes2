@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Explore = () => (
-  <svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1">
+const Explore = (props) => (
+  <svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" {...props}>
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="community" transform="translate(-360.000000, -84.000000)">
         <g id="Group" transform="translate(208.000000, 79.000000)">
