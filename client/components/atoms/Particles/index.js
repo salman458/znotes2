@@ -6,7 +6,7 @@ import particleParams from './particle-config.json';
 const Particles = ({ className }) => (
   <RParticles
     width="100vw"
-    height="calc(100vh - 85px)"
+    height="100vh"
     className={className}
     params={particleParams}
   />
