@@ -8,10 +8,12 @@ const TextBlock = ({ className, ...props }) => (
 
 TextBlock.defaultProps = {
   className: '',
+  color: 'textPrimary',
 };
 
 TextBlock.propTypes = {
   className: PropTypes.string,
+  color: PropTypes.string,
 };
 
 export default TextBlock;

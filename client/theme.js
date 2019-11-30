@@ -14,12 +14,12 @@ export default createMuiTheme({
       light: '#40CDFF',
       contrastText: '#FFFFFF',
     },
-  },
-  text: {
-    primary: '#FFFFFF',
-    secondary: '#4F4F4F',
-    disabled: 'rgba(0, 0, 0, 0.38)',
-    hint: 'rgba(0, 0, 0, 0.38)',
+    text: {
+      primary: '#FFFFFF',
+      secondary: '#4F4F4F',
+      disabled: 'rgba(0, 0, 0, 0.38)',
+      hint: 'rgba(0, 0, 0, 0.38)',
+    },
   },
   background: {
     paper: '#121212',
