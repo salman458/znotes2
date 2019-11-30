@@ -21,6 +21,8 @@ import FifthComponent from './FifthComponent';
 import SixthComponent from './SixthComponent';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
+import './styles.scss';
+
 const content = [
   Landing,
   SecondComponent,
@@ -257,7 +259,7 @@ page to see whole
       }
       return (
         <>
-          <Stickyroll pages={content} factor={2} anchors="" className="landing_container">
+          <Stickyroll pages={content} factor={2} anchors="" className="landing_container landing_root">
             {({
               pageIndex, progress,
             }) => {

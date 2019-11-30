@@ -1,5 +1,7 @@
 @import '{}/client/styles/variables';
 
 .landing_container {
-  margin-top: -$header_gap;
+  &.landing_root {
+    margin-top: -$header_gap;
+  }
 }
