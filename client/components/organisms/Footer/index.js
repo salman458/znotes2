@@ -2,6 +2,8 @@ import React from 'react';
 import { FlexBox, Text, Link } from '/client/components/atoms';
 import Icons from './Icons';
 
+import './styles.scss';
+
 const Footer = () => (
   <FlexBox align justifyBetween className="organism_footer-root">
     <Text>

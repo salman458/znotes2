@@ -8,6 +8,8 @@ import {
 } from '/client/components/icons';
 import { FlexBox, Link } from '/client/components/atoms';
 
+import './styles.scss';
+
 const SocialItems = [
   {
     icon: Facebook,
@@ -22,19 +24,24 @@ const SocialItems = [
     to: 'https://www.youtube.com',
   },
   {
-    icon: Discord,
-    to: 'https://discordapp.com',
-  },
-  {
     icon: Twitter,
     to: 'https://www.twitter.com',
+  },
+  {
+    icon: Discord,
+    to: 'https://discordapp.com',
   },
 ];
 
 const Icons = () => (
   <FlexBox align justifyBetween>
     {SocialItems.map(({ icon: Icon, to }) => (
-      <Link newPage key={to} to={to}>
+      <Link
+        newPage
+        key={to}
+        to={to}
+        className="organism_footer-icon"
+      >
         <Icon />
       </Link>
     ))}
