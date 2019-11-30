@@ -29,6 +29,14 @@
 		"body": [
 			"@import '{}/client/styles/colors';"
 		],
-		"description": "Import variables"
+		"description": "Import colors"
+  },
+  "Import the local scss file": {
+		"scope": "javascript,typescript",
+		"prefix": "impsc",
+		"body": [
+			"import './styles.scss'"
+		],
+		"description": "Import style"
 	}
 }
