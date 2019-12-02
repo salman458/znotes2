@@ -38,5 +38,13 @@
 			"import './styles.scss'"
 		],
 		"description": "Import style"
+  },
+  "Import an atom": {
+		"scope": "javascript,typescript",
+		"prefix": "impa",
+		"body": [
+			"import { $1 } from '/client/components/atoms';"
+		],
+		"description": "Import Atom"
 	}
 }

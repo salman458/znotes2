@@ -1,0 +1,15 @@
+@import '{}/client/styles/variables';
+
+.page_contact-container {
+  margin-top: 2 * $header_size;
+  .page_contact-wrapper {
+    width: 50%;
+    .page_contact-input {
+      margin-bottom: 20px;
+    }
+    .page_submit-button {
+      width: 50%;
+      padding: 10px 20px;
+    }
+  }
+}

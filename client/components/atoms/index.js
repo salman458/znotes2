@@ -7,4 +7,5 @@ export { default as Layout } from './Layout';
 export { default as Link } from './Link';
 export { default as Particles } from './Particles';
 export { default as Text } from './Text';
+export { default as TextField } from './TextField';
 export { default as Title } from './Title';

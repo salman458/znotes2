@@ -19,6 +19,7 @@
     "@stickyroll/themes": "^1.1.6",
     "bcrypt": "^3.0.7",
     "body-scroll-lock": "^2.6.4",
+    "clsx": "^1.0.4",
     "html-react-parser": "^0.9.1",
     "meteor-node-stubs": "^0.4.1",
     "pure-react-carousel": "^1.22.0",
@@ -44,11 +45,13 @@
     "react-responsive-carousel": "^3.1.50",
     "react-showdown": "^1.6.0",
     "react-simple-sidenav": "^1.0.1",
+    "react-slick": "^0.25.2",
     "react-switch": "^5.0.1",
     "react-table": "^6.10.2",
     "reactstrap": "^8.0.1",
     "showdown": "^1.9.0",
-    "simpl-schema": "^1.5.5"
+    "simpl-schema": "^1.5.5",
+    "slick-carousel": "^1.8.1"
   },
   "meteor": {
     "mainModule": {

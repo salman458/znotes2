@@ -13,23 +13,25 @@ import { Pagers } from '@stickyroll/pagers';
 import { Inner } from '@stickyroll/inner';
 
 import { Play } from '/client/components/icons';
-import { Landing } from '/client/components/pages';
-import SecondComponent from './SecondComponent';
-import ThirdComponent from './ThirdComponent';
-import FourthComponent from './FourthComponent';
-import FifthComponent from './FifthComponent';
-import SixthComponent from './SixthComponent';
+import {
+  Landing,
+  Process,
+  Story,
+  Donate,
+  Testimonials,
+  Contact,
+} from '/client/components/pages';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 import './styles.scss';
 
 const content = [
   Landing,
-  SecondComponent,
-  ThirdComponent,
-  FourthComponent,
-  FifthComponent,
-  SixthComponent,
+  Story,
+  Process,
+  Testimonials,
+  Donate,
+  Contact,
 ];
 
 const theme = {

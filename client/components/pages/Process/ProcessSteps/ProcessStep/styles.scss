@@ -1,0 +1,46 @@
+$round_size: 90px;
+
+.round_container {
+  position: relative;
+  z-index: 1;
+  .round {
+    height: $round_size;
+    width: $round_size;
+    border-radius: 100%;
+    box-shadow: 0px 0px 0px 10px #121212,
+    0px 0px 0px 11px #333333;
+    box-sizing: border-box;
+    .inner {
+      width: calc(100% - 10px);
+      height: calc(100% - 10px);
+      border-radius: 100%;
+      border: 1px solid #4F4F4F;
+      .icon {
+        height: 60%;
+        width: 60%;
+      }
+    }
+  }
+  .text {
+    width: 20vw;
+    position: absolute;
+    left: -100%;
+    margin-right: 10px;
+    &.bigText {
+      width: 30vw;
+    }
+  }
+  &.top {
+    margin-top: -$round_size;
+    .text {
+      top: -$round_size - 20px;
+      margin-bottom: 20px;
+    }
+  }
+  &.bottom {
+    margin-top: $round_size;
+    .text {
+      margin-top: 20px;
+    }
+  }
+}

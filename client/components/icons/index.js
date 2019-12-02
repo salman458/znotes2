@@ -1,13 +1,21 @@
-export { default as Community } from './community';
-export { default as Discord } from './discord';
-export { default as Explore } from './explore';
-export { default as Facebook } from './fb';
-export { default as Instagram } from './instagram';
-export { default as Play } from './play';
-export { default as Home } from './home';
-export { default as Team } from './team';
-export { default as Twitter } from './twitter';
-export { default as Youtube } from './youtube';
+export { default as Community } from './Community';
+export { default as Diamond } from './Diamond';
+export { default as Discord } from './Discord';
+export { default as Explore } from './Explore';
+export { default as Facebook } from './Fb';
+export { default as Home } from './Home';
+export { default as Instagram } from './Instagram';
+export { default as Learning } from './Learning';
+export { default as Perfection } from './Perfection';
+export { default as Play } from './Play';
+export { default as Prev } from './Prev';
+export { default as Proofread } from './Proofread';
+export { default as Team } from './Team';
+export { default as Touch } from './Touch';
+export { default as Twitter } from './Twitter';
+export { default as Youtube } from './Youtube';
 export {
   Close,
+  PlayCircleFilled as Next,
+  DoneAll as Validate,
 } from '@material-ui/icons';

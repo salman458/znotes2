@@ -20,10 +20,10 @@ export default createMuiTheme({
       disabled: 'rgba(0, 0, 0, 0.38)',
       hint: 'rgba(0, 0, 0, 0.38)',
     },
-  },
-  background: {
-    paper: '#121212',
-    default: '#121212',
+    background: {
+      paper: '#121212',
+      default: '#121212',
+    },
   },
   typography: {
     fontFamily: '\'Open Sans\', sans-serif',
