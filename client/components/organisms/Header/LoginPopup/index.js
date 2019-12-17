@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { Close } from '/client/components/icons';
-import { FlexBox, Button, IconButton } from '/client/components/atoms';
-import Login from '/client/imports/account/Login';
+import { Button } from '/client/components/atoms';
+import { ClosePopup, Login } from '/client/components/molecules';
 
 const LoginPopup = () => {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
+
   return (
     <>
       <Button
@@ -18,23 +15,13 @@ const LoginPopup = () => {
       >
         Account
       </Button>
-      <Dialog
+      <ClosePopup
         open={open}
         onClose={handleClose}
-        aria-labelledby="login-dialog-title"
-        aria-describedby="login-dialog-description"
+        className="organism_header-login-popup"
       >
-        <DialogTitle id="login-dialog-title">
-          <FlexBox align justifyEnd>
-            <IconButton onClick={handleClose}>
-              <Close />
-            </IconButton>
-          </FlexBox>
-        </DialogTitle>
-        <DialogContent>
-          <Login />
-        </DialogContent>
-      </Dialog>
+        <Login />
+      </ClosePopup>
     </>
   );
 };

@@ -12,10 +12,6 @@ export default class Login extends Component {
       password: '',
       role: false,
     };
-
-    this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    this.handleChangePassword = this.handleChangePassword.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -40,22 +36,6 @@ export default class Login extends Component {
           {
             label: 'No',
             onClick: () => FlowRouter.go('/'),
-          },
-        ],
-      });
-    };
-
-    login = () => {
-      confirmAlert({
-        title: 'LogIn',
-        message: 'Click continue to proceed to the content',
-        buttons: [
-          {
-            label: 'Yes',
-            onClick: () => {
-              FlowRouter.go('/');
-              window.location.reload();
-            },
           },
         ],
       });
@@ -143,10 +123,6 @@ export default class Login extends Component {
             <button type="submit" className="registerbtn">Login</button>
 
             <div className="container signin">
-              <p>
-Forgot password?
-                {' '}
-                <a href="#" onClick={this.handleReset}>reset password</a>
 . Or Create new account
                 {' '}
                 <a
@@ -180,25 +156,13 @@ sign
       FlowRouter.go('/password/change');
     }
 
-    handleReset() {
-      FlowRouter.go('/password/reset');
-    }
+    // handleReset() {
+    //   FlowRouter.go('/password/reset');
+    // }
 
-    handleRegister() {
-      FlowRouter.go('/register');
-    }
-
-    handleSubmit() {
-      Meteor.loginWithPassword(this.state.email, this.state.password, ((error) => {
-        if (error) {
-          console.log(error);
-          this.wrongPassword();
-        } else {
-          this.login();
-        }
-      }));
-      event.preventDefault();
-    }
+    // handleRegister() {
+    //   FlowRouter.go('/register');
+    // }
 
     handleLogout() {
       Meteor.logout();

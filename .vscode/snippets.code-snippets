@@ -46,5 +46,13 @@
 			"import { $1 } from '/client/components/atoms';"
 		],
 		"description": "Import Atom"
+  },
+  "Import prop-types": {
+		"scope": "javascript,typescript",
+		"prefix": "impp",
+		"body": [
+			"import PropTypes from 'prop-types';"
+		],
+		"description": "Import Prop Types"
 	}
 }

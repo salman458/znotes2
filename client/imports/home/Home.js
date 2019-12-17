@@ -261,7 +261,7 @@ page to see whole
       }
       return (
         <>
-          <Stickyroll pages={content} factor={2} anchors="" className="landing_container landing_root">
+          <Stickyroll pages={content} factor={1.3} anchors="" className="landing_container landing_root">
             {({
               pageIndex, progress,
             }) => {
