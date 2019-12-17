@@ -1,8 +1,21 @@
+@import '{}/client/styles/colors';
+
 .molecule_login-container {
   .molecule_login-field {
     margin-bottom: 20px;
   }
   .molecule_login-submit-button {
     width: 100%;
+  }
+  .molecule_login_link {
+    margin-top: 5px;
+    font-size: 14px;
+    color: $secondary_color;
+    &.forgot {
+      margin-right: 20px;
+    }
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }

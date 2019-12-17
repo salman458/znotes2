@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { TextField, Button, Link } from '/client/components/atoms';
+import { TextField, Button, Link, FlexBox } from '/client/components/atoms';
 import Paper from '@material-ui/core/Paper';
 import './styles.scss';
 
@@ -38,7 +38,7 @@ const LoginPopup = () => {
         className="molecule_login-field"
       />
       <TextField
-        error={error}
+        error={!!error}
         onChange={onPassChange}
         type="password"
         label="Password"
@@ -51,8 +51,10 @@ const LoginPopup = () => {
       >
         Submit
       </Button>
-      <Link to="/password/reset">Forgot password?</Link>
-      <Link to="/register">New to ZNotes?</Link>
+      <FlexBox align justifyBetween>
+        <Link className="molecule_login_link forgot" to="/password/reset">Forgot password?</Link>
+        <Link className="molecule_login_link" to="/register">New to ZNotes?</Link>
+      </FlexBox>
     </Paper>
   );
 };
