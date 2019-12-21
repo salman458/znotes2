@@ -19,8 +19,8 @@ const GetPermissionLevel = () => {
       Request({
         action: 'findUserRole',
         body: Meteor.userId(),
-        callback: (userRole) => {
-          if (userRole[0].userRole === 'team') {
+        callback: ([{ role }]) => {
+          if (role === 'team') {
             currentPermission = USER_PERMISSIONS.editor;
           }
         },

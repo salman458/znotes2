@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { TextField, Button, Link, FlexBox } from '/client/components/atoms';
+import {
+  TextField,
+  Button,
+  Link,
+  FlexBox,
+} from '/client/components/atoms';
 import Paper from '@material-ui/core/Paper';
 import './styles.scss';
 

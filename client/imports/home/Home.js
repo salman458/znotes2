@@ -81,10 +81,11 @@ class Home extends React.Component {
         if (err) console.log(err);
         else {
           const lastPositions = res[0].lastPositions.sort((x, y) => y.timestamp - x.timestamp);
-          this.setState({ lastPosition: lastPositions[0].position });
-          this.setState({ progress: lastPositions[0].progress });
-          this.setState({ lastModule: lastPositions[0].moduleName });
-          console.log('bbb', this.state);
+          if (lastPositions.length) {
+            this.setState({ lastPosition: lastPositions[0].position });
+            this.setState({ progress: lastPositions[0].progress });
+            this.setState({ lastModule: lastPositions[0].moduleName });
+          }
         }
       });
 
@@ -180,7 +181,7 @@ page to see whole
                             content.
                 </b>
               </p>
-              <Autosuggest
+              {/* <Autosuggest
                 renderSuggestionsContainer={this.renderSuggestionsContainer}
                 suggestions={suggestions}
                 onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -189,7 +190,7 @@ page to see whole
                 renderSuggestion={this.renderSuggestion}
                 inputProps={inputProps}
                 highlightFirstSuggestion
-              />
+              /> */}
               <button onClick={this.searchHandler} type="submit" className="resumeSearchBtn">Search</button>
 
             </div>
@@ -222,7 +223,6 @@ page to see whole
                       width="100%"
                       height="232"
                       frameBorder="0"
-                      allowTransparency="true"
                       allow="encrypted-media"
                       title="spotify"
                     />
@@ -235,7 +235,6 @@ page to see whole
                       src="https://discordapp.com/widget?id=513750483572097034&amp;theme=dark"
                       width="100%"
                       height="232"
-                      allowTransparency="true"
                       frameBorder="0"
                       title="discord"
                     />
@@ -250,7 +249,7 @@ page to see whole
     }
 
     render() {
-      if (Meteor.user()) {
+      if (Meteor.userId()) {
         return (
           <>
             <div className="home-page -padding-20">

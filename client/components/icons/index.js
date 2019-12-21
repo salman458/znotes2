@@ -18,4 +18,6 @@ export {
   Close,
   PlayCircleFilled as Next,
   DoneAll as Validate,
+  AccountCircleOutlined as Account,
+  ArrowDropDown as MenuDown,
 } from '@material-ui/icons';

@@ -24,7 +24,6 @@ class Community extends Component {
                   width="100%"
                   height="232"
                   frameBorder="0"
-                  allowTransparency="true"
                   allow="encrypted-media"
                 />
               </div>
@@ -36,7 +35,6 @@ class Community extends Component {
                   src="https://discordapp.com/widget?id=513750483572097034&amp;theme=dark"
                   width="100%"
                   height="232"
-                  allowTransparency="true"
                   frameBorder="0"
                 />
               </div>
