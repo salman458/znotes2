@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 import '../../styles/boards.css';
 import { Meteor } from 'meteor/meteor';
 // import Popup from 'reactjs-popup';
@@ -83,7 +82,6 @@ class Level extends Component {
   }
 
   renderBody() {
-    console.log(this.state.levels);
     if (Meteor.userId()) {
       if (this.state.role) {
         return (

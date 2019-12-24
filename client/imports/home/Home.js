@@ -13,7 +13,6 @@ import { Stickyroll } from '@stickyroll/stickyroll';
 import { Pagers } from '@stickyroll/pagers';
 import { Inner } from '@stickyroll/inner';
 
-import { Play } from '/client/components/icons';
 import {
   Landing,
   Process,
@@ -50,17 +49,6 @@ const theme = {
   strokeWidth: '2px',
 };
 
-const BorderLinearProgress = withStyles({
-  root: {
-    height: 10,
-    backgroundColor: lighten('#0cb046', 0.5),
-  },
-  bar: {
-    borderRadius: 20,
-    backgroundColor: '#0ec74f',
-  },
-})(LinearProgress);
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -76,11 +64,6 @@ class Home extends React.Component {
     };
   }
 
-    resumeHandler = () => {
-      const { lastPosition } = this.state;
-      FlowRouter.go(lastPosition);
-      window.location.reload();
-    }
 
     renderBody() {
       const {
@@ -94,25 +77,6 @@ class Home extends React.Component {
       };
       return (
         <ul className="userPage">
-          <li>
-            <h1><b>Resume</b></h1>
-            <h2>{lastModule}</h2>
-            <div className="bdsm">
-              <div className="play-button">
-                <Play onClick={this.resumeHandler} />
-              </div>
-              <div className="progress-wrapper">
-                <div className="progress-bar">
-                  <BorderLinearProgress
-                    variant="determinate"
-                    color="secondary"
-                    value={progress}
-                  />
-                </div>
-              </div>
-
-            </div>
-          </li>
           <li>
             <h1><b>Browse Courses</b></h1>
             <div className="resumeContainer">

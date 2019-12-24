@@ -306,11 +306,11 @@ Meteor.methods({
     return res;
   },
   findUserSubjects(id) {
-    const records = Meteor.users.find({ _id: id }, { fields: { sucjects: 1, _id: 0 } }).count();
+    const records = Meteor.users.find({ _id: id }, { fields: { subjects: 1, _id: 0 } }).count();
     if (records === 0) {
       return [];
     }
-    const res = Meteor.users.find({ _id: id }, { fields: { sucjects: 1, _id: 0 } }).fetch();
+    const res = Meteor.users.find({ _id: id }, { fields: { subjects: 1, _id: 0 } }).fetch();
     return res;
   },
   getUserSubjects(id) {

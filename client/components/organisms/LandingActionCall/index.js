@@ -1,6 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import {
+  Text,
+  Link,
   Title,
   Image,
   Button,
@@ -12,15 +15,25 @@ import Suggestion from './Suggestion';
 
 import './styles.scss';
 
-const LandingActionCall = () => {
-  const keywords = useMemo(() => {
-    const result = [];
-    const addToPool = (res) => [...result, ...res];
-    Request({ action: 'getKeywords', callback: addToPool });
-    Request({ action: 'getSubjectKeywords', callback: addToPool });
-    Request({ action: 'getLevelKeywords', callback: addToPool });
-    Request({ action: 'getBoardKeywords', callback: addToPool });
-    return result;
+const LandingActionCall = ({
+  align,
+  minimal,
+  titleText,
+  withHint,
+  className,
+  buttonAlignment,
+}) => {
+  const [keywords, setKeywords] = useState([]);
+
+  useEffect(() => {
+    const handleKeywords = async () => {
+      const standardKeywords = await Request({ action: 'getKeywords' }) || [];
+      const subjects = await Request({ action: 'getSubjectKeywords' }) || [];
+      const levels = await Request({ action: 'getLevelKeywords' }) || [];
+      const boards = await Request({ action: 'getBoardKeywords' }) || [];
+      setKeywords([...standardKeywords, ...subjects, ...levels, ...boards]);
+    };
+    handleKeywords();
   }, []);
 
   const [suggestions, setSuggestions] = useState([]);
@@ -50,7 +63,7 @@ const LandingActionCall = () => {
     setValue(currentValue);
   };
 
-  const searchHandler = (searchResult) => {
+  const handleSearch = async (searchResult) => {
     const { type } = searchResult;
     const { _id: id } = searchResult.id[0];
 
@@ -59,72 +72,115 @@ const LandingActionCall = () => {
         FlowRouter.go(`/explore/level/${id}`);
         break;
       case 'level':
-        Request({
+      {
+        const res = await Request({
           action: 'getBoardIdByLevel',
           body: id,
-          callback: (res) => FlowRouter.go(`/explore/subject/${res}/${id}`),
         });
+        FlowRouter.go(`/explore/subject/${res}/${id}`);
         break;
+      }
       case 'subject':
-        Request({
+      {
+        const res = await Request({
           action: 'loadSubjectName',
           body: id,
-          callback: (res) => FlowRouter.go(`/explore/module/${res}/${id}`),
         });
+        FlowRouter.go(`/explore/module/${res}/${id}`);
         break;
+      }
       case 'module':
-        Request({
+      {
+        const res = await Request({
           action: 'getSubjectNameByModuleId',
           body: id,
-          callback: (res) => FlowRouter.go(`/explore/chapters/module/${id}/${res}/${1}`),
         });
+        FlowRouter.go(`/explore/chapters/module/${id}/${res}/${1}`);
         break;
+      }
       default:
         break;
     }
   };
 
-  const onSearch = () => {
-    Request({
+  const onSearch = async () => {
+    const result = await Request({
       action: 'genericSearch',
       body: value,
-      callback: searchHandler,
     });
+    handleSearch(result);
   };
 
   return (
     <FlexBox
       column
-      align
       justify
       fullWidth
+      align={align}
       className="organism_action-call-root"
     >
-      <Image
-        className="organism_action-call-logo"
-        src="/img/logo.png"
-      />
-      <Title variant="h3">For Students, By Students</Title>
-      <Autosuggest
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={onSuggestionsClearRequested}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={Suggestion}
-        className="test"
-        inputProps={{
-          value,
-          onChange,
-          placeholder: 'What do you want to study today?',
-        }}
-      />
-      <Button
-        onClick={onSearch}
+      {!minimal
+        && (
+        <Image
+          className="organism_action-call-logo"
+          src="/img/logo.png"
+        />
+        )}
+      <Title variant="h3">{titleText}</Title>
+      {withHint && (
+        <Text>
+          Search for a course, or go to the
+          {' '}
+          <Link className="organism_landing-hint-link" to="/explore">Explore</Link>
+          {' '}
+          page to see whole content.
+        </Text>
+      )}
+      <FlexBox
+        justify
+        align
+        fullWidth
+        column={buttonAlignment === 'bottom'}
       >
+        <Autosuggest
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={onSuggestionsClearRequested}
+          getSuggestionValue={getSuggestionValue}
+          renderSuggestion={Suggestion}
+          className={className}
+          inputProps={{
+            value,
+            onChange,
+            placeholder: 'What do you want to study today?',
+          }}
+        />
+        <Button
+          onClick={onSearch}
+        >
         Search
-      </Button>
+        </Button>
+      </FlexBox>
     </FlexBox>
   );
+};
+
+LandingActionCall.defaultProps = {
+  minimal: false,
+  withHint: false,
+  align: true,
+  titleText: 'For Students, By Students',
+  buttonAlignment: 'bottom',
+  className: '',
+};
+
+LandingActionCall.propTypes = {
+  align: PropTypes.bool,
+  minimal: PropTypes.bool,
+  withHint: PropTypes.bool,
+  titleText: PropTypes.string,
+  className: PropTypes.string,
+  buttonAlignment: PropTypes.oneOf('bottom', 'right'),
 };
 
 export default LandingActionCall;

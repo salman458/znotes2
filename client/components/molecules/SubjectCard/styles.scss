@@ -1,0 +1,29 @@
+.subject-card-container {
+  width: 10vw;
+  height: 10vw;
+  min-width: 280px;
+  min-height: 240px;
+  position: relative;
+  border-radius: 5px;
+  background-size: 400% 400%;
+  cursor: pointer;
+  .subject-card-icon {
+    width: 45%;
+  }
+  .subject-card-text {
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+    .subject-card-code {
+      margin-top: 10px;
+    }
+    .subject-card-subject {
+      text-transform: uppercase;
+      font-size: 30px;
+      margin-top: 10px;
+    }
+  }
+  &:hover {
+    box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 5px 8px 0px rgba(0,0,0,0.14),0px 1px 14px 0px rgba(0,0,0,0.12)
+  }
+}

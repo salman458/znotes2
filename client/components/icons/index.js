@@ -1,3 +1,4 @@
+export { default as Arrow } from './Arrow';
 export { default as Community } from './Community';
 export { default as Diamond } from './Diamond';
 export { default as Discord } from './Discord';

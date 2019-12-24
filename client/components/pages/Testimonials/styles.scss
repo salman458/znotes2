@@ -1,6 +1,5 @@
 @import '{}/client/styles/variables';
-
-
+@import '{}/client/styles/colors';
 
 .page_testimonials-container {
   margin-top: $header_size;
@@ -48,7 +47,7 @@
       }
     }
     .page_testimonial-nav-button {
-      color: white;
+      color: $white;
     }
   }
 }

@@ -28,7 +28,7 @@ const Discord = (props) => (
         <g id="resume" transform="translate(141.000000, 259.000000)">
           <g id="Group-8" transform="translate(0.000000, 167.000000)">
             <g id="Oval">
-              <use fill="black" fillOpacity="1" filter="url(#filter-2)" xlinkHref="#path-1" />
+              <use fill="#121212" fillOpacity="1" filter="url(#filter-2)" xlinkHref="#path-1" />
               <use fill="#87F1C3" fillRule="evenodd" xlinkHref="#path-1" />
             </g>
             <polygon

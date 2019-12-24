@@ -9,14 +9,23 @@ const Header = () => {
   const [role, setRole] = useState(USER_PERMISSIONS.visiting);
 
   useEffect(() => {
-    const currentPermission = GetPermissionLevel();
-    setRole(currentPermission);
+    const fetchPermissionLevel = async () => {
+      const currentPermission = await GetPermissionLevel();
+      setRole(currentPermission);
+    };
+    fetchPermissionLevel();
   }, []);
 
+  const isVisiting = role === USER_PERMISSIONS.visiting;
+
   return (
-    <FlexBox align justifyBetween className="organism_header-root">
+    <FlexBox
+      align
+      justifyBetween
+      className={`organism_header-root ${isVisiting ? '' : 'organism_header-with-bg'}`}
+    >
       <Navigation />
-      {role === USER_PERMISSIONS.visiting
+      {isVisiting
         ? <LoginPopup />
         : <UserMenu role={role} />}
     </FlexBox>

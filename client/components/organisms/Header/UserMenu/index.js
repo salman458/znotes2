@@ -12,7 +12,7 @@ const UserMenu = ({ role }) => {
   const logout = () => {
     Meteor.logout();
     FlowRouter.go('/');
-    // window.location.reload();
+    window.location.reload();
   };
 
   return (

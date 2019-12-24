@@ -8,7 +8,7 @@ export const USER_PERMISSIONS = {
   admin: 3,
 };
 
-const GetPermissionLevel = () => {
+const GetPermissionLevel = async () => {
   const userId = Meteor.userId();
   let currentPermission = USER_PERMISSIONS.visiting;
   if (userId !== null) {
@@ -16,15 +16,13 @@ const GetPermissionLevel = () => {
     if (userId === '') {
       currentPermission = USER_PERMISSIONS.admin;
     } else {
-      Request({
+      const [{ role }] = await Request({
         action: 'findUserRole',
         body: Meteor.userId(),
-        callback: ([{ role }]) => {
-          if (role === 'team') {
-            currentPermission = USER_PERMISSIONS.editor;
-          }
-        },
       });
+      if (role === 'team') {
+        currentPermission = USER_PERMISSIONS.editor;
+      }
     }
   }
 

@@ -29,7 +29,7 @@ const LoginPopup = () => {
         setError(err);
       } else {
         FlowRouter.go('/');
-        // window.location.reload();
+        window.location.reload();
       }
     }));
   };

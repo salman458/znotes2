@@ -1,0 +1,47 @@
+@import '{}/client/styles/colors';
+
+.page_dashboard-container {
+  color: $white;
+  .page_dashboard-icon {
+    cursor: pointer;
+    margin-left: -45px;
+  }
+  .page_dashboard-progress-container {
+    width: 100%;
+    padding: 35px;
+    border-radius: 50px;
+    box-shadow: 0 33px 96px 0 rgba(0,0,0,0.50);
+    background-color: $background_secondary;
+  }
+  .page_dashboard-autosuggest {
+    margin-bottom: 50px;
+    .react-autosuggest__container {
+      margin: 10px 20px 10px 0;
+      box-shadow: 0 33px 96px 0 rgba(0,0,0,0.50);
+      .react-autosuggest__input {
+        padding: 10px 20px;
+      }
+    }
+  }
+  .page_dashbboard-subjects {
+    padding: 0 20px 0 40px;
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    .page_dashboard-subject-arrow {
+      width: 20px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      cursor: pointer;
+      &.prev {
+        left: 0;
+        transform: rotate(180deg);
+      }
+      &.next {
+        right: 0;
+      }
+    }
+  }
+}

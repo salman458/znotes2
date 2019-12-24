@@ -1,3 +1,5 @@
+@import '{}/client/styles/colors';
+
 .molecule_menu-action-item {
   .molecule_menu-action-item-avatar {
     margin-right: 10px;
@@ -6,6 +8,6 @@
     margin-right: 10px;;
   }
   .molecule_user-menu-icon {
-    color: white;
+    color: $white;
     }
 }

@@ -6,6 +6,7 @@ const Title = ({ className, ...props }) => (
   <Typography
     variant="h1"
     component="h2"
+    color="textPrimary"
     className={`atom_title ${className}`}
     {...props}
   />

@@ -1,4 +1,5 @@
 @import "{}/client/styles/variables";
+@import '{}/client/styles/colors';
 
 .organism_header-root {
   height: $header_size;
@@ -6,5 +7,7 @@
   position: fixed;
   z-index: 2;
   padding: 0 35px;
-  margin-top: 15px;
+  &.organism_header-with-bg {
+    background-color: $background;
+  }
 }

@@ -19,7 +19,12 @@ PageContainer.defaultProps = {
 };
 
 PageContainer.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.string, PropTypes.object]).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array,
+  ]).isRequired,
   className: PropTypes.string,
 };
 

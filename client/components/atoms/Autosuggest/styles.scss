@@ -1,4 +1,5 @@
 @import "{}/client/styles/variables";
+@import '{}/client/styles/colors';
 
 .react-autosuggest__container {
   flex-grow: 1;
@@ -19,14 +20,23 @@
   font-size: $content_text_size;
 }
 .react-autosuggest__suggestions-container--open {
-  padding: 10;
   position: absolute;
   left: 0;
   right: 0;
   z-index: 1;
+  margin-top: 5px;
+  border-radius: 15px;
+  max-height: 100px;
+  overflow-y: auto;
+  background-color: $background_secondary;
 }
 .react-autosuggest__suggestion {
   display: block;
+  cursor: pointer;
+  padding: 10px 20px;
+}
+.react-autosuggest__suggestion--highlighted {
+  background-color: #222222;
 }
 .react-autosuggest__suggestions-list {
   margin: 0;
