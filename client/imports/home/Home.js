@@ -1,5 +1,6 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
+import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { lighten, withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -20,6 +21,7 @@ import {
   Donate,
   Testimonials,
   Contact,
+  Dashboard,
 } from '/client/components/pages';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
@@ -63,7 +65,6 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: 1,
       value: '',
       suggestions: [],
       keywords: [],
@@ -74,63 +75,6 @@ class Home extends React.Component {
       lastModule: '',
     };
   }
-
-  componentDidMount() {
-    if (Meteor.userId()) {
-      Meteor.call('getUser', Meteor.userId(), (err, res) => {
-        if (err) console.log(err);
-        else {
-          const lastPositions = res[0].lastPositions.sort((x, y) => y.timestamp - x.timestamp);
-          if (lastPositions.length) {
-            this.setState({ lastPosition: lastPositions[0].position });
-            this.setState({ progress: lastPositions[0].progress });
-            this.setState({ lastModule: lastPositions[0].moduleName });
-          }
-        }
-      });
-
-      Meteor.call('getUserSubjects', Meteor.userId(), (err, res) => {
-        if (err) console.log(err);
-        else {
-          const { subjects } = res[0];
-          let index = 0;
-          if (subjects.length === 0) {
-            for (let i = 0; i < 5; i++) {
-              this.state.userSubjects.push(
-                <Slide index={i}>
-                  <div className="container1">
-                    <a className="subject" href="/explore">"Explore Notes"</a>
-                  </div>
-                </Slide>,
-              );
-            }
-          }
-          subjects.forEach((subject) => {
-            Meteor.call('getSubjectById', subject.id, (err, res) => {
-              if (err) console.log(err);
-              else {
-                index++;
-                this.state.userSubjects.push(
-                  <Slide index={index}>
-                    <div className="container1">
-                      <a className="subject" href={`/explore/module/${res[0].name}/${res[0]._id}`}>
-                        {res[0].name}
-                      </a>
-                    </div>
-                  </Slide>,
-                );
-                this.forceUpdate();
-              }
-            });
-          });
-        }
-      });
-    }
-  }
-
-    pageOnChange = (number) => {
-      this.setState({ currentPage: number });
-    };
 
     resumeHandler = () => {
       const { lastPosition } = this.state;
@@ -251,11 +195,7 @@ page to see whole
     render() {
       if (Meteor.userId()) {
         return (
-          <>
-            <div className="home-page -padding-20">
-              {this.renderBody()}
-            </div>
-          </>
+          <Dashboard />
         );
       }
       return (

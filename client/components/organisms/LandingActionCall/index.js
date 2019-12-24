@@ -46,7 +46,7 @@ const LandingActionCall = () => {
     setSuggestions([]);
   };
 
-  const onChange = (_, { value: currentValue }) => {
+  const onChange = (_, { newValue: currentValue }) => {
     setValue(currentValue);
   };
 

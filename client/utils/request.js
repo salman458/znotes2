@@ -5,8 +5,9 @@ const Request = ({ action, body = {}, callback }) => (
     if (err) {
       console.log(err);
     } else {
-      callback(res);
+      return callback(res);
     }
+    return null;
   })
 );
 
