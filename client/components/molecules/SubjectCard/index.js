@@ -11,21 +11,8 @@ import {
 import './styles.scss';
 
 const useStyles = makeStyles(() => ({
-  '@keyframes hoverEffect': {
-    from: {
-      backgroundPosition: '39% 25%',
-    },
-    to: {
-      backgroundPosition: '0% 0%',
-    },
-  },
   root: {
     backgroundImage: (props) => `linear-gradient(-40deg, ${props.primaryColor} 70%, ${props.secondaryColor} 70%)`,
-    backgroundPosition: '39% 25%',
-    '&:hover': {
-      animation: '$hoverEffect 0.5s cubic-bezier(0.4, 0, 0.6, 1)',
-      backgroundPosition: '0% 0%',
-    },
   },
 }));
 
