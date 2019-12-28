@@ -1,31 +1,24 @@
-import React, {
-  useState, useEffect, useRef, useMemo,
-} from 'react';
-import Slider from 'react-slick';
+import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import Paper from '@material-ui/core/Paper';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { Request, GenerateBreakpoints } from '/client/utils';
-import { Play, Arrow } from '/client/components/icons';
+import { Request } from '/client/utils';
+import { Play } from '/client/components/icons';
 import {
   FlexBox,
   Title,
   ProgressBar,
   PageContainer,
 } from '/client/components/atoms';
-import { SubjectCard } from '/client/components/molecules';
-import { LandingActionCall } from '/client/components/organisms';
+import {
+  SubjectSlider,
+  LandingActionCall,
+} from '/client/components/organisms';
 import './styles.scss';
 
 const Dashbboard = () => {
   const [lastLocation, setLast] = useState({});
   const [subjectData, setSubjectData] = useState([]);
-
-  const breakponts = useMemo(GenerateBreakpoints, []);
-
-  const slider = useRef(null);
-  const onPrev = () => slider.current.slickPrev();
-  const onNext = () => slider.current.slickNext();
 
   useEffect(() => {
     const getNecessaryData = async () => {
@@ -43,7 +36,7 @@ const Dashbboard = () => {
         setLast(lastItem || {});
       }
 
-      const [{ subjects }] = await Request({
+      const [{ subjects = [] }] = await Request({
         action: 'getUserSubjects',
         body: id,
       });
@@ -51,7 +44,7 @@ const Dashbboard = () => {
         const allSubjects = await Request({
           action: 'getAllSubjects',
         });
-        setSubjectData(allSubjects);
+        setSubjectData(allSubjects || []);
       } else {
         const currentSubjectData = subjects.map(async ({ id: subjectId }) => {
           const result = await Request({
@@ -97,33 +90,10 @@ const Dashbboard = () => {
         />
       </div>
       <Title variant="h3" gutterBottom>My Subjects</Title>
-      <div className="page_dashbboard-subjects">
-        <Arrow
-          onClick={onPrev}
-          className="page_dashboard-subject-arrow prev"
-        />
-        <Slider
-          infinite
-          ref={slider}
-          arrows={false}
-          slidesToShow={4}
-          slidesToScroll={1}
-          className="center"
-          responsive={breakponts}
-        >
-          {subjectData.map(({ name, board, level }) => (
-            <SubjectCard
-              subject={name}
-              code={`${board} ${level}`}
-              subjectName={name}
-            />
-          ))}
-        </Slider>
-        <Arrow
-          onClick={onNext}
-          className="page_dashboard-subject-arrow next"
-        />
-      </div>
+      <SubjectSlider
+        className="page_dashbboard-subjects"
+        subjects={subjectData}
+      />
       <div className="page_dashboard-community-container">
         <Title variant="h3" gutterBottom>Community</Title>
         <FlexBox align justifyBetween>
@@ -148,7 +118,6 @@ const Dashbboard = () => {
               title="discord"
             />
           </Paper>
-
         </FlexBox>
       </div>
     </PageContainer>

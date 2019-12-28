@@ -3,7 +3,9 @@ import { mount } from 'react-mounter';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Accounts } from 'meteor/accounts-base';
 
-import Home from './imports/home/Home';
+import {
+  Home,
+} from './components/pages';
 import Explore from './imports/explore/Explore';
 import Level from './imports/explore/Level';
 import Subject from './imports/explore/Subject';

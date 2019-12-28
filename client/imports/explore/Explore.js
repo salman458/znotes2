@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import A from '/client/components/pages/Explore';
 
 import '../../styles/boards.css';
 import { Meteor } from 'meteor/meteor';
@@ -9,7 +9,6 @@ import {
   CarouselProvider, Slider, Slide, ButtonBack, ButtonNext,
 } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-
 
 class Explore extends Component {
   constructor(props) {
@@ -75,48 +74,10 @@ class Explore extends Component {
   }
 
   renderBody() {
-    if (Meteor.userId()) {
-      if (this.state.role) {
-        return (
-          <div className="containerRes1">
-            <h1>Boards</h1>
-            {this.renderAddBoardPopUp()}
-            <CarouselProvider
-              naturalSlideWidth={50}
-              naturalSlideHeight={25}
-              totalSlides={this.state.boards.length}
-              visibleSlides={4}
-            >
-              <Slider>
-                {this.state.boards}
-              </Slider>
-              {/* <ButtonBack>Back</ButtonBack> */}
-              {/* <ButtonNext>Next</ButtonNext> */}
-            </CarouselProvider>
-          </div>
-        );
-      }
-      return (
-        <div className="containerRes1">
-          <h1>Boards</h1>
-          <CarouselProvider
-            naturalSlideWidth={50}
-            naturalSlideHeight={25}
-            totalSlides={this.state.boards.length}
-            visibleSlides={4}
-          >
-            <Slider>
-              {this.state.boards}
-            </Slider>
-            {/* <ButtonBack>Back</ButtonBack> */}
-            {/* <ButtonNext>Next</ButtonNext> */}
-          </CarouselProvider>
-        </div>
-      );
-    }
     return (
       <div className="containerRes1">
         <h1 style={{ color: 'white' }}><b>Boards</b></h1>
+        {permission > 1 && this.renderAddBoardPopUp()}
         <CarouselProvider
           naturalSlideWidth={50}
           naturalSlideHeight={25}
@@ -129,35 +90,6 @@ class Explore extends Component {
           {/* <ButtonBack>Back</ButtonBack> */}
           {/* <ButtonNext>Next</ButtonNext> */}
         </CarouselProvider>
-      </div>
-    );
-  }
-
-  renderAddBoardPopUp() {
-    return null;
-    // return (
-    //   <Popup trigger={this.renderButton} modal>
-    //     {(close) => (
-    //       <div className="modal">
-    //         <a className="close" onClick={close}>
-    //                         &times;
-    //         </a>
-    //         {this.renderEdit()}
-    //       </div>
-    //     )}
-
-    //   </Popup>
-    // );
-  }
-
-  renderButton() {
-    return (
-      <div className="button">
-        <span>Add Board</span>
-        <svg>
-          <polyline className="o1" points="0 0, 150 0, 150 55, 0 55, 0 0" />
-          <polyline className="o2" points="0 0, 150 0, 150 55, 0 55, 0 0" />
-        </svg>
       </div>
     );
   }
@@ -178,7 +110,8 @@ class Explore extends Component {
   render() {
     return (
       <div className="home-page1 -padding-20">
-        {this.renderBody()}
+        <A />
+        {/* {this.renderBody()} */}
       </div>
     );
   }

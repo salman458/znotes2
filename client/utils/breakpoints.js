@@ -7,7 +7,6 @@ const GenerateBreakpoints = () => {
       breakpoint: currentPoint,
       settings: {
         slidesToShow,
-        slidesToScroll: 2 * slidesToShow,
       },
     };
   });
