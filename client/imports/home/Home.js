@@ -125,28 +125,7 @@ page to see whole
               <Grid container spacing={3}>
                 <Grid item xs={6}>
                   <h1 className="customh1">Our Podcasts</h1>
-                  <Paper className="communityPaper">
-                    <iframe
-                      src="https://open.spotify.com/embed-podcast/show/7jPpEntVVviSy0SNOqnZMq"
-                      width="100%"
-                      height="232"
-                      frameBorder="0"
-                      allow="encrypted-media"
-                      title="spotify"
-                    />
-                  </Paper>
-                </Grid>
-                <Grid item xs={5}>
-                  <h1 className="customh1">Community</h1>
-                  <Paper className="discordPaper">
-                    <iframe
-                      src="https://discordapp.com/widget?id=513750483572097034&amp;theme=dark"
-                      width="100%"
-                      height="232"
-                      frameBorder="0"
-                      title="discord"
-                    />
-                  </Paper>
+                  
                 </Grid>
 
               </Grid>

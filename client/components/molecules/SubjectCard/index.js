@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
+  lighten,
   makeStyles,
 } from '@material-ui/core/styles';
 import {
   Text,
   FlexBox,
 } from '/client/components/atoms';
+import Subjects from './subjectData';
 import './styles.scss';
 
 const useStyles = makeStyles(() => ({
@@ -17,12 +19,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 const SubjectCard = ({
-  icon,
-  primaryColor,
-  secondaryColor,
   code,
+  subject,
   subjectName,
 }) => {
+  const { color, icon: Icon = () => null } = Subjects[subject.toLowerCase()] || {};
+  const primaryColor = color || '#D82057';
+  const secondaryColor = lighten(primaryColor, 0.5);
   const classes = useStyles({ primaryColor, secondaryColor });
   return (
     <FlexBox
@@ -31,7 +34,9 @@ const SubjectCard = ({
       align
       className={clsx(classes.root, 'subject-card-container')}
     >
-      <div className="subject-card-icon">{icon}</div>
+      <div className="subject-card-icon">
+        <Icon />
+      </div>
       <div className="subject-card-text">
         <Text className="subject-card-code">{code}</Text>
         <Text className="subject-card-subject">{subjectName}</Text>
@@ -41,13 +46,7 @@ const SubjectCard = ({
 };
 
 SubjectCard.propTypes = {
-  icon: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.element,
-    PropTypes.object,
-  ]).isRequired,
-  primaryColor: PropTypes.string.isRequired,
-  secondaryColor: PropTypes.string.isRequired,
+  subject: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,
   subjectName: PropTypes.string.isRequired,
 };

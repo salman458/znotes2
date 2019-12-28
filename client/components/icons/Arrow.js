@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Community = (props) => (
+const Arrow = (props) => (
   <svg width="55px" height="42px" viewBox="0 0 55 42" version="1.1" {...props}>
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="dark-dashboard" transform="translate(-1716.000000, -1409.000000)" fill="#FFFFFF" fillRule="nonzero">
@@ -15,4 +15,4 @@ const Community = (props) => (
   </svg>
 );
 
-export default Community;
+export default Arrow;

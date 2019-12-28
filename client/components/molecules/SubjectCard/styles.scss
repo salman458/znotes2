@@ -1,3 +1,5 @@
+@import '{}/client/styles/colors';
+
 @keyframes hoverEffect {
   from {
     background-position: 39% 25%,
@@ -29,6 +31,9 @@
   cursor: pointer;
   .subject-card-icon {
     width: 45%;
+    svg {
+      fill: $white;
+    }
   }
   .subject-card-text {
     font-size: 20px;

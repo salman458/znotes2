@@ -33,12 +33,10 @@ chapters.schema = chapter;
 
 Accounts.urls.verifyEmail = (token) => {
   const url = Meteor.absoluteUrl(`/email/verify/${token}`);
-  console.log(url);
   return url;
 };
 Accounts.urls.resetPassword = (token) => {
   const url = Meteor.absoluteUrl(`/password/reset/${token}`);
-  console.log(url);
   return url;
 };
 Accounts.config({ sendVerificationEmail: true, forbidClientAccountCreation: false });
@@ -85,7 +83,6 @@ Meteor.methods({
       return [];
     }
     const res = boards.find(selector).fetch();
-    console.log(res);
     return res;
   },
   loadLevelsByBoardId(id) {
@@ -94,7 +91,6 @@ Meteor.methods({
       return [];
     }
     const res = levels.find({ board: id }).fetch();
-    console.log(res);
     return res;
   },
   loadSubjects(selector) {
@@ -103,7 +99,6 @@ Meteor.methods({
       return [];
     }
     const res = subjects.find(selector).fetch();
-    console.log(res);
     return res;
   },
   addSubject(subject) {
@@ -113,7 +108,6 @@ Meteor.methods({
     return boards.insert(board);
   },
   addLevel(level) {
-    console.log(level);
     return levels.insert(level);
   },
   loadModules(selector) {
@@ -122,7 +116,6 @@ Meteor.methods({
       return [];
     }
     const res = modules.find(selector).fetch();
-    console.log(res);
     return res;
   },
   addZModule(module) {
@@ -134,7 +127,6 @@ Meteor.methods({
       return [];
     }
     const res = chapters.find(selector, { sort: { created: 1 } }).fetch();
-    console.log(res);
     return res;
   },
   addChapter(chapter) {
@@ -177,7 +169,6 @@ Meteor.methods({
       return [];
     }
     const res = modules.find({}, { fields: { name: 1, _id: 0 } }).fetch();
-    console.log(res);
     return res;
   },
   getSubjectName(id) {
@@ -186,7 +177,6 @@ Meteor.methods({
       return [];
     }
     const res = subjects.find({}, { fields: { name: 1, _id: 0 } }).fetch();
-    console.log(res);
     return res;
   },
 
@@ -196,7 +186,6 @@ Meteor.methods({
       return [];
     }
     const res = subjects.find({}, { fields: { name: 1, _id: 0 } }).fetch();
-    console.log(res);
     return res;
   },
   getLevelKeywords(obj) {
@@ -205,7 +194,6 @@ Meteor.methods({
       return [];
     }
     const res = levels.find({}, { fields: { name: 1, _id: 0 } }).fetch();
-    console.log(res);
     return res;
   },
   getBoardKeywords(obj) {
@@ -214,7 +202,6 @@ Meteor.methods({
       return [];
     }
     const res = boards.find({}, { fields: { name: 1, _id: 0 } }).fetch();
-    console.log(res);
     return res;
   },
   getBoardKeyword(id) {
@@ -223,7 +210,6 @@ Meteor.methods({
       return [];
     }
     const res = boards.find({ _id: id }, { fields: { name: 1, _id: 0 } }).fetch();
-    console.log(res);
     return res;
   },
   genericSearch(searchable) {
@@ -289,12 +275,20 @@ Meteor.methods({
     return Meteor.users.find({}, { skip: parseInt(selector.offset), limit: parseInt(selector.limit) }, { sort: { createdAt: -1 } }).fetch();
   },
   getAllSubjects() {
-    const records = subjects.find({}, { fields: { name: 1, _id: 1 } }).count();
+    const records = subjects.find({}).count();
     if (records === 0) {
       return [];
     }
-    const res = subjects.find({}, { fields: { name: 1, _id: 1 } }).fetch();
-    console.log(res);
+    const allSubjects = subjects.find({}).fetch();
+    const res = allSubjects.map(({ level: levelId, board: boardId, ...rest }) => {
+      const { name: levelName } = levels.findOne({ _id: levelId });
+      const { name: boardName } = boards.findOne({ _id: boardId });
+      return {
+        ...rest,
+        level: levelName,
+        board: boardName,
+      };
+    });
     return res;
   },
   findUserRole(id) {
@@ -334,7 +328,7 @@ Meteor.methods({
       },
       {}, function (err, result) {
         if (err) {
-          console.log('eeeee', err);
+          console.log(err);
         } else if (result != 1) {
           Meteor.users.upsert({ _id: obj.userId }, {
             $push: {
@@ -371,8 +365,14 @@ Meteor.methods({
     if (records === 0) {
       return [];
     }
-    const res = subjects.find({ _id: id }).fetch();
-    return res;
+    const { level: levelId, board: boardId, ...rest } = subjects.find({ _id: id }).fetch();
+    const { name: levelName } = levels.findOne({ _id: levelId });
+    const { name: boardName } = boards.findOne({ _id: boardId });
+    return {
+      ...rest,
+      level: levelName,
+      board: boardName,
+    };
   },
   addSponsorContent(card) {
     const records = sponsorCards.find({ sponsor: card.sponsor }).count();
@@ -407,7 +407,6 @@ Meteor.methods({
 });
 
 function updateSponsorContent(card) {
-  console.log('zibil');
   sponsorCards.update({ sponsor: card.sponsor }, {
     $push: {
       content: card.content[0],
@@ -426,7 +425,6 @@ function updateSponsorContent(card) {
   });
 }
 function updateSponsorContentWithoutContent(card) {
-  console.log('vrej');
   return sponsorCards.update({ sponsor: card.sponsor }, {
     $set: {
       logo: card.logo,
