@@ -142,7 +142,6 @@ Meteor.methods({
         levels: allLevelsWithSubjects,
       };
     });
-    console.log(result);
     return result;
   },
   loadBoards(selector) {
