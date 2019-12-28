@@ -1,4 +1,6 @@
-import React, { useRef, useMemo } from 'react';
+import React, {
+  useState, useRef, useCallback, useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Slider from 'react-slick';
@@ -10,47 +12,64 @@ import './styles.scss';
 
 const SubjectSlider = ({ subjects, className }) => {
   const breakponts = useMemo(GenerateBreakpoints, []);
-
   const slider = useRef(null);
+  const [slidesToShow, setSlidesToShow] = useState(0);
+
+  const ref = useCallback((node) => {
+    if (node !== null) {
+      slider.current = node;
+      setSlidesToShow(node.innerSlider.props.slidesToShow);
+    }
+  }, []);
+
   const onPrev = () => slider.current.slickPrev();
   const onNext = () => slider.current.slickNext();
+
+  const onSlidesToShowCountChange = () => {
+    const newCount = slider.current.innerSlider.props.slidesToShow;
+    if (newCount !== slidesToShow) {
+      setSlidesToShow(newCount);
+    }
+  };
 
   return (
     <div
       className={clsx(
         'organism_subject-slider',
         subjects.length === 0 && 'no-data',
-        subjects.length < 3 && 'no-arrows',
+        subjects.length <= slidesToShow && 'no-arrows',
         className,
       )}
     >
       {subjects.length > 0
         ? (
           <>
-            {subjects.length > 3 && (
+            {subjects.length > slidesToShow && (
             <Arrow
               onClick={onPrev}
               className="organism_subject-slider-arrow prev"
             />
             )}
             <Slider
-              ref={slider}
+              ref={ref}
               arrows={false}
               slidesToShow={4}
               slidesToScroll={1}
               className="center"
               responsive={breakponts}
               infinite={subjects.length > 3}
+              onReInit={onSlidesToShowCountChange}
             >
               {subjects.map(({ name, boardName, levelName }) => (
                 <SubjectCard
+                  key={name}
                   subject={name}
                   code={`${boardName} ${levelName}`}
                   subjectName={name}
                 />
               ))}
             </Slider>
-            { subjects.length > 3 && (
+            { subjects.length > slidesToShow && (
             <Arrow
               onClick={onNext}
               className="organism_subject-slider-arrow next"
