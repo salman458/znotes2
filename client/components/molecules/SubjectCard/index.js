@@ -23,7 +23,8 @@ const SubjectCard = ({
   subject,
   subjectName,
 }) => {
-  const { color, icon: Icon = () => null } = Subjects[subject.toLowerCase()] || {};
+  const sanitizedSubjectName = subject.split(' ').join('').toLowerCase();
+  const { color, icon: Icon = () => null } = Subjects[sanitizedSubjectName] || {};
   const primaryColor = color || '#D82057';
   const secondaryColor = lighten(primaryColor, 0.5);
   const classes = useStyles({ primaryColor, secondaryColor });

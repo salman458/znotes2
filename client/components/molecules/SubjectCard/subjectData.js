@@ -9,7 +9,7 @@ const Subjects = {
     color: '#6D82AB',
     icon: SubjectIcons.Accounting,
   },
-  addmath: {
+  addmaths: {
     color: '#1A489D',
     icon: SubjectIcons.AddMath,
   },
@@ -18,6 +18,10 @@ const Subjects = {
     icon: SubjectIcons.Biology,
   },
   business: {
+    color: '#6E0001',
+    icon: SubjectIcons.Business,
+  },
+  businessstudies: {
     color: '#6E0001',
     icon: SubjectIcons.Business,
   },
@@ -73,7 +77,7 @@ const Subjects = {
     color: '#72CDDB',
     icon: SubjectIcons.MarineScience,
   },
-  math: {
+  maths: {
     color: '#1A489D',
     icon: SubjectIcons.Math,
   },
@@ -84,6 +88,10 @@ const Subjects = {
   psychology: {
     color: '#940CE8',
     icon: SubjectIcons.Psychology,
+  },
+  i: {
+    color: '#FFAD71',
+    icon: SubjectIcons.SAT,
   },
   spanish: {
     color: '#FFAD71',

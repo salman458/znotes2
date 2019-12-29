@@ -19,4 +19,5 @@ export { default as MarineScience } from './MarineScience';
 export { default as Math } from './Math';
 export { default as Physics } from './Physics';
 export { default as Psychology } from './Psychology';
+export { default as SAT } from './SAT';
 export { default as Spanish } from './Spanish';
