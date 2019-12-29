@@ -202,6 +202,14 @@ Meteor.methods({
   addCard(card) {
     return cards.insert(card);
   },
+  getAllCards() {
+    const records = cards.find({}).count();
+    if (records === 0) {
+      return [];
+    }
+    const res = cards.find({}).fetch();
+    return res;
+  },
   loadCards(id) {
     const records = cards.find({ _id: id }).count();
     if (records === 0) {
@@ -434,7 +442,7 @@ Meteor.methods({
     if (records === 0) {
       return [];
     }
-    const { level: levelId, board: boardId, ...rest } = subjects.find({ _id: id }).fetch();
+    const { level: levelId, board: boardId, ...rest } = subjects.findOne({ _id: id });
     const { name: levelName } = levels.findOne({ _id: levelId });
     const { name: boardName } = boards.findOne({ _id: boardId });
     return {

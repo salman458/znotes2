@@ -60,10 +60,13 @@ const SubjectSlider = ({ subjects, className }) => {
               infinite={subjects.length > 3}
               onReInit={onSlidesToShowCountChange}
             >
-              {subjects.map(({ name, boardName, levelName }) => (
+              {subjects.map(({
+                _id: subjectId, name, boardName, levelName,
+              }) => (
                 <SubjectCard
-                  key={name}
+                  id={subjectId}
                   subject={name}
+                  key={subjectId}
                   code={`${boardName} ${levelName}`}
                   subjectName={name}
                 />

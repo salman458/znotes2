@@ -4,11 +4,10 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Accounts } from 'meteor/accounts-base';
 
 import {
+  Cards,
   Home,
 } from './components/pages';
 import Explore from './imports/explore/Explore';
-import Level from './imports/explore/Level';
-import Subject from './imports/explore/Subject';
 import Module from './imports/explore/Module';
 import Chapters from './imports/explore/Chapters';
 import Editor from './imports/explore/Editor';
@@ -137,38 +136,20 @@ FlowRouter.route('/explore', {
   },
 });
 
-FlowRouter.route('/explore/level/:id', {
-  name: 'Level',
-  action ({ id }) {
-    mount(App, {
-      content: <Level boardId={id} />,
-    });
-  },
-});
-
-FlowRouter.route('/explore/level/:id', {
-  name: 'Level',
-  action ({ id }) {
-    mount(App, {
-      content: <Level boardId={id} />,
-    });
-  },
-});
-
-FlowRouter.route('/explore/subject/:boardId/:levelId', {
-  name: 'Subject',
-  action ({ boardId, levelId }) {
-    mount(App, {
-      content: <Subject boardId={boardId} levelId={levelId} />,
-    });
-  },
-});
-
 FlowRouter.route('/explore/module/:name/:subjectId', {
   name: 'Module',
   action ({ subjectId, name }) {
     mount(App, {
       content: <Module subjectId={subjectId} name={name} />,
+    });
+  },
+});
+
+FlowRouter.route('/explore/subject/:name', {
+  name: 'Subject',
+  action (_, { subjectId }) {
+    mount(App, {
+      content: <Cards subjectId={subjectId} />,
     });
   },
 });

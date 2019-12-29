@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core/styles';
 import {
   Text,
+  Link,
   FlexBox,
 } from '/client/components/atoms';
 import Subjects from './subjectData';
@@ -19,6 +20,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const SubjectCard = ({
+  id,
   code,
   subject,
   subjectName,
@@ -29,24 +31,27 @@ const SubjectCard = ({
   const secondaryColor = lighten(primaryColor, 0.5);
   const classes = useStyles({ primaryColor, secondaryColor });
   return (
-    <FlexBox
-      column
-      justify
-      align
-      className={clsx(classes.root, 'subject-card-container')}
-    >
-      <div className="subject-card-icon">
-        <Icon />
-      </div>
-      <div className="subject-card-text">
-        <Text className="subject-card-code">{code}</Text>
-        <Text className="subject-card-subject">{subjectName}</Text>
-      </div>
-    </FlexBox>
+    <Link to={`/explore/subject/${sanitizedSubjectName}?subjectId=${id}`}>
+      <FlexBox
+        column
+        justify
+        align
+        className={clsx(classes.root, 'subject-card-container')}
+      >
+        <div className="subject-card-icon">
+          <Icon />
+        </div>
+        <div className="subject-card-text">
+          <Text className="subject-card-code">{code}</Text>
+          <Text className="subject-card-subject">{subjectName}</Text>
+        </div>
+      </FlexBox>
+    </Link>
   );
 };
 
 SubjectCard.propTypes = {
+  id: PropTypes.string.isRequired,
   subject: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,
   subjectName: PropTypes.string.isRequired,
