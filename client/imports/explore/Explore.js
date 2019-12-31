@@ -11,17 +11,6 @@ import {
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 class Explore extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      boards: [],
-      newName: '',
-      role: false,
-    };
-    this.handleBoardName = this.handleBoardName.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
   handleBoardName(event) {
     this.setState({
       boards: this.state.boards,
@@ -42,55 +31,9 @@ class Explore extends Component {
     });
   }
 
-  componentDidMount() {
-    Meteor.call('loadBoards', {}, (err, res) => {
-      if (err) {
-        console.log(err);
-        alert('Failed to load boards');
-      } else {
-        let index = 0;
-        const tmp = [];
-        res.forEach((board) => {
-          tmp.push(
-            <Slide index={index++}>
-              <div className="container1">
-                <a className="subject" href={`/explore/level/${board._id}`}>
-                  {board.name}
-                </a>
-              </div>
-            </Slide>,
-          );
-        });
-        this.setState({ boards: tmp });
-      }
-    });
-    if (Meteor.user()) {
-      Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
-        if (err) console.log(err);
-        else if (role[0].role === 'team') this.setState({ role: true });
-      });
-    }
-    console.log();
-  }
-
   renderBody() {
     return (
-      <div className="containerRes1">
-        <h1 style={{ color: 'white' }}><b>Boards</b></h1>
-        {permission > 1 && this.renderAddBoardPopUp()}
-        <CarouselProvider
-          naturalSlideWidth={50}
-          naturalSlideHeight={25}
-          totalSlides={this.state.boards.length}
-          visibleSlides={4}
-        >
-          <Slider>
-            {this.state.boards}
-          </Slider>
-          {/* <ButtonBack>Back</ButtonBack> */}
-          {/* <ButtonNext>Next</ButtonNext> */}
-        </CarouselProvider>
-      </div>
+      permission > 1 && this.renderAddBoardPopUp()
     );
   }
 

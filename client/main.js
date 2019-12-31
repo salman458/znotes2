@@ -7,9 +7,8 @@ import {
   Cards,
   Home,
   Modules,
+  Explore,
 } from './components/pages';
-import Explore from './imports/explore/Explore';
-import Module from './imports/explore/Module';
 import Chapters from './imports/explore/Chapters';
 import Editor from './imports/explore/Editor';
 import Register from './imports/account/Register';
@@ -138,20 +137,42 @@ FlowRouter.route('/explore', {
   },
 });
 
-FlowRouter.route('/explore/module/:name/:subjectId', {
-  name: 'Module',
-  action ({ subjectId, name }) {
+// FlowRouter.route('/explore/module/:name/:subjectId', {
+//   name: 'Module',
+//   action ({ subjectId, name }) {
+//     mount(App, {
+//       content: <Module subjectId={subjectId} name={name} />,
+//     });
+//   },
+// });
+
+FlowRouter.route('/explore/subject/:name', {
+  name: 'Subject',
+  action ({ name }, { subjectId }) {
     mount(App, {
-      content: <Module subjectId={subjectId} name={name} />,
+      content: (
+        <Modules
+          subjectName={name}
+          subjectId={subjectId}
+        />
+      ),
     });
   },
 });
 
-FlowRouter.route('/explore/subject/:name', {
+FlowRouter.route('/explore/module/:subject/:name', {
   name: 'Subject',
-  action (_, { subjectId }) {
+  action ({ subject }, { moduleId, subjectId }) {
     mount(App, {
-      content: <Modules subjectId={subjectId} />,
+      withSidebar: true,
+      moduleId,
+      subject,
+      content: (
+        <Cards
+          moduleId={moduleId}
+          subjectId={subjectId}
+        />
+      ),
     });
   },
 });

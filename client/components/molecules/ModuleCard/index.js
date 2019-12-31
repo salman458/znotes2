@@ -10,6 +10,7 @@ import {
   Link,
   FlexBox,
 } from '/client/components/atoms';
+import { SanitizeName } from '/client/utils';
 import Colors from './moduleColors';
 import './styles.scss';
 
@@ -21,15 +22,19 @@ const useStyles = makeStyles(() => ({
 
 const ModuleCard = ({
   id,
+  subjectId,
   moduleName,
+  subjectName,
 }) => {
+  const sanitizedModuleName = SanitizeName(moduleName);
   const moduleLetter = moduleName.split('')[0];
   const colorIndex = Math.floor(Math.random() * Colors.length);
   const primaryColor = Colors[colorIndex] || '#D82057';
   const secondaryColor = lighten(primaryColor, 0.5);
   const classes = useStyles({ primaryColor, secondaryColor });
+  const to = `/explore/module/${subjectName}/${sanitizedModuleName}?subjectId=${subjectId}&moduleId=${id}`;
   return (
-    <Link to="#" className="molecule_module-card">
+    <Link to={to} className="molecule_module-card">
       <FlexBox
         column
         justify
@@ -49,7 +54,9 @@ const ModuleCard = ({
 
 ModuleCard.propTypes = {
   id: PropTypes.string.isRequired,
+  subjectId: PropTypes.string.isRequired,
   moduleName: PropTypes.string.isRequired,
+  subjectName: PropTypes.string.isRequired,
 };
 
 export default ModuleCard;

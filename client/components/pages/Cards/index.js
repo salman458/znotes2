@@ -1,6 +1,7 @@
 import React, {
   useState, useEffect, useRef,
 } from 'react';
+import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import ReactMarkdown from 'react-markdown';
 import Paper from '@material-ui/core/Paper';
@@ -17,15 +18,16 @@ import {
 } from '/client/components/icons';
 import './styles.scss';
 
-const Cards = ({ subjectId }) => {
+const Cards = ({
+  subjectId,
+  moduleId,
+}) => {
   const [subject, setSubjectData] = useState({});
   const [cards, setCards] = useState([]);
   const slider = useRef(null);
 
   const onPrev = () => slider.current.slickPrev();
   const onNext = () => slider.current.slickNext();
-
-  console.log('HERE');
 
   useEffect(() => {
     const getNecessaryData = async () => {
@@ -36,7 +38,8 @@ const Cards = ({ subjectId }) => {
       setSubjectData(subjectData);
 
       const cardData = await Request({
-        action: 'getAllCards',
+        action: 'getAllCardsByModule',
+        body: moduleId,
       });
       setCards(cardData);
     };
@@ -59,8 +62,8 @@ const Cards = ({ subjectId }) => {
         slidesToShow={1}
         slidesToScroll={1}
       >
-        {cards.map(({ content }) => (
-          <Paper className="page_cards-paper">
+        {cards.map(({ _id, content }) => (
+          <Paper key={_id} className="page_cards-paper">
             <ReactMarkdown source={content} />
           </Paper>
         ))}
@@ -75,6 +78,11 @@ const Cards = ({ subjectId }) => {
       </FlexBox>
     </PageContainer>
   );
+};
+
+Cards.propTypes = {
+  subjectId: PropTypes.string.isRequired,
+  moduleId: PropTypes.string.isRequired,
 };
 
 export default Cards;

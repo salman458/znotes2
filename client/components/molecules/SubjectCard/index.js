@@ -10,6 +10,7 @@ import {
   Link,
   FlexBox,
 } from '/client/components/atoms';
+import { SanitizeName } from '/client/utils';
 import Subjects from './subjectData';
 import './styles.scss';
 
@@ -25,7 +26,7 @@ const SubjectCard = ({
   subject,
   subjectName,
 }) => {
-  const sanitizedSubjectName = subject.split(' ').join('').toLowerCase();
+  const sanitizedSubjectName = SanitizeName(subject);
   const { color, icon: Icon = () => null } = Subjects[sanitizedSubjectName] || {};
   const primaryColor = color || '#D82057';
   const secondaryColor = lighten(primaryColor, 0.5);

@@ -11,7 +11,7 @@ import {
 } from '/client/components/atoms';
 import { ModuleCard } from '/client/components/molecules';
 
-const Modules = ({ subjectId }) => {
+const Modules = ({ subjectName, subjectId }) => {
   const [modules, setModules] = useState([]);
 
   useEffect(() => {
@@ -40,9 +40,14 @@ const Modules = ({ subjectId }) => {
         className="page_modules-main"
       >
         <Grid container spacing={3}>
-          {modules.map(({ name }) => (
+          {modules.map(({ _id, name }) => (
             <Grid item sm={12} md={6} lg={3}>
-              <ModuleCard moduleName={name} />
+              <ModuleCard
+                id={_id}
+                subjectName={subjectName}
+                moduleName={name}
+                subjectId={subjectId}
+              />
             </Grid>
           ))}
         </Grid>
@@ -52,6 +57,7 @@ const Modules = ({ subjectId }) => {
 };
 
 Modules.propTypes = {
+  subjectName: PropTypes.string.isRequired,
   subjectId: PropTypes.string.isRequired,
 };
 

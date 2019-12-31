@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CollapseListItem = ({
-  items,
+  name,
+  cards,
 }) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
@@ -26,14 +27,14 @@ const CollapseListItem = ({
   return (
     <>
       <ListItem button onClick={toggleCollapse}>
-        <ListItemText primary="Inbox" />
+        <ListItemText primary={name} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {items.map((item) => (
-            <ListItem button className={classes.nested}>
-              <ListItemText primary="Chapter Name" />
+          {cards.map(({ _id, title: cardName }) => (
+            <ListItem key={_id} button className={classes.nested}>
+              <ListItemText primary={cardName || 'No Title Found'} />
             </ListItem>
           ))}
         </List>
@@ -43,7 +44,8 @@ const CollapseListItem = ({
 };
 
 CollapseListItem.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  name: PropTypes.string.isRequired,
+  cards: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default CollapseListItem;

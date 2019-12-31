@@ -187,6 +187,45 @@ Meteor.methods({
     const res = modules.find(selector).fetch();
     return res;
   },
+  getAllCardsByModule(moduleId) {
+    const records = modules.find({ _id: moduleId }).count();
+    if (records === 0) {
+      return [];
+    }
+    const moduleData = modules.findOne({ _id: moduleId });
+    const flatCards = moduleData.chapters.reduce((acc, { _id: chapterId }) => {
+      const chapterData = chapters.findOne({ _id: chapterId });
+      const chapterCards = chapterData.cards.map(({ _id: cardId }) => {
+        const data = cards.findOne({ _id: cardId });
+        return data;
+      });
+      return [...acc, ...chapterCards];
+    }, []);
+    return flatCards;
+  },
+  getModuleById(moduleId) {
+    const records = modules.find({ _id: moduleId }).count();
+    if (records === 0) {
+      return [];
+    }
+    const moduleData = modules.findOne({ _id: moduleId });
+    const chaptersWithCards = moduleData.chapters.map(({ _id: chapterId, ...rest }) => {
+      const chapterData = chapters.findOne({ _id: chapterId });
+      const chapterCards = chapterData.cards.map(({_id: cardId}) => {
+        const data = cards.findOne({ _id: cardId });
+        return data;
+      });
+      return {
+        ...rest,
+        ...chapterData,
+        cards: chapterCards,
+      };
+    });
+    return {
+      ...moduleData,
+      chapters: chaptersWithCards,
+    };
+  },
   getModulesBySubject(subject) {
     const records = modules.find({ subject }).count();
     if (records === 0) {

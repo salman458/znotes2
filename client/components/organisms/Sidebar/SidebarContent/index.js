@@ -51,12 +51,12 @@ const SidebarContent = ({
       )}
     </FlexBox>
     <div className="organism_sidebar-bottom">
-      <Title variant="h5">
+      <Title variant="h5" className="organism_sidebar-chapters">
         <Chapters className="organism_sidebar-chapter-icon" />
           Chapters
       </Title>
       {chapters.map((chapter) => (
-        <ListItem items={[{}, {}, {}]} />
+        <ListItem key={chapter._id} {...chapter} />
       ))}
     </div>
   </>

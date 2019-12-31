@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import { makeStyles } from '@material-ui/core/styles';
-import { IconButton } from '/client/components/atoms';
-import { ChevronLeft } from '/client/components/icons';
+import { Request } from '/client/utils';
 
 import SidebarContent from './SidebarContent';
 
@@ -32,13 +34,26 @@ const useStyles = makeStyles((theme) => ({
 
 const Sidebar = ({
   open,
-  withSidebar,
+  subject,
+  moduleId,
   sidebarWidth,
   handleDrawerClose,
 }) => {
   const classes = useStyles({ sidebarWidth });
+  const [chapters, setChapters] = useState([]);
 
-  return withSidebar && (
+  useEffect(() => {
+    const getNecessaryData = async () => {
+      const { chapters: data } = await Request({
+        action: 'getModuleById',
+        body: moduleId,
+      });
+      setChapters(data);
+    };
+    getNecessaryData();
+  }, []);
+
+  return (
     <>
       <Hidden mdUp implementation="css">
         <Drawer
@@ -56,7 +71,8 @@ const Sidebar = ({
         >
           <SidebarContent
             withIcon
-            chapters={[{}, {}, {}]}
+            subject={subject}
+            chapters={chapters}
             handleDrawerClose={handleDrawerClose}
           />
         </Drawer>
@@ -70,7 +86,8 @@ const Sidebar = ({
           open
         >
           <SidebarContent
-            chapters={[{}, {}, {}]}
+            subject={subject}
+            chapters={chapters}
           />
         </Drawer>
       </Hidden>
@@ -78,16 +95,10 @@ const Sidebar = ({
   );
 };
 
-Sidebar.defaultProps = {
-  opaqueHeader: false,
-  handleDrawerOpen: () => {},
-};
-
 Sidebar.propTypes = {
-  opaqueHeader: PropTypes.bool,
   open: PropTypes.bool.isRequired,
-  handleDrawerOpen: PropTypes.func,
-  withSidebar: PropTypes.bool.isRequired,
+  subject: PropTypes.string.isRequired,
+  moduleId: PropTypes.string.isRequired,
   sidebarWidth: PropTypes.number.isRequired,
   handleDrawerClose: PropTypes.func.isRequired,
 };

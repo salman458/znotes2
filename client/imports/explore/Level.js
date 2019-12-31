@@ -2,29 +2,9 @@ import React, { Component } from 'react';
 
 import '../../styles/boards.css';
 import { Meteor } from 'meteor/meteor';
-// import Popup from 'reactjs-popup';
-
-import {
-  CarouselProvider, Slider, Slide, ButtonBack, ButtonNext,
-} from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 
 class Level extends Component {
-  constructor(props) {
-    console.log(props);
-    super(props);
-    this.state = {
-      boardId: props.boardId,
-      levels: [],
-      newName: '',
-      role: false,
-    };
-
-    this.handleLevels = this.handleLevels.bind(this);
-    this.handleLevelName = this.handleLevelName.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
   handleLevels(levels) {
     this.setState({
       boardId: this.state.boardId,
@@ -42,32 +22,7 @@ class Level extends Component {
   }
 
   componentDidMount() {
-    Meteor.call('loadLevelsByBoardId', this.state.boardId, (err, res) => {
-      if (err) {
-        console.log(err);
-        alert('Failed to load levels');
-      } else {
-        let index = 0;
-        const tmp = [];
-        res.forEach((level) => {
-          tmp.push(
-            <Slide index={index++}>
-              <div className="container1">
-                <a className="subject" href={`/explore/subject/${this.state.boardId}/${level._id}`}>{level.name}</a>
-              </div>
-            </Slide>,
-          );
-        });
-        this.setState({ levels: tmp });
 
-        if (Meteor.userId()) {
-          Meteor.call('findUserRole', Meteor.userId(), (err, role) => {
-            if (err) console.log(err);
-            else if (role[0].role === 'team') this.setState({ role: true });
-          });
-        }
-      }
-    });
   }
 
   handleSubmit() {
@@ -82,62 +37,7 @@ class Level extends Component {
   }
 
   renderBody() {
-    if (Meteor.userId()) {
-      if (this.state.role) {
-        return (
-          <div className="containerRes1">
-            <h1 style={{ color: 'white' }}><b>Levels</b></h1>
-            {this.renderAddBoardPopUp()}
-            <CarouselProvider
-              naturalSlideWidth={50}
-              naturalSlideHeight={25}
-              totalSlides={this.state.levels.length}
-              visibleSlides={4}
-            >
-              <Slider>
-                {this.state.levels}
-              </Slider>
-              {/* <ButtonBack>Back</ButtonBack> */}
-              {/* <ButtonNext>Next</ButtonNext> */}
-            </CarouselProvider>
-          </div>
-        );
-      }
-      return (
-        <div className="containerRes1">
-          <h1 style={{ color: 'white' }}><b>Levels</b></h1>
-          <CarouselProvider
-            naturalSlideWidth={50}
-            naturalSlideHeight={25}
-            totalSlides={this.state.levels.length}
-            visibleSlides={4}
-          >
-            <Slider>
-              {this.state.levels}
-            </Slider>
-            {/* <ButtonBack>Back</ButtonBack> */}
-            {/* <ButtonNext>Next</ButtonNext> */}
-          </CarouselProvider>
-        </div>
-      );
-    }
-    return (
-      <div className="containerRes1">
-        <h1 style={{ color: 'white' }}><b>Levels</b></h1>
-        <CarouselProvider
-          naturalSlideWidth={50}
-          naturalSlideHeight={25}
-          totalSlides={this.state.levels.length}
-          visibleSlides={4}
-        >
-          <Slider>
-            {this.state.levels}
-          </Slider>
-          {/* <ButtonBack>Back</ButtonBack> */}
-          {/* <ButtonNext>Next</ButtonNext> */}
-        </CarouselProvider>
-      </div>
-    );
+    { this.renderAddBoardPopUp(); }
   }
 
   renderAddBoardPopUp() {

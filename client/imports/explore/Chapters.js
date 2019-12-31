@@ -86,18 +86,8 @@ class Subject extends Component {
         } else {
           this.state.card = card[0].content;
           this.setState({
-            moduleId: this.state.moduleId,
-            subjectName: this.state.subjectName,
-            moduleName: this.state.moduleName,
-            chapters: this.state.chapters,
             showNav: false,
             showMD: true,
-            cards: this.state.cards,
-            buttonCount: this.state.buttonCount,
-            totalCount: this.state.totalCount,
-            currentChapter: this.state.currentChapter,
-            percentage: this.state.percentage,
-            chapterName: this.state.chapterName,
 
           });
         }
@@ -363,35 +353,6 @@ Add
         }
       });
     });
-  }
-
-  renderBody() {
-    return (
-      <div>
-        <MenuIcon className="mnu" onClick={() => this.setState({ showNav: true })} />
-        <SideNav
-          titleStyle={{ backgroundColor: '#383838' }}
-          itemStyle={{ backgroundColor: '#282828', color: 'white', font: 'bold' }}
-          itemHoverStyle={{ backgroundColor: '#383838', color: 'white', font: 'bold' }}
-          navStyle={{ backgroundColor: '#282828' }}
-          showNav={this.state.showNav}
-          onHideNav={() => this.setState({ showNav: false })}
-          title={(
-            <div>
-              <h1>{this.state.moduleName}</h1>
-              <Line
-                percent={this.state.progress}
-                strokeWidth="4"
-                strokeColor="#66ff33"
-              />
-            </div>
-                      )}
-          items={
-                        this.state.chapters
-                    }
-        />
-      </div>
-    );
   }
 
   renderAddBoardPopUp() {

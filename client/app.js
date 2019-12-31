@@ -12,6 +12,8 @@ const sidebarWidth = 325;
 
 const App = ({
   content,
+  subject,
+  moduleId,
   withSidebar,
   opaqueHeader,
 }) => {
@@ -43,12 +45,15 @@ const App = ({
         >
           {content}
         </Layout>
-        <Sidebar
-          open={open}
-          withSidebar={withSidebar}
-          sidebarWidth={sidebarWidth}
-          handleDrawerClose={handleDrawerClose}
-        />
+        {withSidebar && (
+          <Sidebar
+            open={open}
+            subject={subject}
+            moduleId={moduleId}
+            sidebarWidth={sidebarWidth}
+            handleDrawerClose={handleDrawerClose}
+          />
+        )}
         <Footer
           open={open}
           withSidebar={withSidebar}
