@@ -17,12 +17,18 @@ const useStyles = makeStyles((theme) => ({
   },
   bar: {
     borderRadius: 20,
-    background: 'linear-gradient(90deg, rgba(216,255,143,1) 0%, rgba(134,241,196,1) 100%)',
+    background: ({ primaryColor, secondaryColor }) => `linear-gradient(90deg, ${secondaryColor} 0%, ${primaryColor} 100%)`,
   },
 }));
 
-const ProgressBar = ({ className, thin, ...props }) => {
-  const classes = useStyles();
+const ProgressBar = ({
+  thin,
+  className,
+  primaryColor,
+  secondaryColor,
+  ...props
+}) => {
+  const classes = useStyles({ primaryColor, secondaryColor });
   return (
     <LinearProgress
       classes={{
@@ -37,11 +43,15 @@ const ProgressBar = ({ className, thin, ...props }) => {
 ProgressBar.defaultProps = {
   className: '',
   thin: false,
+  secondaryColor: 'rgba(216, 255, 143, 1)',
+  primaryColor: 'rgba(134, 241, 196, 1)',
 };
 
 ProgressBar.propTypes = {
   thin: PropTypes.bool,
   className: PropTypes.string,
+  primaryColor: PropTypes.string,
+  secondaryColor: PropTypes.string,
 };
 
 export default ProgressBar;

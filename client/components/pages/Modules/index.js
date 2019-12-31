@@ -41,7 +41,7 @@ const Modules = ({ subjectName, subjectId }) => {
       >
         <Grid container spacing={3}>
           {modules.map(({ _id, name }) => (
-            <Grid item sm={12} md={6} lg={3}>
+            <Grid item sm={12} md={6} lg={modules.length > 3 ? 3 : 12 / modules.length}>
               <ModuleCard
                 id={_id}
                 subjectName={subjectName}
