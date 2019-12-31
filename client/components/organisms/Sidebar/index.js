@@ -78,12 +78,17 @@ const Sidebar = ({
   );
 };
 
+Sidebar.defaultProps = {
+  opaqueHeader: false,
+  handleDrawerOpen: () => {},
+};
+
 Sidebar.propTypes = {
+  opaqueHeader: PropTypes.bool,
   open: PropTypes.bool.isRequired,
+  handleDrawerOpen: PropTypes.func,
   withSidebar: PropTypes.bool.isRequired,
-  opaqueHeader: PropTypes.bool.isRequired,
   sidebarWidth: PropTypes.number.isRequired,
-  handleDrawerOpen: PropTypes.func.isRequired,
   handleDrawerClose: PropTypes.func.isRequired,
 };
 

@@ -6,6 +6,7 @@ import { Accounts } from 'meteor/accounts-base';
 import {
   Cards,
   Home,
+  Modules,
 } from './components/pages';
 import Explore from './imports/explore/Explore';
 import Module from './imports/explore/Module';
@@ -150,8 +151,7 @@ FlowRouter.route('/explore/subject/:name', {
   name: 'Subject',
   action (_, { subjectId }) {
     mount(App, {
-      withSidebar: true,
-      content: <Cards subjectId={subjectId} />,
+      content: <Modules subjectId={subjectId} />,
     });
   },
 });

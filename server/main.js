@@ -2,34 +2,34 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Accounts } from 'meteor/accounts-base';
 
-const board = require('./schemas/board.js');
-const level = require('./schemas/level.js');
-const subject = require('./schemas/subject.js');
-const zModule = require('./schemas/zModule.js');
-const card = require('./schemas/card.js');
-const chapter = require('./schemas/chapter.js');
-const sponsorCard = require('./schemas/sponsorCard.js');
+import boardSchema from './schemas/board.js';
+import levelSchema from './schemas/level.js';
+import subjectSchema from './schemas/subject.js';
+import zModuleSchema from './schemas/zModule.js';
+import cardSchema from './schemas/card.js';
+import chapterSchema from './schemas/chapter.js';
+import sponsorCardSchema from './schemas/sponsorCard.js';
 
 const sponsorCards = new Mongo.Collection('sponsorCards');
-sponsorCards.schema = sponsorCard;
+sponsorCards.schema = sponsorCardSchema;
 
 const boards = new Mongo.Collection('boards');
-boards.schema = board;
+boards.schema = boardSchema;
 
 const levels = new Mongo.Collection('levels');
-levels.schema = level;
+levels.schema = levelSchema;
 
 const subjects = new Mongo.Collection('subjects');
-subjects.schema = subject;
+subjects.schema = subjectSchema;
 
 const modules = new Mongo.Collection('modules');
-modules.schema = zModule;
+modules.schema = zModuleSchema;
 
 const cards = new Mongo.Collection('cards');
-cards.schema = card;
+cards.schema = cardSchema;
 
 const chapters = new Mongo.Collection('chapters');
-chapters.schema = chapter;
+chapters.schema = chapterSchema;
 
 Accounts.urls.verifyEmail = (token) => {
   const url = Meteor.absoluteUrl(`/email/verify/${token}`);
@@ -131,6 +131,7 @@ Meteor.methods({
         }));
         return {
           ...levelRest,
+          levelId,
           name: levelName,
           board: boardName,
           subjects: allSubjectsWithNames,
@@ -138,6 +139,7 @@ Meteor.methods({
       });
       return {
         ...rest,
+        boardId,
         name: boardName,
         levels: allLevelsWithSubjects,
       };
@@ -183,6 +185,14 @@ Meteor.methods({
       return [];
     }
     const res = modules.find(selector).fetch();
+    return res;
+  },
+  getModulesBySubject(subject) {
+    const records = modules.find({ subject }).count();
+    if (records === 0) {
+      return [];
+    }
+    const res = modules.find({ subject }).fetch();
     return res;
   },
   addZModule(module) {

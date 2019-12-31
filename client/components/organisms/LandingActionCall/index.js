@@ -180,7 +180,7 @@ LandingActionCall.propTypes = {
   withHint: PropTypes.bool,
   titleText: PropTypes.string,
   className: PropTypes.string,
-  buttonAlignment: PropTypes.oneOf('bottom', 'right'),
+  buttonAlignment: PropTypes.oneOf(['bottom', 'right']),
 };
 
 export default LandingActionCall;

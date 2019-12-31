@@ -1,5 +1,7 @@
 import React, {
-  useState, useEffect,
+  useState,
+  useEffect,
+  Fragment,
 } from 'react';
 import { Request } from '/client/utils';
 import {
@@ -27,16 +29,16 @@ const Explore = () => {
     <PageContainer
       className="page_explore-container"
     >
-      {boards.map(({ name, levels }) => (
-        <>
+      {boards.map(({ boardId, name, levels }) => (
+        <Fragment key={boardId}>
           <Title variant="h3">{name}</Title>
-          {levels.map(({ name: levelName, subjects }) => (
-            <>
+          {levels.map(({ levelId, name: levelName, subjects }) => (
+            <Fragment key={levelId}>
               <Title variant="h5">{levelName}</Title>
               <SubjectSlider subjects={subjects} />
-            </>
+            </Fragment>
           ))}
-        </>
+        </Fragment>
       ))}
     </PageContainer>
   );

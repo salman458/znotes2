@@ -1,0 +1,47 @@
+@import '{}/client/styles/colors';
+
+@keyframes hoverEffect {
+  from {
+    background-position: 39% 25%,
+  }
+  to {
+    background-position: 0% 0%,
+  }
+}
+
+@keyframes hoverEffectReverse {
+  from {
+    background-position: 0% 0%,
+  }
+  to {
+    background-position: 39% 25%,
+  }
+}
+.molecule_module-card {
+  width: 100%;
+  .molecule_module-card-container {
+    width: 100%;
+    height: 10vw;
+    min-width: 280px;
+    min-height: 240px;
+    position: relative;
+    border-radius: 5px;
+    background-size: 400% 400%;
+    background-position: 39% 25%;
+    animation: hoverEffectReverse 0.5s cubic-bezier(0.4, 0, 0.6, 1);
+    margin-right: 20px;
+    cursor: pointer;
+    .molecule_module-card-letter {
+      font-size: 500%;
+    }
+    .molecule_module-card-text {
+      font-size: 20px;
+      color: white;
+      font-weight: bold;
+    }
+    &:hover {
+      animation: hoverEffect 0.5s cubic-bezier(0.4, 0, 0.6, 1);
+      background-position: 0% 0%;
+    }
+  }
+}
