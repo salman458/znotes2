@@ -1,4 +1,5 @@
 export { default as Arrow } from './Arrow';
+export { default as Chapters } from './Chapters';
 export { default as Community } from './Community';
 export { default as Diamond } from './Diamond';
 export { default as Discord } from './Discord';
@@ -21,4 +22,8 @@ export {
   DoneAll as Validate,
   AccountCircleOutlined as Account,
   ArrowDropDown as MenuDown,
+  ChevronLeft,
+  Menu,
+  ExpandMore,
+  ExpandLess,
 } from '@material-ui/icons';

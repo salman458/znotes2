@@ -1,0 +1,36 @@
+@import '{}/client/styles/colors';
+
+.organism_sidebar-top {
+  position: relative;
+  background-color: #353535;
+  padding: 35px 40px;
+  .organism_sidebar-back-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  .organism_sidebar-logo {
+    width: 99px;
+    margin-bottom: 25px;
+  }
+  .organism_sidebar-progress-container {
+    padding: 10px;
+    border-radius: 50px;
+    box-shadow: 0 33px 96px 0 rgba(0,0,0,0.50);
+    background-color: $background_secondary;
+    .organism_sidebar-progress {
+      width: 100%;
+    }
+    .organism_sidebar-text {
+      margin-left: 10px;
+      margin-right: 15px;
+      font-size: 12px;
+    }
+  }
+}
+.organism_sidebar-bottom {
+  padding: 50px 40px;
+  .organism_sidebar-chapter-icon {
+    margin-right: 10px;
+  }
+}

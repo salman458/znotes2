@@ -27,6 +27,7 @@ FlowRouter.route('/', {
   name: 'Home',
   action() {
     mount(App, {
+      opaqueHeader: true,
       content: <Home />,
     });
   },
@@ -149,6 +150,7 @@ FlowRouter.route('/explore/subject/:name', {
   name: 'Subject',
   action (_, { subjectId }) {
     mount(App, {
+      withSidebar: true,
       content: <Cards subjectId={subjectId} />,
     });
   },

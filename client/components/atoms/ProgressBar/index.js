@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import {
   makeStyles,
 } from '@material-ui/core/styles';
@@ -11,18 +12,21 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 20,
     backgroundColor: theme.palette.background.paper,
   },
+  thin: {
+    height: 4,
+  },
   bar: {
     borderRadius: 20,
     background: 'linear-gradient(90deg, rgba(216,255,143,1) 0%, rgba(134,241,196,1) 100%)',
   },
 }));
 
-const ProgressBar = ({ className, ...props }) => {
+const ProgressBar = ({ className, thin, ...props }) => {
   const classes = useStyles();
   return (
     <LinearProgress
       classes={{
-        determinate: classes.root,
+        determinate: clsx(classes.root, thin && classes.thin),
         bar1Determinate: classes.bar,
       }}
       {...props}
@@ -32,9 +36,11 @@ const ProgressBar = ({ className, ...props }) => {
 
 ProgressBar.defaultProps = {
   className: '',
+  thin: false,
 };
 
 ProgressBar.propTypes = {
+  thin: PropTypes.bool,
   className: PropTypes.string,
 };
 

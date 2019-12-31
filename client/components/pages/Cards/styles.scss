@@ -1,0 +1,14 @@
+.page_cards-container {
+  margin-bottom: 30px;
+  .page_cards-arrows {
+    color: white;
+  }
+  .page_cards-paper {
+    background-color: white;
+    height: 45vh;
+    overflow-y: scroll;
+    color: black;
+    padding: 30px 50px;
+    margin-top: 20px;
+  }
+}
