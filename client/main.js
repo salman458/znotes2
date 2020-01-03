@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'react-mounter';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Accounts } from 'meteor/accounts-base';
+import { PermissionProvider } from '/client/contexts/permission';
 
 import {
   Cards,
@@ -132,7 +133,11 @@ FlowRouter.route('/explore', {
   name: 'Explore',
   action () {
     mount(App, {
-      content: <Explore />,
+      content: (
+        <PermissionProvider>
+          <Explore />
+        </PermissionProvider>
+      ),
     });
   },
 });

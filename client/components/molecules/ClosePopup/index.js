@@ -8,6 +8,7 @@ import { FlexBox, IconButton } from '/client/components/atoms';
 import './styles.scss';
 
 const ClosePopup = ({
+  title,
   open,
   onClose,
   children,
@@ -21,7 +22,8 @@ const ClosePopup = ({
     aria-describedby="molecule_close-popup-description"
   >
     <DialogTitle id="molecule_close-popup-title">
-      <FlexBox align justifyEnd>
+      <FlexBox align justifyBetween={!!title} justifyEnd={!title}>
+        {title}
         <IconButton onClick={onClose}>
           <Close color="primary" />
         </IconButton>
@@ -35,9 +37,11 @@ const ClosePopup = ({
 
 ClosePopup.defaultProps = {
   className: '',
+  title: '',
 };
 
 ClosePopup.propTypes = {
+  title: PropTypes.string,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   className: PropTypes.string,

@@ -4,6 +4,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { Layout } from '/client/components/atoms';
 import { Header, Sidebar, Footer } from '/client/components/organisms';
 import { UserProvider } from '/client/contexts/user';
+import { PermissionProvider } from '/client/contexts/permission';
 import theme from './theme';
 
 import './styles/root.scss';
@@ -30,14 +31,16 @@ const App = ({
   return (
     <ThemeProvider theme={theme}>
       <UserProvider>
-        <Header
-          open={open}
-          withSidebar={withSidebar}
-          sidebarWidth={sidebarWidth}
-          opaqueHeader={opaqueHeader}
-          handleDrawerOpen={handleDrawerOpen}
-          handleDrawerClose={handleDrawerClose}
-        />
+        <PermissionProvider>
+          <Header
+            open={open}
+            withSidebar={withSidebar}
+            sidebarWidth={sidebarWidth}
+            opaqueHeader={opaqueHeader}
+            handleDrawerOpen={handleDrawerOpen}
+            handleDrawerClose={handleDrawerClose}
+          />
+        </PermissionProvider>
         <Layout
           open={open}
           withSidebar={withSidebar}

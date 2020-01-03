@@ -4,7 +4,8 @@ import clsx from 'clsx';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { FlexBox } from '/client/components/atoms';
-import { GetPermissionLevel, USER_PERMISSIONS } from '/client/utils';
+import { USER_PERMISSIONS } from '/client/utils';
+import { usePermission } from '/client/contexts/permission';
 import useStyles from './styles';
 import Navigation from './Navigation';
 import LoginPopup from './LoginPopup';
@@ -17,16 +18,9 @@ const Header = ({
   opaqueHeader,
   handleDrawerOpen,
 }) => {
-  const [role, setRole] = useState(USER_PERMISSIONS.visiting);
+  const role = usePermission();
   const classes = useStyles({ sidebarWidth, withSidebar });
-
-  useEffect(() => {
-    const fetchPermissionLevel = async () => {
-      const currentPermission = await GetPermissionLevel();
-      setRole(currentPermission);
-    };
-    fetchPermissionLevel();
-  }, []);
+  console.log(role);
 
   const isVisiting = role === USER_PERMISSIONS.visiting;
 
@@ -62,7 +56,6 @@ Header.propTypes = {
   opaqueHeader: PropTypes.bool.isRequired,
   sidebarWidth: PropTypes.number.isRequired,
   handleDrawerOpen: PropTypes.func.isRequired,
-  handleDrawerClose: PropTypes.func.isRequired,
 };
 
 export default Header;
