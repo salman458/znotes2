@@ -20,7 +20,6 @@ const Header = ({
 }) => {
   const role = usePermission();
   const classes = useStyles({ sidebarWidth, withSidebar });
-  console.log(role);
 
   const isVisiting = role === USER_PERMISSIONS.visiting;
 

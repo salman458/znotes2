@@ -27,7 +27,6 @@ const Explore = () => {
         action: 'loadAllData',
         body: {},
       });
-      console.log(allBoards);
       setBoards(allBoards);
     };
     getNecessaryData();

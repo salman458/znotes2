@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import Slider from 'react-slick';
 import { GenerateBreakpoints } from '/client/utils';
 import { Arrow } from '/client/components/icons';
+import { usePermission } from '/client/contexts/permission';
 import { Title } from '/client/components/atoms';
 import { SubjectCard } from '/client/components/molecules';
 import './styles.scss';
@@ -14,6 +15,7 @@ const SubjectSlider = ({ subjects, className }) => {
   const breakponts = useMemo(GenerateBreakpoints, []);
   const slider = useRef(null);
   const [slidesToShow, setSlidesToShow] = useState(0);
+  const role = usePermission();
 
   const ref = useCallback((node) => {
     if (node !== null) {
@@ -64,6 +66,7 @@ const SubjectSlider = ({ subjects, className }) => {
                 _id: subjectId, name, boardName, levelName,
               }) => (
                 <SubjectCard
+                  role={role}
                   id={subjectId}
                   subject={name}
                   key={subjectId}

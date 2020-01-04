@@ -1,57 +1,104 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {
-  lighten,
-  makeStyles,
-} from '@material-ui/core/styles';
-import {
-  Text,
-  Link,
-  FlexBox,
-} from '/client/components/atoms';
-import { SanitizeName } from '/client/utils';
-import Subjects from './subjectData';
-import './styles.scss';
-
-const useStyles = makeStyles(() => ({
-  root: {
-    backgroundImage: (props) => `linear-gradient(-40deg, ${props.primaryColor} 70%, ${props.secondaryColor} 70%)`,
-  },
-}));
+import MenuItem from '@material-ui/core/MenuItem';
+import { Link, TextField, Button } from '/client/components/atoms';
+import { Menu, ClosePopup } from '/client/components/molecules';
+import { SanitizeName, Request, USER_PERMISSIONS } from '/client/utils';
+import CardActionItem from './CardActionItem';
 
 const SubjectCard = ({
   id,
+  role,
   code,
   subject,
   subjectName,
 }) => {
-  const sanitizedSubjectName = SanitizeName(subject);
-  const { color, icon: Icon = () => null } = Subjects[sanitizedSubjectName] || {};
-  const primaryColor = color || '#D82057';
-  const secondaryColor = lighten(primaryColor, 0.5);
-  const classes = useStyles({ primaryColor, secondaryColor });
+  const [modules, setModules] = useState([]);
+  const [name, setName] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
+  const openPopup = () => {
+    setOpen(true);
+  };
+
+  const onChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const onSubmit = async () => {
+    const itemId = await Request({
+      action: 'addZModule',
+      body: { name, subject: id, chapters: [] },
+    });
+    setModules([
+      {
+        _id: itemId,
+        subject: id,
+        name,
+        chapters: [],
+      },
+      ...modules,
+    ]);
+    onClose();
+  };
+
+  useEffect(() => {
+    const getNecessaryData = async () => {
+      const allModules = await Request({
+        action: 'getModulesBySubject',
+        body: id,
+      });
+      setModules(allModules);
+    };
+    getNecessaryData();
+  }, []);
+
   return (
-    <Link to={`/explore/subject/${sanitizedSubjectName}?subjectId=${id}`}>
-      <FlexBox
-        column
-        justify
-        align
-        className={clsx(classes.root, 'subject-card-container')}
+    <>
+      <Menu
+        disablePortal={false}
+        actionItem={(
+          <CardActionItem
+            code={code}
+            subject={subject}
+            subjectName={subjectName}
+          />
+  )}
       >
-        <div className="subject-card-icon">
-          <Icon />
-        </div>
-        <div className="subject-card-text">
-          <Text className="subject-card-code">{code}</Text>
-          <Text className="subject-card-subject">{subjectName}</Text>
-        </div>
-      </FlexBox>
-    </Link>
+        {modules.map(({ _id, name: moduleName }) => (
+          <Link
+            key={_id}
+            to={`/explore/module/${subjectName}/${SanitizeName(moduleName)}?subjectId=${id}&moduleId=${_id}`}
+          >
+            <MenuItem>{name}</MenuItem>
+          </Link>
+        ))}
+        {role > USER_PERMISSIONS.logged && (
+        <MenuItem onClick={openPopup}>Add Module</MenuItem>
+        )}
+      </Menu>
+      <ClosePopup
+        open={open}
+        onClose={onClose}
+        title="Add a new module"
+      >
+        <TextField
+          style={{ marginBottom: 20 }}
+          onChange={onChange}
+          label="Name"
+        />
+        <Button onClick={onSubmit}>Add</Button>
+      </ClosePopup>
+    </>
   );
 };
 
 SubjectCard.propTypes = {
+  role: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
   subject: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,

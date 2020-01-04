@@ -12,6 +12,7 @@ const Menu = ({
   children,
   className,
   closeOnClick,
+  disablePortal,
   actionItem,
   ...props
 }) => {
@@ -42,7 +43,7 @@ const Menu = ({
       <div role="button" tabIndex="0" onClick={handleClick}>
         {actionItem}
       </div>
-      <Popper open={open} className="molecule_icon-menu-popper" anchorEl={anchorEl} transition disablePortal>
+      <Popper open={open} className="molecule_icon-menu-popper" anchorEl={anchorEl} transition disablePortal={disablePortal}>
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
@@ -66,6 +67,7 @@ Menu.propTypes = {
   closeOnClick: PropTypes.bool,
   onClick: PropTypes.func,
   className: PropTypes.string,
+  disablePortal: PropTypes.bool,
   actionItem: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.element,
@@ -79,6 +81,7 @@ Menu.propTypes = {
 };
 
 Menu.defaultProps = {
+  disablePortal: true,
   closeOnClick: true,
   onClick: () => {},
   className: '',
