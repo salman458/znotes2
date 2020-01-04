@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Stickyroll } from '@stickyroll/stickyroll';
 import { Pagers } from '@stickyroll/pagers';
 import { Inner } from '@stickyroll/inner';
+import { PermissionProvider } from '/client/contexts/permission';
 import Landing from '../Landing';
 import Story from '../Story';
 import Process from '../Process';
@@ -39,7 +40,9 @@ const theme = {
 const Home = () => {
   if (Meteor.userId()) {
     return (
-      <Dashboard />
+      <PermissionProvider>
+        <Dashboard />
+      </PermissionProvider>
     );
   }
   return (

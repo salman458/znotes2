@@ -61,6 +61,7 @@ const SubjectCard = ({
     <>
       <Menu
         disablePortal={false}
+        placement="bottom-start"
         actionItem={(
           <CardActionItem
             code={code}
@@ -74,7 +75,7 @@ const SubjectCard = ({
             key={_id}
             to={`/explore/module/${subjectName}/${SanitizeName(moduleName)}?subjectId=${id}&moduleId=${_id}`}
           >
-            <MenuItem>{name}</MenuItem>
+            <MenuItem>{moduleName}</MenuItem>
           </Link>
         ))}
         {role > USER_PERMISSIONS.logged && (
