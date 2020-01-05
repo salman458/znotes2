@@ -86,7 +86,6 @@ const Dashbboard = () => {
           withHint
           align={false}
           titleText="Browse Courses"
-          buttonAlignment="right"
         />
       </div>
       <Title variant="h3" gutterBottom>My Subjects</Title>

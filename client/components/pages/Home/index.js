@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { Stickyroll } from '@stickyroll/stickyroll';
 import { Pagers } from '@stickyroll/pagers';
@@ -24,7 +25,7 @@ const content = [
 ];
 
 const theme = {
-  backgroundColor: '#121212',
+  backgroundColor: '#051017',
   color: 'white',
   markerColor: '#D82057',
   markerWidth: '2px',
@@ -37,7 +38,7 @@ const theme = {
   strokeWidth: '2px',
 };
 
-const Home = () => {
+const Home = ({ setOpaque }) => {
   if (Meteor.userId()) {
     return (
       <PermissionProvider>
@@ -47,11 +48,12 @@ const Home = () => {
   }
   return (
     <>
-      <Stickyroll pages={content} factor={1.3} anchors="" className="landing_container landing_root">
+      <Stickyroll pages={content} factor={0.9} anchors="" className="landing_container landing_root">
         {({
           pageIndex, progress,
         }) => {
           const Page = content[pageIndex];
+          setOpaque(pageIndex === 0);
           return (
             <Inner theme={theme} withPagers="right">
               <Page progress={progress} />
@@ -62,6 +64,10 @@ const Home = () => {
       </Stickyroll>
     </>
   );
+};
+
+Home.propTypes = {
+  setOpaque: PropTypes.func.isRequired,
 };
 
 export default Home;

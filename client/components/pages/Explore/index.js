@@ -135,7 +135,7 @@ const Explore = () => {
               >
                 {(openPopup) => (
                   <FlexBox justifyBetween align>
-                    <Title variant="h3">{levelName}</Title>
+                    <Title variant="h4">{levelName}</Title>
                     <Button variant="text" onClick={openPopup}>Add Subject</Button>
                   </FlexBox>
                 )}

@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import MUIButton from '@material-ui/core/Button';
+import useStyles from './styles';
 
-const Button = ({ className, ...props }) => (
-  <MUIButton className={`atom_button ${className}`} {...props} />
-);
+const Button = ({ className, ...props }) => {
+  const classes = useStyles();
+  return (
+    <MUIButton className={clsx(classes.root, className)} {...props} />
+  );
+};
 
 Button.defaultProps = {
   className: '',

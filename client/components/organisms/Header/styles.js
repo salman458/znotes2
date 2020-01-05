@@ -1,14 +1,12 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, darken } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-  opaque: {
-    backgroundColor: 'transparent',
-    boxShadow: 'none',
-  },
+  opaque: {},
   appBar: {
+    backgroundColor: darken(theme.palette.background.paper, 0.3),
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -20,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: '100%',
       marginLeft: 0,
+    },
+    '&$opaque': {
+      backgroundColor: 'transparent',
+      boxShadow: 'none',
     },
   },
   appBarShift: {

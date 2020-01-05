@@ -29,7 +29,7 @@ FlowRouter.route('/', {
   action() {
     mount(App, {
       opaqueHeader: true,
-      content: <Home />,
+      content: (props) => <Home {...props} />,
     });
   },
 });
@@ -38,7 +38,7 @@ FlowRouter.route('/community', {
   name: 'Community',
   action() {
     mount(App, {
-      content: <Community />,
+      content: (props) => <Community {...props} />,
     });
   },
 });
@@ -47,7 +47,7 @@ FlowRouter.route('/team', {
   name: 'Team',
   action() {
     mount(App, {
-      content: <Team />,
+      content: (props) => <Team {...props} />,
     });
   },
 });
@@ -56,7 +56,7 @@ FlowRouter.route('/register', {
   name: 'Register',
   action() {
     mount(App, {
-      content: <Register />,
+      content: (props) => <Register {...props} />,
     });
   },
 });
@@ -65,7 +65,7 @@ FlowRouter.route('/sponsorContent/:id', {
   name: 'AddSponsorContnet',
   action ({ id }) {
     mount(App, {
-      content: <Sponsor id={id} />,
+      content: (props) => <Sponsor id={id} {...props} />,
     });
   },
 });
@@ -74,7 +74,7 @@ FlowRouter.route('/addBio', {
   name: 'AddBio',
   action() {
     mount(App, {
-      content: <AddBio />,
+      content: (props) => <AddBio {...props} />,
     });
   },
 });
@@ -97,7 +97,7 @@ FlowRouter.route('/password/reset/:token', {
   name: 'ResetPassword',
   action ({ token }) {
     mount(App, {
-      content: <Reset token={token} />,
+      content: (props) => <Reset token={token} {...props} />,
     });
   },
 });
@@ -106,7 +106,7 @@ FlowRouter.route('/password/reset/', {
   name: 'GetResetToken',
   action () {
     mount(App, {
-      content: <PreReset />,
+      content: (props) => <PreReset {...props} />,
     });
   },
 });
@@ -115,7 +115,7 @@ FlowRouter.route('/email/change', {
   name: 'ChangeEmail',
   action () {
     mount(App, {
-      content: <ChangeEmail />,
+      content: (props) => <ChangeEmail {...props} />,
     });
   },
 });
@@ -124,7 +124,7 @@ FlowRouter.route('/password/change', {
   name: 'ChangePassword',
   action () {
     mount(App, {
-      content: <ChangePassword />,
+      content: (props) => <ChangePassword {...props} />,
     });
   },
 });
@@ -133,9 +133,9 @@ FlowRouter.route('/explore', {
   name: 'Explore',
   action () {
     mount(App, {
-      content: (
+      content: (props) => (
         <PermissionProvider>
-          <Explore />
+          <Explore {...props} />
         </PermissionProvider>
       ),
     });
@@ -155,10 +155,11 @@ FlowRouter.route('/explore/subject/:name', {
   name: 'Subject',
   action ({ name }, { subjectId }) {
     mount(App, {
-      content: (
+      content: (props) => (
         <Modules
           subjectName={name}
           subjectId={subjectId}
+          {...props}
         />
       ),
     });
@@ -172,10 +173,11 @@ FlowRouter.route('/explore/module/:subject/:name', {
       withSidebar: true,
       moduleId,
       subject,
-      content: (
+      content: (props) => (
         <Cards
           moduleId={moduleId}
           subjectId={subjectId}
+          {...props}
         />
       ),
     });
@@ -184,13 +186,12 @@ FlowRouter.route('/explore/module/:subject/:name', {
 
 FlowRouter.route('/explore/chapters/module/:moduleId/:subjectName/:cardId', {
   name: 'Chapter',
-  action ({ moduleId, subjectName, cardId }) {
+  action (params) {
     mount(App, {
-      content: (
+      content: (props) => (
         <Chapters
-          moduleId={moduleId}
-          subjectName={subjectName}
-          cardId={cardId}
+          {...params}
+          {...props}
         />
       ),
     });
@@ -199,19 +200,12 @@ FlowRouter.route('/explore/chapters/module/:moduleId/:subjectName/:cardId', {
 
 FlowRouter.route('/explore/chapters/editor/:moduleId/:subjectName/:chapterId/:cardId', {
   name: 'Editor',
-  action ({
-    moduleId,
-    subjectName,
-    chapterId,
-    cardId,
-  }) {
+  action (params) {
     mount(App, {
-      content: (
+      content: (props) => (
         <Editor
-          moduleId={moduleId}
-          subjectName={subjectName}
-          chapterId={chapterId}
-          cardId={cardId}
+          {...params}
+          {...props}
         />
       ),
     });
@@ -220,9 +214,9 @@ FlowRouter.route('/explore/chapters/editor/:moduleId/:subjectName/:chapterId/:ca
 
 FlowRouter.route('/admin/:offset/:limit', {
   name: 'Admin',
-  action ({ offset, limit }) {
+  action (params) {
     mount(App, {
-      content: <Admin offset={offset} limit={limit} />,
+      content: (props) => <Admin {...params} {...props} />,
     });
   },
 });

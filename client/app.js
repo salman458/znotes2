@@ -19,6 +19,7 @@ const App = ({
   opaqueHeader,
 }) => {
   const [open, setOpen] = useState(false);
+  const [isOpaque, setOpaque] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -36,9 +37,9 @@ const App = ({
             open={open}
             withSidebar={withSidebar}
             sidebarWidth={sidebarWidth}
-            opaqueHeader={opaqueHeader}
             handleDrawerOpen={handleDrawerOpen}
             handleDrawerClose={handleDrawerClose}
+            opaqueHeader={opaqueHeader && isOpaque}
           />
         </PermissionProvider>
         <Layout
@@ -46,7 +47,7 @@ const App = ({
           withSidebar={withSidebar}
           sidebarWidth={sidebarWidth}
         >
-          {content}
+          {content({ setOpaque })}
         </Layout>
         {withSidebar && (
           <Sidebar
@@ -68,14 +69,18 @@ const App = ({
 };
 
 App.defaultProps = {
+  subject: '',
+  moduleId: '',
   withSidebar: false,
   opaqueHeader: false,
 };
 
 App.propTypes = {
+  subject: PropTypes.string,
+  moduleId: PropTypes.string,
   withSidebar: PropTypes.bool,
   opaqueHeader: PropTypes.bool,
-  content: PropTypes.element.isRequired,
+  content: PropTypes.func.isRequired,
 };
 
 export default App;

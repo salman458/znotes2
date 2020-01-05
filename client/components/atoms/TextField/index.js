@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    backgroundColor: '#121212',
+    backgroundColor: '#051017',
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderColor: theme.palette.primary.main,

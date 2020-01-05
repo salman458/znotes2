@@ -10,4 +10,24 @@
   .organism_landing-hint-link {
     color: $secondary_color;
   }
+  .organism_landing-autosuggest {
+    position: relative;
+    .organism_landing-autosuggest-icon {
+      position: absolute;
+      height: 100%;
+      z-index: 1;
+      top: 0;
+      bottom: 0;
+      &.left {
+        left: 20px;
+      }
+      &.right {
+        right: 20px;
+        cursor: pointer;
+        &:hover {
+          color: $primary_color
+        }
+      }
+    }
+  }
 }

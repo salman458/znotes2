@@ -6,10 +6,10 @@ import {
   Link,
   Title,
   Image,
-  Button,
   FlexBox,
   Autosuggest,
 } from '/client/components/atoms';
+import { Search, ChevronRight } from '/client/components/icons';
 import { Request } from '/client/utils';
 import Suggestion from './Suggestion';
 
@@ -21,7 +21,6 @@ const LandingActionCall = ({
   titleText,
   withHint,
   className,
-  buttonAlignment,
 }) => {
   const [keywords, setKeywords] = useState([]);
 
@@ -111,11 +110,16 @@ const LandingActionCall = ({
     handleSearch(result);
   };
 
+  const onKeyDown = (e) => {
+    if (e.key === 'Enter' || e.code === 'Enter') {
+      onSearch();
+    }
+  };
+
   return (
     <FlexBox
       column
       justify
-      fullWidth
       align={align}
       className="organism_action-call-root"
     >
@@ -126,7 +130,12 @@ const LandingActionCall = ({
           src="/img/logo.png"
         />
         )}
-      <Title variant="h3">{titleText}</Title>
+      <Title
+        variant="h1"
+        component="h1"
+      >
+        {titleText}
+      </Title>
       {withHint && (
         <Text>
           Search for a course, or go to the
@@ -140,8 +149,9 @@ const LandingActionCall = ({
         justify
         align
         fullWidth
-        column={buttonAlignment === 'bottom'}
+        className="organism_landing-autosuggest"
       >
+        <Search className="organism_landing-autosuggest-icon left" />
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -152,14 +162,14 @@ const LandingActionCall = ({
           inputProps={{
             value,
             onChange,
-            placeholder: 'What do you want to study today?',
+            onKeyDown,
+            placeholder: 'What do you want to revise?',
           }}
         />
-        <Button
+        <ChevronRight
           onClick={onSearch}
-        >
-        Search
-        </Button>
+          className="organism_landing-autosuggest-icon right"
+        />
       </FlexBox>
     </FlexBox>
   );
@@ -169,8 +179,7 @@ LandingActionCall.defaultProps = {
   minimal: false,
   withHint: false,
   align: true,
-  titleText: 'For Students, By Students',
-  buttonAlignment: 'bottom',
+  titleText: 'FOR STUDENTS. BY STUDENTS.',
   className: '',
 };
 
@@ -180,7 +189,6 @@ LandingActionCall.propTypes = {
   withHint: PropTypes.bool,
   titleText: PropTypes.string,
   className: PropTypes.string,
-  buttonAlignment: PropTypes.oneOf(['bottom', 'right']),
 };
 
 export default LandingActionCall;

@@ -21,11 +21,16 @@ export default createMuiTheme({
       hint: 'rgba(0, 0, 0, 0.38)',
     },
     background: {
-      paper: '#121212',
-      default: '#121212',
+      paper: '#051017',
+      default: '#051017',
     },
   },
   typography: {
     fontFamily: '\'Open Sans\', sans-serif',
+    h1: {
+      fontFamily: '\'Raleway\', sans-serif',
+      fontWeight: 700,
+      fontSize: '4rem',
+    },
   },
 });
