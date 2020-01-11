@@ -4,8 +4,11 @@ $round_size: 90px;
   position: relative;
   z-index: 1;
   .round {
-    height: $round_size;
-    width: $round_size;
+    width: 10vw;
+    height: 10vw;
+    cursor: pointer;
+    min-height: $round_size;
+    min-width: $round_size;
     border-radius: 100%;
     box-shadow: 0px 0px 0px 10px #121212,
     0px 0px 0px 11px #333333;
@@ -21,26 +24,10 @@ $round_size: 90px;
       }
     }
   }
-  .text {
-    width: 20vw;
-    position: absolute;
-    left: -100%;
-    margin-right: 10px;
-    &.bigText {
-      width: 30vw;
-    }
-  }
   &.top {
     margin-top: -$round_size;
-    .text {
-      top: -$round_size - 20px;
-      margin-bottom: 20px;
-    }
   }
   &.bottom {
     margin-top: $round_size;
-    .text {
-      margin-top: 20px;
-    }
   }
 }

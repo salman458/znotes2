@@ -8,8 +8,8 @@ import {
   Title,
 } from '/client/components/atoms';
 import {
-  Next,
-  Prev,
+  ChevronLeft,
+  ChevronRight,
 } from '/client/components/icons';
 import Quote from './Quote';
 
@@ -115,10 +115,10 @@ const Testimonials = ({ progress }) => {
         </Slider>
         <FlexBox align justify>
           <IconButton className="page_testimonial-nav-button" onClick={onPrev}>
-            <Prev />
+            <ChevronLeft />
           </IconButton>
           <IconButton className="page_testimonial-nav-button" onClick={onNext}>
-            <Next />
+            <ChevronRight />
           </IconButton>
         </FlexBox>
       </div>

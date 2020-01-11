@@ -1,5 +1,18 @@
 .page_story-wrapper {
   margin: 0 80px;
+  .page_story-highlighted {
+    display: inline;
+    font-size: inherit;
+  }
+  .page_story-edu-image {
+    margin-right: 20px;
+    min-width: 100px;
+    width: 30%;
+  }
+  .page_story-goals-image {
+    width: 60%;
+    min-width: 150px;
+  }
   .page_youtube-frame {
     flex-shrink: 0;
   }

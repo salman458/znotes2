@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  Highlighted,
   FlexBox,
+  Image,
   Title,
-  Text,
 } from '/client/components/atoms';
 
 const Story = ({ progress }) => (
@@ -20,16 +21,30 @@ const Story = ({ progress }) => (
     <FlexBox align justifyBetween className="page_story-wrapper">
       <div
         style={{
-          transform: `translate3d(calc(-10vw + 10vw * ${progress}), 0, 0)`,
+          transform: `translate3d(calc(-10vw + 7vw * ${progress}), 0, 0)`,
         }}
       >
-        <Title variant="h3">What is ZNotes?</Title>
-        <Text>
-        An organisation started and run by students from across the world,
-        dedicating their time and sharing their resources for the common goal:
-        Making it possible for anyone, anywhere, to make life better through
-        access to education
-        </Text>
+        <Title variant="h3">
+          We’re on a mission to making
+          {' '}
+          <Highlighted
+            color="primary"
+          >
+            high-quality
+          </Highlighted>
+          {' '}
+          education accessible to
+          {' '}
+          <Highlighted
+            color="primary"
+          >
+            all!
+          </Highlighted>
+        </Title>
+        <FlexBox align>
+          <Image className="page_story-edu-image" src="/img/quality_education.png" />
+          <Image className="page_story-goals-image" src="/img/goals.png" />
+        </FlexBox>
       </div>
       <iframe
         width="660"

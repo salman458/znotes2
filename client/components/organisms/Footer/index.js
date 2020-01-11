@@ -1,7 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { FlexBox, Text, Link } from '/client/components/atoms';
+import {
+  Highlighted,
+  FlexBox,
+  Image,
+  Title,
+  Text,
+  Link,
+} from '/client/components/atoms';
 import Icons from './Icons';
 
 import useStyles from './styles';
@@ -14,25 +21,46 @@ const Footer = ({
   const classes = useStyles({ sidebarWidth, withSidebar });
   return (
     <FlexBox
+      fullWidth
+      column
+      justify
       align
-      justifyBetween
       className={clsx(classes.content, {
         [classes.contentShift]: open,
       })}
     >
+      <Title variant="h4" gutterBottom>
+        Join our community and
+        {' '}
+        <Highlighted color="primary">connect</Highlighted>
+        {' '}
+        with us!
+      </Title>
+      <Icons />
+      <FlexBox align justifyBetween fullWidth>
+        <FlexBox align>
+          <Image className={classes.footerLogo} src="/img/logo_black.png" />
+          <div>
+            <Text>Copyright @ 2020, ZNotes Inc.</Text>
+            <Text>All rights reserved.</Text>
+          </div>
+        </FlexBox>
+        <FlexBox column>
+          <Link to="#">Terms of Use</Link>
+          <Link to="#">Privacy Policy</Link>
+        </FlexBox>
+      </FlexBox>
       <Text>
 Made with
         {' '}
-        {'<3'}
+        <span role="img" aria-label="heart">❤️</span>
         {' '}
-by Znotes team
+by
+        {' '}
+        <Image className={classes.inlineLogo} src="/img/logo.png" />
+        {' '}
+team
       </Text>
-      <Icons />
-      <FlexBox align justifyBetween>
-        <Link to="#">Terms of Use</Link>
-        {' '}
-        <Text>Copyright @ 2019 ZNotes</Text>
-      </FlexBox>
     </FlexBox>
   );
 };

@@ -9,19 +9,17 @@ import Landing from '../Landing';
 import Story from '../Story';
 import Process from '../Process';
 import Testimonials from '../Testimonials';
-import Donate from '../Donate';
-import Contact from '../Contact';
+import Hits from '../Hits';
 import Dashboard from '../Dashboard';
 
 import './styles.scss';
 
 const content = [
   Landing,
+  Hits,
   Story,
   Process,
   Testimonials,
-  Donate,
-  Contact,
 ];
 
 const theme = {

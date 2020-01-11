@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  Highlighted,
   FlexBox,
   Title,
 } from '/client/components/atoms';
@@ -51,30 +52,28 @@ const steps = [
 const Process = ({ progress }) => (
   <FlexBox
     align
-    justify
+    column
     fullWidth
+    justifyBetween
     className="page_process-container"
     style={{
       opacity: `calc(${progress})`,
     }}
   >
-    <FlexBox
-      align
-      column
-      justifyBetween
-      className="page_process-wrapper"
+    <Title
+      variant="h3"
+      gutterBottom
+      style={{
+        transform: `translate3d(0, calc(10vh + 10vh * ${progress}), 0)`,
+      }}
     >
-      <Title
-        variant="h3"
-        gutterBottom
-        style={{
-          transform: `translate3d(0, calc(-25vh + 10vh * ${progress}), 0)`,
-        }}
-      >
-        ZNotes Process
-      </Title>
-      <ProcessSteps steps={steps} />
-    </FlexBox>
+      So
+      {' '}
+      <Highlighted>how</Highlighted>
+      {' '}
+      does it work?
+    </Title>
+    <ProcessSteps steps={steps} />
   </FlexBox>
 );
 

@@ -23,6 +23,13 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: (props) => props.sidebarWidth,
   },
+  footerLogo: {
+    width: '10vw',
+    minWidth: 100,
+  },
+  inlineLogo: {
+    width: 15,
+  },
 }));
 
 export default useStyles;

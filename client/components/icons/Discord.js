@@ -3,15 +3,15 @@ import React from 'react';
 const Discord = (props) => (
   <svg
     width="56px"
-    height="41px"
-    viewBox="0 0 56 41"
+    height="40px"
+    viewBox="0 0 56 40"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
     {...props}
   >
-    <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-      <g id="team-dark" transform="translate(-1106.000000, -2361.000000)" fill="#FFFFFF" fillRule="nonzero">
+    <g id="Page-1" strokeWidth="1" fillRule="evenodd">
+      <g id="team-dark" transform="translate(-1106.000000, -2361.000000)" fillRule="nonzero">
         <g id="footer" transform="translate(71.000000, 2361.000000)">
           <g id="Group-3" transform="translate(688.000000, 0.000000)">
             <g id="Discord" transform="translate(347.000000, 0.000000)">

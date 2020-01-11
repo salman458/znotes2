@@ -34,15 +34,15 @@ const SocialItems = [
 ];
 
 const Icons = () => (
-  <FlexBox align justifyBetween>
+  <FlexBox align justifyBetween className="organism-footer-icon-container">
     {SocialItems.map(({ icon: Icon, to }) => (
       <Link
         newPage
         key={to}
         to={to}
-        className="organism_footer-icon"
+        className="organism_footer-icon-link"
       >
-        <Icon />
+        <Icon className="organism_footer-icon" />
       </Link>
     ))}
   </FlexBox>
