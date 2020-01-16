@@ -1,5 +1,8 @@
 .page_register-container {
   .page_register-input {
     margin-bottom: 15px;
+    &.page_register-input-margin {
+      margin-right: 15px;
+    }
   }
 }

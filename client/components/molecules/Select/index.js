@@ -3,6 +3,7 @@ import {
   makeStyles,
 } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import MUISelect from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Select = ({
-  label, labelId, ...props
+  label, labelId, className, ...props
 }) => {
   const classes = useStyles();
   const inputLabel = useRef(null);
@@ -45,7 +46,7 @@ const Select = ({
       <MUISelect
         labelId={labelId}
         labelWidth={labelWidth}
-        className={classes.root}
+        className={clsx(className, classes.root)}
         {...props}
       >
         <MenuItem value="Male">Male</MenuItem>
@@ -56,7 +57,12 @@ const Select = ({
   );
 };
 
+Select.defaultProps = {
+  className: '',
+};
+
 Select.propTypes = {
+  className: PropTypes.string,
   labelId: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
 };
