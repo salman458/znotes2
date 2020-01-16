@@ -38,6 +38,7 @@ const theme = {
 
 const Home = ({ setOpaque }) => {
   if (Meteor.userId()) {
+    document.title = 'ZNotes | Dashboard';
     return (
       <PermissionProvider>
         <Dashboard />
