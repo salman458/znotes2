@@ -19,3 +19,9 @@ html, body {
 body {
   background-color: $background;
 }
+
+@media screen and (max-width: 1300px) {
+  html {
+    font-size: 13px;
+  }
+ }
