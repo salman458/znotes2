@@ -57,7 +57,12 @@ const LandingActionCall = ({
       .slice(0, inputValue.length) === inputValue);
   };
 
-  const getSuggestionValue = ({ name }) => name;
+  const getSuggestionValue = ({
+    name,
+    levelName,
+    boardName,
+    subjectName,
+  }) => `${name} ${subjectName} ${levelName} ${boardName}`;
 
   const onSuggestionsFetchRequested = ({ value: currentValue }) => {
     setSuggestions(getSuggestions(currentValue));

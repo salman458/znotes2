@@ -211,7 +211,7 @@ Meteor.methods({
     const moduleData = modules.findOne({ _id: moduleId });
     const chaptersWithCards = moduleData.chapters.map(({ _id: chapterId, ...rest }) => {
       const chapterData = chapters.findOne({ _id: chapterId });
-      const chapterCards = chapterData.cards.map(({_id: cardId}) => {
+      const chapterCards = chapterData.cards.map(({ _id: cardId }) => {
         const data = cards.findOne({ _id: cardId });
         return data;
       });
@@ -288,11 +288,23 @@ Meteor.methods({
     return chapters.update({ _id: obj.chapterId }, { $push: { cards: obj.cards } });
   },
   getKeywords(obj) {
-    const records = modules.find({}, { fields: { name: 1, _id: 0 } }).count();
+    const records = modules.find({}).count();
     if (records === 0) {
       return [];
     }
-    const res = modules.find({}, { fields: { name: 1, _id: 0 } }).fetch();
+    const allModules = modules.find({}, { fields: { _id: 0 } }).fetch();
+    const res = allModules.map(({ subject: subjectId, name }) => {
+      const { board, level, name: subjectName } = subjects.findOne({ _id: subjectId });
+      const { name: levelName } = levels.findOne({ _id: level });
+      const { name: boardName } = boards.findOne({ _id: board });
+      return {
+        name,
+        levelName,
+        boardName,
+        subjectName,
+        type: 'module',
+      };
+    });
     return res;
   },
   getSubjectName(id) {
@@ -305,27 +317,49 @@ Meteor.methods({
   },
 
   getSubjectKeywords(obj) {
-    const records = subjects.find({}, { fields: { name: 1, _id: 0 } }).count();
+    const records = subjects.find({}).count();
     if (records === 0) {
       return [];
     }
-    const res = subjects.find({}, { fields: { name: 1, _id: 0 } }).fetch();
+    const allSubjects = subjects.find({}, { fields: { _id: 0 } }).fetch();
+    const res = allSubjects.map(({ level: levelId, board: boardId, name }) => {
+      const { name: levelName } = levels.findOne({ _id: levelId });
+      const { name: boardName } = boards.findOne({ _id: boardId });
+      return {
+        name,
+        levelName,
+        boardName,
+        type: 'subject',
+      };
+    });
     return res;
   },
   getLevelKeywords(obj) {
-    const records = levels.find({}, { fields: { name: 1, _id: 0 } }).count();
+    const records = levels.find({}).count();
     if (records === 0) {
       return [];
     }
-    const res = levels.find({}, { fields: { name: 1, _id: 0 } }).fetch();
+    const allLevels = levels.find({}, { fields: { _id: 0 } }).fetch();
+    const res = allLevels.map(({ board: boardId, name }) => {
+      const { name: boardName } = boards.findOne({ _id: boardId });
+      return {
+        name,
+        boardName,
+        type: 'level',
+      };
+    });
     return res;
   },
   getBoardKeywords(obj) {
-    const records = boards.find({}, { fields: { name: 1, _id: 0 } }).count();
+    const records = boards.find({}).count();
     if (records === 0) {
       return [];
     }
-    const res = boards.find({}, { fields: { name: 1, _id: 0 } }).fetch();
+    const allBoards = boards.find({}, { fields: { name: 1, _id: 0 } }).fetch();
+    const res = allBoards.map((board) => ({
+      ...board,
+      type: 'board',
+    }));
     return res;
   },
   getBoardKeyword(id) {
