@@ -7,18 +7,15 @@ import { PermissionProvider } from '/client/contexts/permission';
 import {
   Cards,
   Home,
-  Modules,
   Explore,
   Register,
 } from './components/pages';
-import Chapters from './imports/explore/Chapters';
 import Editor from './imports/explore/Editor';
 import Reset from './imports/account/Reset';
 import AddBio from './imports/account/AddBio';
 import PreReset from './imports/account/PreReset';
 import ChangeEmail from './imports/account/ChangeEmail';
 import ChangePassword from './imports/account/ChangePassword';
-import Community from './imports/community/Community';
 import Team from './imports/Team';
 import Admin from './imports/Admin';
 import Sponsor from './imports/Sponsor';
