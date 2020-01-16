@@ -39,10 +39,10 @@ const CardActionItem = ({
       <div className="subject-card-icon">
         <Icon />
       </div>
-      <div className="subject-card-text">
+      <FlexBox fullWidth column align className="subject-card-text">
         <Text className="subject-card-code">{code}</Text>
         <Text className="subject-card-subject">{subjectName}</Text>
-      </div>
+      </FlexBox>
     </FlexBox>
   );
 };

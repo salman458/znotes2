@@ -1,48 +1,42 @@
 import React from 'react';
-import {
-  Facebook,
-  Instagram,
-  Discord,
-  Youtube,
-  Twitter,
-} from '/client/components/icons';
+import clsx from 'clsx';
 import { FlexBox, Link } from '/client/components/atoms';
 
 import './styles.scss';
 
 const SocialItems = [
   {
-    icon: Facebook,
-    to: 'https://www.facebook.com',
+    icon: 'fab fa-facebook-square',
+    to: 'https://www.facebook.com/znotes1/',
   },
   {
-    icon: Instagram,
-    to: 'https://www.instagram.com',
+    icon: 'fab fa-instagram',
+    to: 'https://instagram.com/znotesrevision',
   },
   {
-    icon: Youtube,
-    to: 'https://www.youtube.com',
+    icon: 'fab fa-youtube',
+    to: 'https://www.youtube.com/c/znotes',
   },
   {
-    icon: Twitter,
-    to: 'https://www.twitter.com',
+    icon: 'fab fa-twitter',
+    to: 'https://twitter.com/Znotesrevision',
   },
   {
-    icon: Discord,
-    to: 'https://discordapp.com',
+    icon: 'fab fa-discord',
+    to: 'https://discord.gg/wrZJ6kt',
   },
 ];
 
 const Icons = () => (
-  <FlexBox align justifyBetween className="organism-footer-icon-container">
-    {SocialItems.map(({ icon: Icon, to }) => (
+  <FlexBox align justifyBetween className="organism_footer-icon-container">
+    {SocialItems.map(({ icon, to }) => (
       <Link
         newPage
         key={to}
         to={to}
         className="organism_footer-icon-link"
       >
-        <Icon className="organism_footer-icon" />
+        <i className={clsx('organism_footer-icon', icon)} />
       </Link>
     ))}
   </FlexBox>

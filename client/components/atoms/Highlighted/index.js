@@ -8,6 +8,7 @@ const useStyles = makeStyles(() => ({
   root: {
     display: 'inline',
     fontSize: 'inherit',
+    fontWeight: 'inherit',
   },
 }));
 

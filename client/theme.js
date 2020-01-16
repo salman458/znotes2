@@ -3,7 +3,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 export default createMuiTheme({
   palette: {
     primary: {
-      main: '#D82057',
+      main: '#DA1D56',
       dark: '#BF073E',
       light: '#F23A71',
       contrastText: '#FFFFFF',
@@ -30,7 +30,16 @@ export default createMuiTheme({
     h1: {
       fontFamily: '\'Raleway\', sans-serif',
       fontWeight: 700,
-      fontSize: '4rem',
+      fontSize: '3.5rem',
+    },
+    h2: {
+      fontFamily: '\'Raleway\', sans-serif',
+    },
+    h3: {
+      fontFamily: '\'Raleway\', sans-serif',
+    },
+    h4: {
+      fontFamily: '\'Raleway\', sans-serif',
     },
   },
 });

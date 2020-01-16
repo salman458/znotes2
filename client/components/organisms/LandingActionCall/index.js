@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import {
   Text,
@@ -15,6 +17,12 @@ import Suggestion from './Suggestion';
 
 import './styles.scss';
 
+const useStyles = makeStyles(() => ({
+  small: {
+    fontSize: '2.5rem',
+  },
+}));
+
 const LandingActionCall = ({
   align,
   minimal,
@@ -22,6 +30,7 @@ const LandingActionCall = ({
   withHint,
   className,
 }) => {
+  const classes = useStyles();
   const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
@@ -133,6 +142,7 @@ const LandingActionCall = ({
       <Title
         variant="h1"
         component="h1"
+        className={clsx('organism_action-call-header', !minimal && classes.small)}
       >
         {titleText}
       </Title>

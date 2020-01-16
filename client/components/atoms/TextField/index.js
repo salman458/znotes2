@@ -13,10 +13,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#051017',
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.light,
       },
       '&:hover fieldset': {
-        borderColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.dark,
       },
     },
     '& label.MuiInputLabel-shrink': {

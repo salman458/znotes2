@@ -15,9 +15,18 @@ import {
   PageContainer,
 } from '/client/components/atoms';
 import { SubjectSlider, AddPopup } from '/client/components/organisms';
+import { makeStyles } from '@material-ui/core/styles';
 import './styles.scss';
 
+const useStyles = makeStyles(() => ({
+  title: {
+    fontSize: '3.5rem',
+    textAlign: 'center',
+  },
+}));
+
 const Explore = () => {
+  const classes = useStyles();
   const [boards, setBoards] = useState([]);
   const role = usePermission();
 
@@ -95,6 +104,13 @@ const Explore = () => {
     <PageContainer
       className="page_explore-container"
     >
+      <Title
+        variant="h1"
+        gutterBottom
+        className={classes.title}
+      >
+        Explore the Subjects
+      </Title>
       {role > USER_PERMISSIONS.logged && (
       <AddPopup
         action="addBoard"
@@ -120,7 +136,9 @@ const Explore = () => {
             {(openPopup) => (
               <FlexBox justifyBetween align>
                 <Title variant="h3">{name}</Title>
-                <Button variant="text" onClick={openPopup}>Add Level</Button>
+                {role > USER_PERMISSIONS.logged && (
+                  <Button variant="text" onClick={openPopup}>Add Level</Button>
+                )}
               </FlexBox>
             )}
           </AddPopup>
@@ -136,7 +154,9 @@ const Explore = () => {
                 {(openPopup) => (
                   <FlexBox justifyBetween align>
                     <Title variant="h4">{levelName}</Title>
-                    <Button variant="text" onClick={openPopup}>Add Subject</Button>
+                    {role > USER_PERMISSIONS.logged && (
+                      <Button variant="text" onClick={openPopup}>Add Subject</Button>
+                    )}
                   </FlexBox>
                 )}
               </AddPopup>

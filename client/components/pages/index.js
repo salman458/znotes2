@@ -7,5 +7,6 @@ export { default as Home } from './Home';
 export { default as Landing } from './Landing';
 export { default as Modules } from './Modules';
 export { default as Process } from './Process';
+export { default as Register } from './Register';
 export { default as Story } from './Story';
 export { default as Testimonials } from './Testimonials';

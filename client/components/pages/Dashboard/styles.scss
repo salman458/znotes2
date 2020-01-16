@@ -2,6 +2,9 @@
 
 .page_dashboard-container {
   color: $white;
+  .page_dashboard-header {
+    text-align: right;
+  }
   .page_dashboard-icon {
     cursor: pointer;
     margin-left: -45px;

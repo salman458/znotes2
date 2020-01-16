@@ -28,4 +28,5 @@ export {
   Explore,
   Public as Community,
   Group as Team,
+  Today,
 } from '@material-ui/icons';

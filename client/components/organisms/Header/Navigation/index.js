@@ -36,10 +36,10 @@ const NavigationItems = [
     title: 'community',
     to: '/community',
   },
-  {
-    title: 'team',
-    to: '/team',
-  },
+  // {
+  //   title: 'team',
+  //   to: '/team',
+  // },
 ];
 
 const useStyles = makeStyles((theme) => ({

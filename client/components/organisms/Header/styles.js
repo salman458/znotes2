@@ -1,4 +1,4 @@
-import { makeStyles, darken } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
   },
   opaque: {},
   appBar: {
-    backgroundColor: darken(theme.palette.background.paper, 0.3),
+    backgroundColor: '#020D14',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,

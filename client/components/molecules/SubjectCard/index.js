@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link, TextField, Button } from '/client/components/atoms';
-import { Menu, ClosePopup } from '/client/components/molecules';
 import { SanitizeName, Request, USER_PERMISSIONS } from '/client/utils';
 import CardActionItem from './CardActionItem';
+import ClosePopup from '../ClosePopup';
+import Menu from '../Menu';
 
 const SubjectCard = ({
   id,

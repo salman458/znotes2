@@ -1,19 +1,18 @@
 @import '{}/client/styles/colors';
 
-.organism-footer-icon-container {
+.organism_footer-icon-container {
   margin-bottom: 15px;
   .organism_footer-icon-link {
-    margin-right: 45px;
+    margin-right: 22px;
     .organism_footer-icon {
-      fill: $white;
-      width: 5vw;
+      font-size: 35px;
     }
     &:last-of-type {
       margin-right: 0;
     }
     &:hover {
       .organism_footer-icon {
-        fill: $primary_color
+        color: $primary_color
       }
     }
   }

@@ -37,7 +37,7 @@ const Hits = ({ progress }) => {
         <Title
           variant="h3"
           style={{
-            transform: `translate3d(0, calc(-25vh + 15vh * ${progress}), 0)`,
+            transform: `translate3d(0, calc(-25vh + 20vh * ${progress}), 0)`,
           }}
           className="page_hits-title"
         >
@@ -46,14 +46,14 @@ const Hits = ({ progress }) => {
           <Highlighted
             color="primary"
           >
-            ULTIMATE
+            ultimate
           </Highlighted>
           {' '}
         revision platform with over
         </Title>
         <FlipNumbers
-          height={150}
-          width={130}
+          height={120}
+          width={90}
           perspective={2000}
           color="#EE285D"
           background="transparent"
@@ -63,7 +63,7 @@ const Hits = ({ progress }) => {
         <Title
           variant="h3"
           style={{
-            transform: `translate3d(0, calc(25vh - 15vh * ${progress}), 0)`,
+            transform: `translate3d(0, calc(25vh - 20vh * ${progress}), 0)`,
           }}
         >
         total hits

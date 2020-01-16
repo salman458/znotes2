@@ -9,16 +9,19 @@ import {
   Title,
   ProgressBar,
   PageContainer,
+  Highlighted,
 } from '/client/components/atoms';
 import {
   SubjectSlider,
   LandingActionCall,
 } from '/client/components/organisms';
+import { useUserData } from '/client/contexts/user';
 import './styles.scss';
 
-const Dashbboard = () => {
+const Dashboard = () => {
   const [lastLocation, setLast] = useState({});
   const [subjectData, setSubjectData] = useState([]);
+  const userData = useUserData();
 
   useEffect(() => {
     const getNecessaryData = async () => {
@@ -69,7 +72,16 @@ const Dashbboard = () => {
     <PageContainer
       className="page_dashboard-container"
     >
-      <Title variant="h3">Resume</Title>
+      {userData && (
+        <Title variant="h1" className="page_dashboard-header">
+          Welcome back,
+          {' '}
+          <Highlighted color="primary">
+            {userData.username}
+          </Highlighted>
+        </Title>
+      )}
+      <Title variant="h3">Return to</Title>
       <Title variant="h5">{lastLocation.moduleName}</Title>
       <FlexBox justify align>
         <Play className="page_dashboard-icon" onClick={handleResume} />
@@ -123,4 +135,4 @@ const Dashbboard = () => {
   );
 };
 
-export default Dashbboard;
+export default Dashboard;

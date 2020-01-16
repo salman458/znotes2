@@ -1,5 +1,6 @@
 export { default as Autosuggest } from './Autosuggest';
 export { default as Button } from './Button';
+export { default as DatePicker } from './DatePicker';
 export { default as FlexBox } from './FlexBox';
 export { default as Highlighted } from './Highlighted';
 export { default as IconButton } from './IconButton';

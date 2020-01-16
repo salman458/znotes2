@@ -9,10 +9,10 @@ import {
   Home,
   Modules,
   Explore,
+  Register,
 } from './components/pages';
 import Chapters from './imports/explore/Chapters';
 import Editor from './imports/explore/Editor';
-import Register from './imports/account/Register';
 import Reset from './imports/account/Reset';
 import AddBio from './imports/account/AddBio';
 import PreReset from './imports/account/PreReset';

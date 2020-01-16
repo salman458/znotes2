@@ -69,7 +69,7 @@ const Process = ({ progress }) => (
     >
       So
       {' '}
-      <Highlighted>how</Highlighted>
+      <Highlighted color="primary">how</Highlighted>
       {' '}
       does it work?
     </Title>
