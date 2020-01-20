@@ -5,11 +5,13 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Request } from '/client/utils';
 import { Play } from '/client/components/icons';
 import {
-  FlexBox,
+  Link,
   Title,
+  Button,
+  FlexBox,
   ProgressBar,
-  PageContainer,
   Highlighted,
+  PageContainer,
 } from '/client/components/atoms';
 import {
   SubjectSlider,
@@ -43,22 +45,15 @@ const Dashboard = () => {
         action: 'getUserSubjects',
         body: id,
       });
-      if (subjects.length === 0) {
-        const allSubjects = await Request({
-          action: 'getAllSubjects',
+      const currentSubjectData = subjects.map(async ({ id: subjectId }) => {
+        const result = await Request({
+          action: 'getSubjectById',
+          body: subjectId,
         });
-        setSubjectData(allSubjects || []);
-      } else {
-        const currentSubjectData = subjects.map(async ({ id: subjectId }) => {
-          const result = await Request({
-            action: 'getSubjectById',
-            body: subjectId,
-          });
-          return result;
-        });
+        return result;
+      });
 
-        setSubjectData(currentSubjectData);
-      }
+      setSubjectData(currentSubjectData);
     };
     getNecessaryData();
   }, []);
@@ -100,11 +95,33 @@ const Dashboard = () => {
           titleText="Browse Courses"
         />
       </div>
-      <Title variant="h3" gutterBottom>My Subjects</Title>
-      <SubjectSlider
-        className="page_dashbboard-subjects"
-        subjects={subjectData}
-      />
+      <FlexBox align fullWidth justifyBetween>
+        <Title variant="h3" gutterBottom>My Subjects</Title>
+        <Link to="/explore">
+          <Button variant="outlined">
+              Add Subject
+          </Button>
+        </Link>
+      </FlexBox>
+
+      {subjectData.length === 0
+        ? (
+          <FlexBox column align>
+            <Title variant="h5" gutterBottom>No Subjects Yet?</Title>
+            <Link to="/explore">
+              <Button>
+              Add Subject
+              </Button>
+            </Link>
+          </FlexBox>
+        )
+        : (
+          <SubjectSlider
+            className="page_dashbboard-subjects"
+            subjects={subjectData}
+          />
+        )}
+
       <div className="page_dashboard-community-container">
         <Title variant="h3" gutterBottom>Community</Title>
         <FlexBox align justifyBetween>
