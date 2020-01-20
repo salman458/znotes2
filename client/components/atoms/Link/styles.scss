@@ -2,4 +2,7 @@
 
 .atom_link {
   color: $white;
+  &:hover {
+    color: $primary_color;
+  }
 }

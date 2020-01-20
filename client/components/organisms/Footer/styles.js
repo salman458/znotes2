@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 0,
     },
   },
+  preserveSpace: {
+    whiteSpace: 'pre',
+  },
   contentShift: {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
@@ -24,11 +27,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: (props) => props.sidebarWidth,
   },
   footerLogo: {
-    width: '10vw',
-    minWidth: 100,
+    width: '2vw',
+    minWidth: 50,
   },
-  inlineLogo: {
-    width: 15,
+  footerMeta: {
+    fontSize: '1.3rem',
   },
 }));
 

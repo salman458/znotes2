@@ -29,38 +29,28 @@ const Footer = ({
         [classes.contentShift]: open,
       })}
     >
-      <Title variant="h4" gutterBottom>
-        Join our community and
-        {' '}
-        <Highlighted color="primary">connect</Highlighted>
-        {' '}
-        with us!
-      </Title>
       <Icons />
-      <FlexBox align justifyBetween fullWidth>
-        <FlexBox align>
-          <Image className={classes.footerLogo} src="/img/logo_black.png" />
-          <div>
-            <Text>Copyright @ 2020, ZNotes Inc.</Text>
-            <Text>All rights reserved.</Text>
-          </div>
-        </FlexBox>
-        <FlexBox column>
-          <Link to="#">Terms of Use</Link>
-          <Link to="#">Privacy Policy</Link>
-        </FlexBox>
+      <FlexBox align>
+        <Image className={classes.footerLogo} src="/img/logo_black.png" />
+        <Text className={classes.preserveSpace}>
+          {'   '}
+          20 Ingram Street, Forest Hills NY,11249, United States
+          {'   '}
+          (000) 123-4567
+          {'   '}
+          info@znotes.org
+        </Text>
       </FlexBox>
-      <Text>
-Made with
-        {' '}
-        <span role="img" aria-label="heart">❤️</span>
-        {' '}
-by
-        {' '}
-        <Image className={classes.inlineLogo} src="/img/logo.png" />
-        {' '}
-team
-      </Text>
+      <FlexBox align className={classes.footerMeta}>
+        <Link to="#">Terms</Link>
+        <Text className={classes.preserveSpace}>
+          {'   '}
+            |
+          {'   '}
+        </Text>
+        <Link to="#">Privacy</Link>
+      </FlexBox>
+      <Text className={classes.footerMeta}>© 2020 ZNotes, Inc.</Text>
     </FlexBox>
   );
 };
