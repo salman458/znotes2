@@ -4,6 +4,7 @@ export { default as Contact } from './Contact';
 export { default as Dashboard } from './Dashboard';
 export { default as Donate } from './Donate';
 export { default as Explore } from './Explore';
+export { default as Forgot } from './Forgot';
 export { default as Home } from './Home';
 export { default as Landing } from './Landing';
 export { default as Modules } from './Modules';

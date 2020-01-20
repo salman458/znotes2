@@ -7,6 +7,7 @@ import { PermissionProvider } from '/client/contexts/permission';
 import {
   Cards,
   Home,
+  Forgot,
   Explore,
   Register,
   Community,
@@ -14,7 +15,6 @@ import {
 import Editor from './imports/explore/Editor';
 import Reset from './imports/account/Reset';
 import AddBio from './imports/account/AddBio';
-import PreReset from './imports/account/PreReset';
 import ChangeEmail from './imports/account/ChangeEmail';
 import ChangePassword from './imports/account/ChangePassword';
 import Team from './imports/Team';
@@ -109,7 +109,7 @@ FlowRouter.route('/password/reset/', {
   name: 'GetResetToken',
   action () {
     mount(App, {
-      content: (props) => <PreReset {...props} />,
+      content: (props) => <Forgot {...props} />,
     });
   },
 });
