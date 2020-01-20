@@ -9,6 +9,7 @@ import {
   Home,
   Explore,
   Register,
+  Community,
 } from './components/pages';
 import Editor from './imports/explore/Editor';
 import Reset from './imports/account/Reset';
