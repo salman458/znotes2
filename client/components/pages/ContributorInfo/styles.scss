@@ -1,0 +1,14 @@
+@import '{}/client/styles/colors';
+
+.page_contributor-info-container {
+  .page_contributor-info-form {
+    width: 40%;
+    .page_contributor-info-input {
+      margin-bottom: 15px;
+    }
+  }
+  .page_contributor-info-submit-button {
+    width: 50%;
+    padding: 10px 20px;
+  }
+}

@@ -39,8 +39,8 @@ const Testimonials = ({ progress }) => {
       </Title>
       <div className="slider-container">
         <Slider
-          infinite
-          centerMode
+          // infinite
+          // centerMode
           ref={slider}
           arrows={false}
           slidesToShow={3}

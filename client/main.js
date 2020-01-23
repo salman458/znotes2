@@ -11,12 +11,11 @@ import {
   Explore,
   Register,
   Community,
+  ProfileSettings,
+  ContributorInfo,
 } from './components/pages';
 import Editor from './imports/explore/Editor';
 import Reset from './imports/account/Reset';
-import AddBio from './imports/account/AddBio';
-import ChangeEmail from './imports/account/ChangeEmail';
-import ChangePassword from './imports/account/ChangePassword';
 import Team from './imports/Team';
 import Admin from './imports/Admin';
 import Sponsor from './imports/Sponsor';
@@ -72,11 +71,20 @@ FlowRouter.route('/sponsorContent/:id', {
   },
 });
 
-FlowRouter.route('/addBio', {
-  name: 'AddBio',
+// FlowRouter.route('/addBio', {
+//   name: 'AddBio',
+//   action() {
+//     mount(App, {
+//       content: (props) => <AddBio {...props} />,
+//     });
+//   },
+// });
+
+FlowRouter.route('/contributor', {
+  name: 'ContributorInfo',
   action() {
     mount(App, {
-      content: (props) => <AddBio {...props} />,
+      content: (props) => <ContributorInfo {...props} />,
     });
   },
 });
@@ -114,20 +122,30 @@ FlowRouter.route('/password/reset/', {
   },
 });
 
-FlowRouter.route('/email/change', {
-  name: 'ChangeEmail',
-  action () {
-    mount(App, {
-      content: (props) => <ChangeEmail {...props} />,
-    });
-  },
-});
+// FlowRouter.route('/email/change', {
+//   name: 'ChangeEmail',
+//   action () {
+//     mount(App, {
+//       content: (props) => <ChangeEmail {...props} />,
+//     });
+//   },
+// });
 
-FlowRouter.route('/password/change', {
-  name: 'ChangePassword',
+// FlowRouter.route('/password/change', {
+//   name: 'ChangePassword',
+//   action () {
+//     mount(App, {
+//       content: (props) => <ChangePassword {...props} />,
+//     });
+//   },
+// });
+
+FlowRouter.route('/profile/change', {
+  name: 'ChangeProfile',
   action () {
+    document.title = 'ZNotes | Change Profile';
     mount(App, {
-      content: (props) => <ChangePassword {...props} />,
+      content: (props) => <ProfileSettings {...props} />,
     });
   },
 });

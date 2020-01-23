@@ -1,0 +1,18 @@
+@import '{}/client/styles/colors';
+
+.page_profile-settings-container {
+  .page_profile-settings-form {
+    width: 40%;
+    .page_profile-settings-label {
+      color: $white;
+      margin-bottom: 10px;
+    }
+    .page_profile-settings-input {
+      margin-bottom: 15px;
+    }
+  }
+  .page_profile-settings-submit-button {
+    width: 50%;
+    padding: 10px 20px;
+  }
+}

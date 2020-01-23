@@ -6,7 +6,7 @@
   .slider-container {
     height: 65vh;
     width: 100vw;
-    padding: 0 40px;
+    padding: 0 80px;
     .center {
       height: 100%;
       .slick-list {
@@ -15,33 +15,34 @@
           height: 100%;
           .slick-slide {
             display: flex;
-            &.slick-center {
-              transform: scaleX(1.4);
-              .page_testimonial-element {
-                transform: scaleX(calc(1/1.4));
-              }
-              +.slick-slide.slick-active {
-                transform: scaleX(0.7) scaleY(0.5) translateX(45px);
-              }
-            }
-            &:not(.slick-center) {
-            min-height: 40vh;
-            transform: scaleX(0.7) scaleY(0.5);
-            &.slick-active {
-              transform: scaleX(0.7) scaleY(0.5) translateX(-45px);
-            }
-            > div {
-              min-height: inherit;
-              width: 100%;
-              .page_testimonial-quote {
-                min-height: inherit;
-                width: 100%;
-                .page_testimonial-element {
-                  transform: scaleX(0.8);
-                }
-              }
-            }
-           }
+            // margin: 0 20px;
+          //   &.slick-center {
+          //     transform: scaleX(1.4);
+          //     .page_testimonial-element {
+          //       transform: scaleX(calc(1/1.4));
+          //     }
+          //     +.slick-slide.slick-active {
+          //       transform: scaleX(0.7) scaleY(0.5) translateX(45px);
+          //     }
+          //   }
+          //   &:not(.slick-center) {
+          //   min-height: 40vh;
+          //   transform: scaleX(0.7) scaleY(0.5);
+          //   &.slick-active {
+          //     transform: scaleX(0.7) scaleY(0.5) translateX(-45px);
+          //   }
+          //   > div {
+          //     min-height: inherit;
+          //     width: 100%;
+          //     .page_testimonial-quote {
+          //       min-height: inherit;
+          //       width: 100%;
+          //       .page_testimonial-element {
+          //         transform: scaleX(0.8);
+          //       }
+          //     }
+          //   }
+          //  }
           }
         }
       }

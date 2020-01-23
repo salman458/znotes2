@@ -166,7 +166,7 @@ const Register = () => {
         </FormControl>
         <Button
           onClick={createUser}
-          className="page_submit-button"
+          className="page_register-submit-button"
         >
         Sign Up
         </Button>

@@ -1,5 +1,17 @@
+@import '{}/client/styles/colors';
+
 .page_testimonial-quote {
   height: 100%;
-  background-color: #FFFFFF;
-  border-radius: 50px;
+  width: 95%;
+  cursor: pointer;
+  // background-color: #FFFFFF;
+  // border-radius: 50px;
+  .page_testimonial-element {
+    color: $white
+  }
+  &:hover {
+    .page_testimonial-element {
+      color: $primary_color;
+    }
+  }
 }

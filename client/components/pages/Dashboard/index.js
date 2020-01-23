@@ -21,7 +21,7 @@ import { useUserData } from '/client/contexts/user';
 import './styles.scss';
 
 const Dashboard = () => {
-  const [lastLocation, setLast] = useState({});
+  const [lastLocation, setLast] = useState(null);
   const [subjectData, setSubjectData] = useState([]);
   const userData = useUserData();
 
@@ -76,17 +76,21 @@ const Dashboard = () => {
           </Highlighted>
         </Title>
       )}
-      <Title variant="h3">Return to</Title>
-      <Title variant="h5">{lastLocation.moduleName}</Title>
-      <FlexBox justify align>
-        <Play className="page_dashboard-icon" onClick={handleResume} />
-        <div className="page_dashboard-progress-container">
-          <ProgressBar
-            variant="determinate"
-            value={lastLocation.progress || 50}
-          />
+      {lastLocation && (
+        <div>
+          <Title variant="h3">Return to</Title>
+          <Title variant="h5">{lastLocation.moduleName}</Title>
+          <FlexBox justify align>
+            <Play className="page_dashboard-icon" onClick={handleResume} />
+            <div className="page_dashboard-progress-container">
+              <ProgressBar
+                variant="determinate"
+                value={lastLocation.progress || 50}
+              />
+            </div>
+          </FlexBox>
         </div>
-      </FlexBox>
+      )}
       <div className="page_dashboard-autosuggest">
         <LandingActionCall
           minimal

@@ -4,6 +4,8 @@ import { Accounts } from 'meteor/accounts-base';
 import FormControl from '@material-ui/core/FormControl';
 import Snackbar from '@material-ui/core/Snackbar';
 
+import './styles.scss';
+
 import {
   FlexBox,
   Title,
@@ -40,23 +42,23 @@ const Register = () => {
 
   return (
     <>
-      <FlexBox column justify align className="page_register-container">
+      <FlexBox column justify align className="page_forgot-container">
         <Title
           variant="h3"
           gutterBottom
         >
       Reset Password
         </Title>
-        <FormControl variant="outlined">
+        <FormControl variant="outlined" className="page_forgot-email">
           <TextField
-            label="Your email"
             velue={email}
+            label="Your email"
             onChange={handleEmailChange}
           />
         </FormControl>
         <Button
           onClick={createUser}
-          className="page_submit-button"
+          className="page_forgot-submit-button"
         >
         Reset Password
         </Button>

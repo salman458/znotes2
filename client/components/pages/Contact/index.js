@@ -44,7 +44,7 @@ const Contact = ({ progress }) => (
         className="page_contact-input"
       />
       <Button
-        className="page_submit-button"
+        className="page_contact-submit-button"
         color="secondary"
       >
         Submit

@@ -17,12 +17,11 @@ const UserMenu = ({ role }) => {
 
   return (
     <Menu actionItem={<MenuActionItem />}>
-      <MenuItem onClick={goToPage('/email/change')}>Change Email</MenuItem>
-      <MenuItem onClick={goToPage('/password/change')}>Change Password</MenuItem>
+      <MenuItem onClick={goToPage('/profile/change')}>Change Profile</MenuItem>
       {role === USER_PERMISSIONS.admin
         && <MenuItem onClick={goToPage('/admin/0/20')}>Admin Page</MenuItem>}
       {role >= USER_PERMISSIONS.editor
-        && <MenuItem onClick={goToPage('/addBio')}>Add Bio</MenuItem>}
+        && <MenuItem onClick={goToPage('/contributor')}>Add Bio</MenuItem>}
       <MenuItem onClick={logout}>Log out</MenuItem>
     </Menu>
   );
