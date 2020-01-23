@@ -1,0 +1,17 @@
+@keyframes hint {
+  from {
+    bottom: 30px;
+  }
+  to {
+    bottom: 20px;
+  }
+}
+
+.atom_helper-scroll {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  animation: 1s ease-in-out 0s infinite alternate hint;
+}

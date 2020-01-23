@@ -5,6 +5,7 @@ import {
   FlexBox,
   Particles,
 } from '/client/components/atoms';
+import { HelperScroll } from '/client/components/molecules';
 import {
   LandingActionCall,
 } from '/client/components/organisms';
@@ -25,6 +26,7 @@ const Landing = ({ progress }) => (
   >
     <Particles className="page_landing-particles" />
     <LandingActionCall />
+    <HelperScroll />
   </FlexBox>
 );
 

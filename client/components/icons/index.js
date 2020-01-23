@@ -29,4 +29,5 @@ export {
   Public as Community,
   Group as Team,
   Today,
+  KeyboardArrowDownRounded as Down,
 } from '@material-ui/icons';
