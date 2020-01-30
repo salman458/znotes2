@@ -10,6 +10,7 @@ import useStyles from './styles';
 import Navigation from './Navigation';
 import LoginPopup from './LoginPopup';
 import UserMenu from './UserMenu';
+import CollapsibleSearch from './CollapsibleSearch';
 
 const Header = ({
   open,
@@ -40,6 +41,7 @@ const Header = ({
             handleDrawerOpen={handleDrawerOpen}
           />
           <div className={classes.grow} />
+          <CollapsibleSearch />
           {isVisiting
             ? <LoginPopup />
             : <UserMenu role={role} />}

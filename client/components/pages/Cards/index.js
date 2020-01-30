@@ -4,6 +4,7 @@ import React, {
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import ReactMarkdown from 'react-markdown';
+import MathJax from 'react-mathjax-preview';
 import Paper from '@material-ui/core/Paper';
 import { Request } from '/client/utils';
 import {
@@ -64,7 +65,8 @@ const Cards = ({
       >
         {cards.map(({ _id, content }) => (
           <Paper key={_id} className="page_cards-paper">
-            <ReactMarkdown source={content} />
+            <ReactMarkdown escapeHtml={false} source={content} />
+            <MathJax />
           </Paper>
         ))}
       </Slider>
