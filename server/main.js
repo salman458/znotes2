@@ -281,13 +281,14 @@ Meteor.methods({
   updateChapter(obj) {
     return modules.update({ _id: obj.moduleId }, { $push: { chapters: obj.chapter } });
   },
-  addSubjectToUser(obj) {
-    return Meteor.users.update({ _id: obj.userId }, { $push: { subjects: obj.subject } });
+  addSubjectToUser({ userId, subjectId }) {
+    const subject = subjects.findOne({ _id: subjectId });
+    return Meteor.users.update({ _id: userId }, { $push: { subjects: subject } });
   },
   updateChapterWithCard(obj) {
     return chapters.update({ _id: obj.chapterId }, { $push: { cards: obj.cards } });
   },
-  getKeywords(obj) {
+  getKeywords() {
     const records = modules.find({}).count();
     if (records === 0) {
       return [];
@@ -472,7 +473,19 @@ Meteor.methods({
     if (records === 0) {
       return [];
     }
-    const res = Meteor.users.find({ _id: id }, { fields: { subjects: 1, _id: 0 } }).fetch();
+    const { subjects: allSubjects } = Meteor.users.findOne({ _id: id },
+      { fields: { subjects: 1, _id: 0 } });
+    const res = allSubjects.map(({ level: levelId, board: boardId, ...rest }) => {
+      const { name: levelName } = levels.findOne({ _id: levelId });
+      const { name: boardName } = boards.findOne({ _id: boardId });
+      return {
+        ...rest,
+        level: levelId,
+        board: boardId,
+        levelName,
+        boardName,
+      };
+    });
     return res;
   },
   addLastPosition(obj) {

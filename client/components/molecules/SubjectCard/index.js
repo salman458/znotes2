@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link, TextField, Button } from '/client/components/atoms';
 import { SanitizeName, Request, USER_PERMISSIONS } from '/client/utils';
@@ -7,16 +9,24 @@ import CardActionItem from './CardActionItem';
 import ClosePopup from '../ClosePopup';
 import Menu from '../Menu';
 
+const useStyles = makeStyles((theme) => ({
+  addSubjectButton: {
+    color: theme.palette.primary.main,
+  },
+}));
+
 const SubjectCard = ({
   id,
   role,
   code,
   subject,
   subjectName,
+  isUserSubject,
 }) => {
   const [modules, setModules] = useState([]);
   const [name, setName] = useState('');
   const [open, setOpen] = useState(false);
+  const classes = useStyles();
 
   const onClose = () => {
     setOpen(false);
@@ -45,6 +55,16 @@ const SubjectCard = ({
       ...modules,
     ]);
     onClose();
+  };
+
+  const addUserSubject = async () => {
+    await Request({
+      action: 'addSubjectToUser',
+      body: {
+        userId: Meteor.userId(),
+        subjectId: id,
+      },
+    });
   };
 
   useEffect(() => {
@@ -80,7 +100,15 @@ const SubjectCard = ({
           </Link>
         ))}
         {role > USER_PERMISSIONS.logged && (
-        <MenuItem onClick={openPopup}>Add Module</MenuItem>
+          <MenuItem onClick={openPopup}>Add Module</MenuItem>
+        )}
+        {!isUserSubject && (
+          <MenuItem
+            className={classes.addSubjectButton}
+            onClick={addUserSubject}
+          >
+            Add to My Subjects
+          </MenuItem>
         )}
       </Menu>
       <ClosePopup
@@ -99,12 +127,17 @@ const SubjectCard = ({
   );
 };
 
+SubjectCard.defaultProps = {
+  isUserSubject: false,
+};
+
 SubjectCard.propTypes = {
   role: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
   subject: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,
   subjectName: PropTypes.string.isRequired,
+  isUserSubject: PropTypes.bool,
 };
 
 export default SubjectCard;

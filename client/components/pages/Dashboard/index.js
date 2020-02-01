@@ -41,19 +41,11 @@ const Dashboard = () => {
         setLast(lastItem || {});
       }
 
-      const [{ subjects = [] }] = await Request({
+      const subjects = await Request({
         action: 'getUserSubjects',
         body: id,
-      });
-      const currentSubjectData = subjects.map(async ({ id: subjectId }) => {
-        const result = await Request({
-          action: 'getSubjectById',
-          body: subjectId,
-        });
-        return result;
-      });
-
-      setSubjectData(currentSubjectData);
+      }) || [];
+      setSubjectData(subjects);
     };
     getNecessaryData();
   }, []);
@@ -121,6 +113,7 @@ const Dashboard = () => {
         )
         : (
           <SubjectSlider
+            isUserSubjects
             className="page_dashbboard-subjects"
             subjects={subjectData}
           />

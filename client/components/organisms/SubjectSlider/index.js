@@ -11,7 +11,7 @@ import { Title } from '/client/components/atoms';
 import { SubjectCard } from '/client/components/molecules';
 import './styles.scss';
 
-const SubjectSlider = ({ subjects, className }) => {
+const SubjectSlider = ({ subjects, isUserSubjects, className }) => {
   const breakponts = useMemo(GenerateBreakpoints, []);
   const slider = useRef(null);
   const [slidesToShow, setSlidesToShow] = useState(0);
@@ -70,6 +70,7 @@ const SubjectSlider = ({ subjects, className }) => {
                   id={subjectId}
                   subject={name}
                   key={subjectId}
+                  isUserSubject={isUserSubjects}
                   code={`${boardName} ${levelName}`}
                   subjectName={name}
                 />
@@ -92,10 +93,12 @@ const SubjectSlider = ({ subjects, className }) => {
 
 SubjectSlider.defaultProps = {
   className: '',
+  isUserSubjects: false,
 };
 
 SubjectSlider.propTypes = {
   subjects: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isUserSubjects: PropTypes.bool,
   className: PropTypes.string,
 };
 
