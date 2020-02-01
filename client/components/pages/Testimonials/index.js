@@ -25,7 +25,7 @@ const Testimonials = ({ progress }) => {
       fullWidth
       className="page_testimonials-container"
       style={{
-        opacity: `calc(${progress})`,
+        opacity: `calc(${progress + 0.5})`,
       }}
     >
       <Title

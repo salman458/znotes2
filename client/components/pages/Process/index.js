@@ -57,7 +57,7 @@ const Process = ({ progress }) => (
     justifyBetween
     className="page_process-container"
     style={{
-      opacity: `calc(${progress})`,
+      opacity: `calc(${progress + 0.5})`,
     }}
   >
     <Title

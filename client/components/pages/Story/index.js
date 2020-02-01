@@ -15,7 +15,7 @@ const Story = ({ progress }) => (
     fullWidth
     className="page_story-container"
     style={{
-      opacity: `calc(${progress})`,
+      opacity: `calc(${progress + 0.5})`,
     }}
   >
     <FlexBox align justifyBetween className="page_story-wrapper">
