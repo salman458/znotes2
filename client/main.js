@@ -7,8 +7,10 @@ import { PermissionProvider } from '/client/contexts/permission';
 import {
   Cards,
   Home,
+  Terms,
   Forgot,
   Explore,
+  Privacy,
   Register,
   Community,
   ProfileSettings,
@@ -232,6 +234,26 @@ FlowRouter.route('/explore/chapters/editor/:moduleId/:subjectName/:chapterId/:ca
           {...props}
         />
       ),
+    });
+  },
+});
+
+FlowRouter.route('/privacy', {
+  name: 'Privacy Policy',
+  action() {
+    document.title = 'ZNotes | Privacy Policy';
+    mount(App, {
+      content: (props) => <Privacy {...props} />,
+    });
+  },
+});
+
+FlowRouter.route('/terms', {
+  name: 'Terms and Conditions',
+  action() {
+    document.title = 'ZNotes | Terms and Conditions';
+    mount(App, {
+      content: (props) => <Terms {...props} />,
     });
   },
 });

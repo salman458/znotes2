@@ -48,11 +48,7 @@ const Select = ({
         labelWidth={labelWidth}
         className={clsx(className, classes.root)}
         {...props}
-      >
-        <MenuItem value="Male">Male</MenuItem>
-        <MenuItem value="Female">Female</MenuItem>
-        <MenuItem value="Other">Other</MenuItem>
-      </MUISelect>
+      />
     </FormControl>
   );
 };

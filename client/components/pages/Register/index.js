@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Snackbar from '@material-ui/core/Snackbar';
-import { Request } from '/client/utils';
 
 import {
-  FlexBox,
+  Text,
+  Link,
   Title,
-  TextField,
   Button,
+  FlexBox,
+  TextField,
   DatePicker,
 } from '/client/components/atoms';
-import { Select } from '/client/components/molecules';
+import { Select, CountrySelector } from '/client/components/molecules';
+import { Request } from '/client/utils';
 import './styles.scss';
 
 const Register = () => {
@@ -24,19 +28,21 @@ const Register = () => {
     email: '',
     password: '',
     livingPlace: '',
-    birthPlace: '',
-    school: '',
-    schoolLocation: '',
     dob: null,
   });
+  const [checked, setChecked] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
 
-  const handleClose = (event, reason) => {
+  const handleClose = (_, reason) => {
     if (reason === 'clickaway') {
       return;
     }
 
     setSnackOpen(false);
+  };
+
+  const handleCheck = (e) => {
+    setChecked(e.target.checked);
   };
 
   const setTextField = (fieldName) => (e) => {
@@ -121,8 +127,6 @@ const Register = () => {
             onChange={setValueField('dob')}
             className="page_register-input"
           />
-        </FormControl>
-        <FormControl variant="outlined">
           <Select
             label="Gender"
             labelId="register-select-outlined-label"
@@ -135,35 +139,34 @@ const Register = () => {
             <MenuItem value="Female">Female</MenuItem>
             <MenuItem value="Other">Other</MenuItem>
           </Select>
-          <FlexBox justify align className="page_contact-wrapper">
-            <TextField
-              className="page_register-input page_register-input-margin"
-              onChange={setTextField('livingPlace')}
-              value={userData.livingPlace}
-              label="Living"
-            />
-            <TextField
-              className="page_register-input"
-              onChange={setTextField('birthPlace')}
-              value={userData.birthPlace}
-              label="Born"
-            />
-          </FlexBox>
-          <FlexBox justify align className="page_contact-wrapper">
-            <TextField
-              className="page_register-input page_register-input-margin"
-              onChange={setTextField('school')}
-              value={userData.school}
-              label="School Name"
-            />
-            <TextField
-              className="page_register-input"
-              onChange={setTextField('schoolLocation')}
-              value={userData.schoolLocation}
-              label="School Location"
-            />
-          </FlexBox>
+          <CountrySelector
+            labelId="register-select-country-outlined-label"
+            id="register-select-country-outlined"
+            className="page_register-input"
+            value={userData.livingPlace}
+            onChange={setTextField('livingPlace')}
+          />
         </FormControl>
+        <FormControlLabel
+          control={(
+            <Checkbox
+              checked={checked}
+              onChange={handleCheck}
+              color="primary"
+            />
+          )}
+          label={(
+            <Text>
+          I accept ZNotes
+              {'\' '}
+              <Link className="page_register-link" to="/terms">Terms</Link>
+              {' '}
+          and
+              {' '}
+              <Link className="page_register-link" to="/privacy">Privacy Policy</Link>
+            </Text>
+          )}
+        />
         <Button
           onClick={createUser}
           className="page_register-submit-button"

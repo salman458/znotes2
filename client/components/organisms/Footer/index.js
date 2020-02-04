@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
-  Highlighted,
   FlexBox,
   Image,
-  Title,
   Text,
   Link,
 } from '/client/components/atoms';
@@ -42,13 +40,13 @@ const Footer = ({
         </Text>
       </FlexBox>
       <FlexBox align className={classes.footerMeta}>
-        <Link to="#">Terms</Link>
+        <Link to="/terms">Terms</Link>
         <Text className={classes.preserveSpace}>
           {'   '}
             |
           {'   '}
         </Text>
-        <Link to="#">Privacy</Link>
+        <Link to="/privacy">Privacy</Link>
       </FlexBox>
       <Text className={classes.footerMeta}>© 2020 ZNotes, Inc.</Text>
     </FlexBox>

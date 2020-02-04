@@ -1,4 +1,5 @@
 export { default as ClosePopup } from './ClosePopup';
+export { default as CountrySelector } from './CountrySelector';
 export { default as HelperScroll } from './HelperScroll';
 export { default as Login } from './Login';
 export { default as Menu } from './Menu';

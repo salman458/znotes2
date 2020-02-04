@@ -34,8 +34,12 @@ const DatePicker = ({
   </MuiPickersUtilsProvider>
 );
 
+DatePicker.defaultProps = {
+  value: null,
+};
+
 DatePicker.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
