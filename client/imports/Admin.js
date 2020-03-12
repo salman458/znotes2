@@ -138,7 +138,7 @@ class Admin extends Component {
       userId,
       fields: {
         role,
-        sucjects: subjects || [],
+        subjects: subjects || [],
       },
     };
     Meteor.call('extendProfile', dbObject, (err, res) => {

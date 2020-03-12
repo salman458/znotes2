@@ -288,6 +288,22 @@ Meteor.methods({
   updateChapterWithCard(obj) {
     return chapters.update({ _id: obj.chapterId }, { $push: { cards: obj.cards } });
   },
+  getChapterByCard(cardId) {
+    let chapterId;
+    const allChapters = chapters.find().forEach(function (chapter) {
+      const card = chapter.cards.forEach(function (card) {
+        if (card._id === cardId) {
+          chapterId = chapter._id
+          return;
+        }
+      })
+
+    });
+
+    return chapterId;
+
+
+  },
   getKeywords() {
     const records = modules.find({}).count();
     if (records === 0) {

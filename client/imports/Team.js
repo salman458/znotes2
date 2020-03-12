@@ -30,7 +30,7 @@ class Team extends Component {
     const gridlist = [];
     this.state.users.filter((user) => {
       if (this.state.checked) {
-        if (user.sucjects.length > 0) return user;
+        if (user.subjects.length > 0) return user;
       } else if (user.role == 'team') return user;
     }).forEach((user) => {
       gridlist.push(

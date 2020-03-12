@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { lighten } from '@material-ui/core/styles';
 import {
@@ -8,11 +8,14 @@ import {
   FlexBox,
   IconButton,
   ProgressBar,
+  Button,
+  TextField
 } from '/client/components/atoms';
+import { Request } from '/client/utils';
 import { ChevronLeft, Chapters } from '/client/components/icons';
 import Subjects from '/client/components/molecules/SubjectCard/subjectData';
 import ListItem from '../ListItem';
-
+import ClosePopup from '/client/components/molecules/ClosePopup';
 const SidebarContent = ({
   subject,
   chapters,
@@ -22,6 +25,58 @@ const SidebarContent = ({
   const { color } = Subjects[subject] || {};
   const primaryColor = color || '#D82057';
   const secondaryColor = lighten(primaryColor, 0.5);
+  const [open, setOpen] = useState(false);
+  const [chapter, setChapters] = useState([]);
+  const [name, setName] = useState('');
+  const urlParams = new URLSearchParams(window.location.search);
+  const module = urlParams.get("moduleId");
+  const subj = urlParams.get("subjectId");
+  const addCard = (event) => {
+    FlowRouter.go('/explore/chapters/editor/' + module + '/' + subj + '/' + event.target.id + '/' + 1);
+  };
+  const openPopup = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+  const onChange = (e) => {
+    setName(e.target.value);
+  };
+  const onSubmit = async () => {
+    let chapter = {
+      name,
+      created: new Date(),
+      cards: []
+    };
+    const itemId = await Request({
+      action: 'addChapter',
+      body: chapter,
+    });
+    let chapterMod = {
+      name: chapter.name,
+      created: chapter.created,
+      cards: chapter.cards,
+      _id: itemId
+    };
+
+    const update = await Request({
+      action: 'updateChapter',
+      body: { moduleId: module, chapter: chapterMod },
+    });
+    setChapters([
+      {
+        _id: itemId,
+        name,
+        created: new Date(),
+        cards: []
+      },
+      ...chapters,
+    ]);
+    onClose();
+    window.location.reload();
+  };
+
   return (
     <>
       <FlexBox
@@ -51,12 +106,12 @@ const SidebarContent = ({
           <Text className="organism_sidebar-text">50%</Text>
         </FlexBox>
         {withIcon && (
-        <IconButton
-          className="organism_sidebar-back-button"
-          onClick={handleDrawerClose}
-        >
-          <ChevronLeft />
-        </IconButton>
+          <IconButton
+            className="organism_sidebar-back-button"
+            onClick={handleDrawerClose}
+          >
+            <ChevronLeft />
+          </IconButton>
         )}
       </FlexBox>
       <div className="organism_sidebar-bottom">
@@ -65,8 +120,27 @@ const SidebarContent = ({
           Chapters
         </Title>
         {chapters.map((chapter) => (
-          <ListItem key={chapter._id} {...chapter} />
+          <div>
+            <ListItem key={chapter._id} {...chapter} />
+            <button className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={chapter._id} onClick={addCard}
+            >Add
+              Card
+           </button>
+          </div>
         ))}
+        <Button onClick={openPopup}>Add Chapter</Button>
+        <ClosePopup
+          open={open}
+          onClose={onClose}
+          title="Add a new chapter"
+        >
+          <TextField
+            style={{ marginBottom: 20 }}
+            onChange={onChange}
+            label="Name"
+          />
+          <Button onClick={onSubmit}>Add</Button>
+        </ClosePopup>
       </div>
     </>
   );
@@ -74,7 +148,7 @@ const SidebarContent = ({
 
 SidebarContent.defaultProps = {
   withIcon: false,
-  handleDrawerClose: () => {},
+  handleDrawerClose: () => { },
 };
 
 SidebarContent.propTypes = {

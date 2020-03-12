@@ -12,6 +12,7 @@ import {
   FlexBox,
   Title,
   PageContainer,
+  Button
 } from '/client/components/atoms';
 import {
   Next,
@@ -26,7 +27,9 @@ const Cards = ({
   const [subject, setSubjectData] = useState({});
   const [cards, setCards] = useState([]);
   const slider = useRef(null);
-
+  const urlParams = new URLSearchParams(window.location.search);
+  const module = urlParams.get("moduleId");
+  const subj = urlParams.get("subjectId");
   const onPrev = () => slider.current.slickPrev();
   const onNext = () => slider.current.slickNext();
 
@@ -46,7 +49,34 @@ const Cards = ({
     };
     getNecessaryData();
   }, []);
+  const editHandler = async (event) => {
+    const cardId = event.target.id;
+    const chapterId = await Request({
+      action: 'getChapterByCard',
+      body: cardId,
+    });
+    FlowRouter.go('/explore/chapters/editor/' + module + '/' + subj + '/' + chapterId + '/' + cardId);
+  };
 
+  const deleteHandler = async (event) => {
+    const card = event.target.id;
+    const deleteCard = await Request({
+      action: 'deleteCard',
+      body: card
+    });
+    const chapter = await Request({
+      action: 'getChapterByCard',
+      body: card,
+    });
+    const removeRef = await Request({
+      action: 'removeCardRef',
+      body: {
+        chapterId: chapter,
+        cardId: card
+      }
+    });
+    window.location.reload();
+  }
   return (
     <PageContainer
       className="page_cards-container"
@@ -64,10 +94,15 @@ const Cards = ({
         slidesToScroll={1}
       >
         {cards.map(({ _id, content }) => (
-          <Paper key={_id} className="page_cards-paper">
-            <ReactMarkdown escapeHtml={false} source={content} />
-            <MathJax />
-          </Paper>
+          <div>
+            <Paper key={_id} className="page_cards-paper">
+              <ReactMarkdown escapeHtml={false} source={content} />
+              <MathJax />
+
+            </Paper>
+            <button className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={_id} onClick={editHandler}>Edit</button>
+            <button className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={_id} onClick={deleteHandler}>Delete</button>
+          </div>
         ))}
       </Slider>
       <FlexBox align justify>
@@ -78,6 +113,7 @@ const Cards = ({
           <Next />
         </IconButton>
       </FlexBox>
+
     </PageContainer>
   );
 };
