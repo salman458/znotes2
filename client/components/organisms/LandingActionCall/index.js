@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import React, { useEffect, useState } from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import { FlowRouter } from "meteor/kadira:flow-router";
 import {
   Text,
   Link,
   Title,
   Image,
   FlexBox,
-  Autosuggest,
-} from '/client/components/atoms';
-import { Search, ChevronRight } from '/client/components/icons';
-import { Request } from '/client/utils';
-import Suggestion from './Suggestion';
+  Autosuggest
+} from "/client/components/atoms";
+import { Search, ChevronRight } from "/client/components/icons";
+import { Request } from "/client/utils";
+import Suggestion from "./Suggestion";
 
-import './styles.scss';
+import "./styles.scss";
 
 const useStyles = makeStyles(() => ({
   small: {
-    fontSize: '2.5rem',
-  },
+    fontSize: "2.5rem"
+  }
 }));
 
 const LandingActionCall = ({
@@ -28,44 +28,56 @@ const LandingActionCall = ({
   minimal,
   titleText,
   withHint,
-  className,
+  className
 }) => {
   const classes = useStyles();
   const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
     const handleKeywords = async () => {
-      const standardKeywords = await Request({ action: 'getKeywords' }) || [];
-      const subjects = await Request({ action: 'getSubjectKeywords' }) || [];
-      const levels = await Request({ action: 'getLevelKeywords' }) || [];
-      const boards = await Request({ action: 'getBoardKeywords' }) || [];
+      const standardKeywords = (await Request({ action: "getKeywords" })) || [];
+      const subjects = (await Request({ action: "getSubjectKeywords" })) || [];
+      const levels = (await Request({ action: "getLevelKeywords" })) || [];
+      const boards = (await Request({ action: "getBoardKeywords" })) || [];
       setKeywords([...standardKeywords, ...subjects, ...levels, ...boards]);
     };
     handleKeywords();
   }, []);
 
   const [suggestions, setSuggestions] = useState([]);
-  const [value, setValue] = useState('');
+  const [suggestionsCopy, setSuggestionsCopy] = useState([]);
+  const [value, setValue] = useState("");
 
-  const getSuggestions = (currentValue) => {
+  const getSuggestions = currentValue => {
     const inputValue = currentValue.trim().toLowerCase();
     if (inputValue.length === 0) {
       return [];
     }
-    return keywords.filter(({ name }) => name
-      .toLowerCase()
-      .slice(0, inputValue.length) === inputValue);
+    return keywords.filter(
+      ({ name }) =>
+        name.toLowerCase().slice(0, inputValue.length) === inputValue
+    );
   };
 
-  const getSuggestionValue = ({
-    name,
-    levelName,
-    boardName,
-    subjectName,
-  }) => `${name} ${subjectName} ${levelName} ${boardName}`;
+  const [searchable, setSearchable] = useState({});
 
+  const getSearchString = data => {
+    const { name, levelName, boardName, subjectName, type } = data;
+    return `${name ? name : ""}${subjectName
+      ? " " + subjectName
+      : ""}${levelName ? " " + levelName : ""}${boardName
+      ? " " + boardName
+      : ""}`;
+  };
+
+  const getSuggestionValue = data => {
+    // const { name, levelName, boardName, subjectName, type } = data;
+    setSearchable(data);
+    return getSearchString(data);
+  };
   const onSuggestionsFetchRequested = ({ value: currentValue }) => {
     setSuggestions(getSuggestions(currentValue));
+    setSuggestionsCopy(getSuggestions(currentValue));
   };
 
   const onSuggestionsClearRequested = () => {
@@ -76,96 +88,98 @@ const LandingActionCall = ({
     setValue(currentValue);
   };
 
-  const handleSearch = async (searchResult) => {
+  const handleSearch = async searchResult => {
     const { type } = searchResult;
     const { _id: id } = searchResult.id[0];
 
     switch (type) {
-      case 'board':
-        FlowRouter.go(`/explore/level/${id}`);
+      case "board":
+        FlowRouter.go(`/explore/${id}`);
         break;
-      case 'level':
-      {
-        const res = await Request({
-          action: 'getBoardIdByLevel',
-          body: id,
-        });
-        FlowRouter.go(`/explore/subject/${res}/${id}`);
-        break;
-      }
-      case 'subject':
-      {
-        const res = await Request({
-          action: 'loadSubjectName',
-          body: id,
-        });
-        FlowRouter.go(`/explore/module/${res}/${id}`);
-        break;
-      }
-      case 'module':
-      {
-        const res = await Request({
-          action: 'getSubjectNameByModuleId',
-          body: id,
-        });
-        FlowRouter.go(`/explore/chapters/module/${id}/${res}/${1}`);
-        break;
-      }
       default:
         break;
     }
+
+    // switch (type) {
+    //   case "board":
+    //     FlowRouter.go(`/explore/level/${id}`);
+    //     break;
+    //   case "level": {
+    //     const res = await Request({
+    //       action: "getBoardIdByLevel",
+    //       body: id
+    //     });
+    //     FlowRouter.go(`/explore/subject/${res}/${id}`);
+    //     break;
+    //   }
+    //   case "subject": {
+    //     const res = await Request({
+    //       action: "loadSubjectName",
+    //       body: id
+    //     });
+    //     console.log(res,"ress")
+    //     FlowRouter.go(`/explore/module/${res}/${id}`);
+    //     break;
+    //   }
+    //   case "module": {
+    //     const res = await Request({
+    //       action: "getSubjectNameByModuleId",
+    //       body: id
+    //     });
+    //     FlowRouter.go(`/explore/chapters/module/${id}/${res}/${1}`);
+    //     break;
+    //   }
+    //   default:
+    //     break;
+    // }
   };
 
   const onSearch = async () => {
     const result = await Request({
-      action: 'genericSearch',
-      body: value,
+      action: "genericSearch",
+      body: searchable
     });
+
     handleSearch(result);
   };
 
-  const onKeyDown = (e) => {
-    if (e.key === 'Enter' || e.code === 'Enter') {
+  const onKeyDown = e => {
+    const isSearch = suggestionsCopy.some(val => getSearchString(val) == value);
+    if ((isSearch && e.key === "Enter") || e.code === "Enter") {
       onSearch();
     }
   };
 
+  console.log({
+    suggestionsCopy,
+    suggestions,
+    value,
+    keywords
+  });
+
   return (
-    <FlexBox
-      column
-      justify
-      align={align}
-      className="organism_action-call-root"
-    >
-      {!minimal
-        && (
-        <Image
-          className="organism_action-call-logo"
-          src="/img/logo.png"
-        />
-        )}
+    <FlexBox column justify align={align} className="organism_action-call-root">
+      {!minimal &&
+        <Image className="organism_action-call-logo" src="/img/logo.png" />}
       <Title
         variant="h1"
         component="h1"
-        className={clsx('organism_action-call-header', !minimal && classes.small)}
+        className={clsx(
+          "organism_action-call-header",
+          !minimal && classes.small
+        )}
       >
         {titleText}
       </Title>
-      {withHint && (
+      {withHint &&
         <Text>
-          Search for a course, or go to the
-          {' '}
-          <Link className="organism_landing-hint-link" to="/explore">Explore</Link>
-          {' '}
+          Search for a course, or go to the{" "}
+          <Link className="organism_landing-hint-link" to="/explore">
+            Explore
+          </Link>{" "}
           page to see whole content.
-        </Text>
-      )}
-      <FlexBox
-        justify
-        align
-        fullWidth
-        className="organism_landing-autosuggest"
-      >
+        </Text>}
+      <FlexBox justify align fullWidth className="organism_landing-autosuggest">
         <Search className="organism_landing-autosuggest-icon left" />
         <Autosuggest
           suggestions={suggestions}
@@ -178,7 +192,7 @@ const LandingActionCall = ({
             value,
             onChange,
             onKeyDown,
-            placeholder: 'What do you want to revise?',
+            placeholder: "What do you want to revise?"
           }}
         />
         <ChevronRight
@@ -194,8 +208,8 @@ LandingActionCall.defaultProps = {
   minimal: false,
   withHint: false,
   align: true,
-  titleText: 'FOR STUDENTS. BY STUDENTS.',
-  className: '',
+  titleText: "FOR STUDENTS. BY STUDENTS.",
+  className: ""
 };
 
 LandingActionCall.propTypes = {
@@ -203,7 +217,7 @@ LandingActionCall.propTypes = {
   minimal: PropTypes.bool,
   withHint: PropTypes.bool,
   titleText: PropTypes.string,
-  className: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default LandingActionCall;

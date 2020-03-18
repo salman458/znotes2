@@ -166,6 +166,21 @@ FlowRouter.route('/explore', {
   },
 });
 
+
+FlowRouter.route('/explore/:boardId', {
+  name: 'Explore',
+  action ({boardId}) {
+    document.title = 'ZNotes | Explore';
+    mount(App, {
+      content: (props) => (
+        <PermissionProvider>
+          <Explore boardId={boardId} {...props} />
+        </PermissionProvider>
+      ),
+    });
+  },
+});
+
 // FlowRouter.route('/explore/module/:name/:subjectId', {
 //   name: 'Module',
 //   action ({ subjectId, name }) {

@@ -25,17 +25,27 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Explore = () => {
+const Explore = ({boardId,...rest}) => {
   const classes = useStyles();
   const [boards, setBoards] = useState([]);
   const role = usePermission();
 
   useEffect(() => {
+    let allBoards;
     const getNecessaryData = async () => {
-      const allBoards = await Request({
-        action: 'loadAllData',
-        body: {},
-      });
+      if(boardId){
+         allBoards = await Request({
+          action: 'loadAllData',
+          body: boardId,
+        });
+      }else {
+         allBoards = await Request({
+          action: 'loadAllData',
+          body: {},
+        });
+      }
+
+      console.log(allBoards,"all Boards")
       setBoards(allBoards);
     };
     getNecessaryData();
