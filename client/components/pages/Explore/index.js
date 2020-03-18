@@ -62,9 +62,9 @@ const Explore = ({boardId,...rest}) => {
     ]);
   };
 
-  const addLevel = (boardId) => ({ itemId, name }) => {
+  const addLevel = (boardId) => ({ itemId, name,slug }) => {
     const newLevel = {
-      board: boardId, levelId: itemId, name, subjects: [],
+      board: boardId, levelId: itemId, name, subjects: [],slug
     };
     const newBoards = boards.map((board) => (board.boardId === boardId
       ? {
@@ -78,12 +78,20 @@ const Explore = ({boardId,...rest}) => {
     setBoards(newBoards);
   };
 
-  const addSubject = ({ boardId, levelId }) => ({ itemId, name }) => {
+  const addSubject =  ({ boardId, levelId}) => async ({ itemId, name }) => {
+
+    const subjectSlugName = await Request({
+      action: "getSubjectSlugName",
+      body: itemId ,
+    });
+
     const newSubject = {
       _id: itemId,
       board: boardId,
       level: levelId,
       name,
+      slug :subjectSlugName
+      // slug:name.split(" ").join('-')
     };
     const newBoards = boards.map((board) => {
       if (board.boardId === boardId) {
@@ -109,6 +117,8 @@ const Explore = ({boardId,...rest}) => {
     });
     setBoards(newBoards);
   };
+
+  console.log({boards})
 
   return (
     <PageContainer
@@ -160,6 +170,7 @@ const Explore = ({boardId,...rest}) => {
                 action="addSubject"
                 onAdd={addSubject({ boardId, levelId })}
                 title="Add a new subject"
+              
               >
                 {(openPopup) => (
                   <FlexBox justifyBetween align>

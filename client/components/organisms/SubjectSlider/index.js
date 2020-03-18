@@ -63,7 +63,7 @@ const SubjectSlider = ({ subjects, isUserSubjects, className }) => {
               onReInit={onSlidesToShowCountChange}
             >
               {subjects.map(({
-                _id: subjectId, name, boardName, levelName,
+                _id: subjectId, name, boardName, levelName,slug:subjectNameSlug
               }) => (
                 <SubjectCard
                   role={role}
@@ -73,6 +73,8 @@ const SubjectSlider = ({ subjects, isUserSubjects, className }) => {
                   isUserSubject={isUserSubjects}
                   code={`${boardName} ${levelName}`}
                   subjectName={name}
+                  subjectNameSlug={subjectNameSlug}
+                 
                 />
               ))}
             </Slider>

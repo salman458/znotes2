@@ -39,6 +39,7 @@ const LandingActionCall = ({
       const subjects = (await Request({ action: "getSubjectKeywords" })) || [];
       const levels = (await Request({ action: "getLevelKeywords" })) || [];
       const boards = (await Request({ action: "getBoardKeywords" })) || [];
+      console.log(standardKeywords,subjects,levels,boards,"------")
       setKeywords([...standardKeywords, ...subjects, ...levels, ...boards]);
     };
     handleKeywords();
@@ -71,7 +72,7 @@ const LandingActionCall = ({
   };
 
   const getSuggestionValue = data => {
-    // const { name, levelName, boardName, subjectName, type } = data;
+    console.log(data,"data")
     setSearchable(data);
     return getSearchString(data);
   };
@@ -139,6 +140,7 @@ const LandingActionCall = ({
       action: "genericSearch",
       body: searchable
     });
+    console.log(result,"results")
 
     handleSearch(result);
   };

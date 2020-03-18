@@ -20,9 +20,20 @@ const levels = new Mongo.Collection("levels");
 levels.schema = levelSchema;
 
 const subjects = new Mongo.Collection("subjects");
+subjects.friendlySlugs({
+  slugFrom: "name",
+  slugField: "slug",
+  distinct: true
+});
+
 subjects.schema = subjectSchema;
 
 const modules = new Mongo.Collection("modules");
+modules.friendlySlugs({
+  slugFrom: "name",
+  slugField: "slug",
+  distinct: true
+});
 modules.schema = zModuleSchema;
 
 const cards = new Mongo.Collection("cards");
@@ -86,22 +97,19 @@ Meteor.methods({
   },
 
   loadAllData(boardId) {
-    console.log(boardId,"loadAllData boardId")
-
     let allBoards;
     if (boardId && typeof boardId == "string") {
       const records = boards.find({ _id: boardId }).count();
       if (records === 0) {
         return [];
       }
-       allBoards = boards.find({ _id: boardId }).fetch();
+      allBoards = boards.find({ _id: boardId }).fetch();
     } else {
       const records = boards.find({}).count();
-      console.log(records,"records")
       if (records === 0) {
         return [];
       }
-       allBoards = boards.find({}).fetch();
+      allBoards = boards.find({}).fetch();
     }
 
     /* As we need all the data we need to go 3 levels.
@@ -342,7 +350,7 @@ Meteor.methods({
       return [];
     }
     const allModules = modules.find({}, { fields: { _id: 0 } }).fetch();
-    const res = allModules.map(({ subject: subjectId, name }) => {
+    const res = allModules.map(({ subject: subjectId, name, board:boardId }) => {
       const { board, level, name: subjectName } = subjects.findOne({
         _id: subjectId
       });
@@ -353,6 +361,7 @@ Meteor.methods({
         levelName,
         boardName,
         subjectName,
+        boardId,
         type: "module"
       };
     });
@@ -380,6 +389,7 @@ Meteor.methods({
         name,
         levelName,
         boardName,
+        boardId,
         type: "subject"
       };
     });
@@ -396,6 +406,7 @@ Meteor.methods({
       return {
         name,
         boardName,
+        boardId,
         type: "level"
       };
     });
@@ -406,8 +417,9 @@ Meteor.methods({
     if (records === 0) {
       return [];
     }
-    const allBoards = boards.find({}, { fields: { name: 1, _id: 0 } }).fetch();
+    const allBoards = boards.find({}, { fields: { name: 1, _id: 1 } }).fetch();
     const res = allBoards.map(board => ({
+      boardId:board._id,
       ...board,
       type: "board"
     }));
@@ -427,20 +439,18 @@ Meteor.methods({
   },
 
   genericSearch(searchObj) {
-    const { name: searchable ,boardName,type} = searchObj;
+    const { name: searchable, boardName, type,boardId } = searchObj;
 
     let records;
-    records = boards.find({ name: boardName }, { fields: { _id: 1 } }).count();
+
+    records = boards.find({ _id: boardId }, { fields: { _id: 1 } }).count();
     if (records !== 0) {
       return {
         type: "board",
-        id: boards.find({ name: boardName }, { fields: { _id: 1 } }).fetch()
+        id: boards.find({ _id: boardId }, { fields: { _id: 1 } }).fetch()
       };
     }
     return [];
-
-
-
 
     // let records;
     // records = modules
@@ -448,10 +458,10 @@ Meteor.methods({
     //   .count();
     // if (records !== 0) {
     //   console.log( "module");
-      // return {
-      //   type: "module",
-      //   id: modules.find({ name: searchable }, { fields: { _id: 1 } }).fetch()
-      // };
+    // return {
+    //   type: "module",
+    //   id: modules.find({ name: searchable }, { fields: { _id: 1 } }).fetch()
+    // };
     // }
     // records = subjects
     //   .find({ name: searchable }, { fields: { _id: 1 } })
@@ -484,6 +494,19 @@ Meteor.methods({
     // }
     // return [];
   },
+
+  getSubjectSlugName(id) {
+    const res = subjects.find({ _id: id }).fetch();
+    const subject = res[0];
+    return subject.slug;
+  },
+
+  getModuleSlugName(id) {
+    const res = modules.find({ _id: id }).fetch();
+    const module = res[0];
+    return module.slug;
+  },
+
   getBoardIdByLevel(levelId) {
     const res = levels.find({ _id: levelId }).fetch();
     const level = res[0];

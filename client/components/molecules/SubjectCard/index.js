@@ -22,6 +22,7 @@ const SubjectCard = ({
   subject,
   subjectName,
   isUserSubject,
+  subjectNameSlug
 }) => {
   const [modules, setModules] = useState([]);
   const [name, setName] = useState('');
@@ -45,12 +46,20 @@ const SubjectCard = ({
       action: 'addZModule',
       body: { name, subject: id, chapters: [] },
     });
+
+    const moduleSlugName = await Request({
+      action: 'getModuleSlugName',
+      body: itemId ,
+    });
+
     setModules([
       {
         _id: itemId,
         subject: id,
         name,
         chapters: [],
+        slug:moduleSlugName
+        // slug:name.split(" ").join('-')
       },
       ...modules,
     ]);
@@ -78,6 +87,7 @@ const SubjectCard = ({
     getNecessaryData();
   }, []);
 
+
   return (
     <>
       <Menu
@@ -91,10 +101,10 @@ const SubjectCard = ({
           />
   )}
       >
-        {modules.map(({ _id, name: moduleName }) => (
+        {modules.map(({ _id, name: moduleName, slug:moduleNameSlug }) => (
           <Link
             key={_id}
-            to={`/explore/module/${subjectName}/${SanitizeName(moduleName)}?subjectId=${id}&moduleId=${_id}`}
+            to={`/explore/module/${subjectNameSlug}/${moduleNameSlug}?subjectId=${id}&moduleId=${_id}`}
           >
             <MenuItem>{moduleName}</MenuItem>
           </Link>
