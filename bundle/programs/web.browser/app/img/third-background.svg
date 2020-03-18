@@ -1,0 +1,14 @@
+<svg width="1920px" height="670px" viewBox="0 0 1920 670" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <linearGradient x1="-3.98701901%" y1="60.4332141%" x2="82.1174669%" y2="44.4626267%" id="linearGradient-1">
+            <stop stop-color="#B9FF16" offset="0%"></stop>
+            <stop stop-color="#6CFFB6" offset="51.916174%"></stop>
+            <stop stop-color="#4EA8FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.714401972">
+        <g id="homepage-dark" transform="translate(0.000000, -2582.000000)" fill="url(#linearGradient-1)">
+            <path d="M-529.299115,3181.15459 C-401.928456,2884.40555 -226.014941,2810.21829 -1.55857119,2958.59281 C335.125984,3181.15459 501.262566,3190.51417 865.843533,2996.56442 C1230.4245,2802.61466 1408.40216,3347.47274 1659.01018,3237.08058 C1826.08219,3163.4858 1997.41213,2953.70287 2173,2607.73178 L-396.31336,2582 L-573,2607.73178 L-529.299115,3181.15459 Z" id="Path-3" transform="translate(800.000000, 2917.000000) rotate(-180.000000) translate(-800.000000, -2917.000000) "></path>
+        </g>
+    </g>
+</svg>

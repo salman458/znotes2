@@ -1,0 +1,20 @@
+runtime: custom
+env: flex
+service: default
+threadsafe: true
+zones:
+- us-east1-b
+- us-east1-c
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+network:
+  session_affinity: true
+automatic_scaling:
+  max_num_instances: 2
+env_variables:
+  ROOT_URL: "http://beta.znotes.org"
+  MONGO_URL: "mongodb://znotesadmin:f%23tiS1jLBr2%216huql%2AfmSUJGe@cluster0-shard-00-02-riioc.gcp.mongodb.net:27017/test"
+  MAIL_URL: "smtp://team@znotes.org:1@Brooklands@smtp.gmail.com:587"
+

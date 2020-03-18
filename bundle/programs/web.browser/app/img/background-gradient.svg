@@ -1,0 +1,31 @@
+<svg viewBox="0 0 1920 449" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>Group 6</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="-3.98701901%" y1="50.5363772%" x2="82.7514648%" y2="52.5705272%" id="linearGradient-1">
+            <stop stop-color="#FF3C07" offset="0%"></stop>
+            <stop stop-color="#D45DFF" offset="51.916174%"></stop>
+            <stop stop-color="#4EA8FF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-3.98701901%" y1="50.5261308%" x2="82.7514648%" y2="52.5214225%" id="linearGradient-2">
+            <stop stop-color="#FF3C07" offset="0%"></stop>
+            <stop stop-color="#D45DFF" offset="51.916174%"></stop>
+            <stop stop-color="#4EA8FF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-3.98701901%" y1="50.591358%" x2="82.7514648%" y2="52.8340165%" id="linearGradient-3">
+            <stop stop-color="#FF3C07" offset="0%"></stop>
+            <stop stop-color="#D45DFF" offset="51.916174%"></stop>
+            <stop stop-color="#4EA8FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.745024182">
+        <g id="homepage-dark">
+            <g id="Group-6" transform="translate(-192.000000, -195.000000)">
+                <path d="M383.492367,333.21934 C654.22081,532.017496 1019.75398,685.541188 1312.91396,512.300063 C1606.07394,339.058938 1814.79366,726.268891 2016.30786,627.66365 C2150.65066,561.926822 2266.54804,407.700377 2364,164.984316 L298.012137,142 L155.938204,164.984316 C127.155351,144.608895 203.006738,200.687237 383.492367,333.21934 Z" id="Path-3" fill="url(#linearGradient-1)" opacity="0.370419457"></path>
+                <path d="M118.040578,604.577956 C234.7429,339.317124 395.922217,273.001916 601.578527,405.632332 C910.062992,604.577956 1062.28427,612.944386 1396.3286,439.574751 C1730.37292,266.205116 1796.7752,718.425217 2026.39275,619.74683 C2179.47111,553.961239 2368.67353,378.046084 2594,92.0013658 L239.887687,69 L78,92.0013658 L118.040578,604.577956 Z" id="Path-3" fill="url(#linearGradient-2)" opacity="0.416457403"></path>
+                <path d="M40.0405781,535.662085 C156.7429,270.359586 317.922217,204.033961 523.578527,336.685211 C832.062992,535.662085 984.284274,544.02983 1318.3286,370.632962 C1652.37292,197.236094 1815.44349,684.355477 2045.06104,585.66159 C2198.1394,519.865665 2355.11905,332.313461 2516,23.0049789 L161.887687,0 L0,23.0049789 L40.0405781,535.662085 Z" id="Path-3" fill="url(#linearGradient-3)" opacity="0.751069568"></path>
+            </g>
+        </g>
+    </g>
+</svg>

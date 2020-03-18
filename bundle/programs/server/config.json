@@ -1,0 +1,8 @@
+{
+  "meteorRelease": "METEOR@1.8.1",
+  "appId": "am00n4z4jiz.iywwep37yo2",
+  "clientArchs": [
+    "web.browser",
+    "web.browser.legacy"
+  ]
+}

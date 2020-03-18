@@ -1,0 +1,201 @@
+{
+  "format": "web-program-pre1",
+  "manifest": [
+    {
+      "path": "d24434fc66e97fac1b4f9941a0dc4669948c459f.js",
+      "where": "client",
+      "type": "js",
+      "cacheable": true,
+      "url": "/d24434fc66e97fac1b4f9941a0dc4669948c459f.js?meteor_js_resource=true",
+      "size": 6326626,
+      "hash": "d24434fc66e97fac1b4f9941a0dc4669948c459f",
+      "sri": "mdv670va9ow8k+lm7M0GyrqYlxYW99EToA6vycfKWeV01Nq9dUOMMNWNr02+Dmn/9VYgctzRA2XCl3e4hwH5gA=="
+    },
+    {
+      "path": "d24434fc66e97fac1b4f9941a0dc4669948c459f.stats.json",
+      "where": "client",
+      "type": "json",
+      "cacheable": true,
+      "url": "/d24434fc66e97fac1b4f9941a0dc4669948c459f.stats.json?meteor_js_resource=true",
+      "size": 320159,
+      "hash": "32ed8e25b35e7115d51712e7dd40b2134e0cfbd9",
+      "sri": "kwadhXkCX92SXDGMn7Ri+r56sabfCnpLI/taQeuhUBlT+biX4/9RTppfx8JErRxOpVA3pRvq7F9/DLkTyo3wWQ=="
+    },
+    {
+      "path": "21a40545f6c58786f497eb7f92d0cb946a3543d9.css",
+      "where": "client",
+      "type": "css",
+      "cacheable": true,
+      "url": "/21a40545f6c58786f497eb7f92d0cb946a3543d9.css?meteor_css_resource=true",
+      "size": 21380,
+      "hash": "21a40545f6c58786f497eb7f92d0cb946a3543d9",
+      "sri": "3UKcYiABVU2tiqRX6zlHpxscV2FkLVKOgPUyAuP1htF9fxm31TvP4PkPMFR1vETEp7+wZW9A+BO5u8RAfdBvTw=="
+    },
+    {
+      "path": "app/img/OLD.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/OLD.png",
+      "size": 1077720,
+      "hash": "e5972124c5fcd36ecb66b3cb206a75765583f3b5",
+      "sri": null
+    },
+    {
+      "path": "app/img/background-gradient.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/background-gradient.svg",
+      "size": 2804,
+      "hash": "273bb28a5a4c03489623f4af55037d5b8ebced14",
+      "sri": null
+    },
+    {
+      "path": "app/img/background.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/background.png",
+      "size": 1078736,
+      "hash": "277b71ca2840b2706da9aa84e3b89a5af59418e9",
+      "sri": null
+    },
+    {
+      "path": "app/img/bwave1.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/bwave1.svg",
+      "size": 1429,
+      "hash": "62f089001b0131e4898b2f637fab8270859704b1",
+      "sri": null
+    },
+    {
+      "path": "app/img/bwave2.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/bwave2.svg",
+      "size": 1430,
+      "hash": "c045b9898c0ce053cbf1395e2a19cbc7334e93e2",
+      "sri": null
+    },
+    {
+      "path": "app/img/bwave3.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/bwave3.svg",
+      "size": 1418,
+      "hash": "d1142840d59b836c5486d7015975e815af879061",
+      "sri": null
+    },
+    {
+      "path": "app/img/goals.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/goals.png",
+      "size": 46201,
+      "hash": "b8497b8a6c1e8e0c57500aa245a6dc750b9938f8",
+      "sri": null
+    },
+    {
+      "path": "app/img/goals.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/goals.svg",
+      "size": 37165,
+      "hash": "c5be5430665ff597b6eccbf0f7a7c5f7260b1fce",
+      "sri": null
+    },
+    {
+      "path": "app/img/logo.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/logo.png",
+      "size": 28038,
+      "hash": "9a70e4d83f5636f619e315bfc5e1996a40777d34",
+      "sri": null
+    },
+    {
+      "path": "app/img/logo_black.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/logo_black.png",
+      "size": 13096,
+      "hash": "7f98cbad523cab714309b2245f6b0d73c358b175",
+      "sri": null
+    },
+    {
+      "path": "app/img/map.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/map.svg",
+      "size": 302823,
+      "hash": "dd8f28998b448fff9e0430980d1b3cdaa8226e9e",
+      "sri": null
+    },
+    {
+      "path": "app/img/quality_education.png",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/quality_education.png",
+      "size": 9843,
+      "hash": "727d440c5b7a021e0c5cc29641e881ae15202cb5",
+      "sri": null
+    },
+    {
+      "path": "app/img/third-background.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/third-background.svg",
+      "size": 1236,
+      "hash": "b720f998c0431701f6b1a66b8e5955152182fa7e",
+      "sri": null
+    },
+    {
+      "path": "app/img/third.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/third.svg",
+      "size": 1253,
+      "hash": "e6786974275f5147f0ce9eb787eebcee434c7e3e",
+      "sri": null
+    },
+    {
+      "path": "app/img/usr.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/usr.svg",
+      "size": 2332,
+      "hash": "cac687bb2b7753b30fa464ea41f16d1a7c0de0e2",
+      "sri": null
+    },
+    {
+      "path": "app/img/wave.svg",
+      "where": "client",
+      "type": "asset",
+      "cacheable": false,
+      "url": "/img/wave.svg",
+      "size": 713,
+      "hash": "25bb9303708aeb41946746ffc192c4a05db87ef6",
+      "sri": null
+    },
+    {
+      "path": "head.html",
+      "where": "internal",
+      "type": "head",
+      "hash": "9faaf6be8a29d2362bba8333a701bb68ed258346"
+    }
+  ]
+}
