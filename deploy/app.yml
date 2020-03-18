@@ -19,7 +19,9 @@ env_variables:
   MAIL_URL: "smtp://team@znotes.org:1@Brooklands@smtp.gmail.com:587"
 skip_files:
 - ^(.*/)?\.dockerignore$
+- ^(.*/)?\npm-debug.log$
 - ^(.*/)?\yarn-error.log$
+- ^(.*/)?\node_modules$
 - ^(.*/)?\.git$
 - ^(.*/)?\.hg$
 - ^(.*/)?\.svn$
