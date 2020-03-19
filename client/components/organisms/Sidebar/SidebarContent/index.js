@@ -122,13 +122,13 @@ const SidebarContent = ({
         {chapters.map((chapter) => (
           <div>
             <ListItem key={chapter._id} {...chapter} />
-            <button className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={chapter._id} onClick={addCard}
+            <button className="Ch-btns MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={chapter._id} onClick={addCard}
             >Add
               Card
            </button>
           </div>
         ))}
-        <Button onClick={openPopup}>Add Chapter</Button>
+        <Button className="Ch-btns" onClick={openPopup}>Add Chapter</Button>
         <ClosePopup
           open={open}
           onClose={onClose}

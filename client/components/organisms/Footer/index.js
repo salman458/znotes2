@@ -19,7 +19,7 @@ const Footer = ({
   const classes = useStyles({ sidebarWidth, withSidebar });
   return (
     <FlexBox
-      fullWidth
+      //fullWidth
       column
       justify
       align

@@ -100,8 +100,8 @@ const Cards = ({
               <MathJax />
 
             </Paper>
-            <button className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={_id} onClick={editHandler}>Edit</button>
-            <button className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={_id} onClick={deleteHandler}>Delete</button>
+            <button className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={_id} onClick={editHandler}>Edit</button>
+            <button className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={_id} onClick={deleteHandler}>Delete</button>
           </div>
         ))}
       </Slider>
