@@ -225,6 +225,38 @@ FlowRouter.route('/explore/module/:subject/:name', {
   },
 });
 
+FlowRouter.route('/explore/:board/:level/:subject/:module', {
+  name: 'Subject',
+  action ({board, level, subject, module}, {subjectId,moduleId,chapterId,cardId}) {
+ 
+    document.title = `ZNotes | Learn ${name}`;
+    mount(App, {
+      withSidebar: true,
+      moduleId,
+      // subject,
+      boardSlugName: board,
+      levelSlugName:level,
+      subjectSlugName:subject,
+      moduleSlugName:module,
+      chapterId:chapterId,
+      cardId:cardId,
+      content: (props) => (
+        <Cards
+          moduleId={moduleId}
+          subjectId={subjectId}
+          boardSlugName={board}
+          levelSlugName={level}
+          subjectSlugName={subject}
+          moduleSlugName={module}
+          chapterId={chapterId}
+          cardId={cardId}
+          {...props}
+        />
+      ),
+    });
+  },
+});
+
 // FlowRouter.route('/explore/chapters/module/:moduleId/:subjectName/:cardId', {
 //   name: 'Chapter',
 //   action (params) {
@@ -239,12 +271,13 @@ FlowRouter.route('/explore/module/:subject/:name', {
 //   },
 // });
 
-FlowRouter.route('/explore/chapters/editor/:moduleId/:subjectName/:chapterId/:cardId', {
+FlowRouter.route('/explore/editor/:board/:level/:subject/:module', {
   name: 'Editor',
-  action (params) {
+  action (params,params2) {
     mount(App, {
       content: (props) => (
         <Editor
+        {...params2}
           {...params}
           {...props}
         />

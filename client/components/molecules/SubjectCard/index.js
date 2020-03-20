@@ -22,7 +22,9 @@ const SubjectCard = ({
   subject,
   subjectName,
   isUserSubject,
-  subjectNameSlug
+  subjectNameSlug,
+  levelSlugName,
+  boardSlugName,
 }) => {
   const [modules, setModules] = useState([]);
   const [name, setName] = useState('');
@@ -49,7 +51,7 @@ const SubjectCard = ({
 
     const moduleSlugName = await Request({
       action: 'getModuleSlugName',
-      body: itemId ,
+      body: itemId,
     });
 
     setModules([
@@ -58,7 +60,7 @@ const SubjectCard = ({
         subject: id,
         name,
         chapters: [],
-        slug:moduleSlugName
+        slug: moduleSlugName,
         // slug:name.split(" ").join('-')
       },
       ...modules,
@@ -82,11 +84,23 @@ const SubjectCard = ({
         action: 'getModulesBySubject',
         body: id,
       });
+      // const allModules = await Request({
+      //   action: 'getModuleBySubjectNameSlug',
+      //   body: subjectNameSlug,
+      // });
+
       setModules(allModules);
     };
     getNecessaryData();
   }, []);
 
+  console.log({
+    id,
+    subjectNameSlug,
+    levelSlugName,
+    boardSlugName,
+    modules,
+  });
 
   return (
     <>
@@ -101,14 +115,26 @@ const SubjectCard = ({
           />
   )}
       >
-        {modules.map(({ _id, name: moduleName, slug:moduleNameSlug }) => (
-          <Link
-            key={_id}
-            to={`/explore/module/${subjectNameSlug}/${moduleNameSlug}?subjectId=${id}&moduleId=${_id}`}
-          >
-            <MenuItem>{moduleName}</MenuItem>
-          </Link>
-        ))}
+        {modules.map(({
+          _id, name: moduleName, slug: moduleNameSlug, subject: subjectId, chapters,
+        }) => {
+          let cardId = 1;
+          let chapterId = 1;
+          if (chapters && chapters.length && chapters[0].cards && chapters[0].cards.length) {
+            const totalCards = chapters[0].cards.length;
+            cardId = chapters[0].cards[totalCards-1]._id;
+          } if (chapters && chapters.length) {
+            chapterId = chapters[0]._id;
+          }
+          return (
+            <Link
+              key={_id}
+              to={`/explore/${boardSlugName}/${levelSlugName}/${subjectNameSlug}/${moduleNameSlug}?chapterId=${chapterId}&cardId=${cardId}`}
+            >
+              <MenuItem>{moduleName}</MenuItem>
+            </Link>
+          );
+        })}
         {role > USER_PERMISSIONS.logged && (
           <MenuItem onClick={openPopup}>Add Module</MenuItem>
         )}

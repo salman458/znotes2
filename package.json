@@ -54,11 +54,11 @@
     "react-slick": "^0.25.2",
     "react-switch": "^5.0.1",
     "react-table": "^6.10.2",
+    "react-transition-group": "4.3.0",
     "reactstrap": "^8.0.1",
     "showdown": "^1.9.0",
     "simpl-schema": "^1.5.5",
     "slick-carousel": "^1.8.1",
-    "react-transition-group": "4.3.0",
     "styled-components": "5.0.1"
   },
   "meteor": {

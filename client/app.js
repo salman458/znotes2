@@ -17,6 +17,10 @@ const App = ({
   moduleId,
   withSidebar,
   opaqueHeader,
+  boardSlugName,
+  levelSlugName,
+  subjectSlugName,
+  moduleSlugName,
 }) => {
   const [open, setOpen] = useState(false);
   const [isOpaque, setOpaque] = useState(false);
@@ -56,6 +60,10 @@ const App = ({
             moduleId={moduleId}
             sidebarWidth={sidebarWidth}
             handleDrawerClose={handleDrawerClose}
+            boardSlugName={boardSlugName}
+            levelSlugName={levelSlugName}
+            subjectSlugName={subjectSlugName}
+            moduleSlugName={moduleSlugName}
           />
         )}
         <Footer

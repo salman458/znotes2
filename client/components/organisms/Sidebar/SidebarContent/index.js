@@ -21,6 +21,12 @@ const SidebarContent = ({
   chapters,
   withIcon,
   handleDrawerClose,
+  boardSlugName,
+  levelSlugName,
+  subjectSlugName,
+  moduleSlugName,
+  chapterId,
+  cardId
 }) => {
   const { color } = Subjects[subject] || {};
   const primaryColor = color || '#D82057';
@@ -31,8 +37,12 @@ const SidebarContent = ({
   const urlParams = new URLSearchParams(window.location.search);
   const module = urlParams.get("moduleId");
   const subj = urlParams.get("subjectId");
-  const addCard = (event) => {
-    FlowRouter.go('/explore/chapters/editor/' + module + '/' + subj + '/' + event.target.id + '/' + 1);
+  const addCard = async (chapId) => {
+
+    const url = `/explore/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapId}&cardId=${1}`
+
+
+    FlowRouter.go(url);
   };
   const openPopup = () => {
     setOpen(true);
@@ -62,7 +72,7 @@ const SidebarContent = ({
 
     const update = await Request({
       action: 'updateChapter',
-      body: { moduleId: module, chapter: chapterMod },
+      body: { slug: moduleSlugName, chapter: chapterMod },
     });
     setChapters([
       {
@@ -76,7 +86,18 @@ const SidebarContent = ({
     onClose();
     window.location.reload();
   };
-
+console.log({
+  subject,
+  chapters,
+  withIcon,
+  handleDrawerClose,
+  boardSlugName,
+  levelSlugName,
+  subjectSlugName,
+  moduleSlugName,
+  chapterId,
+  cardId
+}, "SidebarContent")
   return (
     <>
       <FlexBox
@@ -122,7 +143,7 @@ const SidebarContent = ({
         {chapters.map((chapter) => (
           <div>
             <ListItem key={chapter._id} {...chapter} />
-            <button className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={chapter._id} onClick={addCard}
+            <button className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={chapter._id} onClick={()=>{addCard(chapter._id)}}
             >Add
               Card
            </button>
@@ -135,7 +156,7 @@ const SidebarContent = ({
           title="Add a new chapter"
         >
           <TextField
-            style={{ marginBottom: 20 }}
+            style={{ marginBottom: 20 }} 
             onChange={onChange}
             label="Name"
           />

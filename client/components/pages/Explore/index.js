@@ -1,12 +1,5 @@
-import React, {
-  useState,
-  useEffect,
-  Fragment,
-} from 'react';
-import {
-  Request,
-  USER_PERMISSIONS,
-} from '/client/utils';
+import React, { useState, useEffect, Fragment } from 'react';
+import { Request, USER_PERMISSIONS } from '/client/utils';
 import { usePermission } from '/client/contexts/permission';
 import {
   Title,
@@ -25,7 +18,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Explore = ({boardId,...rest}) => {
+const Explore = ({ boardId, ...rest }) => {
   const classes = useStyles();
   const [boards, setBoards] = useState([]);
   const role = usePermission();
@@ -33,56 +26,71 @@ const Explore = ({boardId,...rest}) => {
   useEffect(() => {
     let allBoards;
     const getNecessaryData = async () => {
-      if(boardId){
-         allBoards = await Request({
+      if (boardId) {
+        allBoards = await Request({
           action: 'loadAllData',
           body: boardId,
         });
-      }else {
-         allBoards = await Request({
+      } else {
+        allBoards = await Request({
           action: 'loadAllData',
           body: {},
         });
       }
 
-      console.log(allBoards,"all Boards")
+      console.log(allBoards, 'all Boards');
       setBoards(allBoards);
     };
     getNecessaryData();
   }, []);
 
-  const addBoard = ({ itemId, name }) => {
+  const addBoard = async ({ itemId, name }) => {
+    console.log({ itemId, name })
+
+    const boardSlugName = await Request({
+      action: 'getBoardSlugName',
+      body: itemId,
+    });
+
     setBoards([
       {
         name,
         boardId: itemId,
         levels: [],
+        slug:boardSlugName
       },
       ...boards,
     ]);
   };
 
-  const addLevel = (boardId) => ({ itemId, name,slug }) => {
+  const addLevel = (boardId) => async ({ itemId, name }) => {
+    const levelSlugName = await Request({
+      action: 'getLevelSlugName',
+      body: itemId,
+    });
+
     const newLevel = {
-      board: boardId, levelId: itemId, name, subjects: [],slug
+      board: boardId,
+      levelId: itemId,
+      name,
+      subjects: [],
+      slug: levelSlugName,
     };
-    const newBoards = boards.map((board) => (board.boardId === boardId
-      ? {
-        ...board,
-        levels: [
-          newLevel,
-          ...board.levels,
-        ],
-      }
-      : board));
+    const newBoards = boards.map(
+      (board) => (board.boardId === boardId
+        ? {
+          ...board,
+          levels: [newLevel, ...board.levels],
+        }
+        : board),
+    );
     setBoards(newBoards);
   };
 
-  const addSubject =  ({ boardId, levelId}) => async ({ itemId, name }) => {
-
+  const addSubject = ({ boardId, levelId }) => async ({ itemId, name }) => {
     const subjectSlugName = await Request({
-      action: "getSubjectSlugName",
-      body: itemId ,
+      action: 'getSubjectSlugName',
+      body: itemId,
     });
 
     const newSubject = {
@@ -90,24 +98,26 @@ const Explore = ({boardId,...rest}) => {
       board: boardId,
       level: levelId,
       name,
-      slug :subjectSlugName
+      slug: subjectSlugName,
       // slug:name.split(" ").join('-')
     };
     const newBoards = boards.map((board) => {
       if (board.boardId === boardId) {
-        const newLevels = board.levels.map((level) => (level.levelId === levelId
-          ? {
-            ...level,
-            subjects: [
-              {
-                ...newSubject,
-                boardName: board.name,
-                levelName: level.name,
-              },
-              ...level.subjects,
-            ],
-          }
-          : level));
+        const newLevels = board.levels.map(
+          (level) => (level.levelId === levelId
+            ? {
+              ...level,
+              subjects: [
+                {
+                  ...newSubject,
+                  boardName: board.name,
+                  levelName: level.name,
+                },
+                ...level.subjects,
+              ],
+            }
+            : level),
+        );
         return {
           ...board,
           levels: newLevels,
@@ -118,34 +128,29 @@ const Explore = ({boardId,...rest}) => {
     setBoards(newBoards);
   };
 
-  console.log({boards})
+  console.log({ boards });
 
   return (
-    <PageContainer
-      className="page_explore-container"
-    >
-      <Title
-        variant="h1"
-        gutterBottom
-        className={classes.title}
-      >
+    <PageContainer className="page_explore-container">
+      <Title variant="h1" gutterBottom className={classes.title}>
         Explore the Subjects
       </Title>
-      {role > USER_PERMISSIONS.logged && (
-      <AddPopup
-        action="addBoard"
-        onAdd={addBoard}
-        title="Add a new board"
-      >
-        {(openPopup) => (
-          <FlexBox column align>
-            <Title variant="h3" gutterBottom>Need to add a new board?</Title>
-            <Button onClick={openPopup}>Add Board</Button>
-          </FlexBox>
+      {role > USER_PERMISSIONS.logged
+        && (
+        <AddPopup action="addBoard" onAdd={addBoard} title="Add a new board">
+          {(openPopup) => (
+            <FlexBox column align>
+              <Title variant="h3" gutterBottom>
+                Need to add a new board?
+              </Title>
+              <Button onClick={openPopup}>Add Board</Button>
+            </FlexBox>
+          )}
+        </AddPopup>
         )}
-      </AddPopup>
-      )}
-      {boards.map(({ boardId, name, levels }) => (
+      {boards.map(({
+        boardId, name, levels, slug: boardSlugName,
+      }) => (
         <Fragment key={boardId}>
           <AddPopup
             addData={{ board: boardId }}
@@ -155,35 +160,54 @@ const Explore = ({boardId,...rest}) => {
           >
             {(openPopup) => (
               <FlexBox justifyBetween align>
-                <Title variant="h3">{name}</Title>
-                {role > USER_PERMISSIONS.logged && (
-                  <Button variant="text" onClick={openPopup}>Add Level</Button>
-                )}
+                <Title variant="h3">
+                  {name}
+                </Title>
+                {role > USER_PERMISSIONS.logged
+                  && (
+                  <Button variant="text" onClick={openPopup}>
+                    Add Level
+                  </Button>
+                  )}
               </FlexBox>
             )}
           </AddPopup>
 
-          {levels.map(({ levelId, name: levelName, subjects }) => (
-            <Fragment key={levelId}>
-              <AddPopup
-                addData={{ board: boardId, level: levelId }}
-                action="addSubject"
-                onAdd={addSubject({ boardId, levelId })}
-                title="Add a new subject"
-              
-              >
-                {(openPopup) => (
-                  <FlexBox justifyBetween align>
-                    <Title variant="h4">{levelName}</Title>
-                    {role > USER_PERMISSIONS.logged && (
-                      <Button variant="text" onClick={openPopup}>Add Subject</Button>
-                    )}
-                  </FlexBox>
-                )}
-              </AddPopup>
-              <SubjectSlider subjects={subjects} />
-            </Fragment>
-          ))}
+          {levels.map(
+            ({
+              levelId, name: levelName, subjects, slug: levelSlugName,
+            }) => (
+              <Fragment key={levelId}>
+                <AddPopup
+                  addData={{ board: boardId, level: levelId }}
+                  action="addSubject"
+                  onAdd={addSubject({ boardId, levelId })}
+                  title="Add a new subject"
+                >
+                  {(openPopup) => (
+                    <FlexBox justifyBetween align>
+                      <Title variant="h4">
+                  {levelName}
+                </Title>
+                      {role > USER_PERMISSIONS.logged
+                        && (
+                        <Button variant="text" onClick={openPopup}>
+                          Add Subject
+                        </Button>
+                        )}
+                    </FlexBox>
+                  )}
+                </AddPopup>
+                <SubjectSlider
+                  subjects={subjects}
+                  boardName={name}
+                  levelName={levelName}
+                  boardSlugName={boardSlugName}
+                  levelSlugName={levelSlugName}
+                />
+              </Fragment>
+            ),
+          )}
         </Fragment>
       ))}
     </PageContainer>

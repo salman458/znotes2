@@ -34,24 +34,49 @@ const useStyles = makeStyles((theme) => ({
 
 const Sidebar = ({
   open,
-  subject,
+  // subject,
   moduleId,
   sidebarWidth,
   handleDrawerClose,
+  boardSlugName,
+  levelSlugName,
+  subjectSlugName,
+  moduleSlugName,
 }) => {
   const classes = useStyles({ sidebarWidth });
   const [chapters, setChapters] = useState([]);
+  const [subject, setSubjectName] = useState('');
 
   useEffect(() => {
     const getNecessaryData = async () => {
+      // const { chapters: data } = await Request({
+      //   action: 'getModuleById',
+      //   body: moduleId,
+      // });
+
       const { chapters: data } = await Request({
-        action: 'getModuleById',
-        body: moduleId,
+        action: 'getChaptersByModuleSlugName',
+        body: moduleSlugName,
       });
       setChapters(data);
     };
+
     getNecessaryData();
+    const getSubjectName = async () => {
+      const subject = await Request({
+        action: 'getSubjectNameBySlug',
+        body: subjectSlugName,
+      });
+      setSubjectName(subject);
+    };
+
+    getSubjectName();
   }, []);
+  console.log({
+    subject,
+    chapters,
+    moduleId,
+  }, 'side bar -------');
 
   return (
     <>
@@ -74,6 +99,10 @@ const Sidebar = ({
             subject={subject}
             chapters={chapters}
             handleDrawerClose={handleDrawerClose}
+            boardSlugName={boardSlugName}
+            levelSlugName={levelSlugName}
+            subjectSlugName={subjectSlugName}
+            moduleSlugName={moduleSlugName}
           />
         </Drawer>
       </Hidden>
@@ -88,6 +117,10 @@ const Sidebar = ({
           <SidebarContent
             subject={subject}
             chapters={chapters}
+            boardSlugName={boardSlugName}
+            levelSlugName={levelSlugName}
+            subjectSlugName={subjectSlugName}
+            moduleSlugName={moduleSlugName}
           />
         </Drawer>
       </Hidden>
