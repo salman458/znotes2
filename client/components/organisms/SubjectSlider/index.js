@@ -33,9 +33,9 @@ const SubjectSlider = ({ subjects, isUserSubjects, className,boardSlugName,level
       setSlidesToShow(newCount);
     }
   };
-  console.log({
-    subjects
-  })
+  // console.log({
+  //   subjects
+  // })
 
   return (
     <div

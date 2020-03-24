@@ -68,7 +68,7 @@ const Cards = ({
         body: moduleSlugName,
       });
 
-      console.log(cardData, 'cardData');
+      
       setCards(cardData);
       setInitailSlide(cardData);
     };
@@ -109,19 +109,6 @@ const Cards = ({
 
     window.location.reload();
   };
-
-  console.log({
-    subjectId,
-    moduleId,
-    boardSlugName,
-    levelSlugName,
-    subjectSlugName,
-    moduleSlugName,
-    chapterId,
-    cardId,
-    currentCardId,
-    subject
-  });
   return (
     <PageContainer className="page_cards-container">
       <Title variant="h5">
@@ -138,7 +125,6 @@ const Cards = ({
         slidesToScroll={1}
         initialSlide={2}
         beforeChange={(current, next) => {
-          // console.log(current, next, cards, "beforeChange current, next");
           if (next !== -1) {
             const cardID = cards[next]._id;
             setCurrentCardId(cardID);
@@ -148,8 +134,8 @@ const Cards = ({
         }}
         // afterChange={current => {    }}
       >
-        {cards.map(({ _id, content }) => (
-          <div>
+        {cards.map(({ _id, content },i) => (
+          <div key={i}>
             <Paper key={_id} className="page_cards-paper">
               <ReactMarkdown escapeHtml={false} source={content} />
               <MathJax />

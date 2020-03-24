@@ -91,22 +91,10 @@ const SidebarContent = ({
   };
 
   const onCardClick = (cardData,chapter)=>{
-    console.log(cardData._id, chapter._id,"------")
+  
     const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapter._id}&cardId=${cardData._id}`;
     FlowRouter.go(url);
   }
-console.log({
-  subject,
-  chapters,
-  withIcon,
-  handleDrawerClose,
-  boardSlugName,
-  levelSlugName,
-  subjectSlugName,
-  moduleSlugName,
-  chapterId,
-  cardId
-}, "SidebarContent")
   return (
     <>
       <FlexBox
@@ -149,8 +137,8 @@ console.log({
           <Chapters className="organism_sidebar-chapter-icon" />
           Chapters
         </Title>
-        {chapters.map((chapter) => (
-          <div>
+        {chapters.map((chapter,i) => (
+          <div key={i}>
             <ListItem key={chapter._id} {...chapter} onCardClick={(cardData)=>onCardClick(cardData,chapter)} />
             <button className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={chapter._id} onClick={()=>{addCard(chapter._id)}}
             >Add

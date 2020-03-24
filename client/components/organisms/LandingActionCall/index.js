@@ -39,7 +39,6 @@ const LandingActionCall = ({
       const subjects = (await Request({ action: "getSubjectKeywords" })) || [];
       const levels = (await Request({ action: "getLevelKeywords" })) || [];
       const boards = (await Request({ action: "getBoardKeywords" })) || [];
-      console.log(standardKeywords, subjects, levels, boards, "------");
       setKeywords([...standardKeywords, ...subjects, ...levels, ...boards]);
     };
     handleKeywords();
@@ -70,7 +69,6 @@ const LandingActionCall = ({
   };
 
   const getSuggestionValue = data => {
-    console.log(data, "data");
     setSearchable(data);
     return getSearchString(data);
   };
@@ -90,7 +88,6 @@ const LandingActionCall = ({
   const handleSearch = async searchResult => {
     const { type } = searchResult;
     const { _id: id } = searchResult.id[0];
-    console.log(searchResult,"searchResult")
 
     const boardSlugName = await Request({
       action:"getBoardSlugName",
@@ -144,7 +141,6 @@ const LandingActionCall = ({
       action: "genericSearch",
       body: searchable
     });
-    console.log(result, "results");
 
     handleSearch(result);
   };
@@ -156,12 +152,12 @@ const LandingActionCall = ({
     }
   };
 
-  console.log({
-    suggestionsCopy,
-    suggestions,
-    value,
-    keywords
-  });
+  // console.log({
+  //   suggestionsCopy,
+  //   suggestions,
+  //   value,
+  //   keywords
+  // });
 
   return (
     <FlexBox column justify align={align} className="organism_action-call-root">

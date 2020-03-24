@@ -72,11 +72,7 @@ const Sidebar = ({
 
     getSubjectName();
   }, []);
-  console.log({
-    subject,
-    chapters,
-    moduleId,
-  }, 'side bar -------');
+
 
   return (
     <>

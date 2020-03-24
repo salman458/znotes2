@@ -25,7 +25,6 @@ const Explore = ({ boardId, board, ...rest }) => {
 
   useEffect(() => {
 
-    console.log(board,"board board")
     let allBoards;
     const getNecessaryData = async () => {
       if (board) {
@@ -46,15 +45,12 @@ const Explore = ({ boardId, board, ...rest }) => {
         });
       }
 
-      console.log(allBoards, 'all Boards');
       setBoards(allBoards);
     };
     getNecessaryData();
   }, []);
 
   const addBoard = async ({ itemId, name }) => {
-    console.log({ itemId, name });
-
     const boardSlugName = await Request({
       action: 'getBoardSlugName',
       body: itemId,
@@ -136,7 +132,7 @@ const Explore = ({ boardId, board, ...rest }) => {
     setBoards(newBoards);
   };
 
-  console.log({ boards });
+
 
   return (
     <PageContainer className="page_explore-container">

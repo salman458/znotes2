@@ -94,13 +94,13 @@ const SubjectCard = ({
     getNecessaryData();
   }, []);
 
-  console.log({
-    id,
-    subjectNameSlug,
-    levelSlugName,
-    boardSlugName,
-    modules,
-  });
+  // console.log({
+  //   id,
+  //   subjectNameSlug,
+  //   levelSlugName,
+  //   boardSlugName,
+  //   modules,
+  // });
 
   return (
     <>
