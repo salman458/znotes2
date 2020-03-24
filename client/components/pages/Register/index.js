@@ -74,6 +74,11 @@ const Register = () => {
           action: 'extendProfile',
           body: { userId, fields: profileData },
         });
+        const verifyEmail = await Request({
+          action:"sendVerification",
+          body:Meteor.user()
+        })
+        
         setSnackOpen(true);
       }
     });

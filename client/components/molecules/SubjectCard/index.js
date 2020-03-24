@@ -129,7 +129,7 @@ const SubjectCard = ({
           return (
             <Link
               key={_id}
-              to={`/explore/${boardSlugName}/${levelSlugName}/${subjectNameSlug}/${moduleNameSlug}?chapterId=${chapterId}&cardId=${cardId}`}
+              to={`/${boardSlugName}/${levelSlugName}/${subjectNameSlug}/${moduleNameSlug}?chapterId=${chapterId}&cardId=${cardId}`}
             >
               <MenuItem>{moduleName}</MenuItem>
             </Link>

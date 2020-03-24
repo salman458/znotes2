@@ -39,7 +39,7 @@ const SidebarContent = ({
   const subj = urlParams.get("subjectId");
   const addCard = async (chapId) => {
 
-    const url = `/explore/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapId}&cardId=${1}`
+    const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapId}&cardId=${1}`
 
 
     FlowRouter.go(url);
@@ -85,14 +85,14 @@ const SidebarContent = ({
     ]);
     onClose();
     
-    const url = `/explore/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${itemId}&cardId=${1}`;
+    const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${itemId}&cardId=${1}`;
     FlowRouter.go(url);
     window.location.reload();
   };
 
   const onCardClick = (cardData,chapter)=>{
     console.log(cardData._id, chapter._id,"------")
-    const url = `/explore/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapter._id}&cardId=${cardData._id}`;
+    const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapter._id}&cardId=${cardData._id}`;
     FlowRouter.go(url);
   }
 console.log({

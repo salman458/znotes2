@@ -80,7 +80,7 @@ const Cards = ({
       action: 'getChapterByCard',
       body: cardId,
     });
-    const url = `/explore/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
+    const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
     FlowRouter.go(url);
   };
 
@@ -142,7 +142,7 @@ const Cards = ({
           if (next !== -1) {
             const cardID = cards[next]._id;
             setCurrentCardId(cardID);
-            const url = `/explore/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardID}`;
+            const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardID}`;
             FlowRouter.go(url);
           }
         }}

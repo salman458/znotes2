@@ -167,14 +167,14 @@ FlowRouter.route('/explore', {
 });
 
 
-FlowRouter.route('/explore/:boardId', {
+FlowRouter.route('/explore/:board', {
   name: 'Explore',
-  action ({boardId}) {
+  action ({board}) {
     document.title = 'ZNotes | Explore';
     mount(App, {
       content: (props) => (
         <PermissionProvider>
-          <Explore boardId={boardId} {...props} />
+          <Explore board={board} {...props} />
         </PermissionProvider>
       ),
     });
@@ -225,7 +225,7 @@ FlowRouter.route('/explore/module/:subject/:name', {
   },
 });
 
-FlowRouter.route('/explore/:board/:level/:subject/:module', {
+FlowRouter.route('/:board/:level/:subject/:module', {
   name: 'Subject',
   action ({board, level, subject, module}, {subjectId,moduleId,chapterId,cardId}) {
  
@@ -271,7 +271,7 @@ FlowRouter.route('/explore/:board/:level/:subject/:module', {
 //   },
 // });
 
-FlowRouter.route('/explore/editor/:board/:level/:subject/:module', {
+FlowRouter.route('/editor/:board/:level/:subject/:module', {
   name: 'Editor',
   action (params,params2) {
     mount(App, {

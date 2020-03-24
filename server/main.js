@@ -462,7 +462,7 @@ Meteor.methods({
           levelName,
           boardName,
           subjectName,
-          boardId,
+          boardId:board,
           type: 'module',
         };
       },
@@ -651,6 +651,11 @@ Meteor.methods({
     const res = subjects.find({ _id: id }).fetch();
     const subject = res[0];
     return subject.board;
+  },
+  getBoardIdBySlugName(slug) {
+    const res = boards.find({ slug }).fetch();
+    const board = res[0];
+    return board._id;
   },
   getSubjectNameByModuleId(id) {
     const results = modules.find({ _id: id }).fetch();
@@ -913,4 +918,7 @@ function updateSponsorContentWithoutContent(card) {
   );
 }
 
-Meteor.startup(() => {});
+Meteor.startup(() => {
+
+  process.env.MAIL_URL = "smtp://team@znotes.org:1@Brooklands@smtp.gmail.com:587"
+});

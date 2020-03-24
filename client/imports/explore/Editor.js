@@ -131,7 +131,7 @@ class Editor extends Component {
               //     .subjectName}/${this.state.cardId}`,
               // );
 
-              const url = `/explore/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
+              const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
               FlowRouter.go(url);
             }
           });
@@ -153,7 +153,7 @@ class Editor extends Component {
                       console.log(err);
                     } else {
 
-                      const url = `/explore/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
+                      const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
                       FlowRouter.go(url);
                       // FlowRouter.go(
                       //   `/explore/chapters/module/${this.state.moduleId}/${this

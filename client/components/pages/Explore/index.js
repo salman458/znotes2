@@ -18,19 +18,27 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Explore = ({ boardId, ...rest }) => {
+const Explore = ({ boardId, board, ...rest }) => {
   const classes = useStyles();
   const [boards, setBoards] = useState([]);
   const role = usePermission();
 
   useEffect(() => {
+
+    console.log(board,"board board")
     let allBoards;
     const getNecessaryData = async () => {
-      if (boardId) {
-        allBoards = await Request({
-          action: 'loadAllData',
-          body: boardId,
+      if (board) {
+        const boardId = await Request({
+          action: 'getBoardIdBySlugName',
+          body: board,
         });
+        if (boardId) {
+          allBoards = await Request({
+            action: 'loadAllData',
+            body: boardId,
+          });
+        }
       } else {
         allBoards = await Request({
           action: 'loadAllData',
@@ -45,7 +53,7 @@ const Explore = ({ boardId, ...rest }) => {
   }, []);
 
   const addBoard = async ({ itemId, name }) => {
-    console.log({ itemId, name })
+    console.log({ itemId, name });
 
     const boardSlugName = await Request({
       action: 'getBoardSlugName',
@@ -57,7 +65,7 @@ const Explore = ({ boardId, ...rest }) => {
         name,
         boardId: itemId,
         levels: [],
-        slug:boardSlugName
+        slug: boardSlugName,
       },
       ...boards,
     ]);
@@ -187,8 +195,8 @@ const Explore = ({ boardId, ...rest }) => {
                   {(openPopup) => (
                     <FlexBox justifyBetween align>
                       <Title variant="h4">
-                  {levelName}
-                </Title>
+                        {levelName}
+                      </Title>
                       {role > USER_PERMISSIONS.logged
                         && (
                         <Button variant="text" onClick={openPopup}>
