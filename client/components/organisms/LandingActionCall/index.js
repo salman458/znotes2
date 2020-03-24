@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
-import clsx from "clsx";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import { FlowRouter } from "meteor/kadira:flow-router";
+import React, { useEffect, useState } from 'react';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 import {
   Text,
   Link,
   Title,
   Image,
   FlexBox,
-  Autosuggest
-} from "/client/components/atoms";
-import { Search, ChevronRight } from "/client/components/icons";
-import { Request } from "/client/utils";
-import Suggestion from "./Suggestion";
+  Autosuggest,
+} from '/client/components/atoms';
+import { Search, ChevronRight } from '/client/components/icons';
+import { Request } from '/client/utils';
+import Suggestion from './Suggestion';
 
-import "./styles.scss";
+import './styles.scss';
 
 const useStyles = makeStyles(() => ({
   small: {
-    fontSize: "2.5rem"
-  }
+    fontSize: '2.5rem',
+  },
 }));
 
 const LandingActionCall = ({
@@ -28,18 +28,18 @@ const LandingActionCall = ({
   minimal,
   titleText,
   withHint,
-  className
+  className,
 }) => {
   const classes = useStyles();
   const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
     const handleKeywords = async () => {
-      const standardKeywords = (await Request({ action: "getKeywords" })) || [];
-      const subjects = (await Request({ action: "getSubjectKeywords" })) || [];
-      const levels = (await Request({ action: "getLevelKeywords" })) || [];
-      const boards = (await Request({ action: "getBoardKeywords" })) || [];
-      console.log(standardKeywords,subjects,levels,boards,"------")
+      const standardKeywords = (await Request({ action: 'getKeywords' })) || [];
+      const subjects = (await Request({ action: 'getSubjectKeywords' })) || [];
+      const levels = (await Request({ action: 'getLevelKeywords' })) || [];
+      const boards = (await Request({ action: 'getBoardKeywords' })) || [];
+      console.log(standardKeywords, subjects, levels, boards, '------');
       setKeywords([...standardKeywords, ...subjects, ...levels, ...boards]);
     };
     handleKeywords();
@@ -47,32 +47,33 @@ const LandingActionCall = ({
 
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionsCopy, setSuggestionsCopy] = useState([]);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
-  const getSuggestions = currentValue => {
+  const getSuggestions = (currentValue) => {
     const inputValue = currentValue.trim().toLowerCase();
     if (inputValue.length === 0) {
       return [];
     }
     return keywords.filter(
-      ({ name }) =>
-        name.toLowerCase().slice(0, inputValue.length) === inputValue
+      ({ name }) => name.toLowerCase().slice(0, inputValue.length) === inputValue,
     );
   };
 
   const [searchable, setSearchable] = useState({});
 
-  const getSearchString = data => {
-    const { name, levelName, boardName, subjectName, type } = data;
-    return `${name ? name : ""}${subjectName
-      ? " " + subjectName
-      : ""}${levelName ? " " + levelName : ""}${boardName
-      ? " " + boardName
-      : ""}`;
+  const getSearchString = (data) => {
+    const {
+      name, levelName, boardName, subjectName, type,
+    } = data;
+    return `${name || ''}${subjectName
+      ? ` ${subjectName}`
+      : ''}${levelName ? ` ${levelName}` : ''}${boardName
+      ? ` ${boardName}`
+      : ''}`;
   };
 
-  const getSuggestionValue = data => {
-    console.log(data,"data")
+  const getSuggestionValue = (data) => {
+    console.log(data, 'data');
     setSearchable(data);
     return getSearchString(data);
   };
@@ -89,12 +90,12 @@ const LandingActionCall = ({
     setValue(currentValue);
   };
 
-  const handleSearch = async searchResult => {
+  const handleSearch = async (searchResult) => {
     const { type } = searchResult;
     const { _id: id } = searchResult.id[0];
 
     switch (type) {
-      case "board":
+      case 'board':
         FlowRouter.go(`/explore/${id}`);
         break;
       default:
@@ -137,17 +138,17 @@ const LandingActionCall = ({
 
   const onSearch = async () => {
     const result = await Request({
-      action: "genericSearch",
-      body: searchable
+      action: 'genericSearch',
+      body: searchable,
     });
-    console.log(result,"results")
+    console.log(result, 'results');
 
     handleSearch(result);
   };
 
-  const onKeyDown = e => {
-    const isSearch = suggestionsCopy.some(val => getSearchString(val) == value);
-    if ((isSearch && e.key === "Enter") || e.code === "Enter") {
+  const onKeyDown = (e) => {
+    const isSearch = suggestionsCopy.some((val) => getSearchString(val) == value);
+    if ((isSearch && e.key === 'Enter') || e.code === 'Enter') {
       onSearch();
     }
   };
@@ -156,31 +157,35 @@ const LandingActionCall = ({
     suggestionsCopy,
     suggestions,
     value,
-    keywords
+    keywords,
   });
 
   return (
     <FlexBox column justify align={align} className="organism_action-call-root">
-      {!minimal &&
-        <Image className="organism_action-call-logo" src="/img/logo.png" />}
+      {!minimal
+        && <Image className="organism_action-call-logo" src="/img/logo.png" />}
       <Title
         variant="h1"
         component="h1"
         className={clsx(
-          "organism_action-call-header",
-          !minimal && classes.small
+          'organism_action-call-header',
+          !minimal && classes.small,
         )}
       >
         {titleText}
       </Title>
-      {withHint &&
+      {withHint
+        && (
         <Text>
-          Search for a course, or go to the{" "}
+          Search for a course, or go to the
+          {' '}
           <Link className="organism_landing-hint-link" to="/explore">
             Explore
-          </Link>{" "}
+          </Link>
+          {' '}
           page to see whole content.
-        </Text>}
+        </Text>
+        )}
       <FlexBox justify align fullWidth className="organism_landing-autosuggest">
         <Search className="organism_landing-autosuggest-icon left" />
         <Autosuggest
@@ -194,7 +199,7 @@ const LandingActionCall = ({
             value,
             onChange,
             onKeyDown,
-            placeholder: "What do you want to revise?"
+            placeholder: 'What do you want to revise?',
           }}
         />
         <ChevronRight
@@ -210,8 +215,8 @@ LandingActionCall.defaultProps = {
   minimal: false,
   withHint: false,
   align: true,
-  titleText: "FOR STUDENTS. BY STUDENTS.",
-  className: ""
+  titleText: 'FOR STUDENTS. BY STUDENTS.',
+  className: '',
 };
 
 LandingActionCall.propTypes = {
@@ -219,7 +224,7 @@ LandingActionCall.propTypes = {
   minimal: PropTypes.bool,
   withHint: PropTypes.bool,
   titleText: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default LandingActionCall;

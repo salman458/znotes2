@@ -17,8 +17,10 @@ class Editor extends Component {
       cardId: props.cardId,
       cardName: '',
       sortKey: '',
-      moduleSlugName: props.moduleSlugName,
-      subjectSlugName: props.subjectSlugName,
+      moduleSlugName: props.module,
+      subjectSlugName: props.subject,
+      boardSlugName:props.board,
+      levelSlugName:props.level
 
     };
     this.converter = new Showdown.Converter({
@@ -108,6 +110,7 @@ class Editor extends Component {
       author: Meteor.userId(),
       sortKey: this.state.sortKey,
     };
+    const {boardSlugName,levelSlugName,subjectSlugName,moduleSlugName,chapterId,cardId} = this.state
     console.log('apush', this.state.cardId);
     Meteor.call('loadCards', this.state.cardId, (err, res) => {
       if (err) {
@@ -123,10 +126,13 @@ class Editor extends Component {
               console.log(err);
             } else {
               alert('Successfully updated!');
-              FlowRouter.go(
-                `/explore/chapters/module/${this.state.moduleId}/${this.state
-                  .subjectName}/${this.state.cardId}`,
-              );
+              // FlowRouter.go(
+              //   `/explore/chapters/module/${this.state.moduleId}/${this.state
+              //     .subjectName}/${this.state.cardId}`,
+              // );
+
+              const url = `/explore/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
+              FlowRouter.go(url);
             }
           });
         } else {
@@ -147,10 +153,12 @@ class Editor extends Component {
                       console.log(err);
                     } else {
 
-                      FlowRouter.go(
-                        `/explore/chapters/module/${this.state.moduleId}/${this
-                          .state.subjectName}/${cardId}`,
-                      );
+                      const url = `/explore/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
+                      FlowRouter.go(url);
+                      // FlowRouter.go(
+                      //   `/explore/chapters/module/${this.state.moduleId}/${this
+                      //     .state.subjectName}/${cardId}`,
+                      // );
            
                     }
                   });

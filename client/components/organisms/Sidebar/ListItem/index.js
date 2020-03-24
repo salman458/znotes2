@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 const CollapseListItem = ({
   name,
   cards,
+  onCardClick
 }) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
@@ -33,7 +34,7 @@ const CollapseListItem = ({
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {cards.map(({ _id, title: cardName }) => (
-            <ListItem key={_id} button className={classes.nested}>
+            <ListItem onClick={()=>onCardClick({_id : _id,cardName})} key={_id} button className={classes.nested}>
               <ListItemText primary={cardName || 'No Title Found'} />
             </ListItem>
           ))}

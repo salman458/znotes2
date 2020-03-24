@@ -34,12 +34,10 @@ const Cards = ({
   const subj = urlParams.get('subjectId');
 
   const setInitailSlide = (cards) => {
-    console.log(slider, cardId, 'slider');
-
-    cards.some((value, i) => {
-      onNext();
-      return value._id == cardId;
-    });
+    setTimeout(()=>{
+      const slideIndex =cards.findIndex((val)=>val._id == cardId)
+      slider.current.slickGoTo(slideIndex,true)
+    },50)
   };
   const onPrev = () => {
     slider.current.slickPrev();
@@ -72,10 +70,10 @@ const Cards = ({
 
       console.log(cardData, 'cardData');
       setCards(cardData);
-      // setInitailSlide(cardData);
+      setInitailSlide(cardData);
     };
     getNecessaryData();
-  }, []);
+  }, [cardId]);
   const editHandler = async (event) => {
     const cardId = event.target.id;
     const chapterId = await Request({
@@ -103,6 +101,12 @@ const Cards = ({
         cardId: card,
       },
     });
+
+    const cardData = await Request({
+      action: 'getAllCardsByModuleSlugName',
+      body: moduleSlugName,
+    });
+
     window.location.reload();
   };
 
@@ -116,6 +120,7 @@ const Cards = ({
     chapterId,
     cardId,
     currentCardId,
+    subject
   });
   return (
     <PageContainer className="page_cards-container">

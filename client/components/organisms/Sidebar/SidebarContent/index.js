@@ -84,8 +84,17 @@ const SidebarContent = ({
       ...chapters,
     ]);
     onClose();
+    
+    const url = `/explore/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${itemId}&cardId=${1}`;
+    FlowRouter.go(url);
     window.location.reload();
   };
+
+  const onCardClick = (cardData,chapter)=>{
+    console.log(cardData._id, chapter._id,"------")
+    const url = `/explore/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapter._id}&cardId=${cardData._id}`;
+    FlowRouter.go(url);
+  }
 console.log({
   subject,
   chapters,
@@ -142,7 +151,7 @@ console.log({
         </Title>
         {chapters.map((chapter) => (
           <div>
-            <ListItem key={chapter._id} {...chapter} />
+            <ListItem key={chapter._id} {...chapter} onCardClick={(cardData)=>onCardClick(cardData,chapter)} />
             <button className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={chapter._id} onClick={()=>{addCard(chapter._id)}}
             >Add
               Card
