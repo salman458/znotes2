@@ -169,7 +169,7 @@ const Register = () => {
         />
         <Button
           onClick={createUser}
-          className="page_register-submit-button"
+          className="page_register-submit-button signUp"
         >
         Sign Up
         </Button>

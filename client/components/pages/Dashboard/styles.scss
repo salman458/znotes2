@@ -31,8 +31,11 @@
       margin: 10px 20px 10px 0;
       box-shadow: 0 33px 96px 0 rgba(0,0,0,0.50);
       .react-autosuggest__input {
-        padding: 10px 20px;
+        padding: 15px 70px;
       }
+    }
+    svg.MuiSvgIcon-root.organism_landing-autosuggest-icon.right{
+      right: 40px;
     }
   }
   .page_dashbboard-subjects {

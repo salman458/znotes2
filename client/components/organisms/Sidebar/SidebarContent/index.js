@@ -158,7 +158,7 @@ console.log({
            </button>
           </div>
         ))}
-        <Button onClick={openPopup}>Add Chapter</Button>
+        <Button className="Ch-btns" onClick={openPopup}>Add Chapter</Button>
         <ClosePopup
           open={open}
           onClose={onClose}
