@@ -34,10 +34,10 @@ const Cards = ({
   const subj = urlParams.get('subjectId');
 
   const setInitailSlide = (cards) => {
-    setTimeout(()=>{
-      const slideIndex =cards.findIndex((val)=>val._id == cardId)
-      slider.current.slickGoTo(slideIndex,true)
-    },50)
+    setTimeout(() => {
+      const slideIndex = cards.findIndex((val) => val._id == cardId);
+      slider.current.slickGoTo(slideIndex, true);
+    }, 150);
   };
   const onPrev = () => {
     slider.current.slickPrev();
@@ -46,34 +46,36 @@ const Cards = ({
     slider.current.slickNext();
   };
 
-  useEffect(() => {
-    const getNecessaryData = async () => {
-      // const subjectData = await Request({
-      //   action: 'getSubjectById',
-      //   body: subjectId,
-      // });
-      const subjectData = await Request({
-        action: 'getSubjectBySlug',
-        body: subjectSlugName,
-      });
-      setSubjectData(subjectData);
+  useEffect(
+    () => {
+      const getNecessaryData = async () => {
+        // const subjectData = await Request({
+        //   action: 'getSubjectById',
+        //   body: subjectId,
+        // });
+        const subjectData = await Request({
+          action: 'getSubjectBySlug',
+          body: subjectSlugName,
+        });
+        setSubjectData(subjectData);
 
-      // const cardData = await Request({
-      //   action: 'getAllCardsByModule',
-      //   body: moduleId,
-      // });
+        // const cardData = await Request({
+        //   action: 'getAllCardsByModule',
+        //   body: moduleId,
+        // });
 
-      const cardData = await Request({
-        action: 'getAllCardsByModuleSlugName',
-        body: moduleSlugName,
-      });
+        const cardData = await Request({
+          action: 'getAllCardsByModuleSlugName',
+          body: moduleSlugName,
+        });
 
-      
-      setCards(cardData);
-      setInitailSlide(cardData);
-    };
-    getNecessaryData();
-  }, [cardId]);
+        setCards(cardData);
+        setInitailSlide(cardData);
+      };
+      getNecessaryData();
+    },
+    [cardId],
+  );
   const editHandler = async (event) => {
     const cardId = event.target.id;
     const chapterId = await Request({
@@ -109,6 +111,21 @@ const Cards = ({
 
     window.location.reload();
   };
+
+  // console.log(
+  //   {
+  //     cards,
+  //     subjectId,
+  //     moduleId,
+  //     boardSlugName,
+  //     levelSlugName,
+  //     subjectSlugName,
+  //     moduleSlugName,
+  //     chapterId,
+  //     cardId,
+  //   },
+  //   'Cards screens',
+  // );
   return (
     <PageContainer className="page_cards-container">
       <Title variant="h5">
@@ -124,17 +141,21 @@ const Cards = ({
         slidesToShow={1}
         slidesToScroll={1}
         initialSlide={2}
-        beforeChange={(current, next) => {
+        beforeChange={async (current, next) => {
           if (next !== -1) {
             const cardID = cards[next]._id;
             setCurrentCardId(cardID);
+            const chapterId = await Request({
+              action: 'getChapterByCard',
+              body: cardID,
+            });
             const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardID}`;
             FlowRouter.go(url);
           }
         }}
         // afterChange={current => {    }}
       >
-        {cards.map(({ _id, content },i) => (
+        {cards.map(({ _id, content }, i) => (
           <div key={i}>
             <Paper key={_id} className="page_cards-paper">
               <ReactMarkdown escapeHtml={false} source={content} />

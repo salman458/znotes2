@@ -88,11 +88,10 @@ const SubjectCard = ({
       //   action: 'getModuleBySubjectNameSlug',
       //   body: subjectNameSlug,
       // });
-
       setModules(allModules);
     };
     getNecessaryData();
-  }, []);
+  }, [id]);
 
   // console.log({
   //   id,
@@ -122,10 +121,11 @@ const SubjectCard = ({
           let chapterId = 1;
           if (chapters && chapters.length && chapters[0].cards && chapters[0].cards.length) {
             const totalCards = chapters[0].cards.length;
-            cardId = chapters[0].cards[totalCards-1]._id;
+            cardId = chapters[0].cards[0]._id;
           } if (chapters && chapters.length) {
             chapterId = chapters[0]._id;
           }
+
           return (
             <Link
               key={_id}

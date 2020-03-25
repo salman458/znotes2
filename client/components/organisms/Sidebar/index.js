@@ -42,6 +42,7 @@ const Sidebar = ({
   levelSlugName,
   subjectSlugName,
   moduleSlugName,
+  subjectId,chapterId,cardId
 }) => {
   const classes = useStyles({ sidebarWidth });
   const [chapters, setChapters] = useState([]);
@@ -99,6 +100,9 @@ const Sidebar = ({
             levelSlugName={levelSlugName}
             subjectSlugName={subjectSlugName}
             moduleSlugName={moduleSlugName}
+            subjectId={subjectId}
+            chapterId={chapterId}
+            cardId={cardId}
           />
         </Drawer>
       </Hidden>
@@ -117,6 +121,9 @@ const Sidebar = ({
             levelSlugName={levelSlugName}
             subjectSlugName={subjectSlugName}
             moduleSlugName={moduleSlugName}
+            subjectId={subjectId}
+            chapterId={chapterId}
+            cardId={cardId}
           />
         </Drawer>
       </Hidden>

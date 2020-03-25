@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { lighten } from '@material-ui/core/styles';
 import {
@@ -9,13 +9,14 @@ import {
   IconButton,
   ProgressBar,
   Button,
-  TextField
+  TextField,
 } from '/client/components/atoms';
 import { Request } from '/client/utils';
 import { ChevronLeft, Chapters } from '/client/components/icons';
 import Subjects from '/client/components/molecules/SubjectCard/subjectData';
 import ListItem from '../ListItem';
 import ClosePopup from '/client/components/molecules/ClosePopup';
+
 const SidebarContent = ({
   subject,
   chapters,
@@ -26,23 +27,45 @@ const SidebarContent = ({
   subjectSlugName,
   moduleSlugName,
   chapterId,
-  cardId
+  cardId,
 }) => {
+
   const { color } = Subjects[subject] || {};
   const primaryColor = color || '#D82057';
   const secondaryColor = lighten(primaryColor, 0.5);
   const [open, setOpen] = useState(false);
-  const [chapter, setChapters] = useState([]);
+  const [allChapters, setChapters] = useState(chapters);
   const [name, setName] = useState('');
+  const [cards, setCards] = useState([]);
   const urlParams = new URLSearchParams(window.location.search);
-  const module = urlParams.get("moduleId");
-  const subj = urlParams.get("subjectId");
+  const module = urlParams.get('moduleId');
+  const subj = urlParams.get('subjectId');
+
+  useEffect(() => {
+    const fetchCardsData = async () => {
+      const cardData = await Request({
+        action: 'getAllCardsByModuleSlugName',
+        body: moduleSlugName,
+      });
+      setCards(cardData);
+    };
+    fetchCardsData();
+    setChapters(chapters);
+  }, [chapters]);
   const addCard = async (chapId) => {
-
-    const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapId}&cardId=${1}`
-
-
+    const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapId}&cardId=${1}`;
     FlowRouter.go(url);
+  };
+
+  const getProgressValue = () => {
+    const totalCards = cards.length;
+    if(totalCards){
+      const cardIndex = cards.findIndex((item) => item._id == cardId);
+      const value = ((cardIndex + 1) / totalCards) * 100;
+      return value.toFixed(2);
+    }else return 0
+
+
   };
   const openPopup = () => {
     setOpen(true);
@@ -54,20 +77,20 @@ const SidebarContent = ({
     setName(e.target.value);
   };
   const onSubmit = async () => {
-    let chapter = {
+    const chapter = {
       name,
       created: new Date(),
-      cards: []
+      cards: [],
     };
     const itemId = await Request({
       action: 'addChapter',
       body: chapter,
     });
-    let chapterMod = {
+    const chapterMod = {
       name: chapter.name,
       created: chapter.created,
       cards: chapter.cards,
-      _id: itemId
+      _id: itemId,
     };
 
     const update = await Request({
@@ -79,22 +102,37 @@ const SidebarContent = ({
         _id: itemId,
         name,
         created: new Date(),
-        cards: []
+        cards: [],
       },
-      ...chapters,
+      ...allChapters,
     ]);
     onClose();
     
-    const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${itemId}&cardId=${1}`;
-    FlowRouter.go(url);
+
+    // const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${itemId}&cardId=${cardId ?cardId: 1}`;
+    // FlowRouter.go(url);
     window.location.reload();
   };
 
-  const onCardClick = (cardData,chapter)=>{
-  
+  const onCardClick = (cardData, chapter) => {
     const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapter._id}&cardId=${cardData._id}`;
     FlowRouter.go(url);
-  }
+  };
+
+  // console.log({
+  //   subject,
+  //   allChapters,
+  //   withIcon,
+  //   handleDrawerClose,
+  //   boardSlugName,
+  //   levelSlugName,
+  //   subjectSlugName,
+  //   moduleSlugName,
+  //   chapterId,
+  //   cardId,
+  //   cards,
+  //   progressValue: getProgressValue(),
+  // }, 'sidebarContent');
   return (
     <>
       <FlexBox
@@ -117,11 +155,14 @@ const SidebarContent = ({
               secondaryColor={secondaryColor}
               primaryColor={primaryColor}
               variant="determinate"
-              value={50}
+              value={getProgressValue()}
               thin
             />
           </div>
-          <Text className="organism_sidebar-text">50%</Text>
+          <Text className="organism_sidebar-text">
+            {getProgressValue()}
+            %
+          </Text>
         </FlexBox>
         {withIcon && (
           <IconButton
@@ -137,13 +178,17 @@ const SidebarContent = ({
           <Chapters className="organism_sidebar-chapter-icon" />
           Chapters
         </Title>
-        {chapters.map((chapter,i) => (
+        {allChapters.map((chapter, i) => (
           <div key={i}>
-            <ListItem key={chapter._id} {...chapter} onCardClick={(cardData)=>onCardClick(cardData,chapter)} />
-            <button className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary" id={chapter._id} onClick={()=>{addCard(chapter._id)}}
-            >Add
+            <ListItem key={chapter._id} {...chapter} onCardClick={(cardData) => onCardClick(cardData, chapter)} />
+            <button
+              className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+              id={chapter._id}
+              onClick={() => { addCard(chapter._id); }}
+            >
+              Add
               Card
-           </button>
+            </button>
           </div>
         ))}
         <Button className="Ch-btns" onClick={openPopup}>Add Chapter</Button>
@@ -153,7 +198,7 @@ const SidebarContent = ({
           title="Add a new chapter"
         >
           <TextField
-            style={{ marginBottom: 20 }} 
+            style={{ marginBottom: 20 }}
             onChange={onChange}
             label="Name"
           />
@@ -167,6 +212,7 @@ const SidebarContent = ({
 SidebarContent.defaultProps = {
   withIcon: false,
   handleDrawerClose: () => { },
+  chapters: [],
 };
 
 SidebarContent.propTypes = {

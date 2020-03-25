@@ -20,7 +20,7 @@ const App = ({
   boardSlugName,
   levelSlugName,
   subjectSlugName,
-  moduleSlugName,
+  moduleSlugName,subjectId,chapterId,cardId
 }) => {
   const [open, setOpen] = useState(false);
   const [isOpaque, setOpaque] = useState(false);
@@ -64,6 +64,9 @@ const App = ({
             levelSlugName={levelSlugName}
             subjectSlugName={subjectSlugName}
             moduleSlugName={moduleSlugName}
+            subjectId={subjectId}
+            chapterId={chapterId}
+            cardId={cardId}
           />
         )}
         <Footer
