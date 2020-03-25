@@ -19,9 +19,8 @@ class Editor extends Component {
       sortKey: '',
       moduleSlugName: props.module,
       subjectSlugName: props.subject,
-      boardSlugName:props.board,
-      levelSlugName:props.level
-
+      boardSlugName: props.board,
+      levelSlugName: props.level,
     };
     this.converter = new Showdown.Converter({
       tables: true,
@@ -29,6 +28,7 @@ class Editor extends Component {
       strikethrough: true,
       tasklists: true,
     });
+
   }
 
   async componentDidMount() {
@@ -44,31 +44,37 @@ class Editor extends Component {
     }
 
     if (this.state.moduleSlugName) {
-      Meteor.call('getModuleIdBySlug', this.state.moduleSlugName, (err, res) => {
-        if (err) console.log(err);
-        else {
-          console.log(res, 'res getModuleIdBySlug');
-          this.setState({
-            moduleId: res,
-          });
-        }
-      });
+      Meteor.call(
+        'getModuleIdBySlug',
+        this.state.moduleSlugName,
+        (err, res) => {
+          if (err) console.log(err);
+          else {
+            this.setState({
+              moduleId: res,
+            });
+          }
+        },
+      );
     }
     if (this.state.subjectSlugName) {
-      Meteor.call('getSubjectNameBySlug', this.state.subjectSlugName, (err, res) => {
-        if (err) console.log(err);
-        else {
-          console.log(res, 'res getModuleIdBySlug');
-          this.setState({
-            subjectName: res,
-          });
-        }
-      });
+      Meteor.call(
+        'getSubjectNameBySlug',
+        this.state.subjectSlugName,
+        (err, res) => {
+          if (err) console.log(err);
+          else {
+            this.setState({
+              subjectName: res,
+            });
+          }
+        },
+      );
     }
   }
 
   handleChangeName = (event) => {
-    this.state = {
+    this.setState({
       value: this.state.value,
       tab: this.state.tab,
       chapterId: this.state.chapterId,
@@ -76,11 +82,11 @@ class Editor extends Component {
       subjectName: this.state.subjectName,
       cardId: this.state.cardId,
       cardName: event.target.value,
-    };
+    });
   };
 
   handleChangeKey = (event) => {
-    this.state = {
+    this.setState({
       value: this.state.value,
       tab: this.state.tab,
       chapterId: this.state.chapterId,
@@ -89,8 +95,7 @@ class Editor extends Component {
       cardName: this.state.cardName,
       cardId: this.state.cardId,
       sortKey: event.target.value,
-
-    };
+    });
   };
 
   handleValueChange = (value: string) => {
@@ -102,6 +107,7 @@ class Editor extends Component {
   };
 
   handleMDSave = () => {
+
     const card = {
       title: this.state.cardName,
       content: this.state.value,
@@ -110,69 +116,69 @@ class Editor extends Component {
       author: Meteor.userId(),
       sortKey: this.state.sortKey,
     };
-    const {boardSlugName,levelSlugName,subjectSlugName,moduleSlugName,chapterId,cardId} = this.state
-    console.log('apush', this.state.cardId);
+    const {
+      boardSlugName,
+      levelSlugName,
+      subjectSlugName,
+      moduleSlugName,
+      chapterId,
+      cardId,
+    } = this.state;
+
     Meteor.call('loadCards', this.state.cardId, (err, res) => {
       if (err) {
         console.log(err);
+      } else if (res.length > 0) {
+        const cardFetched = res[0];
+        card.cardId = cardFetched._id;
+        Meteor.call('updateCard', card, (err, res) => {
+          if (err) {
+            console.log(err);
+          } else {
+            alert('Successfully updated!');
+            // FlowRouter.go(
+            //   `/explore/chapters/module/${this.state.moduleId}/${this.state
+            //     .subjectName}/${this.state.cardId}`,
+            // );
+
+            const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
+            FlowRouter.go(url);
+          }
+        });
       } else {
-        console.log('valod', res);
-        if (res.length > 0) {
-          console.log('shun', res);
-          const cardFetched = res[0];
-          card.cardId = cardFetched._id;
-          Meteor.call('updateCard', card, (err, res) => {
-            if (err) {
-              console.log(err);
-            } else {
-              alert('Successfully updated!');
-              // FlowRouter.go(
-              //   `/explore/chapters/module/${this.state.moduleId}/${this.state
-              //     .subjectName}/${this.state.cardId}`,
-              // );
-
-              const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
-              FlowRouter.go(url);
-            }
-          });
-        } else {
-          Meteor.call('addCard', card, (err, cardId) => {
-            if (err) console.log(err);
-            else {
-              Meteor.call('loadCards', cardId, (err, cards) => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  const obj = {
-                    chapterId: this.state.chapterId,
-                    cards: cards[0],
-                  };
-                  console.log(obj);
-                  Meteor.call('updateChapterWithCard', obj, (err, res) => {
-                    if (err) {
-                      console.log(err);
-                    } else {
-
-                      const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
-                      FlowRouter.go(url);
-                      // FlowRouter.go(
-                      //   `/explore/chapters/module/${this.state.moduleId}/${this
-                      //     .state.subjectName}/${cardId}`,
-                      // );
-           
-                    }
-                  });
-                }
-              });
-            }
-          });
-        }
+        Meteor.call('addCard', card, (err, cardId) => {
+          if (err) console.log(err);
+          else {
+            Meteor.call('loadCards', cardId, (err, cards) => {
+              if (err) {
+                console.log(err);
+              } else {
+                const obj = {
+                  chapterId: this.state.chapterId,
+                  cards: cards[0],
+                };
+                Meteor.call('updateChapterWithCard', obj, (err, res) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
+                    FlowRouter.go(url);
+                    // FlowRouter.go(
+                    //   `/explore/chapters/module/${this.state.moduleId}/${this
+                    //     .state.subjectName}/${cardId}`,
+                    // );
+                  }
+                });
+              }
+            });
+          }
+        });
       }
     });
   };
 
   render() {
-    console.log(this.props, this.state, 'props state');
+    // console.log(this.props, this.state, "props state");
     return (
       <div className="home-page1 -padding-20">
         <div className="customContainer">
