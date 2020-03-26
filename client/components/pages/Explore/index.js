@@ -208,6 +208,8 @@ const Explore = ({ boardId, board, ...rest }) => {
                   levelName={levelName}
                   boardSlugName={boardSlugName}
                   levelSlugName={levelSlugName}
+                  boardId={boardId}
+                  levelId={levelId}
                 />
               </Fragment>
             ),
