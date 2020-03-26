@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import Slider from 'react-slick';
-import ReactMarkdown from 'react-markdown';
-import MathJax from 'react-mathjax-preview';
-import Paper from '@material-ui/core/Paper';
-import { Request } from '/client/utils';
+import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
+import Slider from "react-slick";
+import ReactMarkdown from "react-markdown";
+import MathJax from "react-mathjax-preview";
+import Paper from "@material-ui/core/Paper";
+import { Request } from "/client/utils";
 import {
   IconButton,
   FlexBox,
   Title,
   PageContainer,
-  Button,
-} from '/client/components/atoms';
-import { Next, Prev } from '/client/components/icons';
-import './styles.scss';
+  Button
+} from "/client/components/atoms";
+import { Next, Prev } from "/client/components/icons";
+import "./styles.scss";
 
 const Cards = ({
   subjectId,
@@ -23,20 +23,23 @@ const Cards = ({
   subjectSlugName,
   moduleSlugName,
   chapterId,
-  cardId,
+  cardId
 }) => {
   const [currentCardId, setCurrentCardId] = useState(cardId);
   const [subject, setSubjectData] = useState({});
   const [cards, setCards] = useState([]);
   const slider = useRef(null);
   const urlParams = new URLSearchParams(window.location.search);
-  const module = urlParams.get('moduleId');
-  const subj = urlParams.get('subjectId');
+  const module = urlParams.get("moduleId");
+  const subj = urlParams.get("subjectId");
 
-  const setInitailSlide = (cards) => {
+  const setInitailSlide = cards => {
     setTimeout(() => {
-      const slideIndex = cards.findIndex((val) => val._id == cardId);
-      slider.current.slickGoTo(slideIndex, true);
+      const slideIndex = cards.findIndex(val => val._id == cardId);
+
+      if (slideIndex != -1) {
+        slider.current.slickGoTo(slideIndex, true);
+      }
     }, 150);
   };
   const onPrev = () => {
@@ -45,7 +48,7 @@ const Cards = ({
   const onNext = () => {
     slider.current.slickNext();
   };
-
+  const adIterator = 10;
   useEffect(
     () => {
       const getNecessaryData = async () => {
@@ -54,8 +57,8 @@ const Cards = ({
         //   body: subjectId,
         // });
         const subjectData = await Request({
-          action: 'getSubjectBySlug',
-          body: subjectSlugName,
+          action: "getSubjectBySlug",
+          body: subjectSlugName
         });
         setSubjectData(subjectData);
 
@@ -65,53 +68,67 @@ const Cards = ({
         // });
 
         const cardData = await Request({
-          action: 'getAllCardsByModuleSlugName',
-          body: moduleSlugName,
+          action: "getAllCardsByModuleSlugName",
+          body: moduleSlugName
         });
+        let counter = 0;
+        let cardsResult = [];
+        if (cardData && cardData.length > adIterator) {
+          for (const item of cardData) {
+            cardsResult.push(item);
+            counter++;
+            if (counter == adIterator) {
+              cardsResult.push({
+                ...item,
+                isAd: true
+              });
+              counter = 0;
+            }
+          }
+        } else cardsResult = cardData;
 
-        setCards(cardData);
-        setInitailSlide(cardData);
+        setCards(cardsResult);
+        setInitailSlide(cardsResult);
       };
       getNecessaryData();
     },
-    [cardId],
+    [cardId]
   );
-  const editHandler = async (event) => {
+  const editHandler = async event => {
     const cardId = event.target.id;
     const chapterId = await Request({
-      action: 'getChapterByCard',
-      body: cardId,
+      action: "getChapterByCard",
+      body: cardId
     });
     const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
     FlowRouter.go(url);
   };
 
-  const deleteHandler = async (event) => {
+  const deleteHandler = async event => {
     const card = event.target.id;
     const deleteCard = await Request({
-      action: 'deleteCard',
-      body: card,
+      action: "deleteCard",
+      body: card
     });
     const chapter = await Request({
-      action: 'getChapterByCard',
-      body: card,
+      action: "getChapterByCard",
+      body: card
     });
     const removeRef = await Request({
-      action: 'removeCardRef',
+      action: "removeCardRef",
       body: {
         chapterId: chapter,
-        cardId: card,
-      },
+        cardId: card
+      }
     });
 
     const cardData = await Request({
-      action: 'getAllCardsByModuleSlugName',
-      body: moduleSlugName,
+      action: "getAllCardsByModuleSlugName",
+      body: moduleSlugName
     });
 
     window.location.reload();
   };
-
   // console.log(
   //   {
   //     cards,
@@ -142,12 +159,12 @@ const Cards = ({
         slidesToScroll={1}
         initialSlide={2}
         beforeChange={async (current, next) => {
-          if (next !== -1) {
+          if (cards && cards.length && next !== -1) {
             const cardID = cards[next]._id;
             setCurrentCardId(cardID);
             const chapterId = await Request({
-              action: 'getChapterByCard',
-              body: cardID,
+              action: "getChapterByCard",
+              body: cardID
             });
             const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardID}`;
             FlowRouter.go(url);
@@ -155,28 +172,34 @@ const Cards = ({
         }}
         // afterChange={current => {    }}
       >
-        {cards.map(({ _id, content }, i) => (
-          <div key={i}>
-            <Paper key={_id} className="page_cards-paper">
-              <ReactMarkdown escapeHtml={false} source={content} />
-              <MathJax />
-            </Paper>
-            <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
-              id={_id}
-              onClick={editHandler}
-            >
-              Edit
-            </button>
-            <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
-              id={_id}
-              onClick={deleteHandler}
-            >
-              Delete
-            </button>
-          </div>
-        ))}
+        {cards.map(({ _id, content, isAd }, i) => {
+          if (isAd) {
+            return <div id="ezoic-pub-ad-placeholder-101"> </div>;
+          } else {
+            return (
+              <div key={i}>
+                <Paper key={_id} className="page_cards-paper">
+                  <ReactMarkdown escapeHtml={false} source={content} />
+                  <MathJax />
+                </Paper>
+                <button
+                  className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+                  id={_id}
+                  onClick={editHandler}
+                >
+                  Edit
+                </button>
+                <button
+                  className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+                  id={_id}
+                  onClick={deleteHandler}
+                >
+                  Delete
+                </button>
+              </div>
+            );
+          }
+        })}
       </Slider>
       <FlexBox align justify>
         <IconButton className="page_cards-arrows" onClick={onPrev}>
