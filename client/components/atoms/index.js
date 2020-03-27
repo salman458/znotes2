@@ -13,3 +13,4 @@ export { default as ProgressBar } from './ProgressBar';
 export { default as Text } from './Text';
 export { default as TextField } from './TextField';
 export { default as Title } from './Title';
+export {default as ErrorBoundary} from "./ErrorBoundary"
