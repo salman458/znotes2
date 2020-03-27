@@ -39,7 +39,13 @@ const LandingActionCall = ({
       const subjects = (await Request({ action: "getSubjectKeywords" })) || [];
       const levels = (await Request({ action: "getLevelKeywords" })) || [];
       const boards = (await Request({ action: "getBoardKeywords" })) || [];
-      setKeywords([...standardKeywords, ...subjects, ...levels, ...boards]);
+      const allKeyWords = [
+        ...standardKeywords,
+        ...subjects,
+        ...levels,
+        ...boards
+      ].filter(el => el != null);
+      setKeywords(allKeyWords);
     };
     handleKeywords();
   }, []);
@@ -90,13 +96,12 @@ const LandingActionCall = ({
     const { _id: id } = searchResult.id[0];
 
     const boardSlugName = await Request({
-      action:"getBoardSlugName",
-      body:id
-    })
-
+      action: "getBoardSlugName",
+      body: id
+    });
     switch (type) {
       case "board":
-        FlowRouter.go(`/explore/${boardSlugName}`);
+        FlowRouter.go(`/${boardSlugName || id}`);
         break;
       default:
         break;

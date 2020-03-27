@@ -167,7 +167,7 @@ FlowRouter.route('/explore', {
 });
 
 
-FlowRouter.route('/explore/:board', {
+FlowRouter.route('/:board', {
   name: 'Explore',
   action ({board}) {
     document.title = 'ZNotes | Explore';
