@@ -25,6 +25,8 @@ const SubjectCard = ({
   subjectNameSlug,
   levelSlugName,
   boardSlugName,
+  boardId,
+  levelId
 }) => {
   const [modules, setModules] = useState([]);
   const [name, setName] = useState('');
@@ -117,19 +119,23 @@ const SubjectCard = ({
         {modules.map(({
           _id, name: moduleName, slug: moduleNameSlug, subject: subjectId, chapters,
         }) => {
-          let cardId = 1;
-          let chapterId = 1;
-          if (chapters && chapters.length && chapters[0].cards && chapters[0].cards.length) {
-            const totalCards = chapters[0].cards.length;
-            cardId = chapters[0].cards[0]._id;
-          } if (chapters && chapters.length) {
-            chapterId = chapters[0]._id;
-          }
+          
+          // let cardId = 1;
+          // let chapterId = 1;
+          // if (chapters && chapters.length && chapters[0].cards && chapters[0].cards.length) {
+          //   const totalCards = chapters[0].cards.length;
+          //   cardId = chapters[0].cards[0]._id;
+          // } if (chapters && chapters.length) {
+          //   chapterId = chapters[0]._id;
+          // }
+
+          //const url = `/${boardSlugName}/${levelSlugName}/${subjectNameSlug}/${moduleNameSlug}?chapterId=${chapterId}&cardId=${cardId}`; 
+          const url = `/${boardSlugName || boardId}/${levelSlugName || levelId}/${subjectNameSlug || id}/${moduleNameSlug || _id}`; 
 
           return (
             <Link
               key={_id}
-              to={`/${boardSlugName}/${levelSlugName}/${subjectNameSlug}/${moduleNameSlug}?chapterId=${chapterId}&cardId=${cardId}`}
+              to={url}
             >
               <MenuItem>{moduleName}</MenuItem>
             </Link>
