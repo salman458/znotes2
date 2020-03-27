@@ -35,11 +35,11 @@ const Cards = ({
 
   const setInitailSlide = cards => {
     setTimeout(() => {
-      const slideIndex = cards.findIndex(val => val._id == cardId);
-
-      if (slideIndex != -1) {
-        slider.current.slickGoTo(slideIndex, true);
+      let slideIndex = cards.findIndex(val => val._id == cardId);
+      if (slideIndex == -1) {
+        slideIndex = 0;
       }
+      slider.current.slickGoTo(slideIndex, true);
     }, 150);
   };
   const onPrev = () => {
@@ -143,6 +143,7 @@ const Cards = ({
   //   },
   //   'Cards screens',
   // );
+  
   return (
     <PageContainer className="page_cards-container">
       <Title variant="h5">

@@ -60,7 +60,10 @@ const SidebarContent = ({
   const getProgressValue = () => {
     const totalCards = cards.length;
     if(totalCards){
-      const cardIndex = cards.findIndex((item) => item._id == cardId);
+      let cardIndex = cards.findIndex((item) => item._id == cardId);
+      if(cardIndex == -1){
+        cardIndex = 0
+      }
       const value = ((cardIndex + 1) / totalCards) * 100;
       return value.toFixed(2);
     }else return 0
