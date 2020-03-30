@@ -11,7 +11,7 @@ import {
   Button,
   TextField,
 } from '/client/components/atoms';
-import { Request } from '/client/utils';
+import { Request, USER_PERMISSIONS } from '/client/utils';
 import { ChevronLeft, Chapters } from '/client/components/icons';
 import Subjects from '/client/components/molecules/SubjectCard/subjectData';
 import ListItem from '../ListItem';
@@ -28,8 +28,9 @@ const SidebarContent = ({
   moduleSlugName,
   chapterId,
   cardId,
+  role,
 }) => {
-
+  const isTeamRole = role === USER_PERMISSIONS.editor;
   const { color } = Subjects[subject] || {};
   const primaryColor = color || '#D82057';
   const secondaryColor = lighten(primaryColor, 0.5);
@@ -59,16 +60,14 @@ const SidebarContent = ({
 
   const getProgressValue = () => {
     const totalCards = cards.length;
-    if(totalCards){
+    if (totalCards) {
       let cardIndex = cards.findIndex((item) => item._id == cardId);
-      if(cardIndex == -1){
-        cardIndex = 0
+      if (cardIndex == -1) {
+        cardIndex = 0;
       }
       const value = ((cardIndex + 1) / totalCards) * 100;
       return value.toFixed(2);
-    }else return 0
-
-
+    } return 0;
   };
   const openPopup = () => {
     setOpen(true);
@@ -110,7 +109,6 @@ const SidebarContent = ({
       ...allChapters,
     ]);
     onClose();
-    
 
     // const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${itemId}&cardId=${cardId ?cardId: 1}`;
     // FlowRouter.go(url);
@@ -184,6 +182,8 @@ const SidebarContent = ({
         {allChapters.map((chapter, i) => (
           <div key={i}>
             <ListItem key={chapter._id} {...chapter} onCardClick={(cardData) => onCardClick(cardData, chapter)} />
+
+            {isTeamRole && (
             <button
               className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
               id={chapter._id}
@@ -192,9 +192,13 @@ const SidebarContent = ({
               Add
               Card
             </button>
+            )}
+
           </div>
         ))}
-        <Button className="Ch-btns" onClick={openPopup}>Add Chapter</Button>
+
+        {isTeamRole && (<Button className="Ch-btns" onClick={openPopup}>Add Chapter</Button>)}
+        
         <ClosePopup
           open={open}
           onClose={onClose}
