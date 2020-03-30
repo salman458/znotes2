@@ -15,7 +15,7 @@ import {
 } from "/client/components/atoms";
 import { Next, Prev } from "/client/components/icons";
 import "./styles.scss";
-
+import AdSense from 'react-adsense';
 const Cards = ({
   subjectId,
   moduleId,
@@ -145,44 +145,16 @@ const Cards = ({
   //   'Cards screens',
   // );
 
+ 
   renderAd = () => {
     return (
-      <ErrorBoundary>
-        <div id="ezoic-pub-ad-placeholder-101">
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          />
-
-          <ins
-            class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-6119346428517801"
-            data-ad-slot="6150940530"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          />
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          />
-
-          <ins
-            class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-6119346428517801"
-            data-ad-slot="6150940530"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          />
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
-        </div>
-      </ErrorBoundary>
+      <div>
+        <AdSense.Google
+          client="ca-pub-6119346428517801"
+          slot="6150940530"
+          style={{ display: "block"}}
+        />
+      </div>
     );
   };
 
