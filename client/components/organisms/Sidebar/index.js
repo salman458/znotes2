@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Request } from '/client/utils';
 
 import SidebarContent from './SidebarContent';
+import { usePermission } from '/client/contexts/permission';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -44,6 +45,7 @@ const Sidebar = ({
   moduleSlugName,
   subjectId,chapterId,cardId
 }) => {
+  const role = usePermission();
   const classes = useStyles({ sidebarWidth });
   const [chapters, setChapters] = useState([]);
   const [subject, setSubjectName] = useState('');
@@ -103,6 +105,7 @@ const Sidebar = ({
             subjectId={subjectId}
             chapterId={chapterId}
             cardId={cardId}
+            role={role}
           />
         </Drawer>
       </Hidden>
@@ -124,6 +127,7 @@ const Sidebar = ({
             subjectId={subjectId}
             chapterId={chapterId}
             cardId={cardId}
+            role={role}
           />
         </Drawer>
       </Hidden>

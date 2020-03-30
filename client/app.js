@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { Layout } from '/client/components/atoms';
-import { Header, Sidebar, Footer } from '/client/components/organisms';
-import { UserProvider } from '/client/contexts/user';
-import { PermissionProvider } from '/client/contexts/permission';
-import theme from './theme';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { Layout } from "/client/components/atoms";
+import { Header, Sidebar, Footer } from "/client/components/organisms";
+import { UserProvider } from "/client/contexts/user";
+import { PermissionProvider } from "/client/contexts/permission";
+import theme from "./theme";
 
-import './styles/root.scss';
+import "./styles/root.scss";
 
 const sidebarWidth = 325;
 
@@ -20,7 +20,10 @@ const App = ({
   boardSlugName,
   levelSlugName,
   subjectSlugName,
-  moduleSlugName,subjectId,chapterId,cardId
+  moduleSlugName,
+  subjectId,
+  chapterId,
+  cardId
 }) => {
   const [open, setOpen] = useState(false);
   const [isOpaque, setOpaque] = useState(false);
@@ -53,22 +56,23 @@ const App = ({
         >
           {content({ setOpaque })}
         </Layout>
-        {withSidebar && (
-          <Sidebar
-            open={open}
-            subject={subject}
-            moduleId={moduleId}
-            sidebarWidth={sidebarWidth}
-            handleDrawerClose={handleDrawerClose}
-            boardSlugName={boardSlugName}
-            levelSlugName={levelSlugName}
-            subjectSlugName={subjectSlugName}
-            moduleSlugName={moduleSlugName}
-            subjectId={subjectId}
-            chapterId={chapterId}
-            cardId={cardId}
-          />
-        )}
+        {withSidebar &&
+          <PermissionProvider>
+            <Sidebar
+              open={open}
+              subject={subject}
+              moduleId={moduleId}
+              sidebarWidth={sidebarWidth}
+              handleDrawerClose={handleDrawerClose}
+              boardSlugName={boardSlugName}
+              levelSlugName={levelSlugName}
+              subjectSlugName={subjectSlugName}
+              moduleSlugName={moduleSlugName}
+              subjectId={subjectId}
+              chapterId={chapterId}
+              cardId={cardId}
+            />
+          </PermissionProvider>}
         <Footer
           open={open}
           withSidebar={withSidebar}
@@ -80,10 +84,10 @@ const App = ({
 };
 
 App.defaultProps = {
-  subject: '',
-  moduleId: '',
+  subject: "",
+  moduleId: "",
   withSidebar: false,
-  opaqueHeader: false,
+  opaqueHeader: false
 };
 
 App.propTypes = {
@@ -91,7 +95,7 @@ App.propTypes = {
   moduleId: PropTypes.string,
   withSidebar: PropTypes.bool,
   opaqueHeader: PropTypes.bool,
-  content: PropTypes.func.isRequired,
+  content: PropTypes.func.isRequired
 };
 
 export default App;
