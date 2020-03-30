@@ -17,6 +17,7 @@ class Admin extends Component {
       isTeam: false,
       limit: props.limit,
       offset: props.offset,
+      isAdmin: false,
     };
 
     this.submitRole = this.submitRole.bind(this);
@@ -26,27 +27,47 @@ class Admin extends Component {
   }
 
   componentDidMount() {
-    Meteor.call('getAllUsers', { limit: this.state.limit, offset: this.state.offset }, (err, res) => {
+    const userId = Meteor.userId();
+
+    Meteor.call('findUserRole', userId, (err, res) => {
       if (err) console.log(err);
-      else {
-        this.setState({
-          users: res.filter((user) => user.emails !== undefined).map((user) => ({
-            id: user._id,
-            name: user.username,
-            email: user.emails[0].address,
-          })),
-        });
-      }
-    });
-    Meteor.call('getAllSubjects', {}, (err, res) => {
-      if (err) console.log(err);
-      else {
-        this.setState({
-          subjects: res.map((subject) => ({
-            label: subject.name,
-            value: subject._id,
-          })),
-        });
+      else if (res && res.length > 0) {
+        const { role } = res[0];
+        if (role == 'admin') {
+          this.setState({ isAdmin: true }, () => {
+            Meteor.call(
+              'getAllUsers',
+              { limit: this.state.limit, offset: this.state.offset },
+              (err, res) => {
+                if (err) console.log(err);
+                else {
+                  this.setState({
+                    users: res
+                      .filter((user) => user.emails !== undefined)
+                      .map((user) => ({
+                        id: user._id,
+                        name: user.username,
+                        email: user.emails[0].address,
+                      })),
+                  });
+                }
+              },
+            );
+            Meteor.call('getAllSubjects', {}, (err, res) => {
+              if (err) console.log(err);
+              else {
+                this.setState({
+                  subjects: res.map((subject) => ({
+                    label: subject.name,
+                    value: subject._id,
+                  })),
+                });
+              }
+            });
+          });
+        } else {
+          this.setState({ isAdmin: false });
+        }
       }
     });
   }
@@ -67,22 +88,37 @@ class Admin extends Component {
       const { id, name, email } = user; // destructuring
       return (
         <tr key={id}>
-          <td>{id}</td>
-          <td>{name}</td>
-          <td>{email}</td>
-          <td><input onChange={this.checkBoxHandler} type="checkbox" name="vehicle1" value="true" /></td>
+          <td>
+            {id}
+          </td>
+          <td>
+            {name}
+          </td>
+          <td>
+            {email}
+          </td>
+          <td>
+            <input
+              onChange={this.checkBoxHandler}
+              type="checkbox"
+              name="vehicle1"
+              value="true"
+            />
+          </td>
           <td>
             <Select
               multi
-              options={
-                            this.state.subjects
-                        }
+              options={this.state.subjects}
               onChange={(values) => {
                 this.state.subjectPermissions = values;
               }}
             />
           </td>
-          <td><Button id={id} onClick={this.submitRole}>Save</Button></td>
+          <td>
+            <Button id={id} onClick={this.submitRole}>
+              Save
+            </Button>
+          </td>
         </tr>
       );
     });
@@ -101,35 +137,56 @@ class Admin extends Component {
   }
 
   render() {
+    const { isAdmin } = this.state;
     return (
       <div className="home-page1">
-        <div className="adminContainer">
-          <div>
-            <h1 id="title">All users</h1>
-            <table id="students">
-              <tbody>
-                <tr>{this.renderTableHeader()}</tr>
-                {this.renderTableData()}
-              </tbody>
-            </table>
+        {isAdmin
+          && (
+          <div className="adminContainer">
+            <div>
+              <h1 id="title">All users</h1>
+              <table id="students">
+                <tbody>
+                  <tr>
+                    {this.renderTableHeader()}
+                  </tr>
+                  {this.renderTableData()}
+                </tbody>
+              </table>
+            </div>
+            <ul>
+              <li>
+                <Button variant="primary" onClick={this.next}>
+                  Next
+                </Button>
+              </li>
+              <li>
+                <Button variant="primary" onClick={this.previous}>
+                  Previous
+                </Button>
+              </li>
+            </ul>
           </div>
-          <ul>
-            <li><Button variant="primary" onClick={this.next}>Next</Button></li>
-            <li><Button variant="primary" onClick={this.previous}>Previous</Button></li>
-          </ul>
-        </div>
+          )}
       </div>
-
     );
   }
 
   next() {
-    FlowRouter.go(`/admin/${Number(Number(this.state.offset) + Number(this.state.limit))}/${this.state.limit}`);
+    FlowRouter.go(
+      `/admin/${Number(
+        Number(this.state.offset) + Number(this.state.limit),
+      )}/${this.state.limit}`,
+    );
     window.location.reload();
   }
 
   previous() {
-    FlowRouter.go(`/admin/${Number(Number(this.state.offset) - Number(this.state.limit))}/${this.state.limit}`);
+    FlowRouter.go(
+      `/admin/${Number(
+        Number(this.state.offset) - Number(this.state.limit),
+      )}/${this.state.limit}`,
+    );
     window.location.reload();
   }
 
