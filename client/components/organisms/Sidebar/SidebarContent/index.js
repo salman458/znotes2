@@ -42,17 +42,20 @@ const SidebarContent = ({
   const module = urlParams.get('moduleId');
   const subj = urlParams.get('subjectId');
 
+const getAllCardsByModuleSlugName=async()=>{
+  const cardData = await Request({
+    action: 'getAllCardsByModuleSlugName',
+    body: moduleSlugName,
+  });
+  setCards(cardData);
+}
+
   useEffect(() => {
-    const fetchCardsData = async () => {
-      const cardData = await Request({
-        action: 'getAllCardsByModuleSlugName',
-        body: moduleSlugName,
-      });
-      setCards(cardData);
-    };
-    fetchCardsData();
+    getAllCardsByModuleSlugName();
+
     setChapters(chapters);
   }, [chapters]);
+
   const addCard = async (chapId) => {
     const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapId}&cardId=${1}`;
     FlowRouter.go(url);
@@ -69,6 +72,7 @@ const SidebarContent = ({
       return value.toFixed(2);
     } return 0;
   };
+  
   const openPopup = () => {
     setOpen(true);
   };
