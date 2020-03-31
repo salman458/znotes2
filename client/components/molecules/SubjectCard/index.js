@@ -97,20 +97,20 @@ const SubjectCard = ({
     getNecessaryData();
   }, [id]);
 
-  console.log({
-    id,
-    role,
-    code,
-    subject,
-    subjectName,
-    isUserSubject,
-    subjectNameSlug,
-    levelSlugName,
-    boardSlugName,
-    boardId,
-    levelId,
-    user
-  });
+  // console.log({
+  //   id,
+  //   role,
+  //   code,
+  //   subject,
+  //   subjectName,
+  //   isUserSubject,
+  //   subjectNameSlug,
+  //   levelSlugName,
+  //   boardSlugName,
+  //   boardId,
+  //   levelId,
+  //   user
+  // });
 
   return (
     <>
