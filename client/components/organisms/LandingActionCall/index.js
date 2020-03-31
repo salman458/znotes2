@@ -157,13 +157,6 @@ const LandingActionCall = ({
     }
   };
 
-  // console.log({
-  //   suggestionsCopy,
-  //   suggestions,
-  //   value,
-  //   keywords
-  // });
-
   return (
     <FlexBox column justify align={align} className="organism_action-call-root">
       {!minimal &&

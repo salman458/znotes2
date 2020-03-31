@@ -35,9 +35,6 @@ const SubjectSlider = ({
       setSlidesToShow(newCount);
     }
   };
-  // console.log({
-  //   subjects
-  // })
 
   return (
     <div

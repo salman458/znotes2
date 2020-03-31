@@ -137,22 +137,7 @@ const getAllCardsByModuleSlugName= async()=>{
 
     window.location.reload();
   };
-  // console.log(
-  //   {
-  //     cards,
-  //     subjectId,
-  //     moduleId,
-  //     boardSlugName,
-  //     levelSlugName,
-  //     subjectSlugName,
-  //     moduleSlugName,
-  //     chapterId,
-  //     cardId,
-  //   },
-  //   'Cards screens',
-  // );
 
- 
   renderAd = () => {
     return (
       <div>

@@ -303,7 +303,6 @@ Meteor.methods({
         },
       ],
     });
-    // console.log(moduleData, 'module Data');
     const chaptersWithCards = moduleData.chapters.map(
       ({ _id: chapterId, ...rest }) => {
         const chapterData = chapters.findOne({ _id: chapterId });
@@ -469,8 +468,6 @@ Meteor.methods({
     );
   },
   updateChapter(obj) {
-    // console.log(obj, 'oooopppppp');
-  
     return modules.update(
       {
         $or: [
@@ -500,7 +497,6 @@ Meteor.methods({
   },
 
   updateModuleWithCard(obj) {
-    // console.log(obj, 'o-b-j');
     return modules.update(
       { _id: obj.moduleId, 'chapters._id': obj.chapterId },
       { $push: { 'chapters.$.cards': obj.cards } },
@@ -524,7 +520,6 @@ Meteor.methods({
       return [];
     }
     const allModules = modules.find({}, { fields: { _id: 0 } }).fetch();
-    // console.log(allModules, 'allModules');
     const res = allModules.map(
       ({ subject: subjectId, name, board: boardId }) => {
         const subjectData = subjects.findOne({
