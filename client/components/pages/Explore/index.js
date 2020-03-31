@@ -10,6 +10,7 @@ import {
 import { SubjectSlider, AddPopup } from '/client/components/organisms';
 import { makeStyles } from '@material-ui/core/styles';
 import './styles.scss';
+import {Loading }from "/client/components/molecules"
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -22,11 +23,13 @@ const Explore = ({ boardId, board, ...rest }) => {
   const classes = useStyles();
   const [boards, setBoards] = useState([]);
   const role = usePermission();
+  const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
 
     let allBoards;
     const getNecessaryData = async () => {
+      setLoading(true)
       if (board) {
         const boardId = await Request({
           action: 'getBoardIdBySlugName',
@@ -44,7 +47,7 @@ const Explore = ({ boardId, board, ...rest }) => {
           body: {},
         });
       }
-
+      setLoading(false)
       setBoards(allBoards);
     };
     getNecessaryData();
@@ -136,6 +139,9 @@ const Explore = ({ boardId, board, ...rest }) => {
 
   return (
     <PageContainer className="page_explore-container">
+    <Loading
+      open={isLoading}
+    />
       <Title variant="h1" gutterBottom className={classes.title}>
         Explore the Subjects
       </Title>
