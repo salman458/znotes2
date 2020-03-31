@@ -36,7 +36,7 @@ const Cards = ({
 
   const setInitailSlide = cards => {
     setTimeout(() => {
-      let slideIndex = cards.findIndex(val => val._id == cardId);
+      let slideIndex = cards.findIndex(val => val._id == currentCardId);
       if (slideIndex == -1) {
         slideIndex = 0;
       }
@@ -92,14 +92,14 @@ const getAllCardsByModuleSlugName= async()=>{
     () => {
       getSubjectBySlug();
     },
-    [cardId]
+    [currentCardId]
   );
 
   useEffect(
     () => {
       getAllCardsByModuleSlugName();
     },
-    [cardId]
+    [currentCardId]
   );
 
   const editHandler = async event => {
