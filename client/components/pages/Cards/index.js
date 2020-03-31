@@ -50,51 +50,58 @@ const Cards = ({
     slider.current.slickNext();
   };
   const adIterator = 10;
+
+
+const getSubjectBySlug = async()=>{
+  const subjectData = await Request({
+    action: "getSubjectBySlug",
+    body: subjectSlugName
+  });
+
+  setSubjectData(subjectData);
+}
+
+const getAllCardsByModuleSlugName= async()=>{
+        
+  const cardData = await Request({
+    action: "getAllCardsByModuleSlugName",
+    body: moduleSlugName
+  });
+  let counter = 0;
+  let cardsResult = [];
+  
+  if (cardData && cardData.length > adIterator) {
+    for (const item of cardData) {
+      cardsResult.push(item);
+      counter++;
+      if (counter == adIterator) {
+        cardsResult.push({
+          ...item,
+          isAd: true
+        });
+        counter = 0;
+      }
+    }
+  } else cardsResult = cardData;
+
+  setCards(cardsResult);
+  setInitailSlide(cardsResult);
+}
+
   useEffect(
     () => {
-      const getNecessaryData = async () => {
-        // const subjectData = await Request({
-        //   action: 'getSubjectById',
-        //   body: subjectId,
-        // });
-        const subjectData = await Request({
-          action: "getSubjectBySlug",
-          body: subjectSlugName
-        });
-        setSubjectData(subjectData);
-
-        // const cardData = await Request({
-        //   action: 'getAllCardsByModule',
-        //   body: moduleId,
-        // });
-
-        const cardData = await Request({
-          action: "getAllCardsByModuleSlugName",
-          body: moduleSlugName
-        });
-        let counter = 0;
-        let cardsResult = [];
-        if (cardData && cardData.length > adIterator) {
-          for (const item of cardData) {
-            cardsResult.push(item);
-            counter++;
-            if (counter == adIterator) {
-              cardsResult.push({
-                ...item,
-                isAd: true
-              });
-              counter = 0;
-            }
-          }
-        } else cardsResult = cardData;
-
-        setCards(cardsResult);
-        setInitailSlide(cardsResult);
-      };
-      getNecessaryData();
+      getSubjectBySlug();
     },
     [cardId]
   );
+
+  useEffect(
+    () => {
+      getAllCardsByModuleSlugName();
+    },
+    [cardId]
+  );
+
   const editHandler = async event => {
     const cardId = event.target.id;
     const chapterId = await Request({
