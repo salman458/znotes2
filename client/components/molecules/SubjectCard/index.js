@@ -8,6 +8,7 @@ import { SanitizeName, Request, USER_PERMISSIONS } from '/client/utils';
 import CardActionItem from './CardActionItem';
 import ClosePopup from '../ClosePopup';
 import Menu from '../Menu';
+import _ from "lodash"
 
 const useStyles = makeStyles((theme) => ({
   addSubjectButton: {
@@ -26,7 +27,8 @@ const SubjectCard = ({
   levelSlugName,
   boardSlugName,
   boardId,
-  levelId
+  levelId,
+  user
 }) => {
   const [modules, setModules] = useState([]);
   const [name, setName] = useState('');
@@ -95,14 +97,6 @@ const SubjectCard = ({
     getNecessaryData();
   }, [id]);
 
-  // console.log({
-  //   id,
-  //   subjectNameSlug,
-  //   levelSlugName,
-  //   boardSlugName,
-  //   modules,
-  // });
-
   return (
     <>
       <Menu
@@ -144,7 +138,7 @@ const SubjectCard = ({
         {role > USER_PERMISSIONS.logged && (
           <MenuItem onClick={openPopup}>Add Module</MenuItem>
         )}
-        {!isUserSubject && (
+        {!isUserSubject && !_.isEmpty(user)  && (
           <MenuItem
             className={classes.addSubjectButton}
             onClick={addUserSubject}

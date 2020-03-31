@@ -178,7 +178,6 @@ class Editor extends Component {
   };
 
   render() {
-    // console.log(this.props, this.state, "props state");
     return (
       <div className="home-page1 -padding-20">
         <div className="customContainer">

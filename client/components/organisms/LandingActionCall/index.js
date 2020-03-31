@@ -160,14 +160,6 @@ const LandingActionCall = ({
     }
   };
 
-  // console.log({
-  //   suggestionsCopy,
-  //   suggestions,
-  //   value,
-  //   keywords,
-  //   isLoading
-  // });
-
   return (
     <FlexBox column justify align={align} className="organism_action-call-root">
       <Loading open={isLoading} />

@@ -15,7 +15,7 @@ automatic_scaling:
   max_num_instances: 2
 env_variables:
   ROOT_URL: "http://beta.znotes.org"
-  MONGO_URL: "mongodb://admin:admin@cluster0-shard-00-00-dk5v1.gcp.mongodb.net:27017,cluster0-shard-00-01-dk5v1.gcp.mongodb.net:27017,cluster0-shard-00-02-dk5v1.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"
+  MONGO_URL: "mongodb://znotesDBAdminUser:5kgjh76g@35.231.110.125:27017/znotes"
   MAIL_URL: "smtp://team@znotes.org:1@Brooklands@smtp.gmail.com:587"
 skip_files:
 - ^(.*/)?\.dockerignore$

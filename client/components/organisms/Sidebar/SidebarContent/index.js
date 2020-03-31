@@ -120,20 +120,6 @@ const SidebarContent = ({
     FlowRouter.go(url);
   };
 
-  // console.log({
-  //   subject,
-  //   allChapters,
-  //   withIcon,
-  //   handleDrawerClose,
-  //   boardSlugName,
-  //   levelSlugName,
-  //   subjectSlugName,
-  //   moduleSlugName,
-  //   chapterId,
-  //   cardId,
-  //   cards,
-  //   progressValue: getProgressValue(),
-  // }, 'sidebarContent');
   return (
     <>
       <FlexBox
