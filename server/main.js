@@ -470,8 +470,18 @@ Meteor.methods({
   },
   updateChapter(obj) {
     // console.log(obj, 'oooopppppp');
+  
     return modules.update(
-      { slug: obj.slug },
+      {
+        $or: [
+          {
+            _id: obj.slug,
+          },
+          {
+            slug:obj.slug,
+          },
+        ],
+      },
       { $push: { chapters: obj.chapter } },
     );
   },
