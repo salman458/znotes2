@@ -35,7 +35,9 @@ const SidebarContent = ({
   const primaryColor = color || '#D82057';
   const secondaryColor = lighten(primaryColor, 0.5);
   const [open, setOpen] = useState(false);
+  const [editPopupOpen, setEditPopupOpen] = useState(false);
   const [allChapters, setChapters] = useState(chapters);
+  const [selectedChapter, setSelectedChapter] = useState("");
   const [name, setName] = useState('');
   const [cards, setCards] = useState([]);
   const urlParams = new URLSearchParams(window.location.search);
@@ -79,8 +81,22 @@ const getAllCardsByModuleSlugName=async()=>{
   const onClose = () => {
     setOpen(false);
   };
+
+  const openEditPopup =(selectedChapter)=>{
+    setEditPopupOpen(true);
+    setSelectedChapter(selectedChapter);
+  }
+  const onCloseEditPopup = () => {
+    setEditPopupOpen(false);
+  };
   const onChange = (e) => {
     setName(e.target.value);
+  };
+  const onChapterChange = (e) => {
+    setSelectedChapter({
+      ...selectedChapter,
+      name:e.target.value
+    });
   };
   const onSubmit = async () => {
     const chapter = {
@@ -100,7 +116,7 @@ const getAllCardsByModuleSlugName=async()=>{
     };
 
     const update = await Request({
-      action: 'updateChapter',
+      action: 'updateChapterInModules',
       body: { slug: moduleSlugName, chapter: chapterMod },
     });
     setChapters([
@@ -123,7 +139,30 @@ const getAllCardsByModuleSlugName=async()=>{
     const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapter._id}&cardId=${cardData._id}`;
     FlowRouter.go(url);
   };
+ 
+  const deleteChapter = (chapterId)=>{
+    
+  }
+  const onUpdateChapter = async()=>{
+    const newState = allChapters.map(obj =>
+      obj._id === selectedChapter._id ?selectedChapter : obj
+  );
+  const updatechapterName =  await Request({
+    action: 'updateChapter',
+    body: selectedChapter ,
+  });
+  const update = await Request({
+    action: 'updateChapterInModules',
+    body: { slug: moduleSlugName, chapter: selectedChapter },
+  });
+    setChapters(newState);
+    onCloseEditPopup()
+  }
 
+  console.log({
+    selectedChapter,
+    allChapters
+  })
   return (
     <>
       <FlexBox
@@ -173,6 +212,22 @@ const getAllCardsByModuleSlugName=async()=>{
           <div key={i}>
             <ListItem key={chapter._id} {...chapter} onCardClick={(cardData) => onCardClick(cardData, chapter)} />
 
+<div>
+<button
+              className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+              id={chapter._id}
+              onClick={() => { openEditPopup(chapter); }}
+            >
+              Edit
+            </button>
+            <button
+              className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+              id={chapter._id}
+              onClick={() => { deleteChapter(chapter._id); }}
+            >
+              Delete
+            </button>
+</div>
             {isTeamRole && (
             <button
               className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
@@ -200,6 +255,22 @@ const getAllCardsByModuleSlugName=async()=>{
             label="Name"
           />
           <Button onClick={onSubmit}>Add</Button>
+        </ClosePopup>
+
+        {/* chapter updated popup */}
+
+        <ClosePopup
+          open={editPopupOpen}
+          onClose={onCloseEditPopup}
+          title="Update chapter"
+        >
+          <TextField
+            style={{ marginBottom: 20 }}
+            onChange={onChapterChange}
+            label="Name"
+            value={selectedChapter.name}
+          />
+          <Button onClick={onUpdateChapter}>Update</Button>
         </ClosePopup>
       </div>
     </>
