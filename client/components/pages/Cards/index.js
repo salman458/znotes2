@@ -42,6 +42,7 @@ const Cards = ({
   const isTeamRole = usePermission() === USER_PERMISSIONS.editor;
 
   const setInitailSlide = cards => {
+
     setTimeout(() => {
       let slideIndex = cards.findIndex(val => val._id == currentCardId);
       if (slideIndex == -1) {
@@ -68,7 +69,7 @@ const Cards = ({
   };
 
   const getAllCardsByModuleSlugName = async () => {
-    setLoading(true);
+    
 
     const cardData = await Request({
       action: "getAllCardsByModuleSlugName",
@@ -93,7 +94,7 @@ const Cards = ({
 
     setCards(cardsResult);
     setInitailSlide(cardsResult);
-    setLoading(false);
+    
   };
 
   useEffect(
