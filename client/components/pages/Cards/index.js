@@ -55,7 +55,7 @@ const Cards = ({
   const onNext = () => {
     slider.current.slickNext();
   };
-  const adIterator = 10;
+  const adIterator = 5;
 
   const getSubjectBySlug = async () => {
     const subjectData = await Request({
