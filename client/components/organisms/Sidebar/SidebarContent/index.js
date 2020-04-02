@@ -170,10 +170,7 @@ const getAllCardsByModuleSlugName=async()=>{
     onCloseEditPopup()
   }
 
-  console.log({
-    selectedChapter,
-    allChapters
-  })
+
   return (
     <>
       <FlexBox
