@@ -310,3 +310,27 @@ FlowRouter.route('/admin/:offset/:limit', {
     });
   },
 });
+
+FlowRouter.route('/data', {
+  name: 'Data',
+  action(params) {
+    document.title = 'ZNotes | Admin';
+    mount(App, {
+      content: ()=>{
+        FlowRouter.go("/privacy")
+      },
+    });
+  },
+});
+FlowRouter.route('/cookies', {
+  name: 'Cookies',
+  action(params) {
+    document.title = 'ZNotes | Admin';
+    mount(App, {
+      content: ()=>{
+        FlowRouter.go("/privacy")
+      },
+    });
+  },
+});
+
