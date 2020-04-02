@@ -140,13 +140,21 @@ const getAllCardsByModuleSlugName=async()=>{
     FlowRouter.go(url);
   };
  
-  const deleteChapter = (chapterId)=>{
-    
+  const deleteChapter = async(chapter)=>{
+   
+    const deleteChapter =  await Request({
+      action: 'deleteChapter',
+      body: chapter._id ,
+    });
+    const removeChapterRef =  await Request({
+      action: 'removeChapterRef',
+      body: chapter ,
+    });
+    const newState = allChapters.filter((item)=>item._id !==chapter._id)
+    setChapters(newState);
   }
   const onUpdateChapter = async()=>{
-    const newState = allChapters.map(obj =>
-      obj._id === selectedChapter._id ?selectedChapter : obj
-  );
+
   const updatechapterName =  await Request({
     action: 'updateChapter',
     body: selectedChapter ,
@@ -155,6 +163,9 @@ const getAllCardsByModuleSlugName=async()=>{
     action: 'updateChapterInModules',
     body: { slug: moduleSlugName, chapter: selectedChapter },
   });
+  const newState = allChapters.map(obj =>
+    obj._id === selectedChapter._id ?selectedChapter : obj
+);
     setChapters(newState);
     onCloseEditPopup()
   }
@@ -223,7 +234,7 @@ const getAllCardsByModuleSlugName=async()=>{
             <button
               className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
               id={chapter._id}
-              onClick={() => { deleteChapter(chapter._id); }}
+              onClick={() => { deleteChapter(chapter); }}
             >
               Delete
             </button>

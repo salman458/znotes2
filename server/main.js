@@ -471,7 +471,6 @@ Meteor.methods({
   },
 
   updateChapter(chapter) {
-    console.log(chapter, "chapter");
     return chapters.update(
       { _id: chapter._id },
       {
@@ -491,7 +490,6 @@ Meteor.methods({
       ],
       "chapters._id": obj.chapter._id
     });
-    console.log(records, "records");
     if (records) {
       return modules.update(
         { "chapters._id": obj.chapter._id },
@@ -818,6 +816,16 @@ Meteor.methods({
   },
   deleteCard(id) {
     return cards.remove({ _id: id });
+  },
+  deleteChapter(id) {
+    return chapters.remove({ _id: id });
+  },
+  removeChapterRef(chapter){
+ 
+    return modules.update(
+      { "chapters._id": chapter._id },
+      { $pull: { chapters: { _id: chapter._id } } }
+    );
   },
   removeCardRef(selector) {
     return chapters.update(
