@@ -142,11 +142,13 @@ const Cards = ({
 
   renderAd = () => {
     return (
-      <div>
+      <div id="ezoic-pub-ad-placeholder-101">
         <AdSense.Google
           client="ca-pub-6119346428517801"
           slot="6150940530"
-          style={{ display: "block" }}
+          style={{ display: 'block' }}
+          format='auto'
+          responsive='true'
         />
       </div>
     );
