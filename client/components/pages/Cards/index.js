@@ -18,6 +18,7 @@ import "./styles.scss";
 import AdSense from "react-adsense";
 import { usePermission } from "/client/contexts/permission";
 import { USER_PERMISSIONS } from "/client/utils";
+import { Loading, ConfirmationDialog } from "/client/components/molecules";
 const Cards = ({
   subjectId,
   moduleId,
@@ -32,6 +33,8 @@ const Cards = ({
   const [subject, setSubjectData] = useState({});
   const [cards, setCards] = useState([]);
   const slider = useRef(null);
+  const [isLoading, setLoading] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const urlParams = new URLSearchParams(window.location.search);
   const module = urlParams.get("moduleId");
   const subj = urlParams.get("subjectId");
@@ -114,8 +117,8 @@ const Cards = ({
     FlowRouter.go(url);
   };
 
-  const deleteHandler = async event => {
-    const card = event.target.id;
+  const deleteHandler = async () => {
+    const card = currentCardId;
     const deleteCard = await Request({
       action: "deleteCard",
       body: card
@@ -146,16 +149,24 @@ const Cards = ({
         <AdSense.Google
           client="ca-pub-6119346428517801"
           slot="6150940530"
-          style={{ display: 'block' }}
-          format='auto'
-          responsive='true'
+          style={{ display: "block" }}
+          format="auto"
+          responsive="true"
         />
       </div>
     );
   };
 
+
+
   return (
     <PageContainer className="page_cards-container">
+      <Loading isLoading={isLoading} />
+      <ConfirmationDialog
+        onClose={() => setShowConfirmDialog(false)}
+        isShow={showConfirmDialog}
+        onSubmit={deleteHandler}
+      />
       <Title variant="h5">
         {subject.boardName}
         {subject.levelName}
@@ -206,7 +217,9 @@ const Cards = ({
                     <button
                       className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
                       id={_id}
-                      onClick={deleteHandler}
+                      onClick={() => {
+                        setCurrentCardId(_id)
+                        setShowConfirmDialog(true)}}
                     >
                       Delete
                     </button>
