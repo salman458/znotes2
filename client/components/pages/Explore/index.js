@@ -142,7 +142,7 @@ const Explore = ({ boardId, board, ...rest }) => {
   return (
     <PageContainer className="page_explore-container">
     <Loading
-      open={isLoading}
+      isLoading={isLoading}
     />
       <Title variant="h1" gutterBottom className={classes.title}>
         Explore the Subjects

@@ -56,7 +56,7 @@ const Cards = ({
   const onNext = () => {
     slider.current.slickNext();
   };
-  const adIterator = 10;
+  const adIterator = 5;
 
   const getSubjectBySlug = async () => {
     const subjectData = await Request({
@@ -68,6 +68,8 @@ const Cards = ({
   };
 
   const getAllCardsByModuleSlugName = async () => {
+    setLoading(true);
+
     const cardData = await Request({
       action: "getAllCardsByModuleSlugName",
       body: moduleSlugName
@@ -91,6 +93,7 @@ const Cards = ({
 
     setCards(cardsResult);
     setInitailSlide(cardsResult);
+    setLoading(false);
   };
 
   useEffect(
