@@ -102,7 +102,7 @@ const LandingActionCall = ({
     });
     switch (type) {
       case "board":
-        FlowRouter.go(`/${boardSlugName || id}`);
+        FlowRouter.go(`/explore/${boardSlugName || id}`);
         break;
       default:
         break;
