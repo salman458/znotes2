@@ -41,13 +41,11 @@ const Cards = ({
   const isTeamRole = usePermission() === USER_PERMISSIONS.editor;
 
   const setInitailSlide = cards => {
-    setTimeout(() => {
-      let slideIndex = cards.findIndex(val => val._id == currentCardId);
-      if (slideIndex == -1) {
-        slideIndex = 0;
-      }
-      slider.current.slickGoTo(slideIndex, true);
-    }, 150);
+    let slideIndex = cards.findIndex(val => val._id == currentCardId);
+    if (slideIndex == -1) {
+      slideIndex = 0;
+    }
+    slider.current.slickGoTo(slideIndex, true);
   };
   const onPrev = () => {
     slider.current.slickPrev();
@@ -67,7 +65,7 @@ const Cards = ({
   };
 
   const getAllCardsByModuleSlugName = async () => {
-    setLoading(true);
+    
 
     const cardData = await Request({
       action: "getAllCardsByModuleSlugName",
@@ -90,9 +88,10 @@ const Cards = ({
       }
     } else cardsResult = cardData;
 
-    setCards(cardsResult);
-    setInitailSlide(cardsResult);
-    setLoading(false);
+    setTimeout(() => {
+      setCards(cardsResult);
+      setInitailSlide(cardsResult);
+    }, 150); 
   };
 
   useEffect(
