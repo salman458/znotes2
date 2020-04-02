@@ -15,7 +15,9 @@ import {
 } from "/client/components/atoms";
 import { Next, Prev } from "/client/components/icons";
 import "./styles.scss";
-import AdSense from 'react-adsense';
+import AdSense from "react-adsense";
+import { usePermission } from "/client/contexts/permission";
+import { USER_PERMISSIONS } from "/client/utils";
 const Cards = ({
   subjectId,
   moduleId,
@@ -34,6 +36,8 @@ const Cards = ({
   const module = urlParams.get("moduleId");
   const subj = urlParams.get("subjectId");
 
+  const isTeamRole = usePermission() === USER_PERMISSIONS.editor;
+
   const setInitailSlide = cards => {
     setTimeout(() => {
       let slideIndex = cards.findIndex(val => val._id == currentCardId);
@@ -51,42 +55,40 @@ const Cards = ({
   };
   const adIterator = 10;
 
+  const getSubjectBySlug = async () => {
+    const subjectData = await Request({
+      action: "getSubjectBySlug",
+      body: subjectSlugName
+    });
 
-const getSubjectBySlug = async()=>{
-  const subjectData = await Request({
-    action: "getSubjectBySlug",
-    body: subjectSlugName
-  });
+    setSubjectData(subjectData);
+  };
 
-  setSubjectData(subjectData);
-}
+  const getAllCardsByModuleSlugName = async () => {
+    const cardData = await Request({
+      action: "getAllCardsByModuleSlugName",
+      body: moduleSlugName
+    });
+    let counter = 0;
+    let cardsResult = [];
 
-const getAllCardsByModuleSlugName= async()=>{
-        
-  const cardData = await Request({
-    action: "getAllCardsByModuleSlugName",
-    body: moduleSlugName
-  });
-  let counter = 0;
-  let cardsResult = [];
-  
-  if (cardData && cardData.length > adIterator) {
-    for (const item of cardData) {
-      cardsResult.push(item);
-      counter++;
-      if (counter == adIterator) {
-        cardsResult.push({
-          ...item,
-          isAd: true
-        });
-        counter = 0;
+    if (cardData && cardData.length > adIterator) {
+      for (const item of cardData) {
+        cardsResult.push(item);
+        counter++;
+        if (counter == adIterator) {
+          cardsResult.push({
+            ...item,
+            isAd: true
+          });
+          counter = 0;
+        }
       }
-    }
-  } else cardsResult = cardData;
+    } else cardsResult = cardData;
 
-  setCards(cardsResult);
-  setInitailSlide(cardsResult);
-}
+    setCards(cardsResult);
+    setInitailSlide(cardsResult);
+  };
 
   useEffect(
     () => {
@@ -140,11 +142,13 @@ const getAllCardsByModuleSlugName= async()=>{
 
   renderAd = () => {
     return (
-      <div>
+      <div id="ezoic-pub-ad-placeholder-101">
         <AdSense.Google
           client="ca-pub-6119346428517801"
           slot="6150940530"
-          style={{ display: "block"}}
+          style={{ display: 'block' }}
+          format='auto'
+          responsive='true'
         />
       </div>
     );
@@ -181,7 +185,7 @@ const getAllCardsByModuleSlugName= async()=>{
       >
         {cards.map(({ _id, content, isAd }, i) => {
           if (isAd) {
-            return renderAd()
+            return renderAd();
           } else {
             return (
               <div key={i}>
@@ -189,20 +193,24 @@ const getAllCardsByModuleSlugName= async()=>{
                   <ReactMarkdown escapeHtml={false} source={content} />
                   <MathJax />
                 </Paper>
-                <button
-                  className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
-                  id={_id}
-                  onClick={editHandler}
-                >
-                  Edit
-                </button>
-                <button
-                  className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
-                  id={_id}
-                  onClick={deleteHandler}
-                >
-                  Delete
-                </button>
+
+                {isTeamRole &&
+                  <div>
+                    <button
+                      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+                      id={_id}
+                      onClick={editHandler}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+                      id={_id}
+                      onClick={deleteHandler}
+                    >
+                      Delete
+                    </button>
+                  </div>}
               </div>
             );
           }

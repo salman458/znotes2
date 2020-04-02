@@ -5,6 +5,10 @@
 import * as SubjectIcons from '/client/components/icons/Subjects';
 
 const Subjects = {
+  arabic:{
+    color: '#6D82AC',
+    icon: SubjectIcons.Arabic,
+  },
   accounting: {
     color: '#6D82AB',
     icon: SubjectIcons.Accounting,
@@ -66,6 +70,10 @@ const Subjects = {
     icon: SubjectIcons.History,
   },
   ict: {
+    color: '#AC1354',
+    icon: SubjectIcons.ICT,
+  },
+  it: {
     color: '#AC1354',
     icon: SubjectIcons.ICT,
   },
