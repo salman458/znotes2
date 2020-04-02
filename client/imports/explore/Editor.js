@@ -140,9 +140,9 @@ class Editor extends Component {
             //   `/explore/chapters/module/${this.state.moduleId}/${this.state
             //     .subjectName}/${this.state.cardId}`,
             // );
-
-            const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
-            FlowRouter.go(url);
+            history.back();
+            // const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
+            // FlowRouter.go(url);
           }
         });
       } else {
@@ -161,8 +161,10 @@ class Editor extends Component {
                   if (err) {
                     console.log(err);
                   } else {
-                    const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
-                    FlowRouter.go(url);
+                    history.back();
+                    // const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
+                    // FlowRouter.go(url);
+
                     // FlowRouter.go(
                     //   `/explore/chapters/module/${this.state.moduleId}/${this
                     //     .state.subjectName}/${cardId}`,
@@ -178,7 +180,6 @@ class Editor extends Component {
   };
 
   render() {
-
     return (
       <div className="home-page1 -padding-20">
         <ConfirmationDialog
