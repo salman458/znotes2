@@ -9,9 +9,9 @@ import './styles.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import Loader from 'react-loader-spinner';
 
-const Loading = ({ open, onClose }) => (
+const Loading = ({ isLoading, onClose }) => (
   <Dialog
-    open={open}
+    open={isLoading}
     onClose={onClose}
       // className={className}
     aria-labelledby="molecule_close-popup-title"
@@ -26,11 +26,11 @@ const Loading = ({ open, onClose }) => (
 
 Loading.defaultProps = {
   onClose: () => {},
-  open: false,
+  isLoading: false,
 };
 
 Loading.propTypes = {
-  open: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

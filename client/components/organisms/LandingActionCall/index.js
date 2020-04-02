@@ -14,7 +14,6 @@ import {
 import { Search, ChevronRight } from "/client/components/icons";
 import { Request } from "/client/utils";
 import Suggestion from "./Suggestion";
-import { Loading } from "/client/components/molecules";
 import "./styles.scss";
 
 const useStyles = makeStyles(() => ({
@@ -32,11 +31,10 @@ const LandingActionCall = ({
 }) => {
   const classes = useStyles();
   const [keywords, setKeywords] = useState([]);
-  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleKeywords = async () => {
-      setLoading(true);
+  
       const standardKeywords = (await Request({ action: "getKeywords" })) || [];
       const subjects = (await Request({ action: "getSubjectKeywords" })) || [];
       const levels = (await Request({ action: "getLevelKeywords" })) || [];
@@ -47,7 +45,7 @@ const LandingActionCall = ({
         ...levels,
         ...boards
       ].filter(el => el != null);
-      setLoading(false);
+   
       setKeywords(allKeyWords);
     };
     handleKeywords();
@@ -162,7 +160,7 @@ const LandingActionCall = ({
 
   return (
     <FlexBox column justify align={align} className="organism_action-call-root">
-      <Loading open={isLoading} />
+  
       {!minimal &&
         <Image className="organism_action-call-logo" src="/img/logo.png" />}
       <Title

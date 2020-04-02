@@ -18,6 +18,7 @@ import "./styles.scss";
 import AdSense from "react-adsense";
 import { usePermission } from "/client/contexts/permission";
 import { USER_PERMISSIONS } from "/client/utils";
+import { Loading } from "/client/components/molecules";
 const Cards = ({
   subjectId,
   moduleId,
@@ -32,6 +33,7 @@ const Cards = ({
   const [subject, setSubjectData] = useState({});
   const [cards, setCards] = useState([]);
   const slider = useRef(null);
+  const [isLoading, setLoading] = useState(false);
   const urlParams = new URLSearchParams(window.location.search);
   const module = urlParams.get("moduleId");
   const subj = urlParams.get("subjectId");
@@ -65,6 +67,8 @@ const Cards = ({
   };
 
   const getAllCardsByModuleSlugName = async () => {
+    setLoading(true);
+
     const cardData = await Request({
       action: "getAllCardsByModuleSlugName",
       body: moduleSlugName
@@ -88,6 +92,7 @@ const Cards = ({
 
     setCards(cardsResult);
     setInitailSlide(cardsResult);
+    setLoading(false);
   };
 
   useEffect(
@@ -156,6 +161,9 @@ const Cards = ({
 
   return (
     <PageContainer className="page_cards-container">
+    <Loading
+      isLoading={isLoading}
+    />
       <Title variant="h5">
         {subject.boardName}
         {subject.levelName}
