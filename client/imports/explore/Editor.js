@@ -178,10 +178,7 @@ class Editor extends Component {
   };
 
   render() {
-    console.log({
-      props: this.props,
-      state: this.state
-    });
+
     return (
       <div className="home-page1 -padding-20">
         <ConfirmationDialog

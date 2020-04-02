@@ -30,7 +30,6 @@ const ConfirmationDialog = ({
     handleClose();
     onSubmit();
   };
-  console.log({ isShow, title, description, onSubmit });
   return (
     <div>
       <Dialog
