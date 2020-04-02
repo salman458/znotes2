@@ -60,21 +60,29 @@ const Cards = ({
   const adIterator = 5;
 
   const getSubjectBySlug = async () => {
+
+
     const subjectData = await Request({
       action: "getSubjectBySlug",
       body: subjectSlugName
     });
+
+    
 
     setSubjectData(subjectData);
   };
 
   const getAllCardsByModuleSlugName = async () => {
     
+    
 
     const cardData = await Request({
       action: "getAllCardsByModuleSlugName",
       body: moduleSlugName
     });
+
+    
+
     let counter = 0;
     let cardsResult = [];
 
@@ -165,7 +173,7 @@ const Cards = ({
 
   return (
     <PageContainer className="page_cards-container">
-      <Loading isLoading={isLoading} />
+      
       <ConfirmationDialog
         onClose={() => setShowConfirmDialog(false)}
         isShow={showConfirmDialog}
@@ -185,15 +193,22 @@ const Cards = ({
         slidesToScroll={1}
         initialSlide={2}
         beforeChange={async (current, next) => {
-          if (cards && cards.length && next !== -1) {
+          if (cards && cards.length && next !== -1 && !isLoading) {
+            setLoading(true);
+
             const cardID = cards[next]._id;
             setCurrentCardId(cardID);
+
             const chapterId = await Request({
               action: "getChapterByCard",
               body: cardID
             });
+
             const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardID}`;
+            
             FlowRouter.go(url);
+
+            setLoading(false);
           }
         }}
         // afterChange={current => {    }}
