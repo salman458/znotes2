@@ -119,6 +119,15 @@ const Cards = ({
     [currentCardId]
   );
 
+  useEffect(
+    () => {
+      if(cardId){
+        setCurrentCardId(cardId);
+      }
+    },
+    [cardId]
+  );
+
   const editHandler = async event => {
     const cardId = event.target.id;
     const chapterId = await Request({
