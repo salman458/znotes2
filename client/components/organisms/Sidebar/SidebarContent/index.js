@@ -16,6 +16,8 @@ import { ChevronLeft, Chapters } from '/client/components/icons';
 import Subjects from '/client/components/molecules/SubjectCard/subjectData';
 import ListItem from '../ListItem';
 import ClosePopup from '/client/components/molecules/ClosePopup';
+import  ConfirmationDialog from "/client/components/molecules/ConfirmationDialog";
+
 
 const SidebarContent = ({
   subject,
@@ -30,7 +32,6 @@ const SidebarContent = ({
   cardId,
   role,
 }) => {
-
   const isTeamRole = role === USER_PERMISSIONS.editor;
   const { color } = Subjects[subject.toLowerCase()] || {};
   const primaryColor = color || '#D82057';
@@ -39,6 +40,7 @@ const SidebarContent = ({
   const [editPopupOpen, setEditPopupOpen] = useState(false);
   const [allChapters, setChapters] = useState(chapters);
   const [selectedChapter, setSelectedChapter] = useState("");
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [name, setName] = useState('');
   const [cards, setCards] = useState([]);
   const urlParams = new URLSearchParams(window.location.search);
@@ -142,7 +144,7 @@ const getAllCardsByModuleSlugName=async()=>{
   };
  
   const deleteChapter = async(chapter)=>{
-   
+    
     const deleteChapter =  await Request({
       action: 'deleteChapter',
       body: chapter._id ,
@@ -180,6 +182,7 @@ const getAllCardsByModuleSlugName=async()=>{
         column
         className="organism_sidebar-top"
       >
+
         <Image
           className="organism_sidebar-logo"
           src="/img/logo.png"
@@ -221,7 +224,8 @@ const getAllCardsByModuleSlugName=async()=>{
           <div key={i}>
             <ListItem key={chapter._id} {...chapter} onCardClick={(cardData) => onCardClick(cardData, chapter)} />
             {isTeamRole && (
-<div>
+
+              <div>
 <button
               className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
               id={chapter._id}
@@ -232,11 +236,16 @@ const getAllCardsByModuleSlugName=async()=>{
             <button
               className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
               id={chapter._id}
-              onClick={() => { deleteChapter(chapter); }}
+              onClick={() => { 
+                setShowConfirmDialog(true)
+                setSelectedChapter({...chapter })
+                }}
             >
               Delete
             </button>
-</div>)}
+</div>
+            )}
+
             {isTeamRole && (
             <button
               className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
@@ -281,7 +290,15 @@ const getAllCardsByModuleSlugName=async()=>{
           />
           <Button onClick={onUpdateChapter}>Update</Button>
         </ClosePopup>
+        <ConfirmationDialog
+        onClose={() => setShowConfirmDialog(false)}
+        isShow={showConfirmDialog}
+        onSubmit={()=>{deleteChapter(selectedChapter)}}
+      />
+
+
       </div>
+
     </>
   );
 };
