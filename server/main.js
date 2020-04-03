@@ -270,10 +270,12 @@ Meteor.methods({
     });
     const flatCards = moduleData.chapters.reduce((acc, { _id: chapterId }) => {
       const chapterData = chapters.findOne({ _id: chapterId });
-      const chapterCards = chapterData.cards.map(({ _id: cardId }) => {
-        const data = cards.findOne({ _id: cardId });
-        return data;
-      });
+      const chapterCards = chapterData.cards
+        .map(({ _id: cardId }) => {
+          const data = cards.findOne({ _id: cardId });
+          return data;
+        })
+        .filter(v => v != null);
       return [...acc, ...chapterCards];
     }, []);
     return flatCards;
@@ -311,7 +313,7 @@ Meteor.methods({
         const chapterCards = chapterData.cards.map(({ _id: cardId }) => {
           const data = cards.findOne({ _id: cardId });
           return data;
-        });
+        }).filter(v => v != null);
         return {
           ...rest,
           ...chapterData,
@@ -820,8 +822,7 @@ Meteor.methods({
   deleteChapter(id) {
     return chapters.remove({ _id: id });
   },
-  removeChapterRef(chapter){
- 
+  removeChapterRef(chapter) {
     return modules.update(
       { "chapters._id": chapter._id },
       { $pull: { chapters: { _id: chapter._id } } }
