@@ -9,7 +9,8 @@ import {
   Title,
   Image,
   FlexBox,
-  Autosuggest
+  Autosuggest,
+  Spinner
 } from "/client/components/atoms";
 import { Search, ChevronRight } from "/client/components/icons";
 import { Request } from "/client/utils";
@@ -31,10 +32,10 @@ const LandingActionCall = ({
 }) => {
   const classes = useStyles();
   const [keywords, setKeywords] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleKeywords = async () => {
-  
       const standardKeywords = (await Request({ action: "getKeywords" })) || [];
       const subjects = (await Request({ action: "getSubjectKeywords" })) || [];
       const levels = (await Request({ action: "getLevelKeywords" })) || [];
@@ -45,7 +46,7 @@ const LandingActionCall = ({
         ...levels,
         ...boards
       ].filter(el => el != null);
-   
+
       setKeywords(allKeyWords);
     };
     handleKeywords();
@@ -89,6 +90,11 @@ const LandingActionCall = ({
   };
 
   const onChange = (_, { newValue: currentValue }) => {
+    if (currentValue && !keywords.length) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
     setValue(currentValue);
   };
 
@@ -160,7 +166,6 @@ const LandingActionCall = ({
 
   return (
     <FlexBox column justify align={align} className="organism_action-call-root">
-  
       {!minimal &&
         <Image className="organism_action-call-logo" src="/img/logo.png" />}
       <Title
@@ -182,7 +187,9 @@ const LandingActionCall = ({
           page to see whole content.
         </Text>}
       <FlexBox justify align fullWidth className="organism_landing-autosuggest">
-        <Search className="organism_landing-autosuggest-icon left" />
+       
+      <Search className="organism_landing-autosuggest-icon left" />
+       
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -197,6 +204,7 @@ const LandingActionCall = ({
             placeholder: "What do you want to revise?"
           }}
         />
+        <Spinner className="spinner" isLoading={isLoading} />
         <ChevronRight
           onClick={onSearch}
           className="organism_landing-autosuggest-icon right"
