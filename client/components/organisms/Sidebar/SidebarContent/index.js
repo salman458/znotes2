@@ -30,8 +30,9 @@ const SidebarContent = ({
   cardId,
   role,
 }) => {
+
   const isTeamRole = role === USER_PERMISSIONS.editor;
-  const { color } = Subjects[subject] || {};
+  const { color } = Subjects[subject.toLowerCase()] || {};
   const primaryColor = color || '#D82057';
   const secondaryColor = lighten(primaryColor, 0.5);
   const [open, setOpen] = useState(false);
@@ -71,7 +72,7 @@ const getAllCardsByModuleSlugName=async()=>{
         cardIndex = 0;
       }
       const value = ((cardIndex + 1) / totalCards) * 100;
-      return value.toFixed(2);
+      return value.toFixed(0);
     } return 0;
   };
   
