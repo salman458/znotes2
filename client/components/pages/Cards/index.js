@@ -37,6 +37,7 @@ const Cards = ({
   const [cards, setCards] = useState([]);
   const slider = useRef(null);
   const [isLoading, setLoading] = useState(false);
+  const [showLoading, setShowLoading] = useState(false)
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const urlParams = new URLSearchParams(window.location.search);
   const module = urlParams.get("moduleId");
@@ -73,6 +74,7 @@ const Cards = ({
   };
 
   const getAllCardsByModuleSlugName = async () => {
+    setShowLoading(true)
     const cardData = await Request({
       action: "getAllCardsByModuleSlugName",
       body: moduleSlugName
@@ -97,6 +99,7 @@ const Cards = ({
 
     setCards(cardsResult);
     setInitailSlide(cardsResult);
+    setShowLoading(false)
   };
 
   useEffect(
@@ -179,6 +182,7 @@ const Cards = ({
         isShow={showConfirmDialog}
         onSubmit={deleteHandler}
       />
+      <Loading isLoading={showLoading}/>
       <Title variant="h5">
         {subject.boardName} {subject.levelName}
       </Title>
@@ -194,7 +198,6 @@ const Cards = ({
         beforeChange={async (current, next) => {
           if (cards && cards.length && next !== -1 && !isLoading) {
             setLoading(true);
-
             const cardID = cards[next]._id;
             setCurrentCardId(cardID);
 
