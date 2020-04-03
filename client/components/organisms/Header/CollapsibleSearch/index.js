@@ -11,9 +11,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     marginRight: 10,
-    backgroundColor: fade(theme.palette.common.black, 0.15),
+    backgroundColor: fade("#383838", 1),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.black, 0.25),
+      backgroundColor: fade("#383838", 1),
     },
     marginLeft: 0,
     width: '100%',
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'inherit',
   },
   inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
+    padding: theme.spacing(1, 1, 1, 6),
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
