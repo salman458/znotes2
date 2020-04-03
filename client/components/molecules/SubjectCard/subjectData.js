@@ -105,6 +105,10 @@ const Subjects = {
     color: '#FFAD71',
     icon: SubjectIcons.Spanish,
   },
+  french:{
+    color: "#AC1354",
+    icon :SubjectIcons.French
+  }
 };
 
 export default Subjects;
