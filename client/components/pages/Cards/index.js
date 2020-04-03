@@ -19,6 +19,9 @@ import AdSense from "react-adsense";
 import { usePermission } from "/client/contexts/permission";
 import { USER_PERMISSIONS } from "/client/utils";
 import { Loading, ConfirmationDialog } from "/client/components/molecules";
+import Subjects from "/client/components/molecules/SubjectCard/subjectData";
+import _ from "lodash";
+
 const Cards = ({
   subjectId,
   moduleId,
@@ -38,11 +41,12 @@ const Cards = ({
   const urlParams = new URLSearchParams(window.location.search);
   const module = urlParams.get("moduleId");
   const subj = urlParams.get("subjectId");
-
+  const { color } =
+    Subjects[!_.isEmpty(subject) ? subject.name.toLowerCase() : ""] || {};
+  const primaryColor = color || "#D82057";
   const isTeamRole = usePermission() === USER_PERMISSIONS.editor;
 
   const setInitailSlide = cards => {
-
     setTimeout(() => {
       let slideIndex = cards.findIndex(val => val._id == currentCardId);
       if (slideIndex == -1) {
@@ -60,28 +64,19 @@ const Cards = ({
   const adIterator = 5;
 
   const getSubjectBySlug = async () => {
-
-
     const subjectData = await Request({
       action: "getSubjectBySlug",
       body: subjectSlugName
     });
 
-    
-
     setSubjectData(subjectData);
   };
 
   const getAllCardsByModuleSlugName = async () => {
-    
-    
-
     const cardData = await Request({
       action: "getAllCardsByModuleSlugName",
       body: moduleSlugName
     });
-
-    
 
     let counter = 0;
     let cardsResult = [];
@@ -102,7 +97,6 @@ const Cards = ({
 
     setCards(cardsResult);
     setInitailSlide(cardsResult);
-    
   };
 
   useEffect(
@@ -121,7 +115,7 @@ const Cards = ({
 
   useEffect(
     () => {
-      if(cardId){
+      if (cardId) {
         setCurrentCardId(cardId);
       }
     },
@@ -178,21 +172,17 @@ const Cards = ({
     );
   };
 
-
-
   return (
     <PageContainer className="page_cards-container">
-      
       <ConfirmationDialog
         onClose={() => setShowConfirmDialog(false)}
         isShow={showConfirmDialog}
         onSubmit={deleteHandler}
       />
       <Title variant="h5">
-        {subject.boardName}
-        {subject.levelName}
+        {subject.boardName} {subject.levelName}
       </Title>
-      <Title variant="h3">
+      <Title style={{ color: primaryColor }} variant="h3">
         {subject.name}
       </Title>
       <Slider
@@ -214,7 +204,7 @@ const Cards = ({
             });
 
             const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardID}`;
-            
+
             FlowRouter.go(url);
 
             setLoading(false);
@@ -246,8 +236,9 @@ const Cards = ({
                       className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
                       id={_id}
                       onClick={() => {
-                        setCurrentCardId(_id)
-                        setShowConfirmDialog(true)}}
+                        setCurrentCardId(_id);
+                        setShowConfirmDialog(true);
+                      }}
                     >
                       Delete
                     </button>
