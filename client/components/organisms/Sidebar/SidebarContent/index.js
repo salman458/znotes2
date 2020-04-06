@@ -17,6 +17,7 @@ import Subjects from '/client/components/molecules/SubjectCard/subjectData';
 import ListItem from '../ListItem';
 import ClosePopup from '/client/components/molecules/ClosePopup';
 import  ConfirmationDialog from "/client/components/molecules/ConfirmationDialog";
+import { SanitizeName } from '/client/utils';
 
 
 const SidebarContent = ({
@@ -33,7 +34,8 @@ const SidebarContent = ({
   role,
 }) => {
   const isTeamRole = role === USER_PERMISSIONS.editor;
-  const { color } = Subjects[subject.toLowerCase()] || {};
+  const sanitizedSubjectName = SanitizeName(subject);
+  const { color } = Subjects[sanitizedSubjectName] || {};
   const primaryColor = color || '#D82057';
   const secondaryColor = lighten(primaryColor, 0.5);
   const [open, setOpen] = useState(false);

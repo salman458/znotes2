@@ -6,7 +6,7 @@ import * as SubjectIcons from '/client/components/icons/Subjects';
 
 const Subjects = {
   arabic:{
-    color: '#6D82AC',
+    color: '#776DAB',
     icon: SubjectIcons.Arabic,
   },
   accounting: {
@@ -102,11 +102,11 @@ const Subjects = {
     icon: SubjectIcons.SAT,
   },
   spanish: {
-    color: '#FFAD71',
+    color: '#570748',
     icon: SubjectIcons.Spanish,
   },
   french:{
-    color: "#AC1354",
+    color: "#839098",
     icon :SubjectIcons.French
   }
 };
