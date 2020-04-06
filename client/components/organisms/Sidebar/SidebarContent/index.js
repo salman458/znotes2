@@ -10,6 +10,7 @@ import {
   ProgressBar,
   Button,
   TextField,
+  Link
 } from '/client/components/atoms';
 import { Request, USER_PERMISSIONS } from '/client/utils';
 import { ChevronLeft, Chapters } from '/client/components/icons';
@@ -184,11 +185,13 @@ const getAllCardsByModuleSlugName=async()=>{
         column
         className="organism_sidebar-top"
       >
+        <Link to="/">
+            <Image
+              className="organism_sidebar-logo"
+              src="/img/logo.png"
+            />
+        </Link>
 
-        <Image
-          className="organism_sidebar-logo"
-          src="/img/logo.png"
-        />
         <FlexBox
           align
           fullWidth
