@@ -226,14 +226,14 @@ const Cards = ({
                 {isTeamRole &&
                   <div>
                     <button
-                      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+                      className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
                       id={_id}
                       onClick={editHandler}
                     >
                       Edit
                     </button>
                     <button
-                      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+                      className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
                       id={_id}
                       onClick={() => {
                         setCurrentCardId(_id);

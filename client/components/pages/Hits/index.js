@@ -35,7 +35,7 @@ const Hits = ({ progress }) => {
         fullWidth
       >
         <Title
-          variant="h3"
+          variant="h1"
           style={{
             transform: `translate3d(0, calc(-25vh + 20vh * ${progress}), 0)`,
           }}
@@ -61,7 +61,7 @@ const Hits = ({ progress }) => {
           numbers="150000"
         />
         <Title
-          variant="h3"
+          variant="h1"
           style={{
             transform: `translate3d(0, calc(25vh - 20vh * ${progress}), 0)`,
           }}

@@ -40,15 +40,21 @@ const Footer = ({
         </Text>
       </FlexBox>
       <FlexBox align className={classes.footerMeta}>
-        <Link to="/terms">Terms</Link>
+        <Link to="/terms">Terms of Use</Link>
         <Text className={classes.preserveSpace}>
           {'   '}
             |
           {'   '}
         </Text>
-        <Link to="/privacy">Privacy</Link>
+        <Link to="/privacy">Privacy Policy</Link>
+        <Text className={classes.preserveSpace}>
+          {'   '}
+            |
+          {'   '}
+        </Text>
+        <Link to="#">Contact Us</Link>
       </FlexBox>
-      <Text className={classes.footerMeta}>© 2020 ZNotes, Inc.</Text>
+      <Text className={classes.footerMeta}>© ZNotes Education Limited, 2020</Text>
     </FlexBox>
   );
 };

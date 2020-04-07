@@ -9,9 +9,9 @@ import { Request } from '/client/utils';
 const useStyles = makeStyles((theme) => ({
   search: {
     position: 'relative',
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: 40,
     marginRight: 10,
-    backgroundColor: fade("#383838", 1),
+    backgroundColor: "transparent",
     '&:hover': {
       backgroundColor: fade("#383838", 1),
     },
@@ -39,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
       width: 0,
       '&:focus': {
         width: 200,
+        border: "1px solid #383838",
+        borderRadius: 100,
       },
     },
   },

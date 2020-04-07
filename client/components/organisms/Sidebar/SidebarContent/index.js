@@ -227,14 +227,14 @@ const getAllCardsByModuleSlugName=async()=>{
 
               <div>
 <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+              className="Sbar-config MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
               id={chapter._id}
               onClick={() => { openEditPopup(chapter); }}
             >
               Edit
             </button>
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+              className="Sbar-config MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
               id={chapter._id}
               onClick={() => { 
                 setShowConfirmDialog(true)
@@ -248,7 +248,7 @@ const getAllCardsByModuleSlugName=async()=>{
 
             {isTeamRole && (
             <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+              className="Ch-btns MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
               id={chapter._id}
               onClick={() => { addCard(chapter._id); }}
             >
