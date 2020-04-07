@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import Switch from "react-switch";
 import "./styles.scss";
+import { managementTeam } from "./data";
 
 class Team extends Component {
   constructor(props) {
@@ -12,7 +13,6 @@ class Team extends Component {
       checked: false,
       contributor: true
     };
-
   }
 
   componentDidMount() {
@@ -27,8 +27,6 @@ class Team extends Component {
     //   }
     // });
   }
-
-
 
   renderButtons = () => {
     return (
@@ -514,235 +512,42 @@ class Team extends Component {
         data-aos-delay="600"
         data-aos-duration="500"
       >
-        <div className="team-p">
-          <div className="profile-pic">
-            <img src="https://firebasestorage.googleapis.com/v0/b/znotes-b36a6.appspot.com/o/zubair.jpg?alt=media&amp;token=a9614478-3161-4a42-bcc1-82c09e3cdfee" />
-          </div>
-          <div className="info-p-wrap">
-            <div className="n-title">Zubair Junjunia</div>
-            <div className="r-title">Founder &amp; CEO</div>
-            <div className="r-desc">
-              Studying Mathematics at University College London, educationalist,
-              long distance runner, figure &amp; inline skater, avid reader and
-              amateur graphics designer.
+        {managementTeam.map(member => {
+          const { image, name, title, desc, linkedIn, gmail } = member;
+          return (
+            <div className="team-p">
+              <div className="profile-pic">
+                <img src={image} />
+              </div>
+              <div className="info-p-wrap">
+                <div className="n-title">
+                  {name}
+                </div>
+                <div className="r-title">
+                  {title}
+                </div>
+                <div className="r-desc">
+                  {desc}
+                </div>
+                <br />
+                <div className="social-ta">
+                  <a href={linkedIn}>
+                    <i
+                      className="fab fa-linkedin fa-3x"
+                      style={{ color: "white" }}
+                    />
+                  </a>
+                  <a href={gmail}>
+                    <i
+                      className="fas fa-envelope fa-3x"
+                      style={{ color: "white" }}
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
-            <br />
-            <div className="social-ta">
-              <a href="https://www.linkedin.com/in/zjunjunia/">
-                <i
-                  className="fab fa-linkedin fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-              <a href="mailto:zubair.junjunia@gmail.com">
-                <i
-                  className="fas fa-envelope fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="team-p">
-          <div className="profile-pic">
-            <img src="https://firebasestorage.googleapis.com/v0/b/znotes-b36a6.appspot.com/o/adarsh.jpg?alt=media&amp;token=e6f613af-2a06-4c14-8c64-f7244569ee0f" />
-          </div>
-          <div className="info-p-wrap">
-            <div className="n-title">Adarsh SR Nalamalapu</div>
-            <div className="r-title">Team Lead</div>
-            <div className="r-desc">
-              Studying A Levels at CLC (Cambridge Leadership College). Don't
-              know about the rest of myself, still trying to figure that out!
-            </div>
-            <br />
-            <div className="social-ta">
-              <a href="www.linkedin.com/in/analamalapu">
-                <i
-                  className="fab fa-linkedin fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-              <a href="mailto:adarsh.nalamalapu@gmail.com">
-                <i
-                  className="fas fa-envelope fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="team-p">
-          <div className="profile-pic">
-            <img src="https://firebasestorage.googleapis.com/v0/b/znotes-b36a6.appspot.com/o/anand.jpg?alt=media&amp;token=3a6d4929-515c-4f2f-8485-9c01ba05da05" />
-          </div>
-          <div className="info-p-wrap">
-            <div className="n-title">Anand Sankar 黒椿</div>
-            <div className="r-title">Design Lead</div>
-            <div className="r-desc">
-              Studying Computer Engineering at UMass Dartmouth. Artist. Robotics
-              and Comicbook enthusiast. Also likes to dramatically pose with
-              oranges.
-            </div>
-            <br />
-            <div className="social-ta">
-              <a href="https://www.linkedin.com/in/notkuro/">
-                <i
-                  className="fab fa-linkedin fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-              <a href="mailto:purrplelynx@gmail.com">
-                <i
-                  className="fas fa-envelope fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="team-p">
-          <div className="profile-pic">
-            <img src="https://firebasestorage.googleapis.com/v0/b/znotes-b36a6.appspot.com/o/krish.jpg?alt=media&amp;token=539149ed-1ff7-4eb2-84dc-d6e59459bded" />
-          </div>
-          <div className="info-p-wrap">
-            <div className="n-title">Krish Theobald</div>
-            <div className="r-title">ZClass &amp; Content Manager</div>
-            <div className="r-desc">
-              Vegan for life! Break-fixer, rubix-cuber. Love Minecraft and Home
-              Design!
-            </div>
-            <br />
-            <div className="social-ta">
-              <a href="https://www.linkedin.com/in/krish-theobald-37536616a/">
-                <i
-                  className="fab fa-linkedin fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-              <a href="mailto:krishtheobald@gmail.com">
-                <i
-                  className="fas fa-envelope fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="team-p">
-          <div className="profile-pic">
-            <img src="https://firebasestorage.googleapis.com/v0/b/znotes-b36a6.appspot.com/o/karthik.jpg?alt=media&amp;token=3bb2080d-926d-4e6b-a2b4-b856cc1a853d" />
-          </div>
-          <div className="info-p-wrap">
-            <div className="n-title">Karthikeyan Arumugam</div>
-            <div className="r-title">Tech Lead</div>
-            <div className="r-desc">
-              Studying Computer Science at the University of Leeds. Self-taught
-              full stack developer, avid reader, petrolhead, foodie.
-            </div>
-            <br />
-            <div className="social-ta">
-              <a href="https://www.linkedin.com/in/karthikeyan-arumugam-2b6b13142/">
-                <i
-                  className="fab fa-linkedin fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-              <a href="mailto:kamtechie@gmail.com">
-                <i
-                  className="fas fa-envelope fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="team-p">
-          <div className="profile-pic">
-            <img src="https://firebasestorage.googleapis.com/v0/b/znotes-b36a6.appspot.com/o/alisha.jpg?alt=media&amp;token=8cd7f58c-e7d9-46f5-8090-ddea94929506" />
-          </div>
-          <div className="info-p-wrap">
-            <div className="n-title">Alisha Saiyed</div>
-            <div className="r-title">Social Media Manager</div>
-            <div className="r-desc">
-              Computer Science and Maths Tutor, studying at Northern Virginia
-              Community College, social and growth hacker, front-end developer,
-              shameless dancer, and comedy lover.
-            </div>
-            <br />
-            <div className="social-ta">
-              <a href="https://www.linkedin.com/in/alishasaiyed/">
-                <i
-                  className="fab fa-linkedin fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-              <a href="mailto:alishaproductions27@gmail.com">
-                <i
-                  className="fas fa-envelope fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="team-p">
-          <div className="profile-pic">
-            <img src="https://firebasestorage.googleapis.com/v0/b/znotes-b36a6.appspot.com/o/pugaz.jpg?alt=media&amp;token=e760c77b-cbdc-45fd-9b74-6330bca01cd7" />
-          </div>
-          <div className="info-p-wrap">
-            <div className="n-title">Pugazharasu</div>
-            <div className="r-title">Content Developer</div>
-            <div className="r-desc">
-              Studying Physics at Loyola college, Chennai, musician, coder, web
-              designer, avid reader, personal development enthusiast, movie
-              &amp; comic book lover.
-            </div>
-            <br />
-            <div className="social-ta">
-              <a href="https://www.linkedin.com/in/pugazh-a-418a87100/">
-                <i
-                  className="fab fa-linkedin fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-              <a href="mailto:pugazhin202@gmail.com">
-                <i
-                  className="fas fa-envelope fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="team-p">
-          <div className="profile-pic">
-            <img src="https://firebasestorage.googleapis.com/v0/b/znotes-b36a6.appspot.com/o/simrah.jpg?alt=media&amp;token=c4482c18-cf27-4ebb-bcc3-06d91d110815" />
-          </div>
-          <div className="info-p-wrap">
-            <div className="n-title">Simrah Palla</div>
-            <div className="r-title">Business Development Manager</div>
-            <div className="r-desc">
-              Studying Business Management at Kings College London, social
-              entrepreneur, educationalist, passionate about food and
-              travelling.
-            </div>
-            <br />
-            <div className="social-ta">
-              <a href="https://www.linkedin.com/in/simrah-palla-9bba6a180/">
-                <i
-                  className="fab fa-linkedin fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-              <a href="mailto:simrahpalla@gmail.com">
-                <i
-                  className="fas fa-envelope fa-3x"
-                  style={{ color: "white" }}
-                />
-              </a>
-            </div>
-          </div>
-        </div>
+          );
+        })}
       </div>
     );
   };
@@ -756,7 +561,6 @@ class Team extends Component {
             : this.renderManagementTeam()}
         </div>
         {this.renderFooter()}
-
       </div>
     );
   };
@@ -787,7 +591,6 @@ class Team extends Component {
     return (
       <div>
         {this.renderBody()}
-   
       </div>
     );
   }
