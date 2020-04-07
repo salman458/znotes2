@@ -13,7 +13,7 @@ import Hits from '../Hits';
 import Dashboard from '../Dashboard';
 
 import './styles.scss';
-
+import CookieConsent from "react-cookie-consent";
 const content = [
   Landing,
   Hits,
@@ -36,12 +36,41 @@ const theme = {
   strokeWidth: '2px',
 };
 
+renderCookiesComponent = ()=>{
+  return (
+    <CookieConsent   
+     location="bottom"
+      buttonText="Sure!!"
+      cookieName="zNotesCookies"
+      style={{ background: "#383838" }}
+      buttonStyle={{ color: "#FFFFFF", fontSize: "13px",backgroundColor:"#DA1D56" }}
+      expires={365} 
+      debug={true}
+      //  acceptOnScroll={true}
+      onAccept={({ acceptedByScrolling }) => {
+        // if (acceptedByScrolling) {
+        //     // triggered if user scrolls past threshold
+        //     alert("Accept was triggered by user scrolling");
+        // } else {
+        //     alert("Accept was triggered by clicking the Accept button");
+        // }
+        }}
+      // enableDeclineButton
+      // onDecline={() => {alert("nay!")}}
+    
+    >
+       This website uses cookies to enhance the user experience
+    </CookieConsent>
+  )
+}
+
 const Home = ({ setOpaque }) => {
   if (Meteor.userId()) {
     document.title = 'ZNotes | Dashboard';
     return (
       <PermissionProvider>
         <Dashboard />
+        {renderCookiesComponent()}
       </PermissionProvider>
     );
   }
@@ -57,6 +86,7 @@ const Home = ({ setOpaque }) => {
             <Inner theme={theme} withPagers="right">
               <Page progress={progress} />
               <Pagers position="right" useContext />
+              {renderCookiesComponent()}
             </Inner>
           );
         }}

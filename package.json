@@ -37,6 +37,7 @@
     "react-collapsible": "^2.6.0",
     "react-confirm": "^0.1.18",
     "react-confirm-alert": "^2.4.1",
+    "react-cookie-consent": "^3.0.0",
     "react-dom": "^16.9.0",
     "react-dropdown-select": "^3.5.0",
     "react-expand-collapse": "^0.2.0",
