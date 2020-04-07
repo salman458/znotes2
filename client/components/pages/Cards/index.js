@@ -43,6 +43,7 @@ const Cards = ({
   const urlParams = new URLSearchParams(window.location.search);
   const module = urlParams.get("moduleId");
   const subj = urlParams.get("subjectId");
+  const [slideIndex, setSlideIndex] = useState(-1);
 
   const { color } =
     Subjects[!_.isEmpty(subject) ? SanitizeName(subject.name) : ""] || {};
@@ -55,6 +56,7 @@ const Cards = ({
       if (slideIndex == -1) {
         slideIndex = 0;
       }
+      setSlideIndex(slideIndex);
       slider.current.slickGoTo(slideIndex, true);
     }, 150);
   };
@@ -76,7 +78,9 @@ const Cards = ({
   };
 
   const getAllCardsByModuleSlugName = async () => {
-    setShowLoading(true);
+    if (slideIndex == -1) {
+      setShowLoading(true);
+    }
     const cardData = await Request({
       action: "getAllCardsByModuleSlugName",
       body: moduleSlugName
@@ -110,7 +114,7 @@ const Cards = ({
     },
     [currentCardId]
   );
-
+  
   useEffect(() => {
     document.addEventListener("keydown", onKeyPressed);
     return () => {
