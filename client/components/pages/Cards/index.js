@@ -111,6 +111,25 @@ const Cards = ({
     [currentCardId]
   );
 
+  useEffect(() => {
+    document.addEventListener("keydown", onKeyPressed);
+    return () => {
+      {
+        document.removeEventListener("keydown", onKeyPressed);
+      }
+    };
+  }, []);
+
+  const onKeyPressed = event => {
+    const { key } = event;
+    if (key == " " || key == "ArrowUp") {
+      onNext();
+    }
+    if (key == "ArrowDown") {
+      onPrev();
+    }
+  };
+
   useEffect(
     () => {
       getAllCardsByModuleSlugName();
