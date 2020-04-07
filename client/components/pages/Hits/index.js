@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import FlipNumbers from 'react-flip-numbers';
+import { HelperScroll } from '/client/components/molecules';
 
 import {
   Highlighted,
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Hits = ({ progress }) => {
+const Hits = ({ progress,onDownPress}) => {
   const classes = useStyles();
   return (
     <div
@@ -69,6 +70,8 @@ const Hits = ({ progress }) => {
         total hits
         </Title>
         <Image src="/img/map.svg" className={clsx('page_hits-background-svg', progress > 0.3 && 'animate')} />
+     
+        <HelperScroll onDownPress={onDownPress} />
       </FlexBox>
     </div>
   );

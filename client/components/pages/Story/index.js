@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { HelperScroll } from '/client/components/molecules';
 
 import {
   Highlighted,
@@ -8,7 +9,7 @@ import {
   Title,
 } from '/client/components/atoms';
 
-const Story = ({ progress }) => (
+const Story = ({ progress ,onDownPress}) => (
   <FlexBox
     align
     justify
@@ -57,6 +58,7 @@ const Story = ({ progress }) => (
         className="page_youtube-frame"
       />
     </FlexBox>
+    <HelperScroll onDownPress={onDownPress}/>
   </FlexBox>
 );
 

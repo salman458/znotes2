@@ -14,6 +14,8 @@ import {
   Touch,
 } from '/client/components/icons';
 import ProcessSteps from './ProcessSteps';
+import { HelperScroll } from '/client/components/molecules';
+
 
 const steps = [
   {
@@ -49,7 +51,7 @@ const steps = [
   },
 ];
 
-const Process = ({ progress }) => (
+const Process = ({ progress,onDownPress }) => (
   <FlexBox
     align
     column
@@ -74,6 +76,7 @@ const Process = ({ progress }) => (
       does it work?
     </Title>
     <ProcessSteps steps={steps} />
+    <HelperScroll onDownPress={onDownPress}/>
   </FlexBox>
 );
 

@@ -65,6 +65,12 @@ renderCookiesComponent = ()=>{
 }
 
 const Home = ({ setOpaque }) => {
+
+
+  const onDownPress=()=>{
+      console.log("onDownPress")
+  }
+  
   if (Meteor.userId()) {
     document.title = 'ZNotes | Dashboard';
     return (
@@ -84,7 +90,7 @@ const Home = ({ setOpaque }) => {
           setOpaque(pageIndex === 0);
           return (
             <Inner theme={theme} withPagers="right">
-              <Page progress={progress} />
+              <Page progress={progress}  onDownPress={onDownPress}/>
               <Pagers position="right" useContext />
               {renderCookiesComponent()}
             </Inner>

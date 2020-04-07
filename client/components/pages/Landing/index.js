@@ -13,7 +13,7 @@ import {
 import './styles.scss';
 
 // TODO: Write a HOC that will handle progress
-const Landing = ({ progress }) => (
+const Landing = ({ progress,onDownPress }) => (
   <FlexBox
     align
     justify
@@ -28,7 +28,7 @@ const Landing = ({ progress }) => (
     <LandingActionCall
      titleText="FOR STUDENTS. BY STUDENTS."
      />
-    <HelperScroll />
+    <HelperScroll onDownPress={onDownPress}/>
   </FlexBox>
 );
 
