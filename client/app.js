@@ -36,6 +36,9 @@ const App = ({
     setOpen(false);
   };
 
+
+  const currentRouteName = FlowRouter.current().route.name
+
   return (
     <ThemeProvider theme={theme}>
       <UserProvider>
@@ -74,6 +77,7 @@ const App = ({
             />
           </PermissionProvider>}
         <Footer
+        currentRouteName={currentRouteName}
           open={open}
           withSidebar={withSidebar}
           sidebarWidth={sidebarWidth}
