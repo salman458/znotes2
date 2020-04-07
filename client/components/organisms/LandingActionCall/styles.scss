@@ -31,3 +31,13 @@
     }
   }
 }
+
+.spinner {
+  position: absolute;
+  right:70px;
+  z-index: 1;
+  background-color: "white";
+  // top: 1;
+  // bottom: 0;
+  // height: 100%;
+}

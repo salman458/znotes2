@@ -25,7 +25,9 @@ const Landing = ({ progress }) => (
     }}
   >
     <Particles className="page_landing-particles" />
-    <LandingActionCall />
+    <LandingActionCall
+     titleText="FOR STUDENTS. BY STUDENTS."
+     />
     <HelperScroll />
   </FlexBox>
 

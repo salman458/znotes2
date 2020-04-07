@@ -18,7 +18,7 @@ import {
 } from './components/pages';
 import Editor from './imports/explore/Editor';
 import Reset from './imports/account/Reset';
-import Team from './imports/Team';
+import Team from './imports/Team/Team';
 import Admin from './imports/Admin';
 import Sponsor from './imports/Sponsor';
 import App from './app';

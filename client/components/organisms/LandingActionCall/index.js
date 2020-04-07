@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, fade } from "@material-ui/core/styles";
 import { FlowRouter } from "meteor/kadira:flow-router";
 import {
   Text,
@@ -9,16 +9,52 @@ import {
   Title,
   Image,
   FlexBox,
-  Autosuggest
+  Autosuggest,
+  Spinner
 } from "/client/components/atoms";
 import { Search, ChevronRight } from "/client/components/icons";
 import { Request } from "/client/utils";
 import Suggestion from "./Suggestion";
 import "./styles.scss";
-
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   small: {
     fontSize: "2.5rem"
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    marginRight: 10,
+    backgroundColor: fade("#383838", 1),
+    "&:hover": {
+      backgroundColor: fade("#383838", 1)
+    },
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(1),
+      width: "auto"
+    }
+  },
+  searchIcon: {
+    width: theme.spacing(7),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    zIndex:1
+  },
+  inputRoot: {
+    color: "inherit"
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 6),
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: 0,
+      "&:focus": {
+        width: 200
+      }
+    }
   }
 }));
 
@@ -27,14 +63,15 @@ const LandingActionCall = ({
   minimal,
   titleText,
   withHint,
+  collapsibleSearch,
   className
 }) => {
   const classes = useStyles();
   const [keywords, setKeywords] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleKeywords = async () => {
-  
       const standardKeywords = (await Request({ action: "getKeywords" })) || [];
       const subjects = (await Request({ action: "getSubjectKeywords" })) || [];
       const levels = (await Request({ action: "getLevelKeywords" })) || [];
@@ -45,7 +82,7 @@ const LandingActionCall = ({
         ...levels,
         ...boards
       ].filter(el => el != null);
-   
+
       setKeywords(allKeyWords);
     };
     handleKeywords();
@@ -89,6 +126,11 @@ const LandingActionCall = ({
   };
 
   const onChange = (_, { newValue: currentValue }) => {
+    if (currentValue && !keywords.length) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
     setValue(currentValue);
   };
 
@@ -159,50 +201,91 @@ const LandingActionCall = ({
   };
 
   return (
-    <FlexBox column justify align={align} className="organism_action-call-root">
-  
-      {!minimal &&
-        <Image className="organism_action-call-logo" src="/img/logo.png" />}
-      <Title
-        variant="h1"
-        component="h1"
-        className={clsx(
-          "organism_action-call-header",
-          !minimal && classes.small
-        )}
-      >
-        {titleText}
-      </Title>
-      {withHint &&
-        <Text>
-          Search for a course, or go to the{" "}
-          <Link className="organism_landing-hint-link" to="/explore">
-            Explore
-          </Link>{" "}
-          page to see whole content.
-        </Text>}
-      <FlexBox justify align fullWidth className="organism_landing-autosuggest">
-        <Search className="organism_landing-autosuggest-icon left" />
-        <Autosuggest
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={onSuggestionsClearRequested}
-          getSuggestionValue={getSuggestionValue}
-          renderSuggestion={Suggestion}
-          className={className}
-          inputProps={{
-            value,
-            onChange,
-            onKeyDown,
-            placeholder: "What do you want to revise?"
-          }}
-        />
-        <ChevronRight
-          onClick={onSearch}
-          className="organism_landing-autosuggest-icon right"
-        />
-      </FlexBox>
-    </FlexBox>
+    <div>
+      {collapsibleSearch
+        ? <div className={classes.search}>
+            <FlexBox align justify className={classes.searchIcon}>
+              <Search />
+            </FlexBox>
+          
+           <Autosuggest
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+              onSuggestionsClearRequested={onSuggestionsClearRequested}
+              getSuggestionValue={getSuggestionValue}
+              renderSuggestion={Suggestion}
+              className={className}
+              inputProps={{
+                value,
+                onChange,
+                onKeyDown,
+                placeholder: "Search.."
+              }}
+            />
+
+ 
+          </div>
+        : <FlexBox
+            column
+            justify
+            align={align}
+            className="organism_action-call-root"
+          >
+            {!minimal &&
+              <Image
+                className="organism_action-call-logo"
+                src="/img/logo.png"
+              />}
+            {titleText &&
+              <Title
+                variant="h1"
+                component="h1"
+                className={clsx(
+                  "organism_action-call-header",
+                  !minimal && classes.small
+                )}
+              >
+                {titleText}
+              </Title>}
+
+            {withHint &&
+              <Text>
+                Search for a course, or go to the{" "}
+                <Link className="organism_landing-hint-link" to="/explore">
+                  Explore
+                </Link>{" "}
+                page to see whole content.
+              </Text>}
+            <FlexBox
+              justify
+              align
+              fullWidth
+              className="organism_landing-autosuggest"
+            >
+              <Search className="organism_landing-autosuggest-icon left" />
+
+              <Autosuggest
+                suggestions={suggestions}
+                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                onSuggestionsClearRequested={onSuggestionsClearRequested}
+                getSuggestionValue={getSuggestionValue}
+                renderSuggestion={Suggestion}
+                className={className}
+                inputProps={{
+                  value,
+                  onChange,
+                  onKeyDown,
+                  placeholder: "What do you want to revise?"
+                }}
+              />
+              <Spinner className="spinner" isLoading={isLoading} />
+              <ChevronRight
+                onClick={onSearch}
+                className="organism_landing-autosuggest-icon right"
+              />
+            </FlexBox>
+          </FlexBox>}
+    </div>
   );
 };
 
@@ -210,8 +293,9 @@ LandingActionCall.defaultProps = {
   minimal: false,
   withHint: false,
   align: true,
-  titleText: "FOR STUDENTS. BY STUDENTS.",
-  className: ""
+  titleText: undefined,
+  className: "",
+  collapsibleSearch: false
 };
 
 LandingActionCall.propTypes = {

@@ -21,6 +21,7 @@ import { USER_PERMISSIONS } from "/client/utils";
 import { Loading, ConfirmationDialog } from "/client/components/molecules";
 import Subjects from "/client/components/molecules/SubjectCard/subjectData";
 import _ from "lodash";
+import { SanitizeName } from "/client/utils";
 
 const Cards = ({
   subjectId,
@@ -37,12 +38,14 @@ const Cards = ({
   const [cards, setCards] = useState([]);
   const slider = useRef(null);
   const [isLoading, setLoading] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const urlParams = new URLSearchParams(window.location.search);
   const module = urlParams.get("moduleId");
   const subj = urlParams.get("subjectId");
+
   const { color } =
-    Subjects[!_.isEmpty(subject) ? subject.name.toLowerCase() : ""] || {};
+    Subjects[!_.isEmpty(subject) ? SanitizeName(subject.name) : ""] || {};
   const primaryColor = color || "#D82057";
   const isTeamRole = usePermission() === USER_PERMISSIONS.editor;
 
@@ -73,6 +76,7 @@ const Cards = ({
   };
 
   const getAllCardsByModuleSlugName = async () => {
+    setShowLoading(true);
     const cardData = await Request({
       action: "getAllCardsByModuleSlugName",
       body: moduleSlugName
@@ -97,6 +101,7 @@ const Cards = ({
 
     setCards(cardsResult);
     setInitailSlide(cardsResult);
+    setShowLoading(false);
   };
 
   useEffect(
@@ -105,6 +110,25 @@ const Cards = ({
     },
     [currentCardId]
   );
+
+  useEffect(() => {
+    document.addEventListener("keydown", onKeyPressed);
+    return () => {
+      {
+        document.removeEventListener("keydown", onKeyPressed);
+      }
+    };
+  }, []);
+
+  const onKeyPressed = event => {
+    const { key } = event;
+    if (key == " " || key == "ArrowUp") {
+      onNext();
+    }
+    if (key == "ArrowDown") {
+      onPrev();
+    }
+  };
 
   useEffect(
     () => {
@@ -179,6 +203,7 @@ const Cards = ({
         isShow={showConfirmDialog}
         onSubmit={deleteHandler}
       />
+      <Loading isLoading={showLoading} />
       <Title variant="h5">
         {subject.boardName} {subject.levelName}
       </Title>
@@ -194,7 +219,6 @@ const Cards = ({
         beforeChange={async (current, next) => {
           if (cards && cards.length && next !== -1 && !isLoading) {
             setLoading(true);
-
             const cardID = cards[next]._id;
             setCurrentCardId(cardID);
 

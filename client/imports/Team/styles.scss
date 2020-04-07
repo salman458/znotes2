@@ -1,0 +1,210 @@
+
+#team {
+    font-family: 'Open Sans';
+        overflow-x: hidden;
+        background-color: #1B212B;
+    }
+    
+    .team-container {
+        width: 100%;
+        max-width: 130rem;
+        margin: 0 auto;
+        padding: 0rem 2rem;
+    }
+    
+    .contributors {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-flow: row wrap;
+        flex-flow: row wrap;
+        position: relative;
+        width: 100%;
+        max-width: 110rem;
+        margin: 0 auto;
+        top: 4rem;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+    
+    .management {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-flow: row wrap;
+        flex-flow: row wrap;
+        position: relative;
+        width: 100%;
+        max-width: 110rem;
+        margin: 0 auto;
+        top: 8rem;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+    
+    .social-ta i {
+        margin-left: 2rem;
+    }
+    
+    .social-ta i:hover {
+        opacity: 0.5;
+    }
+    
+    .management .profile-pic {
+        width: 15rem;
+        height: 15rem;
+        background-color: white;
+        border-radius: 20rem;
+        border: 2px solid #398BFA;
+    }
+    
+    .team-p {
+        padding: 2rem;
+    }
+    
+    .contributors .profile-pic {
+        width: 15rem;
+        height: 15rem;
+        background-color: white;
+        border-radius: 20rem;
+        border: 2px solid #DA1D56;
+    }
+    
+    .profile-pic img {
+        width: 15rem;
+        height: 15rem;
+        border-radius: 20rem;
+    }
+    
+    .info-p-wrap {
+        text-align: center;
+    }
+    
+    .n-title {
+        color: white;
+        font-weight: bold;
+        font-size: 1.5rem;
+        padding-top: 2rem;
+        width: 15rem;
+    }
+    
+    .r-title {
+        color: white;
+        font-size: 1rem;
+        padding: 1rem 0;
+        font-style: italic;
+        width: 15rem;
+    }
+    
+    .contributors .r-title {
+        color: #DA1D56;
+    }
+    
+    .management .r-title {
+        color: #398BFA;
+    }
+    
+    .r-desc {
+        color: white;
+        font-size: 0.9rem;
+        width: 15rem;
+    }
+    
+    .r-buttons {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        position: relative;
+        top: 1rem;
+    }
+    
+    .arrow-3 {
+        display: none;
+    }
+    
+    .r-buttons a {
+        margin-left: 4rem;
+    }
+    
+    .c-button {
+        text-decoration: none;
+        color: white;
+        padding: 0 2rem;
+        font-weight: bold;
+        font-size: 1rem;
+        background-color: #DA1D56;
+        padding: 1rem 2rem;
+    }
+    
+    .c-button:hover {
+        background-color: white;
+        color: #DA1D56;
+        -webkit-transition-duration: 0.3s;
+        -o-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+    }
+    
+    .m-button:hover {
+        background-color: white;
+        color: #398BFA;
+        -webkit-transition-duration: 0.3s;
+        -o-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+    }
+    
+    .m-button {
+        text-decoration: none;
+        color: white;
+        padding: 0 2rem;
+        font-weight: bold;
+        font-size: 1rem;
+        background-color: #398BFA;
+        padding: 1rem 2rem;
+    }
+    
+    .active {
+        background-color: white;
+        color: #DA1D56;
+    }
+    
+    .active2 {
+        background-color: white;
+        color: #398BFA;
+    }
+    
+    #t-contact {
+        background-color: white;
+        height: 100%;
+        max-height: 60rem;
+        // position: relative;
+        // top: 80rem;
+        margin-top: 10rem;
+        padding: 0 2rem;
+    }
+    
+    #t-contact .container {
+        padding: 5rem 0;
+        width: 100%;
+    }
+    
+    .t-info {
+        text-align: center;
+    }
+    
+    .t-info p {
+        font-size: 1.2rem;
+    }
+    
+    #t-contact h1 {
+        font-size: 3rem;
+        text-align: center;
+    }
