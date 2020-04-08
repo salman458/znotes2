@@ -31,6 +31,13 @@ const Footer = ({ open, withSidebar, sidebarWidth, currentRouteName }) => {
           info@znotes.org
         </Text>
       </FlexBox>
+      <FlexBox align>
+        <Text className={classes.preserveSpace, "footertext"}>
+          {"   "}
+          ZNotes Education Limited is incorporated and registered in England and Wales, under Registration number: 12520980 whose Registered office is at: Office 14 Cedar House, 58 Peregrine Road, Ilford, IG6 3SZ. “ZNotes” and the ZNotes logo are trademarks of ZNotes Education Limited. Registration pending.
+          {"   "}
+        </Text>
+      </FlexBox>
       <FlexBox align className={classes.footerMeta}>
         <Link to="/terms">Terms of Use</Link>
         <Text className={classes.preserveSpace}>
