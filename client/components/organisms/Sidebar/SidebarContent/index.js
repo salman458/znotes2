@@ -46,10 +46,8 @@ const SidebarContent = ({
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [name, setName] = useState('');
   const [cards, setCards] = useState([]);
-  const urlParams = new URLSearchParams(window.location.search);
-  const module = urlParams.get('moduleId');
-  const subj = urlParams.get('subjectId');
 
+ 
 const getAllCardsByModuleSlugName=async()=>{
   const cardData = await Request({
     action: 'getAllCardsByModuleSlugName',
@@ -63,6 +61,10 @@ const getAllCardsByModuleSlugName=async()=>{
 
     setChapters(chapters);
   }, [chapters]);
+
+  useEffect(()=>{
+    saveLastPosition()
+  },[cardId])
 
   const addCard = async (chapId) => {
     const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapId}&cardId=${1}`;
@@ -176,6 +178,32 @@ const getAllCardsByModuleSlugName=async()=>{
     onCloseEditPopup()
   }
 
+  saveLastPosition = async()=>{
+
+    const progressValue =getProgressValue()
+    const urlToSave = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`
+    const subject = await Request({
+      action: "getSubjectBySlug",
+      body: subjectSlugName
+    });
+
+    const addLastPosition = await Request({
+      action: "addLastPosition",
+      body: {
+        userId:Meteor.userId(),
+        subject:{
+          id:Meteor.userId(),
+          position:urlToSave,
+          progress:progressValue,
+          moduleName:subject.moduleName,
+          boardName:subject.boardName,
+          levelName:subject.levelName,
+          subjectName:subject.name
+        }
+      }
+    });
+
+  }
 
   return (
     <>

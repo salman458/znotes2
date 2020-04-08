@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Meteor } from 'meteor/meteor';
-import Paper from '@material-ui/core/Paper';
-import { FlowRouter } from 'meteor/kadira:flow-router';
-import { Request } from '/client/utils';
-import { Play } from '/client/components/icons';
+import React, { useState, useEffect } from "react";
+import { Meteor } from "meteor/meteor";
+import Paper from "@material-ui/core/Paper";
+import { FlowRouter } from "meteor/kadira:flow-router";
+import { Request } from "/client/utils";
+import { Play } from "/client/components/icons";
 import {
   Link,
   Title,
@@ -11,17 +11,15 @@ import {
   FlexBox,
   ProgressBar,
   Highlighted,
-  PageContainer,
-} from '/client/components/atoms';
-import {
-  SubjectSlider,
-  LandingActionCall,
-} from '/client/components/organisms';
-import { useUserData } from '/client/contexts/user';
-import './styles.scss';
+  PageContainer
+} from "/client/components/atoms";
+import { SubjectSlider, LandingActionCall } from "/client/components/organisms";
+import { useUserData } from "/client/contexts/user";
+import "./styles.scss";
+import _ from "lodash"
 
 const Dashboard = () => {
-  const [lastLocation, setLast] = useState(null);
+  const [lastLocation, setLast] = useState({});
   const [subjectData, setSubjectData] = useState([]);
   const userData = useUserData();
 
@@ -30,21 +28,24 @@ const Dashboard = () => {
       const id = Meteor.userId();
 
       const [{ lastPositions }] = await Request({
-        action: 'getUser',
-        body: id,
+        action: "getUser",
+        body: id
       });
 
       if (lastPositions.length) {
-      // Apparently we like everything being an array
-      // And reading data from the first element ALL THE FREAKING TIME
-        const [lastItem] = lastPositions.sort((x, y) => y.timestamp - x.timestamp);
+        // Apparently we like everything being an array
+        // And reading data from the first element ALL THE FREAKING TIME
+        const [lastItem] = lastPositions.sort(
+          (x, y) => y.timestamp - x.timestamp
+        );
         setLast(lastItem || {});
       }
 
-      const subjects = await Request({
-        action: 'getUserSubjects',
-        body: id,
-      }) || [];
+      const subjects =
+        (await Request({
+          action: "getUserSubjects",
+          body: id
+        })) || [];
       setSubjectData(subjects);
     };
     getNecessaryData();
@@ -54,24 +55,29 @@ const Dashboard = () => {
     FlowRouter.go(lastLocation.position);
     window.location.reload();
   };
+  const {
+    boardName = "",
+    levelName = "",
+    subjectName = "",
+    moduleName = ""
+  } = lastLocation;
 
   return (
-    <PageContainer
-      className="page_dashboard-container"
-    >
-      {userData && (
+    <PageContainer className="page_dashboard-container">
+      {userData &&
         <Title variant="h1" className="page_dashboard-header">
-          Welcome back,
-          {' '}
-          <Highlighted color="primary">
-            {userData.username}
-          </Highlighted>
-        </Title>
-      )}
-      {lastLocation && (
+          Welcome back,{" "}
+          <Highlighted color="primary">{userData.username}</Highlighted>
+        </Title>}
+      {!_.isEmpty(lastLocation) &&
         <div>
           <Title variant="h3">Return to</Title>
-          <Title variant="h5">{lastLocation.moduleName}</Title>
+          <Title variant="h5">
+            {boardName + " " + levelName + " " + subjectName}
+          </Title>
+          <Title variant="h5">
+            {moduleName}
+          </Title>
           <FlexBox justify align>
             <Play className="page_dashboard-icon" onClick={handleResume} />
             <div className="page_dashboard-progress-container">
@@ -81,8 +87,7 @@ const Dashboard = () => {
               />
             </div>
           </FlexBox>
-        </div>
-      )}
+        </div>}
       <div className="page_dashboard-autosuggest">
         <LandingActionCall
           minimal
@@ -92,38 +97,38 @@ const Dashboard = () => {
         />
       </div>
       <FlexBox align fullWidth justifyBetween>
-        <Title variant="h3" gutterBottom>My Subjects</Title>
+        <Title variant="h3" gutterBottom>
+          My Subjects
+        </Title>
         <Link to="/explore">
-          <Button variant="outlined">
-              Add Subject
-          </Button>
+          <Button variant="outlined">Add Subject</Button>
         </Link>
       </FlexBox>
 
       {subjectData.length === 0
-        ? (
-          <FlexBox column align>
-            <Title variant="h5" gutterBottom>No Subjects Yet?</Title>
+        ? <FlexBox column align>
+            <Title variant="h5" gutterBottom>
+              No Subjects Yet?
+            </Title>
             <Link to="/explore">
-              <Button>
-              Add Subject
-              </Button>
+              <Button>Add Subject</Button>
             </Link>
           </FlexBox>
-        )
-        : (
-          <SubjectSlider
+        : <SubjectSlider
             isUserSubjects
             className="page_dashbboard-subjects"
             subjects={subjectData}
-          />
-        )}
+          />}
 
       <div className="page_dashboard-community-container">
-        <Title variant="h3" gutterBottom>Community</Title>
+        <Title variant="h3" gutterBottom>
+          Community
+        </Title>
         <FlexBox align justifyBetween>
           <Paper className="page_dashboard-community-card page_dashboard-card-first">
-            <Title variant="h5" gutterBottom>Our Podcast</Title>
+            <Title variant="h5" gutterBottom>
+              Our Podcast
+            </Title>
             <iframe
               src="https://open.spotify.com/embed-podcast/show/7jPpEntVVviSy0SNOqnZMq"
               width="100%"
@@ -134,7 +139,9 @@ const Dashboard = () => {
             />
           </Paper>
           <Paper className="page_dashboard-community-card">
-            <Title variant="h5" gutterBottom>Join our discussions</Title>
+            <Title variant="h5" gutterBottom>
+              Join our discussions
+            </Title>
             <iframe
               src="https://discordapp.com/widget?id=513750483572097034&amp;theme=dark"
               width="100%"

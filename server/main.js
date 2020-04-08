@@ -310,10 +310,12 @@ Meteor.methods({
     const chaptersWithCards = moduleData.chapters.map(
       ({ _id: chapterId, ...rest }) => {
         const chapterData = chapters.findOne({ _id: chapterId });
-        const chapterCards = chapterData.cards.map(({ _id: cardId }) => {
-          const data = cards.findOne({ _id: cardId });
-          return data;
-        }).filter(v => v != null);
+        const chapterCards = chapterData.cards
+          .map(({ _id: cardId }) => {
+            const data = cards.findOne({ _id: cardId });
+            return data;
+          })
+          .filter(v => v != null);
         return {
           ...rest,
           ...chapterData,
@@ -728,6 +730,23 @@ Meteor.methods({
     return board.slug;
   },
 
+  getModuleNameBySlug(slug) {
+    const res = modules
+      .find({
+        $or: [
+          {
+            _id: slug
+          },
+          {
+            slug
+          }
+        ]
+      })
+      .fetch();
+    const module = res[0];
+    return module.name;
+  },
+
   getSubjectNameBySlug(slug) {
     const res = subjects
       .find({
@@ -902,20 +921,27 @@ Meteor.methods({
       { _id: id },
       { fields: { subjects: 1, _id: 0 } }
     );
-    const res = allSubjects.map(
-      ({ level: levelId, board: boardId, ...rest }) => {
-        const { name: levelName } = levels.findOne({ _id: levelId });
-        const { name: boardName } = boards.findOne({ _id: boardId });
-        return {
-          ...rest,
-          level: levelId,
-          board: boardId,
-          levelName,
-          boardName
-        };
-      }
-    );
-    return res;
+    if (allSubjects && allSubjects.length) {
+      const res = allSubjects.map(
+        ({ level: levelId, board: boardId, ...rest }) => {
+          const { name: levelName } = levels.findOne({ _id: levelId });
+          const { name: boardName } = boards.findOne({ _id: boardId });
+          const { name: moduleName } = modules.findOne({ subject: id });
+          return {
+            ...rest,
+            level: levelId,
+            board: boardId,
+            levelName,
+            boardName,
+            moduleName
+          };
+        }
+      );
+
+      return res;
+    }
+
+    return [];
   },
   addLastPosition(obj) {
     Meteor.users.update(
@@ -925,7 +951,10 @@ Meteor.methods({
           "lastPositions.$.position": obj.subject.position,
           "lastPositions.$.progress": obj.subject.progress,
           "lastPositions.$.timestamp": new Date(),
-          "lastPositions.$.moduleName": obj.subject.moduleName
+          "lastPositions.$.boardName": obj.subject.boardName,
+          "lastPositions.$.levelName": obj.subject.levelName,
+          "lastPositions.$.moduleName": obj.subject.moduleName,
+          "lastPositions.$.subjectName": obj.subject.subjectName
         }
       },
       {},
@@ -942,6 +971,9 @@ Meteor.methods({
                   position: obj.subject.position,
                   progress: obj.subject.progress,
                   moduleName: obj.subject.moduleName,
+                  subjectName: obj.subject.subjectName,
+                  levelName: obj.subject.levelName,
+                  boardName: obj.subject.boardName,
                   timestamp: new Date()
                 }
               }
@@ -1007,7 +1039,7 @@ Meteor.methods({
     if (records === 0) {
       return [];
     }
-    const { level: levelId, board: boardId, ...rest } = subjects.findOne({
+    const { level: levelId, board: boardId, _id, ...rest } = subjects.findOne({
       $or: [
         {
           _id: slug
@@ -1019,12 +1051,15 @@ Meteor.methods({
     });
     const { name: levelName } = levels.findOne({ _id: levelId });
     const { name: boardName } = boards.findOne({ _id: boardId });
+    const { name: moduleName } = modules.findOne({ subject: _id });
     return {
       ...rest,
+      _id,
       level: levelId,
       board: boardId,
       levelName,
-      boardName
+      boardName,
+      moduleName
     };
   },
   addSponsorContent(card) {
