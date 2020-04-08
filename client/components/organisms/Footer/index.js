@@ -19,8 +19,9 @@ const Footer = ({ open, withSidebar, sidebarWidth, currentRouteName }) => {
       })}
     >
       {currentRouteName !== "Subject" && <Icons />}
+      
 
-      <FlexBox align>
+      {/* <FlexBox align>
         <Image className={classes.footerLogo} src="/img/logo_black.png" />
         <Text className={classes.preserveSpace}>
           {"   "}
@@ -30,14 +31,7 @@ const Footer = ({ open, withSidebar, sidebarWidth, currentRouteName }) => {
           {"   "}
           info@znotes.org
         </Text>
-      </FlexBox>
-      <FlexBox align>
-        <Text className={classes.preserveSpace, "footertext"}>
-          {"   "}
-          ZNotes Education Limited is incorporated and registered in England and Wales, under Registration number: 12520980 whose Registered office is at: Office 14 Cedar House, 58 Peregrine Road, Ilford, IG6 3SZ. “ZNotes” and the ZNotes logo are trademarks of ZNotes Education Limited. Registration pending.
-          {"   "}
-        </Text>
-      </FlexBox>
+      </FlexBox> */}
       <FlexBox align className={classes.footerMeta}>
         <Link to="/terms">Terms of Use</Link>
         <Text className={classes.preserveSpace}>
@@ -54,6 +48,14 @@ const Footer = ({ open, withSidebar, sidebarWidth, currentRouteName }) => {
         <Link to="#">Contact Us</Link>
       </FlexBox>
       <Text className={classes.footerMeta}>© ZNotes Education Limited, 2020</Text>
+      {currentRouteName !== "Subject" && <FlexBox align>
+        <Text className={classes.preserveSpace, "footertext"}>
+          {"   "}
+          ZNotes Education Limited is incorporated and registered in England and Wales, under Registration number: 12520980 whose Registered office is at: Office 14 Cedar House, 58 Peregrine Road, Ilford, IG6 3SZ. “ZNotes” and the ZNotes logo are trademarks of ZNotes Education Limited. Registration pending.
+          {"   "}
+        </Text>
+      </FlexBox>}
+      
     </FlexBox>
   );
 };

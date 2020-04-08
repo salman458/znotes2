@@ -21,7 +21,7 @@ const Landing = ({ progress,onDownPress }) => (
     className="page_landing-root"
     style={{
       opacity: `calc(1 - 1 * ${progress})`,
-      transform: `translateY(calc(-50vh * ${progress})`,
+      transform: `translateY(calc(-30vh * ${progress})`,
     }}
   >
     <Particles className="page_landing-particles" />

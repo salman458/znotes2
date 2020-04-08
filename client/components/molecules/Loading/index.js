@@ -18,8 +18,8 @@ const Loading = ({ isLoading, onClose }) => (
     aria-describedby="molecule_close-popup-description"
   >
     <div className="loader">
-
-      <Loader type="ThreeDots" color="#DA1D56" height={150} width={150} />
+      <img src="/img/loader.gif"/>
+      
     </div>
   </Dialog>
 );
