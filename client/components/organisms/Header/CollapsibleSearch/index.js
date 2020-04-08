@@ -125,7 +125,7 @@ const CollapsibleSearch = () => {
   // );
 
   return (
-    <LandingActionCall
+    <LandingActionCall 
       minimal
       withHint={false}
       align={true}

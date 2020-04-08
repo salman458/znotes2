@@ -82,7 +82,7 @@ export const managementTeam = [
   {
     image: "https://firebasestorage.googleapis.com/v0/b/znotes-b36a6.appspot.com/o/krish.jpg?alt=media&token=539149ed-1ff7-4eb2-84dc-d6e59459bded",
     name: "Krish Theobald",
-    title: "ZClass &amp; Content Manager",
+    title: "ZClass & Content Manager",
     desc: "Vegan for life! Break-fixer, rubix-cuber. Love Minecraft and Home Design!",
     linkedIn: "https://www.linkedin.com/in/krish-theobald-37536616a/",
     gmail: "mailto:krishtheobald@gmail.com"
