@@ -22,7 +22,7 @@ const Hits = ({ progress }) => {
   return (
     <div
       style={{
-        opacity: `calc(${progress + 0.5})`,
+        opacity: `calc(${progress + 0.3})`,
       }}
       className="page_hits-container"
     >

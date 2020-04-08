@@ -22,7 +22,8 @@ import { Loading, ConfirmationDialog } from "/client/components/molecules";
 import Subjects from "/client/components/molecules/SubjectCard/subjectData";
 import _ from "lodash";
 import { SanitizeName } from "/client/utils";
-
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 const Cards = ({
   subjectId,
   moduleId,
@@ -274,10 +275,10 @@ const Cards = ({
       </Slider>
       <FlexBox align justify>
         <IconButton className="page_cards-arrows" onClick={onPrev}>
-          <Prev />
+          <ArrowBackIosIcon />
         </IconButton>
         <IconButton className="page_cards-arrows" onClick={onNext}>
-          <Next />
+          <ArrowForwardIosIcon />
         </IconButton>
       </FlexBox>
     </PageContainer>

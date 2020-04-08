@@ -11,7 +11,6 @@ import Process from '../Process';
 import Testimonials from '../Testimonials';
 import Hits from '../Hits';
 import Dashboard from '../Dashboard';
-
 import './styles.scss';
 
 const content = [
@@ -47,7 +46,7 @@ const Home = ({ setOpaque }) => {
   }
   return (
     <>
-      <Stickyroll pages={content} factor={0.6} offset={-70} anchors="" className="landing_container landing_root">
+      <Stickyroll pages={content} factor={0.5} offset={-70} anchors="" className="landing_container landing_root">
         {({
           pageIndex, progress,
         }) => {
