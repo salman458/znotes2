@@ -86,7 +86,7 @@ const Home = ({ setOpaque }) => {
   }
   return (
     <>
-      <Stickyroll pages={content} factor={0.6} anchors="" className="landing_container landing_root">
+      <Stickyroll pages={content} factor={0.6} offset={-70} anchors="" className="landing_container landing_root">
         {({
           pageIndex, progress,
         }) => {

@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 50,
   },
   footerMeta: {
-    fontSize: '1.3rem',
+    fontSize: '1rem',
   },
 }));
 

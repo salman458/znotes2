@@ -4,7 +4,7 @@
 .react-autosuggest__container {
   flex-grow: 1;
   position: relative;
-  width: 65%;
+  width: 100%;
   margin: 30px 0;
 }
 .react-autosuggest__suggestions-container {
@@ -12,8 +12,8 @@
 }
 .react-autosuggest__input {
   width: 100%;
-  padding: 15px 70px;
-  border-radius: 45px;
+  padding: 7px 60px;
+  border-radius: 45px!important;
   border: none;
   background: #383838;
   color: $white;
@@ -22,6 +22,9 @@
     color: $white;
     font-weight: 600;
   }
+}
+.makeStyles-search-63{
+  border-radius: 45px!important;
 }
 .react-autosuggest__suggestions-container--open {
   position: absolute;

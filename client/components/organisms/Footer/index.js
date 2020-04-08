@@ -31,16 +31,29 @@ const Footer = ({ open, withSidebar, sidebarWidth, currentRouteName }) => {
           info@znotes.org
         </Text>
       </FlexBox>
+      <FlexBox align>
+        <Text className={classes.preserveSpace, "footertext"}>
+          {"   "}
+          ZNotes Education Limited is incorporated and registered in England and Wales, under Registration number: 12520980 whose Registered office is at: Office 14 Cedar House, 58 Peregrine Road, Ilford, IG6 3SZ. “ZNotes” and the ZNotes logo are trademarks of ZNotes Education Limited. Registration pending.
+          {"   "}
+        </Text>
+      </FlexBox>
       <FlexBox align className={classes.footerMeta}>
-        <Link to="/terms">Terms</Link>
+        <Link to="/terms">Terms of Use</Link>
         <Text className={classes.preserveSpace}>
           {"   "}
           |
           {"   "}
         </Text>
-        <Link to="/privacy">Privacy</Link>
+        <Link to="/privacy">Privacy Policy</Link>
+        <Text className={classes.preserveSpace}>
+          {'   '}
+            |
+          {'   '}
+        </Text>
+        <Link to="#">Contact Us</Link>
       </FlexBox>
-      <Text className={classes.footerMeta}>© 2020 ZNotes, Inc.</Text>
+      <Text className={classes.footerMeta}>© ZNotes Education Limited, 2020</Text>
     </FlexBox>
   );
 };

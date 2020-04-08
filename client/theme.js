@@ -34,12 +34,15 @@ export default createMuiTheme({
     },
     h2: {
       fontFamily: '\'Raleway\', sans-serif',
+      fontSize: '2.5rem',
     },
     h3: {
       fontFamily: '\'Raleway\', sans-serif',
+      fontSize: '2.2rem',
     },
     h4: {
       fontFamily: '\'Raleway\', sans-serif',
+      fontSize: '1.5rem',
     },
   },
 });

@@ -7,7 +7,7 @@ import {
 } from '/client/components/atoms';
 import { HelperScroll } from '/client/components/molecules';
 import {
-  LandingActionCall,
+  LandingActionCall, Snackbar
 } from '/client/components/organisms';
 
 import './styles.scss';
@@ -30,6 +30,7 @@ const Landing = ({ progress,onDownPress }) => (
      />
     <HelperScroll onDownPress={onDownPress}/>
   </FlexBox>
+
 );
 
 Landing.propTypes = {
