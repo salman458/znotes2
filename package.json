@@ -17,7 +17,7 @@
     "@material-ui/icons": "^4.5.1",
     "@material-ui/pickers": "^3.2.8",
     "@stickyroll/inner": "^1.1.6",
-    "@stickyroll/pagers": "^1.1.6",
+    "@stickyroll/pagers": "^1.2.0",
     "@stickyroll/stickyroll": "^1.1.6",
     "@stickyroll/themes": "^1.1.6",
     "bcrypt": "^3.0.7",

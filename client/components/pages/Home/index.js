@@ -35,6 +35,17 @@ const theme = {
   strokeWidth: '2px',
 };
 
+const pagerTheme = {
+  color: 'white',
+  markerColor: '#D82057',
+  markerWidth: '2px',
+  markerSize: '2px',
+  pagerColor: '#D82057',
+  pagerColorActive: '#D82057',
+  pagerGap: '2vh',
+  pagerSize: '1.5rem',
+  strokeWidth: '2px',
+};
 renderCookiesComponent = ()=>{
   if(!localStorage.getItem("cookieBannersDisplayed")){
     return (
@@ -94,7 +105,7 @@ const Home = ({ setOpaque }) => {
           return (
             <Inner theme={theme} withPagers="right">
               <Page progress={progress}  onDownPress={onDownPress}/>
-              <Pagers position="right" useContext />
+              <Pagers theme={pagerTheme}  position="right" useContext />
               {renderCookiesComponent()}
             </Inner>
           );
