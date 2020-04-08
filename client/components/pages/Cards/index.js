@@ -22,7 +22,6 @@ import { Loading, ConfirmationDialog } from "/client/components/molecules";
 import Subjects from "/client/components/molecules/SubjectCard/subjectData";
 import _ from "lodash";
 import { SanitizeName } from "/client/utils";
-
 const Cards = ({
   subjectId,
   moduleId,
@@ -114,7 +113,7 @@ const Cards = ({
     },
     [currentCardId]
   );
-  
+
   useEffect(() => {
     document.addEventListener("keydown", onKeyPressed);
     return () => {
@@ -247,8 +246,10 @@ const Cards = ({
             return (
               <div key={i}>
                 <Paper key={_id} className="page_cards-paper">
-                  <ReactMarkdown escapeHtml={false} source={content} />
-                  <MathJax />
+                  <div className="markdown-body">
+                    <ReactMarkdown escapeHtml={false} source={content} />
+                    <MathJax />
+                  </div>
                 </Paper>
 
                 {isTeamRole &&
