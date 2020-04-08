@@ -37,31 +37,35 @@ const theme = {
 };
 
 renderCookiesComponent = ()=>{
-  return (
-    <CookieConsent   
-     location="bottom"
-      buttonText="Sure!!"
-      cookieName="zNotesCookies"
-      style={{ background: "#383838" }}
-      buttonStyle={{ color: "#FFFFFF", fontSize: "13px",backgroundColor:"#DA1D56" }}
-      expires={365} 
-      debug={true}
-      //  acceptOnScroll={true}
-      onAccept={({ acceptedByScrolling }) => {
-        // if (acceptedByScrolling) {
-        //     // triggered if user scrolls past threshold
-        //     alert("Accept was triggered by user scrolling");
-        // } else {
-        //     alert("Accept was triggered by clicking the Accept button");
-        // }
-        }}
-      // enableDeclineButton
-      // onDecline={() => {alert("nay!")}}
-    
-    >
-       This website uses cookies to enhance the user experience
-    </CookieConsent>
-  )
+  if(!localStorage.getItem("cookieBannersDisplayed")){
+    return (
+      <CookieConsent   
+       location="bottom"
+        buttonText="Sure!!"
+        cookieName="zNotesCookies"
+        style={{ background: "#383838" }}
+        buttonStyle={{ color: "#FFFFFF", fontSize: "13px",backgroundColor:"#DA1D56" }}
+        expires={365} 
+        debug={true}
+        //  acceptOnScroll={true}
+        onAccept={({ acceptedByScrolling }) => {
+          localStorage.setItem("cookieBannersDisplayed","true")
+          // if (acceptedByScrolling) {
+          //     // triggered if user scrolls past threshold
+          //     alert("Accept was triggered by user scrolling");
+          // } else {
+          //     alert("Accept was triggered by clicking the Accept button");
+          // }
+          }}
+        // enableDeclineButton
+        // onDecline={() => {alert("nay!")}}
+      
+      >
+         This website uses cookies to enhance the user experience
+      </CookieConsent>
+    )
+  } else return null
+
 }
 
 const Home = ({ setOpaque }) => {
