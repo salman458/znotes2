@@ -76,7 +76,6 @@ const Process = ({ progress,onDownPress }) => (
       does it work?
     </Title>
     <ProcessSteps steps={steps} />
-    <HelperScroll onDownPress={onDownPress}/>
   </FlexBox>
 );
 

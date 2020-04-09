@@ -70,8 +70,7 @@ const Hits = ({ progress,onDownPress}) => {
         total hits
         </Title>
         <Image src="/img/map.svg" className={clsx('page_hits-background-svg', progress > 0.3 && 'animate')} />
-     
-        <HelperScroll onDownPress={onDownPress} />
+
       </FlexBox>
     </div>
   );

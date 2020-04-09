@@ -58,7 +58,6 @@ const Story = ({ progress ,onDownPress}) => (
         className="page_youtube-frame"
       />
     </FlexBox>
-    <HelperScroll onDownPress={onDownPress}/>
   </FlexBox>
 );
 
