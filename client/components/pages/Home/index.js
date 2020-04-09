@@ -12,13 +12,13 @@ import Testimonials from '../Testimonials';
 import Hits from '../Hits';
 import Dashboard from '../Dashboard';
 import './styles.scss';
-import {CookiesBar} from "/client/components/molecules"
+import {CookiesBar} from "/client/components/molecules";
 const content = [
   Landing,
   Hits,
   Story,
   Process,
-  Testimonials,
+  Testimonials
 ];
 
 const theme = {
@@ -37,11 +37,11 @@ const theme = {
 
 const pagerTheme = {
   color: 'white',
-  markerColor: '#D82057',
+  markerColor: '#ffffff',
   markerWidth: '2px',
   markerSize: '2px',
-  pagerColor: '#D82057',
-  pagerColorActive: '#D82057',
+  pagerColor: '#ffffff',
+  pagerColorActive: '#ffffff',
   pagerGap: '2vh',
   pagerSize: '1.5rem',
   strokeWidth: '2px',

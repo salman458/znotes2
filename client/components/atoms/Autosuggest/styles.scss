@@ -25,8 +25,18 @@
 }
 .makeStyles-search-63, .makeStyles-search-75{
   border-radius: 45px!important;
+  background-color: transparent!important;
   .react-autosuggest__input {
     padding: 9px 60px;
+  }
+  input{
+    background-color: transparent;
+    &:hover{
+      background-color: transparent;
+    }
+    &:focus{
+      background-color: rgba(56, 56, 56, 1);
+    }
   }
 }
 .makeStyles-search-75{
