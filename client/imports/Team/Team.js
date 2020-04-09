@@ -575,7 +575,7 @@ class Team extends Component {
             <div className="join-now">
               <a
                 className="Sbar-config MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
-                href="mailto:team@znotes.org"
+                href="https://forms.gle/5QLoEdwVpcdLLBZ86"
               >
                 Join Now
               </a>

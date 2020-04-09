@@ -45,7 +45,7 @@ const Footer = ({ open, withSidebar, sidebarWidth, currentRouteName }) => {
             |
           {'   '}
         </Text>
-        <Link to="#">Contact Us</Link>
+        <Link to="mailto:team@znotes.org">Contact Us</Link>
       </FlexBox>
       <Text className={classes.footerMeta}>© ZNotes Education Limited, 2020</Text>
       {currentRouteName !== "Subject" && <FlexBox align>
