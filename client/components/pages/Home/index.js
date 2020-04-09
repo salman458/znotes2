@@ -51,7 +51,7 @@ renderCookiesComponent = ()=>{
     return (
       <CookieConsent   
        location="bottom"
-        buttonText="Sure!!"
+        buttonText="Got it"
         cookieName="zNotesCookies"
         style={{ background: "#383838" }}
         buttonStyle={{ color: "#FFFFFF", fontSize: "13px",backgroundColor:"#DA1D56" }}
@@ -71,7 +71,7 @@ renderCookiesComponent = ()=>{
         // onDecline={() => {alert("nay!")}}
       
       >
-         This website uses cookies to enhance the user experience
+         We use cookies to give you the best online experience. By continuing to use our website, you agree to our use of cookies in accordance with our <a href="/terms">terms of use</a> and <a href="/privacy">privacy policy</a>.
       </CookieConsent>
     )
   } else return null

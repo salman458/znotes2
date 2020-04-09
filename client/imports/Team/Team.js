@@ -572,6 +572,14 @@ class Team extends Component {
           <div className="t-info">
             <h1>Join the team</h1>
             <p>Would you like to be part of ZNotes? Let us know!</p>
+            <div className="join-now">
+              <a
+                className="Sbar-config MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+                href="mailto:team@znotes.org"
+              >
+                Join Now
+              </a>
+            </div>
           </div>
         </div>
       </section>
