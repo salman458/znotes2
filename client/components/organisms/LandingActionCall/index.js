@@ -16,6 +16,7 @@ import { Search, ChevronRight } from "/client/components/icons";
 import { Request } from "/client/utils";
 import Suggestion from "./Suggestion";
 import "./styles.scss";
+import { defaultTheme } from 'react-autosuggest/dist/theme';
 const useStyles = makeStyles(theme => ({
   small: {
     fontSize: "2.5rem"
@@ -40,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     position: "absolute",
     pointerEvents: "none",
-    zIndex:1
+    zIndex: 1
   },
   inputRoot: {
     color: "inherit"
@@ -54,6 +55,18 @@ const useStyles = makeStyles(theme => ({
       "&:focus": {
         width: 200
       }
+    },
+    backgroundColor: fade("#383838", 1),
+    "&:hover": {
+      backgroundColor: fade("#383838", 1)
+    },
+    border:"none",
+    width: "100%",
+    "border-radius": "45px!important",
+    color: "white",
+    "&:placeholder": {
+      color: "white",
+      "font-weight": "600",
     }
   }
 }));
@@ -204,26 +217,30 @@ const LandingActionCall = ({
     <div>
       {collapsibleSearch
         ? <div className={classes.search}>
+  
+            {/* <div className="auto-s"> */}
             <FlexBox align justify className={classes.searchIcon}>
               <Search />
             </FlexBox>
-          
-           <Autosuggest
-              suggestions={suggestions}
-              onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-              onSuggestionsClearRequested={onSuggestionsClearRequested}
-              getSuggestionValue={getSuggestionValue}
-              renderSuggestion={Suggestion}
-              className={className}
-              inputProps={{
-                value,
-                onChange,
-                onKeyDown,
-                placeholder: "Search.."
+              <Autosuggest
+              theme={{
+                ...defaultTheme,
+                input:classes.inputInput
               }}
-            />
-
- 
+                suggestions={suggestions}
+                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                onSuggestionsClearRequested={onSuggestionsClearRequested}
+                getSuggestionValue={getSuggestionValue}
+                renderSuggestion={Suggestion}
+                className={className}
+                inputProps={{
+                  value,
+                  onChange,
+                  onKeyDown,
+                  placeholder: "Search.."
+                }}
+              />
+            {/* </div> */}
           </div>
         : <FlexBox
             column
