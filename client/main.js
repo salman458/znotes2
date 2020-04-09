@@ -47,7 +47,7 @@ FlowRouter.route('/community', {
 FlowRouter.route('/team', {
   name: 'Team',
   action() {
-    document.title = 'ZNotes | Community';
+    document.title = 'ZNotes | Team';
     mount(App, {
       content: (props) => <Team {...props} />,
     });

@@ -9,3 +9,4 @@ export { default as Select } from "./Select";
 export { default as SubjectCard } from "./SubjectCard";
 export { default as Loading } from "./Loading";
 export { default as ConfirmationDialog } from "./ConfirmationDialog";
+export { default as CookiesBar } from "./CookiesBar";

@@ -12,7 +12,7 @@ import Testimonials from '../Testimonials';
 import Hits from '../Hits';
 import Dashboard from '../Dashboard';
 import './styles.scss';
-import CookieConsent from "react-cookie-consent";
+import {CookiesBar} from "/client/components/molecules"
 const content = [
   Landing,
   Hits,
@@ -46,37 +46,6 @@ const pagerTheme = {
   pagerSize: '1.5rem',
   strokeWidth: '2px',
 };
-renderCookiesComponent = ()=>{
-  if(!localStorage.getItem("cookieBannersDisplayed")){
-    return (
-      <CookieConsent   
-       location="bottom"
-        buttonText="Sure!!"
-        cookieName="zNotesCookies"
-        style={{ background: "#383838" }}
-        buttonStyle={{ color: "#FFFFFF", fontSize: "13px",backgroundColor:"#DA1D56" }}
-        expires={365} 
-        debug={true}
-        //  acceptOnScroll={true}
-        onAccept={({ acceptedByScrolling }) => {
-          localStorage.setItem("cookieBannersDisplayed","true")
-          // if (acceptedByScrolling) {
-          //     // triggered if user scrolls past threshold
-          //     alert("Accept was triggered by user scrolling");
-          // } else {
-          //     alert("Accept was triggered by clicking the Accept button");
-          // }
-          }}
-        // enableDeclineButton
-        // onDecline={() => {alert("nay!")}}
-      
-      >
-         This website uses cookies to enhance the user experience
-      </CookieConsent>
-    )
-  } else return null
-
-}
 
 const Home = ({ setOpaque }) => {
 
@@ -90,7 +59,7 @@ const Home = ({ setOpaque }) => {
     return (
       <PermissionProvider>
         <Dashboard />
-        {renderCookiesComponent()}
+       <CookiesBar/>
       </PermissionProvider>
     );
   }
@@ -106,7 +75,7 @@ const Home = ({ setOpaque }) => {
             <Inner theme={theme} withPagers="right">
               <Page progress={progress}  onDownPress={onDownPress}/>
               <Pagers theme={pagerTheme}  position="right" useContext />
-              {renderCookiesComponent()}
+              <CookiesBar/>
             </Inner>
           );
         }}
