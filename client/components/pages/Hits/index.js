@@ -1,56 +1,40 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import FlipNumbers from 'react-flip-numbers';
-import { HelperScroll } from '/client/components/molecules';
+import React from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import FlipNumbers from "react-flip-numbers";
+import { HelperScroll } from "/client/components/molecules";
 
-import {
-  Highlighted,
-  FlexBox,
-  Image,
-  Title,
-} from '/client/components/atoms';
+import { Highlighted, FlexBox, Image, Title } from "/client/components/atoms";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   toolbar: {
-    ...theme.mixins.toolbar,
-  },
+    ...theme.mixins.toolbar
+  }
 }));
 
-const Hits = ({ progress,onDownPress}) => {
+const Hits = ({ progress, onDownPress }) => {
   const classes = useStyles();
   return (
     <div
       style={{
-        opacity: `calc(${progress + 0.3})`,
+        opacity: `calc(${progress ==0 ? 1 : progress + 0.3})`
       }}
       className="page_hits-container"
     >
       <div className={classes.toolbar} />
-      <FlexBox
-        column
-        align
-        justify
-        className="page_hits-wrapper"
-        fullWidth
-      >
+      <FlexBox column align justify className="page_hits-wrapper" fullWidth>
         <Title
           variant="h1"
           style={{
-            transform: `translate3d(0, calc(-25vh + 20vh * ${progress}), 0)`,
+            transform: `translate3d(0, calc(-25vh + 20vh * ${progress == 0
+              ? progress + 0.5
+              : progress}), 0)`
           }}
           className="page_hits-title"
         >
-        The
-          {' '}
-          <Highlighted
-            color="primary"
-          >
-            ultimate
-          </Highlighted>
-          {' '}
-        revision platform with over
+          The <Highlighted color="primary">ultimate</Highlighted> revision
+          platform with over
         </Title>
         <FlipNumbers
           height={120}
@@ -64,13 +48,21 @@ const Hits = ({ progress,onDownPress}) => {
         <Title
           variant="h1"
           style={{
-            transform: `translate3d(0, calc(25vh - 20vh * ${progress}), 0)`,
+            transform: `translate3d(0, calc(25vh - 20vh * ${progress == 0
+              ? progress + 0.5
+              : progress}), 0)`
           }}
         >
-        total hits
+          total hits
         </Title>
-        <Image src="/img/map.svg" className={clsx('page_hits-background-svg', progress > 0.3 && 'animate')} />
-     
+        <Image
+          src="/img/map.svg"
+          className={clsx(
+            "page_hits-background-svg",
+            progress > 0.3 && "animate"
+          )}
+        />
+
         <HelperScroll onDownPress={onDownPress} />
       </FlexBox>
     </div>
@@ -78,7 +70,7 @@ const Hits = ({ progress,onDownPress}) => {
 };
 
 Hits.propTypes = {
-  progress: PropTypes.number.isRequired,
+  progress: PropTypes.number.isRequired
 };
 
 export default Hits;

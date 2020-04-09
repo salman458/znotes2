@@ -16,13 +16,13 @@ const Story = ({ progress ,onDownPress}) => (
     fullWidth
     className="page_story-container"
     style={{
-      opacity: `calc(${progress + 0.5})`,
+      opacity: `calc(${progress ==0 ?1: progress + 0.5})`,
     }}
   >
     <FlexBox align justifyBetween className="page_story-wrapper">
       <div
         style={{
-          transform: `translate3d(calc(-10vw + 7vw * ${progress}), 0, 0)`,
+          transform: `translate3d(calc(-10vw + 7vw * ${progress ==0 ?progress+0.6: progress}), 0, 0)`,
         }}
       >
         <Title variant="h3">

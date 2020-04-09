@@ -71,6 +71,7 @@ const Home = ({ setOpaque }) => {
         }) => {
           const Page = content[pageIndex];
           setOpaque(pageIndex === 0);
+          console.log(progress,"progress")
           return (
             <Inner theme={theme} withPagers="right">
               <Page progress={progress}  onDownPress={onDownPress}/>
