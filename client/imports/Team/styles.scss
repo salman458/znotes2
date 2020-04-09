@@ -182,12 +182,13 @@
     }
     
     #t-contact {
-        background-color: white;
+        background-color: transparent;
+        color: #ffffff;
         height: 100%;
         max-height: 60rem;
         // position: relative;
         // top: 80rem;
-        margin-top: 10rem;
+        margin-top: 5rem;
         padding: 0 2rem;
     }
     
@@ -198,6 +199,9 @@
     
     .t-info {
         text-align: center;
+        h1{
+            font-family: 'Raleway', sans-serif;
+        }
     }
     
     .t-info p {
@@ -214,4 +218,10 @@
       }
       .join-now {
         margin: 20px 0 0 0;
+        .MuiButton-containedPrimary {
+            border-radius: 100px;
+            padding-top: 7px;
+            padding-bottom: 7px;
+            background: #DA1D56;
+        }
       }

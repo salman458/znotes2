@@ -34,9 +34,7 @@
       left: 0;
       right: 0;
       margin: auto;
-      &.animate {
-        animation: 2s ease-in-out 0s infinite alternate breathe;
-      }
+      animation: breathe 2s ease-in-out 0s infinite alternate;
     }
   }
 }

@@ -59,14 +59,16 @@ const Process = ({ progress,onDownPress }) => (
     justifyBetween
     className="page_process-container"
     style={{
-      opacity: `calc(${progress + 0.5})`,
+      // opacity: `calc(${progress + 0.5})`,
+      opacity: `calc(1 - 0.6 * ${progress})`,
     }}
   >
     <Title
       variant="h3"
       gutterBottom
       style={{
-        transform: `translate3d(0, calc(10vh + 10vh * ${progress}), 0)`,
+        // transform: `translate3d(0, calc(10vh + 10vh * ${progress}), 0)`,
+        transform: `translate3d(0, calc(15vh + 10vh * ${progress}), 0)`,
       }}
     >
       So

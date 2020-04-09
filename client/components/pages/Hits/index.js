@@ -23,7 +23,8 @@ const Hits = ({ progress,onDownPress}) => {
   return (
     <div
       style={{
-        opacity: `calc(${progress + 0.3})`,
+       // opacity: `calc(${progress + 0.6})`,
+       opacity: `calc(1 - 0.6 * ${progress})`,
       }}
       className="page_hits-container"
     >
@@ -38,7 +39,7 @@ const Hits = ({ progress,onDownPress}) => {
         <Title
           variant="h1"
           style={{
-            transform: `translate3d(0, calc(-25vh + 20vh * ${progress}), 0)`,
+            transform: `translate3d(0, calc(-12vh + 8vh * ${progress}), 0)`,
           }}
           className="page_hits-title"
         >
@@ -64,13 +65,13 @@ const Hits = ({ progress,onDownPress}) => {
         <Title
           variant="h1"
           style={{
-            transform: `translate3d(0, calc(25vh - 20vh * ${progress}), 0)`,
+            transform: `translate3d(0, calc(12vh - 8vh * ${progress}), 0)`,
           }}
         >
         total hits
         </Title>
-        <Image src="/img/map.svg" className={clsx('page_hits-background-svg', progress > 0.3 && 'animate')} />
-
+        {/* <Image src="/img/map.svg" className={clsx('page_hits-background-svg', progress > 0 && 'animate')} /> */}
+        <Image src="/img/map.svg" className='page_hits-background-svg animate' />
       </FlexBox>
     </div>
   );

@@ -25,14 +25,15 @@ const Testimonials = ({ progress }) => {
       fullWidth
       className="page_testimonials-container"
       style={{
-        opacity: `calc(${progress + 0.5})`,
+        // opacity: `calc(${progress + 0.5})`,
+        opacity: `calc(1 - 0.6 * ${progress})`,
       }}
     >
       <Title
         variant="h3"
         gutterBottom
         style={{
-          transform: `translate3d(calc(-10vw + 10vw * ${progress}), 0, 0)`,
+         // transform: `translate3d(calc(-8vw + 8vw * ${progress}), 0, 0)`,
         }}
       >
         Testimonials
