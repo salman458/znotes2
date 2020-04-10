@@ -5,14 +5,13 @@ import {
   Title,
   Button,
   FlexBox,
-  PageContainer,
-} from '/client/components/atoms';
-import { SubjectSlider, AddPopup } from '/client/components/organisms';
-import { makeStyles } from '@material-ui/core/styles';
-import './styles.scss';
-import {Loading }from "/client/components/molecules"
+  PageContainer
+} from "/client/components/atoms";
+import { SubjectSlider, AddPopup } from "/client/components/organisms";
+import { makeStyles } from "@material-ui/core/styles";
+import "./styles.scss";
+import { Loading } from "/client/components/molecules";
 import { useUserData } from "/client/contexts/user";
-
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -21,21 +20,28 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const Explore = ({ boardId, board, ...rest }) => {
+const Explore = props => {
+  console.log(props);
+  const { boardId, board, level, subject, module, ...rest } = props;
   const classes = useStyles();
   const [boards, setBoards] = useState([]);
   const role = usePermission();
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false);
   const user = useUserData();
 
   useEffect(() => {
     let allBoards;
     const getNecessaryData = async () => {
-      setLoading(true)
+      setLoading(true);
       if (board) {
         const boardId = await Request({
           action: "getBoardIdBySlugName",
-          body: board
+          body: {
+            board,
+            level,
+            subject,
+            module
+          }
         });
         if (boardId) {
           allBoards = await Request({
@@ -49,7 +55,7 @@ const Explore = ({ boardId, board, ...rest }) => {
           body: {}
         });
       }
-      setLoading(false)
+      setLoading(false);
       setBoards(allBoards);
     };
     getNecessaryData();
@@ -141,9 +147,7 @@ const Explore = ({ boardId, board, ...rest }) => {
 
   return (
     <PageContainer className="page_explore-container">
-    <Loading
-      isLoading={isLoading}
-    />
+      <Loading isLoading={isLoading} />
       <Title variant="h1" gutterBottom className={classes.title}>
         Explore the Subjects
       </Title>

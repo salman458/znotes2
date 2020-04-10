@@ -8,9 +8,10 @@ const Suggestion = ({
   levelName,
   boardName,
   subjectName,
+  moduleName
 }) => (
   <span>
-    {`${name} ${subjectName || ''} ${levelName || ''} ${boardName || ''}`.trim()}
+    {`${name} ${subjectName || ''} ${levelName || ''} ${boardName || ''} ${moduleName || ""}`.trim()}
   </span>
 );
 
@@ -18,6 +19,7 @@ Suggestion.defaultProps = {
   levelName: '',
   boardName: '',
   subjectName: '',
+  moduleName:""
 };
 
 Suggestion.propTypes = {

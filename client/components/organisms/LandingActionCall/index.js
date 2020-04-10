@@ -16,7 +16,7 @@ import { Search, ChevronRight } from "/client/components/icons";
 import { Request } from "/client/utils";
 import Suggestion from "./Suggestion";
 import "./styles.scss";
-import { defaultTheme } from 'react-autosuggest/dist/theme';
+import { defaultTheme } from "react-autosuggest/dist/theme";
 const useStyles = makeStyles(theme => ({
   small: {
     fontSize: "2.5rem"
@@ -60,13 +60,13 @@ const useStyles = makeStyles(theme => ({
     "&:hover": {
       backgroundColor: fade("#383838", 1)
     },
-    border:"none",
+    border: "none",
     width: "100%",
     "border-radius": "45px!important",
     color: "white",
     "&:placeholder": {
       color: "white",
-      "font-weight": "600",
+      "font-weight": "600"
     }
   }
 }));
@@ -89,13 +89,14 @@ const LandingActionCall = ({
       const subjects = (await Request({ action: "getSubjectKeywords" })) || [];
       const levels = (await Request({ action: "getLevelKeywords" })) || [];
       const boards = (await Request({ action: "getBoardKeywords" })) || [];
+      const module = (await Request({ action: "getModuleKeyword" })) || [];
       const allKeyWords = [
         ...standardKeywords,
         ...subjects,
         ...levels,
-        ...boards
+        ...boards,
+        ...module
       ].filter(el => el != null);
-
       setKeywords(allKeyWords);
     };
     handleKeywords();
@@ -148,17 +149,52 @@ const LandingActionCall = ({
   };
 
   const handleSearch = async searchResult => {
-    const { type } = searchResult;
-    const { _id: id } = searchResult.id[0];
+    // console.log(searchResult, "searchResult");
+    const { type, moduleId, boardId, subjectId, levelId } = searchResult;
+    let moduleSlugName, boardSlugName, subjectSlugName, levelSlugName;
+    if (moduleId) {
+      moduleSlugName = await Request({
+        action: "getModuleSlugName",
+        body: moduleId
+      });
+    }
+    if (boardId) {
+      boardSlugName = await Request({
+        action: "getBoardSlugName",
+        body: boardId
+      });
+    }
+    if (subjectId) {
+      subjectSlugName = await Request({
+        action: "getSubjectSlugName",
+        body: subjectId
+      });
+    }
+    if (levelId) {
+      levelSlugName = await Request({
+        action: "getLevelSlugName",
+        body: levelId
+      });
+    }
 
-    const boardSlugName = await Request({
-      action: "getBoardSlugName",
-      body: id
-    });
     switch (type) {
       case "board":
         FlowRouter.go(`/explore/${boardSlugName || id}`);
         break;
+      case "module": {
+        const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}`;
+        FlowRouter.go(url);
+        break;
+      }
+      case "subject": {
+        const url = `/explore/subject/${boardSlugName}/${levelSlugName}/${subjectSlugName}`;
+        FlowRouter.go(url);
+        break;
+      }
+      case "level": {
+        FlowRouter.go(`/explore/level/${boardSlugName}/${levelSlugName}`);
+        break;
+      }
       default:
         break;
     }
@@ -184,14 +220,14 @@ const LandingActionCall = ({
     //     FlowRouter.go(`/explore/module/${res}/${id}`);
     //     break;
     //   }
-    //   case "module": {
-    //     const res = await Request({
-    //       action: "getSubjectNameByModuleId",
-    //       body: id
-    //     });
-    //     FlowRouter.go(`/explore/chapters/module/${id}/${res}/${1}`);
-    //     break;
-    //   }
+    // case "module": {
+    //   const res = await Request({
+    //     action: "getSubjectNameByModuleId",
+    //     body: id
+    //   });
+    //   FlowRouter.go(`/explore/chapters/module/${id}/${res}/${1}`);
+    //   break;
+    // }
     //   default:
     //     break;
     // }
@@ -214,32 +250,31 @@ const LandingActionCall = ({
   };
 
   return (
-    <div>
+    <div style={{ zIndex: 1 }}>
       {collapsibleSearch
         ? <div className={classes.search}>
-  
             {/* <div className="auto-s"> */}
             <FlexBox align justify className={classes.searchIcon}>
               <Search />
             </FlexBox>
-              <Autosuggest
+            <Autosuggest
               theme={{
                 ...defaultTheme,
-                input:classes.inputInput
+                input: classes.inputInput
               }}
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={Suggestion}
-                className={className}
-                inputProps={{
-                  value,
-                  onChange,
-                  onKeyDown,
-                  placeholder: "Search.."
-                }}
-              />
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+              onSuggestionsClearRequested={onSuggestionsClearRequested}
+              getSuggestionValue={getSuggestionValue}
+              renderSuggestion={Suggestion}
+              className={className}
+              inputProps={{
+                value,
+                onChange,
+                onKeyDown,
+                placeholder: "Search.."
+              }}
+            />
             {/* </div> */}
           </div>
         : <FlexBox

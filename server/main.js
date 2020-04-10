@@ -625,6 +625,30 @@ Meteor.methods({
     });
     return res;
   },
+  getModuleKeyword(obj) {
+    const records = modules.find({}).count();
+    if (records === 0) {
+      return [];
+    }
+    const allModules = modules.find({}, { fields: { _id: 0 } }).fetch();
+
+    const res = allModules
+      .map(({ _id, subject, name }) => {
+        const data = subjects.findOne({ _id: subject });
+        if (data) {
+          const { board } = data;
+          const { name: boardName } = boards.findOne({ _id: board });
+          return {
+            name,
+            boardName,
+            boardId: board,
+            type: "module"
+          };
+        } else return null;
+      })
+      .filter(v => v !== null);
+    return res;
+  },
   getBoardKeywords(obj) {
     const records = boards.find({}).count();
     if (records === 0) {
@@ -652,30 +676,69 @@ Meteor.methods({
   },
 
   genericSearch(searchObj) {
+    console.log(searchObj, "searchObj");
     const { name: searchable, boardName, type, boardId } = searchObj;
-
     let records;
+    records = modules
+      .find({ name: searchable }, { fields: { _id: 1 } })
+      .count();
+    if (records !== 0) {
+      const data = modules.find({ name: searchable }).fetch();
+      const { _id, subject } = data[0];
+      const data2 = subjects.find({ _id: subject }).fetch();
+
+      const { board, level } = data2[0];
+      return {
+        type: "module",
+        moduleId: _id,
+        boardId: board,
+        subjectId: subject,
+        levelId: level
+      };
+    }
+
+    records = levels.find({ name: searchable }, { fields: { _id: 1 } }).count();
+    if (records !== 0) {
+      const data = levels.find({ name: searchable }).fetch();
+      const { _id } = data[0];
+      const data2 = subjects.find({ level: _id }).fetch();
+      const { board, level } = data2[0];
+      return {
+        type: "level",
+        // moduleId: _id,
+        boardId: board,
+        // subjectId: subject,
+        levelId: level
+      };
+    }
+
+
+    records = subjects
+      .find({ name: searchable }, { fields: { _id: 1 } })
+      .count();
+    if (records !== 0) {
+      const data = subjects.find({ name: searchable }).fetch();
+      const { board, level,_id } = data[0];
+      return {
+        type: "subject",
+        // moduleId: _id,
+        boardId: board,
+        subjectId: _id,
+        levelId: level
+      };
+    }
 
     records = boards.find({ _id: boardId }, { fields: { _id: 1 } }).count();
     if (records !== 0) {
+      const board = boards
+        .find({ _id: boardId }, { fields: { _id: 1 } })
+        .fetch();
       return {
         type: "board",
-        id: boards.find({ _id: boardId }, { fields: { _id: 1 } }).fetch()
+        boardId: board[0]._id
       };
     }
     return [];
-
-    // let records;
-    // records = modules
-    //   .find({ name: searchable }, { fields: { _id: 1 } })
-    //   .count();
-    // if (records !== 0) {
-    //   console.log( "module");
-    // return {
-    //   type: "module",
-    //   id: modules.find({ name: searchable }, { fields: { _id: 1 } }).fetch()
-    // };
-    // }
     // records = subjects
     //   .find({ name: searchable }, { fields: { _id: 1 } })
     //   .count();
@@ -711,23 +774,35 @@ Meteor.methods({
   getSubjectSlugName(id) {
     const res = subjects.find({ _id: id }).fetch();
     const subject = res[0];
-    return subject.slug;
+    if (subject.slug) {
+      return subject.slug;
+    }
+    return subject._id;
   },
 
   getModuleSlugName(id) {
     const res = modules.find({ _id: id }).fetch();
     const module = res[0];
-    return module.slug;
+    if (module.slug) {
+      return module.slug;
+    }
+    return module._id;
   },
   getLevelSlugName(id) {
     const res = levels.find({ _id: id }).fetch();
     const level = res[0];
-    return level.slug;
+    if (level.slug) {
+      return level.slug;
+    }
+    return level._id;
   },
   getBoardSlugName(id) {
     const res = boards.find({ _id: id }).fetch();
     const board = res[0];
-    return board.slug;
+    if (board.slug) {
+      return board.slug;
+    }
+    return board._id;
   },
 
   getModuleNameBySlug(slug) {
