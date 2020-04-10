@@ -108,7 +108,11 @@ const Subjects = {
   french:{
     color: "#839098",
     icon :SubjectIcons.French
-  }
+  },
+  spanishabinitio: {
+    color: '#570748',
+    icon: SubjectIcons.Spanish,
+  },
 };
 
 export default Subjects;
