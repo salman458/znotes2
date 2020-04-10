@@ -33,17 +33,41 @@ const Explore = props => {
     let allBoards;
     const getNecessaryData = async () => {
       setLoading(true);
+      let body = {};
       if (board) {
         const boardId = await Request({
           action: "getBoardIdBySlugName",
           body: board
         });
-        if (boardId) {
-          allBoards = await Request({
-            action: "loadAllData",
-            body: boardId
-          });
-        }
+        body.board = boardId;
+      }
+      if (level) {
+        const levelId = await Request({
+          action: "getLevelIdBySlugName",
+          body: level
+        });
+        body.level = levelId;
+      }
+      if (module) {
+        const moduleId = await Request({
+          action: "getModuleIdBySlug",
+          body: module
+        });
+        body.module = moduleId;
+      }
+      if (subject) {
+        const subjectId = await Request({
+          action: "getSubjectIdBySlug",
+          body: subject
+        });
+        body.subject = subjectId;
+      }
+      // =========
+      if (board) {
+        allBoards = await Request({
+          action: "loadAllData",
+          body: body
+        });
       } else {
         allBoards = await Request({
           action: "loadAllData",

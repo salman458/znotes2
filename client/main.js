@@ -202,18 +202,7 @@ FlowRouter.route("/explore/subject/:board/:level/:subject", {
   }
 });
 
-FlowRouter.route("/explore/module/board/:level/:subject/:module", {
-  name: "Explore",
-  action() {
-    document.title = "ZNotes | Explore";
-    mount(App, {
-      content: props =>
-        <PermissionProvider>
-          <Explore {...params} {...props} />
-        </PermissionProvider>
-    });
-  }
-});
+
 
 // FlowRouter.route('/explore/module/:name/:subjectId', {
 //   name: 'Module',

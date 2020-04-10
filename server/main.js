@@ -106,21 +106,54 @@ Meteor.methods({
     Accounts.createUser(user);
   },
 
-  loadAllData(boardId) {
+  loadAllData(payload) {
+    const { board, level, subject, module } = payload;
+
     let allBoards;
-    if (boardId && typeof boardId === "string") {
-      const records = boards.find({ _id: boardId }).count();
+      const records = boards.find(board ?{ _id: board } :{}).count();
       if (records === 0) {
         return [];
+      } else {
+        allBoards = boards.find(board ?{ _id: board } :{}).fetch();
+
+        const result = allBoards.map(
+          ({ _id: boardId, name: boardName, ...rest }) => {
+            const allLevels = levels
+              .find(level ? { board: boardId, _id: level } : { board: boardId })
+              .fetch();
+            const allLevelsWithSubjects = allLevels.map(
+              ({ _id: levelId, name: levelName, ...levelRest }) => {
+                const allSubjects = subjects
+                  .find(
+                    subject
+                      ? { level: levelId, _id: subject }
+                      : { level: levelId }
+                  )
+                  .fetch();
+                const allSubjectsWithNames = allSubjects.map(subjectData => ({
+                  ...subjectData,
+                  boardName,
+                  levelName
+                }));
+                return {
+                  ...levelRest,
+                  levelId,
+                  name: levelName,
+                  board: boardName,
+                  subjects: allSubjectsWithNames
+                };
+              }
+            );
+            return {
+              ...rest,
+              boardId,
+              name: boardName,
+              levels: allLevelsWithSubjects
+            };
+          }
+        );
+        return result;
       }
-      allBoards = boards.find({ _id: boardId }).fetch();
-    } else {
-      const records = boards.find({}).count();
-      if (records === 0) {
-        return [];
-      }
-      allBoards = boards.find({}).fetch();
-    }
 
     /* As we need all the data we need to go 3 levels.
       We want to achive the following structure
@@ -155,35 +188,35 @@ Meteor.methods({
         when you use relational database ideas in
         non-relational databases
     */
-    const result = allBoards.map(
-      ({ _id: boardId, name: boardName, ...rest }) => {
-        const allLevels = levels.find({ board: boardId }).fetch();
-        const allLevelsWithSubjects = allLevels.map(
-          ({ _id: levelId, name: levelName, ...levelRest }) => {
-            const allSubjects = subjects.find({ level: levelId }).fetch();
-            const allSubjectsWithNames = allSubjects.map(subjectData => ({
-              ...subjectData,
-              boardName,
-              levelName
-            }));
-            return {
-              ...levelRest,
-              levelId,
-              name: levelName,
-              board: boardName,
-              subjects: allSubjectsWithNames
-            };
-          }
-        );
-        return {
-          ...rest,
-          boardId,
-          name: boardName,
-          levels: allLevelsWithSubjects
-        };
-      }
-    );
-    return result;
+    // const result = allBoards.map(
+    //   ({ _id: boardId, name: boardName, ...rest }) => {
+    //     const allLevels = levels.find({ board: boardId }).fetch();
+    //     const allLevelsWithSubjects = allLevels.map(
+    //       ({ _id: levelId, name: levelName, ...levelRest }) => {
+    //         const allSubjects = subjects.find({ level: levelId }).fetch();
+    //         const allSubjectsWithNames = allSubjects.map(subjectData => ({
+    //           ...subjectData,
+    //           boardName,
+    //           levelName
+    //         }));
+    //         return {
+    //           ...levelRest,
+    //           levelId,
+    //           name: levelName,
+    //           board: boardName,
+    //           subjects: allSubjectsWithNames
+    //         };
+    //       }
+    //     );
+    //     return {
+    //       ...rest,
+    //       boardId,
+    //       name: boardName,
+    //       levels: allLevelsWithSubjects
+    //     };
+    //   }
+    // );
+    // return result;
   },
   loadBoards(selector) {
     const records = boards.find(selector).count();
@@ -712,13 +745,12 @@ Meteor.methods({
       };
     }
 
-
     records = subjects
       .find({ name: searchable }, { fields: { _id: 1 } })
       .count();
     if (records !== 0) {
       const data = subjects.find({ name: searchable }).fetch();
-      const { board, level,_id } = data[0];
+      const { board, level, _id } = data[0];
       return {
         type: "subject",
         // moduleId: _id,
@@ -901,6 +933,22 @@ Meteor.methods({
       .fetch();
     const board = res[0];
     return board._id;
+  },
+  getLevelIdBySlugName(slug) {
+    const res = levels
+      .find({
+        $or: [
+          {
+            _id: slug
+          },
+          {
+            slug
+          }
+        ]
+      })
+      .fetch();
+    const level = res[0];
+    return level._id;
   },
   getSubjectNameByModuleId(id) {
     const results = modules.find({ _id: id }).fetch();
