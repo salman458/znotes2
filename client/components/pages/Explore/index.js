@@ -36,12 +36,7 @@ const Explore = props => {
       if (board) {
         const boardId = await Request({
           action: "getBoardIdBySlugName",
-          body: {
-            board,
-            level,
-            subject,
-            module
-          }
+          body: board
         });
         if (boardId) {
           allBoards = await Request({
