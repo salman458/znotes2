@@ -36,9 +36,6 @@ const SubjectSlider = ({
     }
   };
 
-  console.log({
-    subjects, isUserSubjects, user, className, boardSlugName, levelSlugName, boardId, levelId,
-  })
 
   return (
     <div
@@ -69,7 +66,15 @@ const SubjectSlider = ({
               onReInit={onSlidesToShowCountChange}
             >
               {subjects.map(({
-                _id: subjectId, name, boardName, levelName, slug: subjectNameSlug,board,level
+                _id: subjectId, 
+                name, 
+                boardName, 
+                levelName, 
+                slug: subjectNameSlug,
+                board,
+                level,
+                boardSlugName:boardSlug,
+                levelSlugName:levelSlug
               }) => (
                 <SubjectCard
                   role={role}
@@ -80,8 +85,8 @@ const SubjectSlider = ({
                   code={`${boardName} ${levelName}`}
                   subjectName={name}
                   subjectNameSlug={subjectNameSlug}
-                  levelSlugName={levelSlugName}
-                  boardSlugName={boardSlugName}
+                  levelSlugName={levelSlugName|| levelSlug}
+                  boardSlugName={boardSlugName || boardSlug}
                   boardId={boardId || board}
                   levelId={levelId || level}
                   user={user}
