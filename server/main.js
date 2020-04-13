@@ -924,16 +924,16 @@ Meteor.methods({
     if (allSubjects && allSubjects.length) {
       const res = allSubjects.map(
         ({ level: levelId, board: boardId, ...rest }) => {
-          const { name: levelName } = levels.findOne({ _id: levelId });
-          const { name: boardName } = boards.findOne({ _id: boardId });
-          const { name: moduleName } = modules.findOne({ subject: id });
+          const { name: levelName,slug:levelSlugName } = levels.findOne({ _id: levelId });
+          const { name: boardName,slug:boardSlugName } = boards.findOne({ _id: boardId });
           return {
             ...rest,
             level: levelId,
             board: boardId,
             levelName,
             boardName,
-            moduleName
+            levelSlugName,
+            boardSlugName
           };
         }
       );

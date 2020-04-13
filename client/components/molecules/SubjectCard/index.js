@@ -97,6 +97,8 @@ const SubjectCard = ({
     getNecessaryData();
   }, [id]);
 
+
+
   return (
     <>
       <Menu

@@ -47,6 +47,7 @@ const Dashboard = () => {
           action: "getUserSubjects",
           body: id,
         })) || [];
+
       setSubjectData(subjects);
     };
     getNecessaryData();
