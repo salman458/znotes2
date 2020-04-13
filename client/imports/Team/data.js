@@ -48,7 +48,7 @@ export const managementTeam = [
     desc:
       "Completed A levels at NIS, Saudi Arabia, self-accepted nerd, aspiring to study theoretical physics, foodie, optimist.",
     linkedIn: "https://www.linkedin.com/in/aishwarya-girish-kumar-0b2001192/",
-    gmail: "mailto:aishi.gkumar@gmail.com"
+    gmail: "mailto:aishu.gkumar@gmail.com"
   },
   {
     image:

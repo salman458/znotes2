@@ -5,6 +5,7 @@ import { Stickyroll } from '@stickyroll/stickyroll';
 import { Pagers } from '@stickyroll/pagers';
 import { Inner } from '@stickyroll/inner';
 import { PermissionProvider } from '/client/contexts/permission';
+import { UserProvider } from '/client/contexts/user';
 import Landing from '../Landing';
 import Story from '../Story';
 import Process from '../Process';
@@ -58,7 +59,10 @@ const Home = ({ setOpaque }) => {
     document.title = 'ZNotes | Dashboard';
     return (
       <PermissionProvider>
+      <UserProvider>
         <Dashboard />
+
+      </UserProvider>
        <CookiesBar/>
       </PermissionProvider>
     );

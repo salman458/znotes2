@@ -11,13 +11,14 @@ import {
   FlexBox,
   ProgressBar,
   Highlighted,
-  PageContainer
+  PageContainer,
 } from "/client/components/atoms";
 import { SubjectSlider, LandingActionCall } from "/client/components/organisms";
 import { useUserData } from "/client/contexts/user";
 import "./styles.scss";
-import _ from "lodash"
-
+import Subjects from "/client/components/molecules/SubjectCard/subjectData";
+import _ from "lodash";
+import { SanitizeName } from "/client/utils";
 const Dashboard = () => {
   const [lastLocation, setLast] = useState({});
   const [subjectData, setSubjectData] = useState([]);
@@ -29,7 +30,7 @@ const Dashboard = () => {
 
       const [{ lastPositions }] = await Request({
         action: "getUser",
-        body: id
+        body: id,
       });
 
       if (lastPositions.length) {
@@ -44,8 +45,9 @@ const Dashboard = () => {
       const subjects =
         (await Request({
           action: "getUserSubjects",
-          body: id
+          body: id,
         })) || [];
+
       setSubjectData(subjects);
     };
     getNecessaryData();
@@ -59,19 +61,26 @@ const Dashboard = () => {
     boardName = "",
     levelName = "",
     subjectName = "",
-    moduleName = ""
+    moduleName = "",
   } = lastLocation;
-
+  const { color } =
+    Subjects[!_.isEmpty(subjectName) ? SanitizeName(subjectName) : ""] || {};
+  const primaryColor = color || "#D82057";
+  const { firstName = "", lastName = "" } = userData || {};
   return (
     <PageContainer className="page_dashboard-container">
       {userData &&
         <Title variant="h1" className="page_dashboard-header">
           Welcome back,{" "}
-          <Highlighted color="primary">{userData.username}</Highlighted>
+          <Highlighted color="primary">
+            {firstName + " " + lastName}
+          </Highlighted>
         </Title>}
       {!_.isEmpty(lastLocation) &&
         <div>
-          <Title variant="h3">Return to</Title>
+          <Title variant="h3">
+            <Highlighted style={{ color: primaryColor }}>Return</Highlighted> to
+          </Title>
           <Title variant="h5">
             {boardName + " " + levelName + " " + subjectName}
           </Title>

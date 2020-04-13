@@ -60,7 +60,7 @@ const Hits = ({ progress,onDownPress}) => {
           color="#EE285D"
           background="transparent"
           play
-          numbers="150000"
+          numbers="20000000"
         />
         <Title
           variant="h1"
