@@ -6,6 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Snackbar from '@material-ui/core/Snackbar';
+import ReCAPTCHA from "react-google-recaptcha";
 
 import {
   Text,
@@ -33,6 +34,8 @@ const Register = () => {
   });
   const [checked, setChecked] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
+
+  const recaptchaRef = React.createRef();
 
   const handleClose = (_, reason) => {
     if (reason === 'clickaway') {
@@ -110,6 +113,14 @@ const Register = () => {
           Bert.alert("Passwords do not match", "danger", "growl-top-right");
           return false;
       }
+
+      const recaptchaValue = recaptchaRef.current.getValue();
+
+      if(!recaptchaValue || recaptchaValue.length === 0){
+        Bert.alert("Wrong Captcha");
+        return false;
+      }
+
        return true
   }
 
@@ -256,6 +267,11 @@ const Register = () => {
               <Link className="page_register-link" to="/privacy">Privacy Policy</Link>
             </Text>
           )}
+        />
+        <ReCAPTCHA
+          theme="dark"
+          ref={recaptchaRef}
+          sitekey="6LccDekUAAAAACW_qR-aHeY9AczD6biaqQ8iJc7J"
         />
         <Button
           onClick={createUser}
