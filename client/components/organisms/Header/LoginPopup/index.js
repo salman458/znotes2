@@ -30,6 +30,7 @@ const LoginPopup = () => {
         open={open}
         onClose={handleClose}
         className="organism_header-login-popup"
+        title="Login"
       >
         <Login />
       </ClosePopup>
