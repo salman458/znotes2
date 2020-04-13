@@ -522,10 +522,20 @@ Meteor.methods({
   },
   addSubjectToUser({ userId, subjectId }) {
     const subject = subjects.findOne({ _id: subjectId });
-    return Meteor.users.update(
-      { _id: userId },
-      { $push: { subjects: subject } }
-    );
+    const addedSubject = Meteor.users.findOne({
+      _id: userId,
+      "subjects._id": subjectId,
+    });
+    if (addedSubject) {
+      return {
+        error: "subject already added",
+      };
+    } else {
+      return Meteor.users.update(
+        { _id: userId },
+        { $push: { subjects: subject } }
+      );
+    }
   },
   updateChapterWithCard(obj) {
     return chapters.update(

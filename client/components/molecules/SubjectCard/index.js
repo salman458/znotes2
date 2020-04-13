@@ -73,13 +73,17 @@ const SubjectCard = ({
   };
 
   const addUserSubject = async () => {
-    await Request({
+  const result =  await Request({
       action: 'addSubjectToUser',
       body: {
         userId: Meteor.userId(),
         subjectId: id,
       },
     });
+    if(result && result.error){
+      Bert.alert("Subject already added", "danger", "growl-top-right");
+    }
+
   };
 
   useEffect(() => {
