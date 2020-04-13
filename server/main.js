@@ -17,7 +17,7 @@ const boards = new Mongo.Collection("boards");
 boards.friendlySlugs({
   slugFrom: "name",
   slugField: "slug",
-  distinct: true
+  distinct: true,
 });
 boards.schema = boardSchema;
 
@@ -25,7 +25,7 @@ const levels = new Mongo.Collection("levels");
 levels.friendlySlugs({
   slugFrom: "name",
   slugField: "slug",
-  distinct: true
+  distinct: true,
 });
 levels.schema = levelSchema;
 
@@ -33,7 +33,7 @@ const subjects = new Mongo.Collection("subjects");
 subjects.friendlySlugs({
   slugFrom: "name",
   slugField: "slug",
-  distinct: true
+  distinct: true,
 });
 
 subjects.schema = subjectSchema;
@@ -42,7 +42,7 @@ const modules = new Mongo.Collection("modules");
 modules.friendlySlugs({
   slugFrom: "name",
   slugField: "slug",
-  distinct: true
+  distinct: true,
 });
 modules.schema = zModuleSchema;
 
@@ -62,7 +62,7 @@ Accounts.urls.resetPassword = token => {
 };
 Accounts.config({
   sendVerificationEmail: true,
-  forbidClientAccountCreation: false
+  forbidClientAccountCreation: false,
 });
 
 Accounts.emailTemplates.enrollAccount.subject = user =>
@@ -164,14 +164,14 @@ Meteor.methods({
             const allSubjectsWithNames = allSubjects.map(subjectData => ({
               ...subjectData,
               boardName,
-              levelName
+              levelName,
             }));
             return {
               ...levelRest,
               levelId,
               name: levelName,
               board: boardName,
-              subjects: allSubjectsWithNames
+              subjects: allSubjectsWithNames,
             };
           }
         );
@@ -179,7 +179,7 @@ Meteor.methods({
           ...rest,
           boardId,
           name: boardName,
-          levels: allLevelsWithSubjects
+          levels: allLevelsWithSubjects,
         };
       }
     );
@@ -247,12 +247,12 @@ Meteor.methods({
       .find({
         $or: [
           {
-            _id: slug
+            _id: slug,
           },
           {
-            slug
-          }
-        ]
+            slug,
+          },
+        ],
       })
       .count();
     if (records === 0) {
@@ -261,12 +261,12 @@ Meteor.methods({
     const moduleData = modules.findOne({
       $or: [
         {
-          _id: slug
+          _id: slug,
         },
         {
-          slug
-        }
-      ]
+          slug,
+        },
+      ],
     });
     const flatCards = moduleData.chapters.reduce((acc, { _id: chapterId }) => {
       const chapterData = chapters.findOne({ _id: chapterId });
@@ -286,12 +286,12 @@ Meteor.methods({
       .find({
         $or: [
           {
-            _id: slug
+            _id: slug,
           },
           {
-            slug
-          }
-        ]
+            slug,
+          },
+        ],
       })
       .count();
     if (records === 0) {
@@ -300,12 +300,12 @@ Meteor.methods({
     const moduleData = modules.findOne({
       $or: [
         {
-          _id: slug
+          _id: slug,
         },
         {
-          slug
-        }
-      ]
+          slug,
+        },
+      ],
     });
     const chaptersWithCards = moduleData.chapters.map(
       ({ _id: chapterId, ...rest }) => {
@@ -319,13 +319,13 @@ Meteor.methods({
         return {
           ...rest,
           ...chapterData,
-          cards: chapterCards
+          cards: chapterCards,
         };
       }
     );
     return {
       ...moduleData,
-      chapters: chaptersWithCards
+      chapters: chaptersWithCards,
     };
   },
   getModuleById(moduleId) {
@@ -344,13 +344,13 @@ Meteor.methods({
         return {
           ...rest,
           ...chapterData,
-          cards: chapterCards
+          cards: chapterCards,
         };
       }
     );
     return {
       ...moduleData,
-      chapters: chaptersWithCards
+      chapters: chaptersWithCards,
     };
   },
   // getModulesBySubject(subject) {
@@ -406,12 +406,12 @@ Meteor.methods({
         {
           $or: [
             {
-              _id: slug
+              _id: slug,
             },
             {
-              slug
-            }
-          ]
+              slug,
+            },
+          ],
         },
         { fields: { _id: 1 } }
       )
@@ -468,8 +468,8 @@ Meteor.methods({
           data_updated: obj.data_updated,
           sortKey: obj.sortKey,
           title: obj.title,
-          author: obj.author
-        }
+          author: obj.author,
+        },
       }
     );
   },
@@ -478,7 +478,7 @@ Meteor.methods({
     return chapters.update(
       { _id: chapter._id },
       {
-        $set: { name: chapter.name, updated: new Date() }
+        $set: { name: chapter.name, updated: new Date() },
       }
     );
   },
@@ -486,13 +486,13 @@ Meteor.methods({
     const records = modules.findOne({
       $or: [
         {
-          _id: obj.slug
+          _id: obj.slug,
         },
         {
-          slug: obj.slug
-        }
+          slug: obj.slug,
+        },
       ],
-      "chapters._id": obj.chapter._id
+      "chapters._id": obj.chapter._id,
     });
     if (records) {
       return modules.update(
@@ -500,8 +500,8 @@ Meteor.methods({
         {
           $set: {
             "chapters.$.name": obj.chapter.name,
-            "chapter.$.updated": new Date()
-          }
+            "chapter.$.updated": new Date(),
+          },
         }
       );
     } else {
@@ -509,12 +509,12 @@ Meteor.methods({
         {
           $or: [
             {
-              _id: obj.slug
+              _id: obj.slug,
             },
             {
-              slug: obj.slug
-            }
-          ]
+              slug: obj.slug,
+            },
+          ],
         },
         { $push: { chapters: obj.chapter } }
       );
@@ -561,7 +561,7 @@ Meteor.methods({
     const res = allModules.map(
       ({ subject: subjectId, name, board: boardId }) => {
         const subjectData = subjects.findOne({
-          _id: subjectId
+          _id: subjectId,
         });
         if (subjectData) {
           const { board, level, name: subjectName } = subjectData;
@@ -573,7 +573,7 @@ Meteor.methods({
             boardName,
             subjectName,
             boardId: board,
-            type: "module"
+            type: "module",
           };
         }
       }
@@ -603,7 +603,7 @@ Meteor.methods({
         levelName,
         boardName,
         boardId,
-        type: "subject"
+        type: "subject",
       };
     });
     return res;
@@ -620,7 +620,7 @@ Meteor.methods({
         name,
         boardName,
         boardId,
-        type: "level"
+        type: "level",
       };
     });
     return res;
@@ -634,7 +634,7 @@ Meteor.methods({
     const res = allBoards.map(board => ({
       boardId: board._id,
       ...board,
-      type: "board"
+      type: "board",
     }));
     return res;
   },
@@ -660,7 +660,7 @@ Meteor.methods({
     if (records !== 0) {
       return {
         type: "board",
-        id: boards.find({ _id: boardId }, { fields: { _id: 1 } }).fetch()
+        id: boards.find({ _id: boardId }, { fields: { _id: 1 } }).fetch(),
       };
     }
     return [];
@@ -735,12 +735,12 @@ Meteor.methods({
       .find({
         $or: [
           {
-            _id: slug
+            _id: slug,
           },
           {
-            slug
-          }
-        ]
+            slug,
+          },
+        ],
       })
       .fetch();
     const module = res[0];
@@ -752,12 +752,12 @@ Meteor.methods({
       .find({
         $or: [
           {
-            _id: slug
+            _id: slug,
           },
           {
-            slug
-          }
-        ]
+            slug,
+          },
+        ],
       })
       .fetch();
     const subject = res[0];
@@ -774,12 +774,12 @@ Meteor.methods({
       .find({
         $or: [
           {
-            _id: slug
+            _id: slug,
           },
           {
-            slug
-          }
-        ]
+            slug,
+          },
+        ],
       })
       .fetch();
     const subject = res[0];
@@ -790,12 +790,12 @@ Meteor.methods({
       .find({
         $or: [
           {
-            _id: slug
+            _id: slug,
           },
           {
-            slug
-          }
-        ]
+            slug,
+          },
+        ],
       })
       .fetch();
     const module = res[0];
@@ -816,12 +816,12 @@ Meteor.methods({
       .find({
         $or: [
           {
-            _id: slug
+            _id: slug,
           },
           {
-            slug
-          }
-        ]
+            slug,
+          },
+        ],
       })
       .fetch();
     const board = res[0];
@@ -880,7 +880,7 @@ Meteor.methods({
           level: levelId,
           board: boardId,
           levelName,
-          boardName
+          boardName,
         };
       }
     );
@@ -924,8 +924,12 @@ Meteor.methods({
     if (allSubjects && allSubjects.length) {
       const res = allSubjects.map(
         ({ level: levelId, board: boardId, ...rest }) => {
-          const { name: levelName,slug:levelSlugName } = levels.findOne({ _id: levelId });
-          const { name: boardName,slug:boardSlugName } = boards.findOne({ _id: boardId });
+          const { name: levelName, slug: levelSlugName } = levels.findOne({
+            _id: levelId,
+          });
+          const { name: boardName, slug: boardSlugName } = boards.findOne({
+            _id: boardId,
+          });
           return {
             ...rest,
             level: levelId,
@@ -933,7 +937,7 @@ Meteor.methods({
             levelName,
             boardName,
             levelSlugName,
-            boardSlugName
+            boardSlugName,
           };
         }
       );
@@ -954,8 +958,8 @@ Meteor.methods({
           "lastPositions.$.boardName": obj.subject.boardName,
           "lastPositions.$.levelName": obj.subject.levelName,
           "lastPositions.$.moduleName": obj.subject.moduleName,
-          "lastPositions.$.subjectName": obj.subject.subjectName
-        }
+          "lastPositions.$.subjectName": obj.subject.subjectName,
+        },
       },
       {},
       function(err, result) {
@@ -974,9 +978,9 @@ Meteor.methods({
                   subjectName: obj.subject.subjectName,
                   levelName: obj.subject.levelName,
                   boardName: obj.subject.boardName,
-                  timestamp: new Date()
-                }
-              }
+                  timestamp: new Date(),
+                },
+              },
             }
           );
         }
@@ -1010,7 +1014,7 @@ Meteor.methods({
       return [];
     }
     const { level: levelId, board: boardId, ...rest } = subjects.findOne({
-      _id: id
+      _id: id,
     });
     const { name: levelName } = levels.findOne({ _id: levelId });
     const { name: boardName } = boards.findOne({ _id: boardId });
@@ -1019,7 +1023,7 @@ Meteor.methods({
       level: levelId,
       board: boardId,
       levelName,
-      boardName
+      boardName,
     };
   },
 
@@ -1028,12 +1032,12 @@ Meteor.methods({
       .find({
         $or: [
           {
-            _id: slug
+            _id: slug,
           },
           {
-            slug
-          }
-        ]
+            slug,
+          },
+        ],
       })
       .count();
     if (records === 0) {
@@ -1042,12 +1046,12 @@ Meteor.methods({
     const { level: levelId, board: boardId, _id, ...rest } = subjects.findOne({
       $or: [
         {
-          _id: slug
+          _id: slug,
         },
         {
-          slug
-        }
-      ]
+          slug,
+        },
+      ],
     });
     const { name: levelName } = levels.findOne({ _id: levelId });
     const { name: boardName } = boards.findOne({ _id: boardId });
@@ -1059,7 +1063,7 @@ Meteor.methods({
       board: boardId,
       levelName,
       boardName,
-      moduleName
+      moduleName,
     };
   },
   addSponsorContent(card) {
@@ -1090,7 +1094,7 @@ Meteor.methods({
     }
     const res = sponsorCards.find({}).fetch();
     return res;
-  }
+  },
 });
 
 function updateSponsorContent(card) {
@@ -1098,8 +1102,8 @@ function updateSponsorContent(card) {
     { sponsor: card.sponsor },
     {
       $push: {
-        content: card.content[0]
-      }
+        content: card.content[0],
+      },
     },
     {},
     (err, resp) => {
@@ -1111,8 +1115,8 @@ function updateSponsorContent(card) {
           {
             $set: {
               logo: card.logo,
-              subjects: card.subjects
-            }
+              subjects: card.subjects,
+            },
           }
         );
       }
@@ -1125,13 +1129,13 @@ function updateSponsorContentWithoutContent(card) {
     {
       $set: {
         logo: card.logo,
-        subjects: card.subjects
-      }
+        subjects: card.subjects,
+      },
     }
   );
 }
 
 Meteor.startup(() => {
-  process.env.MAIL_URL =
-    "smtp://team@znotes.org:1@Brooklands@smtp.gmail.com:587";
+  // process.env.MAIL_URL =
+  //   "smtp://team@znotes.org:1@Brooklands@smtp.gmail.com:587";
 });
