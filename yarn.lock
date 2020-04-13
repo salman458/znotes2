@@ -3537,6 +3537,11 @@ react-mounter@^1.2.0:
     babel-runtime "6.x.x"
     domready "1.x.x"
 
+react-native-vscode-settings@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/react-native-vscode-settings/-/react-native-vscode-settings-0.0.8.tgz#7e684f98ef88e8483ed1fa21ca43409db2171e69"
+  integrity sha512-BQK/VRXjjAmqoH6X2uQxSOL8YcUlc7iqWKGsdKI7vetWev2XIWL3Ltu7mLC5BUZ7SIpZcd69xsCZrIUAc6VJgw==
+
 react-overlays@^0.8.0:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-overlays/-/react-overlays-0.8.3.tgz#fad65eea5b24301cca192a169f5dddb0b20d3ac5"
