@@ -48,7 +48,6 @@ const Dashboard = () => {
           body: id,
         })) || [];
 
-        console.log(subjects,"userSubjects")
       setSubjectData(subjects);
     };
     getNecessaryData();
