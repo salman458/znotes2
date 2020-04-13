@@ -11,7 +11,7 @@ import {
   Title,
   PageContainer,
   Button,
-  ErrorBoundary
+  ErrorBoundary,
 } from "/client/components/atoms";
 import { Next, Prev } from "/client/components/icons";
 import "./styles.scss";
@@ -22,8 +22,12 @@ import { Loading, ConfirmationDialog } from "/client/components/molecules";
 import Subjects from "/client/components/molecules/SubjectCard/subjectData";
 import _ from "lodash";
 import { SanitizeName } from "/client/utils";
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "@material-ui/core/Link";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+
 const Cards = ({
   subjectId,
   moduleId,
@@ -32,7 +36,7 @@ const Cards = ({
   subjectSlugName,
   moduleSlugName,
   chapterId,
-  cardId
+  cardId,
 }) => {
   const [currentCardId, setCurrentCardId] = useState(cardId);
   const [subject, setSubjectData] = useState({});
@@ -72,7 +76,7 @@ const Cards = ({
   const getSubjectBySlug = async () => {
     const subjectData = await Request({
       action: "getSubjectBySlug",
-      body: subjectSlugName
+      body: subjectSlugName,
     });
 
     setSubjectData(subjectData);
@@ -84,7 +88,7 @@ const Cards = ({
     }
     const cardData = await Request({
       action: "getAllCardsByModuleSlugName",
-      body: moduleSlugName
+      body: moduleSlugName,
     });
 
     let counter = 0;
@@ -97,7 +101,7 @@ const Cards = ({
         if (counter == adIterator) {
           cardsResult.push({
             ...item,
-            isAd: true
+            isAd: true,
           });
           counter = 0;
         }
@@ -155,7 +159,7 @@ const Cards = ({
     const cardId = event.target.id;
     const chapterId = await Request({
       action: "getChapterByCard",
-      body: cardId
+      body: cardId,
     });
     const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
     FlowRouter.go(url);
@@ -165,23 +169,23 @@ const Cards = ({
     const card = currentCardId;
     const deleteCard = await Request({
       action: "deleteCard",
-      body: card
+      body: card,
     });
     const chapter = await Request({
       action: "getChapterByCard",
-      body: card
+      body: card,
     });
     const removeRef = await Request({
       action: "removeCardRef",
       body: {
         chapterId: chapter,
-        cardId: card
-      }
+        cardId: card,
+      },
     });
 
     const cardData = await Request({
       action: "getAllCardsByModuleSlugName",
-      body: moduleSlugName
+      body: moduleSlugName,
     });
 
     window.location.reload();
@@ -201,6 +205,11 @@ const Cards = ({
     );
   };
 
+  const handleClick = event => {
+    event.preventDefault();
+    console.info("You clicked a breadcrumb.");
+  };
+
   return (
     <PageContainer className="page_cards-container">
       <ConfirmationDialog
@@ -209,12 +218,43 @@ const Cards = ({
         onSubmit={deleteHandler}
       />
       <Loading isLoading={showLoading} />
-      <Title variant="h5">
-        {subject.boardName} {subject.levelName}
-      </Title>
-      <Title style={{ color: primaryColor }} variant="h3">
-        {subject.name}
-      </Title>
+
+      {/* breadcrumb start */}
+      <Breadcrumbs
+        separator={<NavigateNextIcon fontSize="small" />}
+        aria-label="breadcrumb"
+      >
+        <Link
+          color="inherit"
+          href={`/explore/${boardSlugName}`}
+          onClick={handleClick}
+        >
+          <Title variant="h5">
+            {subject.boardName}
+          </Title>
+        </Link>
+        <Link
+          color="inherit"
+          href={`/explore/level/${boardSlugName}/${levelSlugName}`}
+          onClick={handleClick}
+        >
+          <Title variant="h5">
+            {subject.levelName}
+          </Title>
+        </Link>
+      </Breadcrumbs>
+
+      {/* breadcrumb end */}
+      <Link
+        color="inherit"
+        href={`/explore/subject/${boardSlugName}/${levelSlugName}/${subjectSlugName}`}
+        onClick={handleClick}
+      >
+        <Title style={{ color: primaryColor }} variant="h3">
+          {subject.name}
+        </Title>
+      </Link>
+
       <Slider
         ref={slider}
         arrows={false}
@@ -229,7 +269,7 @@ const Cards = ({
 
             const chapterId = await Request({
               action: "getChapterByCard",
-              body: cardID
+              body: cardID,
             });
 
             const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardID}`;
