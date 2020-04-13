@@ -29,6 +29,7 @@ const Register = () => {
     password: '',
     livingPlace: '',
     dob: null,
+    password2:''
   });
   const [checked, setChecked] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
@@ -59,29 +60,100 @@ const Register = () => {
     });
   };
 
-  const createUser = () => {
-    const { email, password, ...profileData } = userData;
-    const credentials = {
+
+  
+  // Validate Email
+  const isEmail = (value)=> {
+    const filter = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if(filter.test(value)) {
+      return true;
+    }
+    return false;
+  };
+
+
+  const userValidation=(userData)=>{
+
+    const {  
+      firstName,
+      lastName,
+      gender,
       email,
       password,
-    };
-    Accounts.createUser(credentials, async (err) => {
-      if (err) {
-        throw err;
-      } else {
-        const userId = Meteor.userId();
-        const res = await Request({
-          action: 'extendProfile',
-          body: { userId, fields: profileData },
-        });
-        const verifyEmail = await Request({
-          action:"sendVerification",
-          body:Meteor.user()
-        })
-        
-        setSnackOpen(true);
+      password2,
+      livingPlace,
+      dob
+    } = userData
+      if( 
+        !firstName ||
+        !lastName ||
+        !gender||
+        !email ||
+        !password ||
+        !password2 ||
+        !livingPlace||
+        !dob ||
+        checked == false
+        ){
+
+          Bert.alert("Some Fields are missing", "danger", "growl-top-right");
+          return false
       }
-    });
+      if(!isEmail(email)){
+
+          Bert.alert("Please use a valid email address", "danger", "growl-top-right");
+          return false
+      }
+      if(password !== password2) {
+
+          Bert.alert("Passwords do not match", "danger", "growl-top-right");
+          return false;
+      }
+       return true
+  }
+
+  const createUser = () => {
+ const {  
+    firstName,
+    lastName,
+    gender,
+    email,
+    password,
+    livingPlace,
+    dob
+  } = userData
+    if(userValidation(userData)){
+      const credentials = {
+        email,
+        password,
+      };
+      Accounts.createUser(credentials, async (err) => {
+        if (err) {
+          throw err;
+        } else {
+          const userId = Meteor.userId();
+          const res = await Request({
+            action: 'extendProfile',
+            body: { userId, fields: {
+              lastName,
+              gender,
+              livingPlace,
+              dob
+            } },
+          });
+          const verifyEmail = await Request({
+            action:"sendVerification",
+            body:Meteor.user()
+          })
+          
+          setSnackOpen(true);
+        }
+      });
+    }
+
+    return false
+
   };
 
   return (
@@ -111,18 +183,31 @@ const Register = () => {
 
           <FlexBox justify align className="page_contact-wrapper">
             <TextField
-              className="page_register-input page_register-input-margin"
+              className="page_register-input"
               onChange={setTextField('email')}
               value={userData.email}
               label="Email"
               type="email"
             />
-            <TextField
-              className="page_register-input"
+
+          </FlexBox>
+          <FlexBox justify align className="page_contact-wrapper">
+
+          <TextField
+              className="page_register-input page_register-input-margin"
               inputProps={{ autoComplete: 'new-password' }}
               onChange={setTextField('password')}
               value={userData.password}
               label="Password"
+              type="password"
+            />
+
+          <TextField
+              className="page_register-input"
+              inputProps={{ autoComplete: 'new-password2' }}
+              onChange={setTextField('password2')}
+              value={userData.password2}
+              label="Confirm Password"
               type="password"
             />
           </FlexBox>
