@@ -926,14 +926,12 @@ Meteor.methods({
         ({ level: levelId, board: boardId, ...rest }) => {
           const { name: levelName } = levels.findOne({ _id: levelId });
           const { name: boardName } = boards.findOne({ _id: boardId });
-          const { name: moduleName } = modules.findOne({ subject: id });
           return {
             ...rest,
             level: levelId,
             board: boardId,
             levelName,
             boardName,
-            moduleName
           };
         }
       );
