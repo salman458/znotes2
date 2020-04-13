@@ -146,6 +146,7 @@ const Register = () => {
             body: {
               userId,
               fields: {
+                firstName,
                 lastName,
                 gender,
                 livingPlace,
