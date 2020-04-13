@@ -66,13 +66,15 @@ const Dashboard = () => {
   const { color } =
     Subjects[!_.isEmpty(subjectName) ? SanitizeName(subjectName) : ""] || {};
   const primaryColor = color || "#D82057";
-
+  const { firstName = "", lastName = "" } = userData || {};
   return (
     <PageContainer className="page_dashboard-container">
       {userData &&
         <Title variant="h1" className="page_dashboard-header">
           Welcome back,{" "}
-          <Highlighted color="primary">{userData.username}</Highlighted>
+          <Highlighted color="primary">
+            {firstName + " " + lastName}
+          </Highlighted>
         </Title>}
       {!_.isEmpty(lastLocation) &&
         <div>
@@ -80,7 +82,7 @@ const Dashboard = () => {
             <Highlighted style={{ color: primaryColor }}>Return</Highlighted> to
           </Title>
           <Title variant="h5">
-          {boardName + " " + levelName + " " + subjectName}
+            {boardName + " " + levelName + " " + subjectName}
           </Title>
           <Title variant="h5">
             {moduleName}

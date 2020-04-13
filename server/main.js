@@ -1008,6 +1008,14 @@ Meteor.methods({
       .fetch();
     return res;
   },
+  getUserData(id) {
+    const records = Meteor.users.find({ _id: id }).count();
+    if (records === 0) {
+      return [];
+    }
+    const res = Meteor.users.find({ _id: id }).fetch();
+    return res;
+  },
   getSubjectById(id) {
     const records = subjects.find({ _id: id }).count();
     if (records === 0) {
