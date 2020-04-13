@@ -75,10 +75,11 @@ const Dashboard = () => {
         </Title>}
       {!_.isEmpty(lastLocation) &&
         <div>
-          <Title variant="h3">Return to</Title>
+          <Title variant="h3">
+            <Highlighted style={{ color: primaryColor }}>Return</Highlighted> to
+          </Title>
           <Title variant="h5">
-            {boardName + " " + levelName}{" "}
-            <Highlighted style={{color:primaryColor}}>{subjectName}</Highlighted>
+          {boardName + " " + levelName + " " + subjectName}
           </Title>
           <Title variant="h5">
             {moduleName}
