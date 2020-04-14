@@ -47,7 +47,7 @@ const CookiesBar = ({}) => {
         </Link>{" "}
         and{" "}
         <Link className="page_register-link" to="/privacy">
-          Privacy Policy
+          privacy policy
         </Link>
         .
       </CookieConsent>
