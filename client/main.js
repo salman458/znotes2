@@ -14,7 +14,7 @@ import {
   Register,
   Community,
   ProfileSettings,
-  ContributorInfo
+  ContributorInfo,
 } from "./components/pages";
 import Editor from "./imports/explore/Editor";
 import Reset from "./imports/account/Reset";
@@ -29,9 +29,9 @@ FlowRouter.route("/", {
     document.title = "ZNotes | For Students, By Students";
     mount(App, {
       opaqueHeader: true,
-      content: props => <Home {...props} />
+      content: props => <Home {...props} />,
     });
-  }
+  },
 });
 
 FlowRouter.route("/community", {
@@ -39,9 +39,9 @@ FlowRouter.route("/community", {
   action() {
     document.title = "ZNotes | Community";
     mount(App, {
-      content: props => <Community {...props} />
+      content: props => <Community {...props} />,
     });
-  }
+  },
 });
 
 FlowRouter.route("/team", {
@@ -49,9 +49,9 @@ FlowRouter.route("/team", {
   action() {
     document.title = "ZNotes | Team";
     mount(App, {
-      content: props => <Team {...props} />
+      content: props => <Team {...props} />,
     });
-  }
+  },
 });
 
 FlowRouter.route("/register", {
@@ -59,18 +59,18 @@ FlowRouter.route("/register", {
   action() {
     document.title = "ZNotes | Sign Up";
     mount(App, {
-      content: props => <Register {...props} />
+      content: props => <Register {...props} />,
     });
-  }
+  },
 });
 
 FlowRouter.route("/sponsorContent/:id", {
   name: "AddSponsorContnet",
   action({ id }) {
     mount(App, {
-      content: props => <Sponsor id={id} {...props} />
+      content: props => <Sponsor id={id} {...props} />,
     });
-  }
+  },
 });
 
 // FlowRouter.route('/addBio', {
@@ -86,9 +86,9 @@ FlowRouter.route("/contributor", {
   name: "ContributorInfo",
   action() {
     mount(App, {
-      content: props => <ContributorInfo {...props} />
+      content: props => <ContributorInfo {...props} />,
     });
-  }
+  },
 });
 
 FlowRouter.route("/email/verify/:token", {
@@ -102,7 +102,7 @@ FlowRouter.route("/email/verify/:token", {
       }
       FlowRouter.go("/");
     });
-  }
+  },
 });
 
 FlowRouter.route("/password/reset/:token", {
@@ -110,18 +110,18 @@ FlowRouter.route("/password/reset/:token", {
   action({ token }) {
     document.title = "ZNotes | Reset Password";
     mount(App, {
-      content: props => <Reset token={token} {...props} />
+      content: props => <Reset token={token} {...props} />,
     });
-  }
+  },
 });
 
 FlowRouter.route("/password/reset/", {
   name: "GetResetToken",
   action() {
     mount(App, {
-      content: props => <Forgot {...props} />
+      content: props => <Forgot {...props} />,
     });
-  }
+  },
 });
 
 // FlowRouter.route('/email/change', {
@@ -147,9 +147,9 @@ FlowRouter.route("/profile/change", {
   action() {
     document.title = "ZNotes | Change Profile";
     mount(App, {
-      content: props => <ProfileSettings {...props} />
+      content: props => <ProfileSettings {...props} />,
     });
-  }
+  },
 });
 
 FlowRouter.route("/explore", {
@@ -160,9 +160,9 @@ FlowRouter.route("/explore", {
       content: props =>
         <PermissionProvider>
           <Explore {...props} />
-        </PermissionProvider>
+        </PermissionProvider>,
     });
-  }
+  },
 });
 
 FlowRouter.route("/explore/:board", {
@@ -173,9 +173,9 @@ FlowRouter.route("/explore/:board", {
       content: props =>
         <PermissionProvider>
           <Explore {...params} {...props} />
-        </PermissionProvider>
+        </PermissionProvider>,
     });
-  }
+  },
 });
 FlowRouter.route("/explore/level/:board/:level", {
   name: "Explore",
@@ -185,9 +185,9 @@ FlowRouter.route("/explore/level/:board/:level", {
       content: props =>
         <PermissionProvider>
           <Explore {...params} {...props} />
-        </PermissionProvider>
+        </PermissionProvider>,
     });
-  }
+  },
 });
 FlowRouter.route("/explore/subject/:board/:level/:subject", {
   name: "Explore",
@@ -197,12 +197,10 @@ FlowRouter.route("/explore/subject/:board/:level/:subject", {
       content: props =>
         <PermissionProvider>
           <Explore {...params} {...props} />
-        </PermissionProvider>
+        </PermissionProvider>,
     });
-  }
+  },
 });
-
-
 
 // FlowRouter.route('/explore/module/:name/:subjectId', {
 //   name: 'Module',
@@ -238,9 +236,9 @@ FlowRouter.route("/explore/module/:subject/:name", {
       moduleId,
       subject,
       content: props =>
-        <Cards moduleId={moduleId} subjectId={subjectId} {...props} />
+        <Cards moduleId={moduleId} subjectId={subjectId} {...props} />,
     });
-  }
+  },
 });
 
 FlowRouter.route("/:board/:level/:subject/:module", {
@@ -249,7 +247,7 @@ FlowRouter.route("/:board/:level/:subject/:module", {
     { board, level, subject, module },
     { subjectId, moduleId, chapterId, cardId }
   ) {
-    document.title = `ZNotes | Learn ${name}`;
+    document.title = `ZNotes | Learn ${subject.replace(/[^A-Za-z]+/g, " ")}`;
     mount(App, {
       withSidebar: true,
       moduleId,
@@ -273,9 +271,9 @@ FlowRouter.route("/:board/:level/:subject/:module", {
             cardId={cardId}
             {...props}
           />
-        </PermissionProvider>
+        </PermissionProvider>,
     });
-  }
+  },
 });
 
 // FlowRouter.route('/explore/chapters/module/:moduleId/:subjectName/:cardId', {
@@ -296,9 +294,9 @@ FlowRouter.route("/editor/:board/:level/:subject/:module", {
   name: "Editor",
   action(params, params2) {
     mount(App, {
-      content: props => <Editor {...params2} {...params} {...props} />
+      content: props => <Editor {...params2} {...params} {...props} />,
     });
-  }
+  },
 });
 
 FlowRouter.route("/privacy", {
@@ -306,9 +304,9 @@ FlowRouter.route("/privacy", {
   action() {
     document.title = "ZNotes | Privacy Policy";
     mount(App, {
-      content: props => <Privacy {...props} />
+      content: props => <Privacy {...props} />,
     });
-  }
+  },
 });
 
 FlowRouter.route("/terms", {
@@ -316,9 +314,9 @@ FlowRouter.route("/terms", {
   action() {
     document.title = "ZNotes | Terms and Conditions";
     mount(App, {
-      content: props => <Terms {...props} />
+      content: props => <Terms {...props} />,
     });
-  }
+  },
 });
 
 FlowRouter.route("/admin/:offset/:limit", {
@@ -326,9 +324,9 @@ FlowRouter.route("/admin/:offset/:limit", {
   action(params) {
     document.title = "ZNotes | Admin";
     mount(App, {
-      content: props => <Admin {...params} {...props} />
+      content: props => <Admin {...params} {...props} />,
     });
-  }
+  },
 });
 
 FlowRouter.route("/data", {
@@ -338,9 +336,9 @@ FlowRouter.route("/data", {
     mount(App, {
       content: () => {
         FlowRouter.go("/privacy");
-      }
+      },
     });
-  }
+  },
 });
 FlowRouter.route("/cookies", {
   name: "Cookies",
@@ -349,7 +347,7 @@ FlowRouter.route("/cookies", {
     mount(App, {
       content: () => {
         FlowRouter.go("/privacy");
-      }
+      },
     });
-  }
+  },
 });
