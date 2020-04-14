@@ -65,6 +65,10 @@ const Sidebar = ({
     };
 
     getNecessaryData();
+
+  }, [moduleSlugName]);
+
+  useEffect(()=>{
     const getSubjectName = async () => {
       const subject = await Request({
         action: 'getSubjectNameBySlug',
@@ -74,7 +78,7 @@ const Sidebar = ({
     };
 
     getSubjectName();
-  }, []);
+  },[subjectSlugName])
 
 
   return (

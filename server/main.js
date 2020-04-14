@@ -306,13 +306,60 @@ Meteor.methods({
       const chapterCards = chapterData.cards
         .map(({ _id: cardId }) => {
           const data = cards.findOne({ _id: cardId });
-          return data;
+          return {
+            ...data,
+            chapterId: chapterData._id,
+          };
         })
         .filter(v => v != null);
       return [...acc, ...chapterCards];
     }, []);
     return flatCards;
   },
+
+  //   const records = modules
+  //     .find({
+  //       $or: [
+  //         {
+  //           _id: slug,
+  //         },
+  //         {
+  //           slug,
+  //         },
+  //       ],
+  //     })
+  //     .count();
+  //   if (records === 0) {
+  //     return [];
+  //   }
+  //   const moduleData = modules.findOne({
+  //     $or: [
+  //       {
+  //         _id: slug,
+  //       },
+  //       {
+  //         slug,
+  //       },
+  //     ],
+  //   });
+  //   const flatCards = moduleData.chapters.reduce((acc, { _id: chapterId }) => {
+  //     const chapterData = chapters.findOne({ _id: chapterId });
+  //     const chapterCards = chapterData.cards
+  //       .map(({ _id: cardId }) => {
+  //         const data = cards.findOne(
+  //           { _id: cardId },
+  //           { fields: { _id: 1, title: 1 } }
+  //         );
+  //         return {
+  //           _id: data._id,
+  //           title: data,
+  //         };
+  //       })
+  //       .filter(v => v != null);
+  //     return [...acc, ...chapterCards];
+  //   }, []);
+  //   return flatCards;
+  // },
 
   getChaptersByModuleSlugName(slug) {
     const records = modules
@@ -345,7 +392,10 @@ Meteor.methods({
         const chapterData = chapters.findOne({ _id: chapterId });
         const chapterCards = chapterData.cards
           .map(({ _id: cardId }) => {
-            const data = cards.findOne({ _id: cardId });
+            const data = cards.findOne(
+              { _id: cardId },
+              { fields: { _id: 1, title: 1 } }
+            );
             return data;
           })
           .filter(v => v != null);

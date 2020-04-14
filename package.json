@@ -59,6 +59,7 @@
     "react-slick": "^0.25.2",
     "react-switch": "^5.0.1",
     "react-table": "^6.10.2",
+    "reactn": "^2.2.7",
     "react-transition-group": "4.3.0",
     "reactstrap": "^8.0.1",
     "showdown": "^1.9.0",

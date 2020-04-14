@@ -27,7 +27,7 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Link from "@material-ui/core/Link";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-
+import { useGlobal, setGlobal } from "reactn";
 const Cards = ({
   subjectId,
   moduleId,
@@ -49,7 +49,7 @@ const Cards = ({
   const module = urlParams.get("moduleId");
   const subj = urlParams.get("subjectId");
   const [slideIndex, setSlideIndex] = useState(-1);
-
+  const [cardsData, setCardsData] = useGlobal("cardsData");
   const { color } =
     Subjects[!_.isEmpty(subject) ? SanitizeName(subject.name) : ""] || {};
   const primaryColor = color || "#D82057";
@@ -111,13 +111,22 @@ const Cards = ({
     setCards(cardsResult);
     setInitailSlide(cardsResult);
     setShowLoading(false);
+    setCardsData(cardData);
   };
+  console.log(cards, cardsData, "asd");
+
+  useEffect(
+    () => {
+      setInitailSlide(cards);
+    },
+    [currentCardId]
+  );
 
   useEffect(
     () => {
       getSubjectBySlug();
     },
-    [currentCardId]
+    [subjectSlugName]
   );
 
   useEffect(() => {
@@ -143,7 +152,7 @@ const Cards = ({
     () => {
       getAllCardsByModuleSlugName();
     },
-    [currentCardId]
+    [moduleSlugName]
   );
 
   useEffect(
@@ -182,12 +191,6 @@ const Cards = ({
         cardId: card,
       },
     });
-
-    const cardData = await Request({
-      action: "getAllCardsByModuleSlugName",
-      body: moduleSlugName,
-    });
-
     window.location.reload();
   };
 
@@ -261,23 +264,45 @@ const Cards = ({
         slidesToShow={1}
         slidesToScroll={1}
         initialSlide={2}
-        beforeChange={async (current, next) => {
+        afterChange={async next => {
           if (cards && cards.length && next !== -1 && !isLoading) {
             setLoading(true);
             const cardID = cards[next]._id;
             setCurrentCardId(cardID);
 
-            const chapterId = await Request({
-              action: "getChapterByCard",
-              body: cardID,
-            });
+            const currentCard = cards.find(v => v._id === cardID);
+            const { chapterId } = currentCard;
+            if (!chapterId) {
+              let chapterId = await Request({
+                action: "getChapterByCard",
+                body: cardID,
+              });
+            }
 
             const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardID}`;
 
-            FlowRouter.go(url);
+            await FlowRouter.go(url);
 
-            setLoading(false);
+            await setLoading(false);
           }
+        }}
+        beforeChange={async (current, next) => {
+          // if (cards && cards.length && next !== -1 && !isLoading) {
+          //   setLoading(true);
+          //   const cardID = cards[next]._id;
+          //   setCurrentCardId(cardID);
+          //   const currentCard = cards.find(v => v._id === cardID);
+          //   const { chapterId } = currentCard;
+          //   if (!chapterId) {
+          //     let chapterId = await Request({
+          //       action: "getChapterByCard",
+          //       body: cardID,
+          //     });
+          //   }
+          //   const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardID}`;
+          //   await FlowRouter.go(url);
+          //   await setLoading(false);
+          // }
         }}
         // afterChange={current => {    }}
       >
@@ -320,10 +345,18 @@ const Cards = ({
         })}
       </Slider>
       <FlexBox align justify>
-        <IconButton className="page_cards-arrows" onClick={onPrev}>
+        <IconButton
+          // disabled={buttonDisable}
+          className="page_cards-arrows"
+          onClick={onPrev}
+        >
           <ArrowBackIosIcon />
         </IconButton>
-        <IconButton className="page_cards-arrows" onClick={onNext}>
+        <IconButton
+          // disabled={buttonDisable}
+          className="page_cards-arrows"
+          onClick={onNext}
+        >
           <ArrowForwardIosIcon />
         </IconButton>
       </FlexBox>

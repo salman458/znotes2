@@ -6,6 +6,11 @@ import { Header, Sidebar, Footer } from "/client/components/organisms";
 import { UserProvider } from "/client/contexts/user";
 import { PermissionProvider } from "/client/contexts/permission";
 import theme from "./theme";
+import { useGlobal, setGlobal } from "reactn";
+
+setGlobal({
+  cardsData: [],
+});
 
 import "./styles/root.scss";
 
@@ -23,7 +28,7 @@ const App = ({
   moduleSlugName,
   subjectId,
   chapterId,
-  cardId
+  cardId,
 }) => {
   const [open, setOpen] = useState(false);
   const [isOpaque, setOpaque] = useState(false);
@@ -36,8 +41,7 @@ const App = ({
     setOpen(false);
   };
 
-
-  const currentRouteName = FlowRouter.current().route.name
+  const currentRouteName = FlowRouter.current().route.name;
 
   return (
     <ThemeProvider theme={theme}>
@@ -77,7 +81,7 @@ const App = ({
             />
           </PermissionProvider>}
         <Footer
-        currentRouteName={currentRouteName}
+          currentRouteName={currentRouteName}
           open={open}
           withSidebar={withSidebar}
           sidebarWidth={sidebarWidth}
@@ -91,7 +95,7 @@ App.defaultProps = {
   subject: "",
   moduleId: "",
   withSidebar: false,
-  opaqueHeader: false
+  opaqueHeader: false,
 };
 
 App.propTypes = {
@@ -99,7 +103,7 @@ App.propTypes = {
   moduleId: PropTypes.string,
   withSidebar: PropTypes.bool,
   opaqueHeader: PropTypes.bool,
-  content: PropTypes.func.isRequired
+  content: PropTypes.func.isRequired,
 };
 
 export default App;

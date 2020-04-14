@@ -19,7 +19,7 @@ import ListItem from '../ListItem';
 import ClosePopup from '/client/components/molecules/ClosePopup';
 import  ConfirmationDialog from "/client/components/molecules/ConfirmationDialog";
 import { SanitizeName } from '/client/utils';
-
+import { useGlobal, setGlobal } from "reactn";
 
 const SidebarContent = ({
   subject,
@@ -45,20 +45,19 @@ const SidebarContent = ({
   const [selectedChapter, setSelectedChapter] = useState("");
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [name, setName] = useState('');
-  const [cards, setCards] = useState([]);
-
+  // const [cards, setCards] = useState([]);
+  const [cards] = useGlobal("cardsData");
  
-const getAllCardsByModuleSlugName=async()=>{
-  const cardData = await Request({
-    action: 'getAllCardsByModuleSlugName',
-    body: moduleSlugName,
-  });
-  setCards(cardData);
-}
+// const getAllCardsByModuleSlugName=async()=>{
+//   const cardData = await Request({
+//     action: 'getAllCardsByModuleSlugName',
+//     body: moduleSlugName,
+//   });
+//   setCards(cardData);
+// }
 
   useEffect(() => {
-    getAllCardsByModuleSlugName();
-
+    // getAllCardsByModuleSlugName();
     setChapters(chapters);
   }, [chapters]);
 
