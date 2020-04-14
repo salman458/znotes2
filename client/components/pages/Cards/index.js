@@ -56,12 +56,14 @@ const Cards = ({
   const isTeamRole = usePermission() === USER_PERMISSIONS.editor;
 
   const setInitailSlide = (cards) => {
-    let slideIndexLocal = cards.findIndex((val) => val._id == currentCardId);
-    if (slideIndexLocal == -1) {
-      slideIndexLocal = 0;
-    }
-    setSlideIndex(slideIndexLocal);
-    slider.current.slickGoTo(slideIndexLocal, true);
+    setTimeout(() => {
+      let slideIndexLocal = cards.findIndex((val) => val._id == currentCardId);
+      if (slideIndexLocal == -1) {
+        slideIndexLocal = 0;
+      }
+      setSlideIndex(slideIndexLocal);
+      slider.current.slickGoTo(slideIndexLocal, true);
+    }, 200);
   };
 
   const onPrev = () => {
@@ -119,7 +121,7 @@ const Cards = ({
     if (cards && cards.length > 0) {
       setInitailSlide(cards);
     }
-  }, [currentCardId, cards]);
+  }, [currentCardId]);
 
   useEffect(() => {
     getSubjectBySlug();
