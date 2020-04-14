@@ -20,6 +20,7 @@ import ClosePopup from "/client/components/molecules/ClosePopup";
 import ConfirmationDialog from "/client/components/molecules/ConfirmationDialog";
 import { SanitizeName } from "/client/utils";
 import { useGlobal, setGlobal } from "reactn";
+import _ from "lodash"
 
 const SidebarContent = ({
   subject,
@@ -46,31 +47,70 @@ const SidebarContent = ({
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [name, setName] = useState("");
   const [cards] = useGlobal("cardsData");
+  const[subjectData, setSubject]= useState({})
 
   const saveLastPosition = async () => {
+    let urlToSave;
     const progressValue = getProgressValue();
-    const urlToSave = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
-    const subject = await Request({
-      action: "getSubjectBySlug",
-      body: subjectSlugName,
-    });
+    if(!chapterId || !cardId){
+      urlToSave = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}`;
+    }else{
+      urlToSave = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
+    }
 
-    const addLastPosition = await Request({
-      action: "addLastPosition",
-      body: {
-        userId: Meteor.userId(),
-        subject: {
-          id: Meteor.userId(),
-          position: urlToSave,
-          progress: progressValue,
-          moduleName: subject.moduleName,
-          boardName: subject.boardName,
-          levelName: subject.levelName,
-          subjectName: subject.name,
+    if(_.isEmpty(subjectData)){
+      const subObj = await Request({
+        action: "getSubjectBySlug",
+        body: subjectSlugName,
+      });
+
+      const addLastPosition = await Request({
+        action: "addLastPosition",
+        body: {
+          userId: Meteor.userId(),
+          subject: {
+            id: Meteor.userId(),
+            position: urlToSave,
+            progress: progressValue,
+            moduleName: subObj.moduleName,
+            boardName: subObj.boardName,
+            levelName: subObj.levelName,
+            subjectName: subObj.name,
+          },
         },
-      },
-    });
+      });
+     
+    }else {
+      const addLastPosition = await Request({
+        action: "addLastPosition",
+        body: {
+          userId: Meteor.userId(),
+          subject: {
+            id: Meteor.userId(),
+            position: urlToSave,
+            progress: progressValue,
+            moduleName: subjectData.moduleName,
+            boardName: subjectData.boardName,
+            levelName: subjectData.levelName,
+            subjectName: subjectData.name,
+          },
+        },
+      });
+     
+    }
   };
+
+const getSubjectDetail =async()=>{
+  const subjectData = await Request({
+    action: "getSubjectBySlug",
+    body: subjectSlugName,
+  });
+  setSubject(subjectData);
+}
+
+  useEffect(() => {
+    getSubjectDetail()
+  }, [subjectSlugName]);
 
   useEffect(() => {
     setChapters(chapters);
@@ -78,7 +118,7 @@ const SidebarContent = ({
 
   useEffect(() => {
     saveLastPosition();
-  }, [cardId]);
+  }, [moduleSlugName,cardId]);
 
   const addCard = async (chapId) => {
     const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapId}&cardId=${1}`;
