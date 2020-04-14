@@ -49,33 +49,28 @@ const Sidebar = ({
   const [chapters, setChapters] = useState([]);
   const [subject, setSubjectName] = useState("");
 
+  const getChaptersByModuleSlugName = async () => {
+    const { chapters: data } = await Request({
+      action: "getChaptersByModuleSlugName",
+      body: moduleSlugName,
+    });
+    setChapters(data);
+  };
+
+  const getSubjectNameBySlug = async () => {
+    const subject = await Request({
+      action: "getSubjectNameBySlug",
+      body: subjectSlugName,
+    });
+    setSubjectName(subject);
+  };
+
   useEffect(() => {
-    const getNecessaryData = async () => {
-      // const { chapters: data } = await Request({
-      //   action: 'getModuleById',
-      //   body: moduleId,
-      // });
-
-      const { chapters: data } = await Request({
-        action: "getChaptersByModuleSlugName",
-        body: moduleSlugName,
-      });
-      setChapters(data);
-    };
-
-    getNecessaryData();
+    getChaptersByModuleSlugName();
   }, [moduleSlugName]);
 
   useEffect(() => {
-    const getSubjectName = async () => {
-      const subject = await Request({
-        action: "getSubjectNameBySlug",
-        body: subjectSlugName,
-      });
-      setSubjectName(subject);
-    };
-
-    getSubjectName();
+    getSubjectNameBySlug();
   }, [subjectSlugName]);
 
   return (

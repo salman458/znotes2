@@ -126,6 +126,16 @@ const Cards = ({
   }, [subjectSlugName]);
 
   useEffect(() => {
+    getAllCardsByModuleSlugName();
+  }, [moduleSlugName]);
+
+  useEffect(() => {
+    if (cardId) {
+      setCurrentCardId(cardId);
+    }
+  }, [cardId]);
+
+  useEffect(() => {
     document.addEventListener("keydown", onKeyPressed);
     return () => {
       {
@@ -143,16 +153,6 @@ const Cards = ({
       onPrev();
     }
   };
-
-  useEffect(() => {
-    getAllCardsByModuleSlugName();
-  }, [moduleSlugName]);
-
-  useEffect(() => {
-    if (cardId) {
-      setCurrentCardId(cardId);
-    }
-  }, [cardId]);
 
   const editHandler = async (event) => {
     const cardId = event.target.id;
