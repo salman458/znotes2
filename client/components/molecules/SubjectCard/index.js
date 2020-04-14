@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Meteor } from 'meteor/meteor';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import { Link, TextField, Button } from '/client/components/atoms';
-import { SanitizeName, Request, USER_PERMISSIONS } from '/client/utils';
-import CardActionItem from './CardActionItem';
-import ClosePopup from '../ClosePopup';
-import Menu from '../Menu';
-import _ from "lodash"
+import React, { useState, useEffect } from "react";
+import { Meteor } from "meteor/meteor";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import MenuItem from "@material-ui/core/MenuItem";
+import { Link, TextField, Button } from "/client/components/atoms";
+import { SanitizeName, Request, USER_PERMISSIONS } from "/client/utils";
+import CardActionItem from "./CardActionItem";
+import ClosePopup from "../ClosePopup";
+import Menu from "../Menu";
+import _ from "lodash";
 
 const useStyles = makeStyles((theme) => ({
   addSubjectButton: {
@@ -28,10 +28,10 @@ const SubjectCard = ({
   boardSlugName,
   boardId,
   levelId,
-  user
+  user,
 }) => {
   const [modules, setModules] = useState([]);
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
   const classes = useStyles();
 
@@ -49,12 +49,12 @@ const SubjectCard = ({
 
   const onSubmit = async () => {
     const itemId = await Request({
-      action: 'addZModule',
+      action: "addZModule",
       body: { name, subject: id, chapters: [] },
     });
 
     const moduleSlugName = await Request({
-      action: 'getModuleSlugName',
+      action: "getModuleSlugName",
       body: itemId,
     });
 
@@ -73,23 +73,22 @@ const SubjectCard = ({
   };
 
   const addUserSubject = async () => {
-  const result =  await Request({
-      action: 'addSubjectToUser',
+    const result = await Request({
+      action: "addSubjectToUser",
       body: {
         userId: Meteor.userId(),
         subjectId: id,
       },
     });
-    if(result && result.error){
+    if (result && result.error) {
       Bert.alert("Subject already added", "danger", "growl-top-right");
     }
-
   };
 
   useEffect(() => {
     const getNecessaryData = async () => {
       const allModules = await Request({
-        action: 'getModulesBySubject',
+        action: "getModulesBySubject",
         body: id,
       });
       // const allModules = await Request({
@@ -101,50 +100,52 @@ const SubjectCard = ({
     getNecessaryData();
   }, [id]);
 
-
-
   return (
     <>
       <Menu
         disablePortal={false}
         placement="bottom-start"
-        actionItem={(
+        actionItem={
           <CardActionItem
             code={code}
             subject={subject}
             subjectName={subjectName}
           />
-  )}
+        }
       >
-        {modules.map(({
-          _id, name: moduleName, slug: moduleNameSlug, subject: subjectId, chapters,
-        }) => {
-          
-          // let cardId = 1;
-          // let chapterId = 1;
-          // if (chapters && chapters.length && chapters[0].cards && chapters[0].cards.length) {
-          //   const totalCards = chapters[0].cards.length;
-          //   cardId = chapters[0].cards[0]._id;
-          // } if (chapters && chapters.length) {
-          //   chapterId = chapters[0]._id;
-          // }
+        {modules.map(
+          ({
+            _id,
+            name: moduleName,
+            slug: moduleNameSlug,
+            subject: subjectId,
+            chapters,
+          }) => {
+            // let cardId = 1;
+            // let chapterId = 1;
+            // if (chapters && chapters.length && chapters[0].cards && chapters[0].cards.length) {
+            //   const totalCards = chapters[0].cards.length;
+            //   cardId = chapters[0].cards[0]._id;
+            // } if (chapters && chapters.length) {
+            //   chapterId = chapters[0]._id;
+            // }
 
-          //const url = `/${boardSlugName}/${levelSlugName}/${subjectNameSlug}/${moduleNameSlug}?chapterId=${chapterId}&cardId=${cardId}`; 
-          const url = `/${boardSlugName || boardId}/${levelSlugName || levelId}/${subjectNameSlug || id}/${moduleNameSlug || _id}`; 
+            //const url = `/${boardSlugName}/${levelSlugName}/${subjectNameSlug}/${moduleNameSlug}?chapterId=${chapterId}&cardId=${cardId}`;
+            const url = `/${boardSlugName || boardId}/${
+              levelSlugName || levelId
+            }/${subjectNameSlug || id}/${moduleNameSlug || _id}`;
 
-          return (
-            <Link
-              key={_id}
-              to={url}
-            >
-              <MenuItem>{moduleName}</MenuItem>
-            </Link>
-          );
-        })}
+            return (
+              <Link key={_id} to={url}>
+                <MenuItem>{moduleName}</MenuItem>
+              </Link>
+            );
+          }
+        )}
         {role > USER_PERMISSIONS.logged && (
           <MenuItem onClick={openPopup}>Add Module</MenuItem>
         )}
-        {!isUserSubject && !_.isEmpty(user)  && (
+        {!isUserSubject && !_.isEmpty(user) && (
           <MenuItem
             className={classes.addSubjectButton}
             onClick={addUserSubject}
@@ -153,11 +154,7 @@ const SubjectCard = ({
           </MenuItem>
         )}
       </Menu>
-      <ClosePopup
-        open={open}
-        onClose={onClose}
-        title="Add a new module"
-      >
+      <ClosePopup open={open} onClose={onClose} title="Add a new module">
         <TextField
           style={{ marginBottom: 20 }}
           onChange={onChange}
