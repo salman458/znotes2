@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import ReactMarkdown from "react-markdown";
 import MathJax from "react-mathjax-preview";
 import Paper from "@material-ui/core/Paper";
+import { FlowRouter } from "meteor/kadira:flow-router";
 import { Request } from "/client/utils";
 import {
   IconButton,
