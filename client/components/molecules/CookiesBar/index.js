@@ -7,7 +7,7 @@ import { Close } from "/client/components/icons";
 import { FlexBox, IconButton } from "/client/components/atoms";
 import "./styles.scss";
 import CookieConsent from "react-cookie-consent";
-
+import { Link } from "/client/components/atoms";
 const CookiesBar = ({}) => {
   if (!localStorage.getItem("cookieBannersDisplayed")) {
     return (
@@ -23,7 +23,7 @@ const CookiesBar = ({}) => {
           borderRadius: "100px",
           // paddingLef: "5px",
           // paddingRight: "5px"
-          width:"80px"
+          width: "80px",
         }}
         expires={365}
         debug={true}
@@ -42,8 +42,14 @@ const CookiesBar = ({}) => {
       >
         We use cookies to give you the best online experience. By continuing to
         use our website, you agree to our use of cookies in accordance with our{" "}
-        <a href="/terms">terms of use</a> and{" "}
-        <a href="/privacy">privacy policy</a>.
+        <Link className="page_register-link" to="/terms">
+          terms of use
+        </Link>{" "}
+        and{" "}
+        <Link className="page_register-link" to="/privacy">
+          privacy policy
+        </Link>
+        .
       </CookieConsent>
     );
   } else return null;
