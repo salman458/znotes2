@@ -56,7 +56,6 @@ const SubjectSlider = ({
         <>
           {subjects.length > slidesToShow && (
             <IconButton
-              // disabled={buttonDisable}
               className="organism_subject-slider-arrow prev"
               onClick={onPrev}
             >
@@ -105,7 +104,6 @@ const SubjectSlider = ({
           </Slider>
           {subjects.length > slidesToShow && (
             <IconButton
-              // disabled={buttonDisable}
               className="organism_subject-slider-arrow next"
               onClick={onNext}
             >
