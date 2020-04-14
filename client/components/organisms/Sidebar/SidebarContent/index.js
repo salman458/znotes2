@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Meteor } from "meteor/meteor";
 import PropTypes from "prop-types";
 import { lighten } from "@material-ui/core/styles";
 import {
