@@ -65,12 +65,15 @@ const Cards = ({
       slider.current.slickGoTo(slideIndexLocal, true);
     }, 150);
   };
+
   const onPrev = () => {
     slider.current.slickPrev();
   };
+
   const onNext = () => {
     slider.current.slickNext();
   };
+
   const adIterator = 5;
 
   const getSubjectBySlug = async () => {
@@ -183,20 +186,23 @@ const Cards = ({
 
   const afterChange = async (next) => {
     if (cards && cards.length && next !== -1 && !isLoading) {
+      let currentCardChapterId;
+
       setLoading(true);
       const cardID = cards[next]._id;
       setCurrentCardId(cardID);
 
       const currentCard = cards.find((v) => v._id === cardID);
-      const { chapterId } = currentCard;
-      if (!chapterId) {
-        let chapterId = await Request({
+      currentCardChapterId = currentCard.chapterId;
+
+      if (!currentCardChapterId) {
+        currentCardChapterId = await Request({
           action: "getChapterByCard",
           body: cardID,
         });
       }
 
-      const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardID}`;
+      const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${currentCardChapterId}&cardId=${cardID}`;
 
       await FlowRouter.go(url);
 
@@ -220,47 +226,48 @@ const Cards = ({
 
   const handleClick = (event) => {
     event.preventDefault();
-    console.info("You clicked a breadcrumb.");
   };
 
   const renderCard = (i) => {
     if (cards && cards[i]) {
       if (cards[i].isAd) {
         return renderAd();
-      } else {
-        return (
-          <div key={i}>
-            <Paper key={cards[i]._id} className="page_cards-paper">
-              <div className="markdown-body">
-                <ReactMarkdown escapeHtml={false} source={cards[i].content} />
-                <MathJax />
-              </div>
-            </Paper>
-
-            {isTeamRole && (
-              <div>
-                <button
-                  className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
-                  id={cards[i]._id}
-                  onClick={editHandler}
-                >
-                  Edit
-                </button>
-                <button
-                  className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
-                  id={cards[i]._id}
-                  onClick={() => {
-                    setCurrentCardId(cards[i]._id);
-                    setShowConfirmDialog(true);
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
-        );
       }
+
+      return (
+        <div key={i}>
+          <Paper key={cards[i]._id} className="page_cards-paper">
+            <div className="markdown-body">
+              <ReactMarkdown escapeHtml={false} source={cards[i].content} />
+              <MathJax />
+            </div>
+          </Paper>
+
+          {isTeamRole && (
+            <div>
+              <button
+                type="button"
+                className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+                id={cards[i]._id}
+                onClick={editHandler}
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+                id={cards[i]._id}
+                onClick={() => {
+                  setCurrentCardId(cards[i]._id);
+                  setShowConfirmDialog(true);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
+      );
     }
   };
 
