@@ -86,19 +86,17 @@ const SubjectCard = ({
   };
 
   useEffect(() => {
-    const getNecessaryData = async () => {
-      const allModules = await Request({
-        action: "getModulesBySubject",
-        body: id,
-      });
-      // const allModules = await Request({
-      //   action: 'getModuleBySubjectNameSlug',
-      //   body: subjectNameSlug,
-      // });
-      setModules(allModules);
-    };
-    getNecessaryData();
+    getModulesBySubject();
   }, [id]);
+
+  const getModulesBySubject = async () => {
+    const allModules = await Request({
+      action: "getModulesBySubject",
+      body: id,
+    });
+
+    setModules(allModules);
+  };
 
   return (
     <>
