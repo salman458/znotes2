@@ -45,19 +45,9 @@ const SidebarContent = ({
   const [selectedChapter, setSelectedChapter] = useState("");
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [name, setName] = useState('');
-  // const [cards, setCards] = useState([]);
   const [cards] = useGlobal("cardsData");
- 
-// const getAllCardsByModuleSlugName=async()=>{
-//   const cardData = await Request({
-//     action: 'getAllCardsByModuleSlugName',
-//     body: moduleSlugName,
-//   });
-//   setCards(cardData);
-// }
 
   useEffect(() => {
-    // getAllCardsByModuleSlugName();
     setChapters(chapters);
   }, [chapters]);
 
