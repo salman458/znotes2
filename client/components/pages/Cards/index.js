@@ -55,9 +55,9 @@ const Cards = ({
   const primaryColor = color || "#D82057";
   const isTeamRole = usePermission() === USER_PERMISSIONS.editor;
 
-  const setInitailSlide = cards => {
+  const setInitailSlide = (cards) => {
     setTimeout(() => {
-      let slideIndex = cards.findIndex(val => val._id == currentCardId);
+      let slideIndex = cards.findIndex((val) => val._id == currentCardId);
       if (slideIndex == -1) {
         slideIndex = 0;
       }
@@ -114,19 +114,13 @@ const Cards = ({
     setCardsData(cardData);
   };
 
-  useEffect(
-    () => {
-      setInitailSlide(cards);
-    },
-    [currentCardId]
-  );
+  useEffect(() => {
+    setInitailSlide(cards);
+  }, [currentCardId]);
 
-  useEffect(
-    () => {
-      getSubjectBySlug();
-    },
-    [subjectSlugName]
-  );
+  useEffect(() => {
+    getSubjectBySlug();
+  }, [subjectSlugName]);
 
   useEffect(() => {
     document.addEventListener("keydown", onKeyPressed);
@@ -137,7 +131,7 @@ const Cards = ({
     };
   }, []);
 
-  const onKeyPressed = event => {
+  const onKeyPressed = (event) => {
     const { key } = event;
     if (key == " " || key == "ArrowUp") {
       onNext();
@@ -147,23 +141,17 @@ const Cards = ({
     }
   };
 
-  useEffect(
-    () => {
-      getAllCardsByModuleSlugName();
-    },
-    [moduleSlugName]
-  );
+  useEffect(() => {
+    getAllCardsByModuleSlugName();
+  }, [moduleSlugName]);
 
-  useEffect(
-    () => {
-      if (cardId) {
-        setCurrentCardId(cardId);
-      }
-    },
-    [cardId]
-  );
+  useEffect(() => {
+    if (cardId) {
+      setCurrentCardId(cardId);
+    }
+  }, [cardId]);
 
-  const editHandler = async event => {
+  const editHandler = async (event) => {
     const cardId = event.target.id;
     const chapterId = await Request({
       action: "getChapterByCard",
@@ -207,9 +195,50 @@ const Cards = ({
     );
   };
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     event.preventDefault();
     console.info("You clicked a breadcrumb.");
+  };
+
+  renderCard = (i) => {
+    if (cards && cards[i]) {
+      if (cards[i].isAd) {
+        return renderAd();
+      } else {
+        return (
+          <div key={i}>
+            <Paper key={cards[i]._id} className="page_cards-paper">
+              <div className="markdown-body">
+                <ReactMarkdown escapeHtml={false} source={cards[i].content} />
+                <MathJax />
+              </div>
+            </Paper>
+
+            {isTeamRole && (
+              <div>
+                <button
+                  className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+                  id={cards[i]._id}
+                  onClick={editHandler}
+                >
+                  Edit
+                </button>
+                <button
+                  className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
+                  id={cards[i]._id}
+                  onClick={() => {
+                    setCurrentCardId(cards[i]._id);
+                    setShowConfirmDialog(true);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
+          </div>
+        );
+      }
+    }
   };
 
   return (
@@ -231,18 +260,14 @@ const Cards = ({
           href={`/explore/${boardSlugName}`}
           onClick={handleClick}
         >
-          <Title variant="h5">
-            {subject.boardName}
-          </Title>
+          <Title variant="h5">{subject.boardName}</Title>
         </Link>
         <Link
           color="inherit"
           href={`/explore/level/${boardSlugName}/${levelSlugName}`}
           onClick={handleClick}
         >
-          <Title variant="h5">
-            {subject.levelName}
-          </Title>
+          <Title variant="h5">{subject.levelName}</Title>
         </Link>
       </Breadcrumbs>
 
@@ -263,13 +288,13 @@ const Cards = ({
         slidesToShow={1}
         slidesToScroll={1}
         initialSlide={2}
-        afterChange={async next => {
+        afterChange={async (next) => {
           if (cards && cards.length && next !== -1 && !isLoading) {
             setLoading(true);
             const cardID = cards[next]._id;
             setCurrentCardId(cardID);
 
-            const currentCard = cards.find(v => v._id === cardID);
+            const currentCard = cards.find((v) => v._id === cardID);
             const { chapterId } = currentCard;
             if (!chapterId) {
               let chapterId = await Request({
@@ -306,41 +331,7 @@ const Cards = ({
         // afterChange={current => {    }}
       >
         {cards.map(({ _id, content, isAd }, i) => {
-          if (isAd) {
-            return renderAd();
-          } else {
-            return (
-              <div key={i}>
-                <Paper key={_id} className="page_cards-paper">
-                  <div className="markdown-body">
-                    <ReactMarkdown escapeHtml={false} source={content} />
-                    <MathJax />
-                  </div>
-                </Paper>
-
-                {isTeamRole &&
-                  <div>
-                    <button
-                      className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
-                      id={_id}
-                      onClick={editHandler}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"
-                      id={_id}
-                      onClick={() => {
-                        setCurrentCardId(_id);
-                        setShowConfirmDialog(true);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </div>}
-              </div>
-            );
-          }
+          return renderCard(i);
         })}
       </Slider>
       <FlexBox align justify>
