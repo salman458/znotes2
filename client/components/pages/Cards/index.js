@@ -113,7 +113,6 @@ const Cards = ({
     setShowLoading(false);
     setCardsData(cardData);
   };
-  console.log(cards, cardsData, "asd");
 
   useEffect(
     () => {
