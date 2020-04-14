@@ -11,10 +11,9 @@ import {
   FlexBox,
   Title,
   PageContainer,
-  Button,
   ErrorBoundary,
 } from "/client/components/atoms";
-import { Next, Prev } from "/client/components/icons";
+
 import "./styles.scss";
 import AdSense from "react-adsense";
 import { usePermission } from "/client/contexts/permission";
@@ -47,8 +46,8 @@ const Cards = ({
   const [showLoading, setShowLoading] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const urlParams = new URLSearchParams(window.location.search);
-  const module = urlParams.get("moduleId");
-  const subj = urlParams.get("subjectId");
+  // const module = urlParams.get("moduleId");
+  // const subj = urlParams.get("subjectId");
   const [slideIndex, setSlideIndex] = useState(-1);
   const [cardsData, setCardsData] = useGlobal("cardsData");
   const { color } =
@@ -58,12 +57,12 @@ const Cards = ({
 
   const setInitailSlide = (cards) => {
     setTimeout(() => {
-      let slideIndex = cards.findIndex((val) => val._id == currentCardId);
-      if (slideIndex == -1) {
-        slideIndex = 0;
+      let slideIndexLocal = cards.findIndex((val) => val._id == currentCardId);
+      if (slideIndexLocal == -1) {
+        slideIndexLocal = 0;
       }
-      setSlideIndex(slideIndex);
-      slider.current.slickGoTo(slideIndex, true);
+      setSlideIndex(slideIndexLocal);
+      slider.current.slickGoTo(slideIndexLocal, true);
     }, 150);
   };
   const onPrev = () => {
@@ -182,7 +181,30 @@ const Cards = ({
     window.location.reload();
   };
 
-  renderAd = () => {
+  const afterChange = async (next) => {
+    if (cards && cards.length && next !== -1 && !isLoading) {
+      setLoading(true);
+      const cardID = cards[next]._id;
+      setCurrentCardId(cardID);
+
+      const currentCard = cards.find((v) => v._id === cardID);
+      const { chapterId } = currentCard;
+      if (!chapterId) {
+        let chapterId = await Request({
+          action: "getChapterByCard",
+          body: cardID,
+        });
+      }
+
+      const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardID}`;
+
+      await FlowRouter.go(url);
+
+      await setLoading(false);
+    }
+  };
+
+  const renderAd = () => {
     return (
       <div id="ezoic-pub-ad-placeholder-101">
         <AdSense.Google
@@ -201,7 +223,7 @@ const Cards = ({
     console.info("You clicked a breadcrumb.");
   };
 
-  renderCard = (i) => {
+  const renderCard = (i) => {
     if (cards && cards[i]) {
       if (cards[i].isAd) {
         return renderAd();
@@ -289,28 +311,7 @@ const Cards = ({
         slidesToShow={1}
         slidesToScroll={1}
         initialSlide={2}
-        afterChange={async (next) => {
-          if (cards && cards.length && next !== -1 && !isLoading) {
-            setLoading(true);
-            const cardID = cards[next]._id;
-            setCurrentCardId(cardID);
-
-            const currentCard = cards.find((v) => v._id === cardID);
-            const { chapterId } = currentCard;
-            if (!chapterId) {
-              let chapterId = await Request({
-                action: "getChapterByCard",
-                body: cardID,
-              });
-            }
-
-            const url = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardID}`;
-
-            await FlowRouter.go(url);
-
-            await setLoading(false);
-          }
-        }}
+        afterChange={afterChange}
         beforeChange={async (current, next) => {
           // if (cards && cards.length && next !== -1 && !isLoading) {
           //   setLoading(true);
