@@ -1,35 +1,32 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
-import PropTypes from 'prop-types';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import { makeStyles } from '@material-ui/core/styles';
-import { Request } from '/client/utils';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import { makeStyles } from "@material-ui/core/styles";
+import { Request } from "/client/utils";
 
-import SidebarContent from './SidebarContent';
-import { usePermission } from '/client/contexts/permission';
+import SidebarContent from "./SidebarContent";
+import { usePermission } from "/client/contexts/permission";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
     width: (props) => props.sidebarWidth,
     flexShrink: 0,
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: (props) => props.sidebarWidth,
       flexShrink: 0,
     },
   },
   drawerPaper: {
-    backgroundColor: '#282828',
+    backgroundColor: "#282828",
     width: (props) => props.sidebarWidth,
   },
   drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
 }));
 
@@ -43,12 +40,14 @@ const Sidebar = ({
   levelSlugName,
   subjectSlugName,
   moduleSlugName,
-  subjectId,chapterId,cardId
+  subjectId,
+  chapterId,
+  cardId,
 }) => {
   const role = usePermission();
   const classes = useStyles({ sidebarWidth });
   const [chapters, setChapters] = useState([]);
-  const [subject, setSubjectName] = useState('');
+  const [subject, setSubjectName] = useState("");
 
   useEffect(() => {
     const getNecessaryData = async () => {
@@ -58,28 +57,26 @@ const Sidebar = ({
       // });
 
       const { chapters: data } = await Request({
-        action: 'getChaptersByModuleSlugName',
+        action: "getChaptersByModuleSlugName",
         body: moduleSlugName,
       });
       setChapters(data);
     };
 
     getNecessaryData();
-
   }, [moduleSlugName]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const getSubjectName = async () => {
       const subject = await Request({
-        action: 'getSubjectNameBySlug',
+        action: "getSubjectNameBySlug",
         body: subjectSlugName,
       });
       setSubjectName(subject);
     };
 
     getSubjectName();
-  },[subjectSlugName])
-
+  }, [subjectSlugName]);
 
   return (
     <>
