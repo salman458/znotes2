@@ -55,15 +55,15 @@ const Cards = ({
   const primaryColor = color || "#D82057";
   const isTeamRole = usePermission() === USER_PERMISSIONS.editor;
 
-  const setInitailSlide = (cards) => {
+  const setInitailSlide = cards => {
     setTimeout(() => {
-      let slideIndexLocal = cards.findIndex((val) => val._id == currentCardId);
+      let slideIndexLocal = cards.findIndex(val => val._id == currentCardId);
       if (slideIndexLocal == -1) {
         slideIndexLocal = 0;
       }
       setSlideIndex(slideIndexLocal);
       slider.current.slickGoTo(slideIndexLocal, true);
-    }, 150);
+    }, 200);
   };
 
   const onPrev = () => {
@@ -112,28 +112,40 @@ const Cards = ({
     } else cardsResult = cardData;
 
     setCards(cardsResult);
-    setInitailSlide(cardsResult);
     setShowLoading(false);
     setCardsData(cardData);
+    setInitailSlide(cardsResult);
   };
 
-  useEffect(() => {
-    setInitailSlide(cards);
-  }, [currentCardId]);
+  useEffect(
+    () => {
+      setInitailSlide(cards);
+    },
+    [currentCardId]
+  );
 
-  useEffect(() => {
-    getSubjectBySlug();
-  }, [subjectSlugName]);
+  useEffect(
+    () => {
+      getSubjectBySlug();
+    },
+    [subjectSlugName]
+  );
 
-  useEffect(() => {
-    getAllCardsByModuleSlugName();
-  }, [moduleSlugName]);
+  useEffect(
+    () => {
+      getAllCardsByModuleSlugName();
+    },
+    [moduleSlugName]
+  );
 
-  useEffect(() => {
-    if (cardId) {
-      setCurrentCardId(cardId);
-    }
-  }, [cardId]);
+  useEffect(
+    () => {
+      if (cardId) {
+        setCurrentCardId(cardId);
+      }
+    },
+    [cardId]
+  );
 
   useEffect(() => {
     document.addEventListener("keydown", onKeyPressed);
@@ -144,7 +156,7 @@ const Cards = ({
     };
   }, []);
 
-  const onKeyPressed = (event) => {
+  const onKeyPressed = event => {
     const { key } = event;
     if (key == " " || key == "ArrowUp") {
       onNext();
@@ -154,7 +166,7 @@ const Cards = ({
     }
   };
 
-  const editHandler = async (event) => {
+  const editHandler = async event => {
     const cardId = event.target.id;
     const chapterId = await Request({
       action: "getChapterByCard",
@@ -184,7 +196,7 @@ const Cards = ({
     window.location.reload();
   };
 
-  const afterChange = async (next) => {
+  const afterChange = async next => {
     if (cards && cards.length && next !== -1 && !isLoading) {
       let currentCardChapterId;
 
@@ -192,7 +204,7 @@ const Cards = ({
       const cardID = cards[next]._id;
       setCurrentCardId(cardID);
 
-      const currentCard = cards.find((v) => v._id === cardID);
+      const currentCard = cards.find(v => v._id === cardID);
       currentCardChapterId = currentCard.chapterId;
 
       if (!currentCardChapterId) {
@@ -224,11 +236,11 @@ const Cards = ({
     );
   };
 
-  const handleClick = (event) => {
+  const handleClick = event => {
     event.preventDefault();
   };
 
-  const renderCard = (i) => {
+  const renderCard = i => {
     if (cards && cards[i]) {
       if (cards[i].isAd) {
         return renderAd();
@@ -243,7 +255,7 @@ const Cards = ({
             </div>
           </Paper>
 
-          {isTeamRole && (
+          {isTeamRole &&
             <div>
               <button
                 type="button"
@@ -264,8 +276,7 @@ const Cards = ({
               >
                 Delete
               </button>
-            </div>
-          )}
+            </div>}
         </div>
       );
     }
@@ -290,14 +301,18 @@ const Cards = ({
           href={`/explore/${boardSlugName}`}
           onClick={handleClick}
         >
-          <Title variant="h5">{subject.boardName}</Title>
+          <Title variant="h5">
+            {subject.boardName}
+          </Title>
         </Link>
         <Link
           color="inherit"
           href={`/explore/level/${boardSlugName}/${levelSlugName}`}
           onClick={handleClick}
         >
-          <Title variant="h5">{subject.levelName}</Title>
+          <Title variant="h5">
+            {subject.levelName}
+          </Title>
         </Link>
       </Breadcrumbs>
 
