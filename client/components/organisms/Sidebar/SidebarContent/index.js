@@ -23,7 +23,7 @@ import { SanitizeName } from "/client/utils";
 import { useGlobal, setGlobal } from "reactn";
 import _ from "lodash";
 import { useUserData } from "/client/contexts/user";
-
+import { GeneralHelper } from "../../../../helper";
 const SidebarContent = ({
   subject,
   chapters,
@@ -50,6 +50,7 @@ const SidebarContent = ({
   const [name, setName] = useState("");
   const [cards] = useGlobal("cardsData");
   const [subjectData, setSubject] = useState({});
+  const [showUserLoginPopup, setShowUserLoginPopup] = useState(false);
   const [globalUserData, setUserData] = useGlobal("userData");
   const userContext = useUserData();
 
@@ -249,6 +250,22 @@ const SidebarContent = ({
     onCloseEditPopup();
   };
 
+  const downloadPdf = () => {
+    if (_.isEmpty(userContext)) {
+      setShowUserLoginPopup(true);
+    } else {
+      const url = GeneralHelper.getPdfDownloadUrl(
+        boardSlugName,
+        levelSlugName,
+        subjectSlugName,
+        moduleSlugName
+      );
+      var redirectWindow = window.open(url, "_blank");
+      redirectWindow.location;
+      // window.location.href = url;
+    }
+  };
+
   return (
     <>
       <FlexBox align justify column className="organism_sidebar-top">
@@ -368,6 +385,29 @@ const SidebarContent = ({
             deleteChapter(selectedChapter);
           }}
         />
+        <ConfirmationDialog
+          onClose={() => setShowUserLoginPopup(false)}
+          isShow={showUserLoginPopup}
+          onSubmit={() => {
+            setShowUserLoginPopup(false);
+            FlowRouter.go("/register");
+          }}
+          title={"Alert"}
+          description={"Please register to download the PDF"}
+          submitButtonText={"Register"}
+          cancelButtonText={"Cancel"}
+        />
+
+        <div
+          onClick={() => {
+            downloadPdf();
+          }}
+        >
+          <Title variant="h5" className="organism_sidebar-chapters">
+            <Chapters className="organism_sidebar-chapter-icon" />
+            Download as PDF
+          </Title>
+        </div>
       </div>
     </>
   );
