@@ -138,6 +138,9 @@ const Register = () => {
       };
       Accounts.createUser(credentials, async (err) => {
         if (err) {
+          if (err && err.reason) {
+            Bert.alert(err.reason, "danger", "growl-top-right");
+          }
           throw err;
         } else {
           const userId = Meteor.userId();
