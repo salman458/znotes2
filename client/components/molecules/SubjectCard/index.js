@@ -30,6 +30,7 @@ const SubjectCard = ({
   boardId,
   levelId,
   user,
+  onRemoveSubject,
 }) => {
   const [modules, setModules] = useState([]);
   const [name, setName] = useState("");
@@ -102,13 +103,7 @@ const SubjectCard = ({
   };
 
   const removeUserSubject = async () => {
-    const result = await Request({
-      action: "removeUserFromMySubjects",
-      body: {
-        userId: Meteor.userId(),
-        subjectId: id,
-      },
-    });
+    onRemoveSubject(id);
   };
 
   return (

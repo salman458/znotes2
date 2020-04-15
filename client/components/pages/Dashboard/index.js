@@ -61,6 +61,19 @@ const Dashboard = () => {
     getMyAddedSubjects();
   }, []);
 
+  onRemoveSubject = async (id) => {
+    const result = await Request({
+      action: "removeUserFromMySubjects",
+      body: {
+        userId: Meteor.userId(),
+        subjectId: id,
+      },
+    });
+    const removeLocal = subjectData.filter((v) => v._id != id);
+    setSubjectData(removeLocal);
+    setMyAddedSubjectData([...removeLocal]);
+  };
+
   const handleResume = () => {
     FlowRouter.go(lastLocation.position);
     window.location.reload();
@@ -152,6 +165,7 @@ const Dashboard = () => {
           className="page_dashbboard-subjects"
           subjects={subjectData}
           user={userData}
+          onRemoveSubject={onRemoveSubject}
         />
       )}
 
