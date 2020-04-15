@@ -19,6 +19,8 @@ import "./styles.scss";
 import Subjects from "/client/components/molecules/SubjectCard/subjectData";
 import _ from "lodash";
 import { SanitizeName } from "/client/utils";
+import { lighten } from "@material-ui/core/styles";
+
 const Dashboard = () => {
   const [lastLocation, setLast] = useState({});
   const [subjectData, setSubjectData] = useState([]);
@@ -67,36 +69,51 @@ const Dashboard = () => {
     Subjects[!_.isEmpty(subjectName) ? SanitizeName(subjectName) : ""] || {};
   const primaryColor = color || "#D82057";
   const { firstName = "", lastName = "" } = userData || {};
+  const secondaryColor = lighten(primaryColor, 0.5);
   return (
     <PageContainer className="page_dashboard-container">
-      {userData &&
+      {userData && (
         <Title variant="h1" className="page_dashboard-header">
           Welcome back,{" "}
           <Highlighted color="primary">
             {firstName + " " + lastName}
           </Highlighted>
-        </Title>}
-      {!_.isEmpty(lastLocation) &&
+        </Title>
+      )}
+      {!_.isEmpty(lastLocation) && (
         <div>
+          <Title variant="h3">Return to</Title>
+
           <Title variant="h3">
-            <Highlighted style={{ color: primaryColor }}>Return</Highlighted> to
+            {boardName}{" "}
+            <Highlighted
+              variant="h3"
+              component="h2"
+              style={{ color: primaryColor }}
+            >
+              {levelName + " " + subjectName}
+            </Highlighted>
           </Title>
-          <Title variant="h5">
-            {boardName + " " + levelName + " " + subjectName}
-          </Title>
-          <Title variant="h5">
-            {moduleName}
-          </Title>
+
+          <Title variant="h3">{moduleName}</Title>
           <FlexBox justify align>
-            <Play className="page_dashboard-icon" onClick={handleResume} />
+            <Play
+              secondaryColor={secondaryColor}
+              primaryColor={primaryColor}
+              className="page_dashboard-icon"
+              onClick={handleResume}
+            />
             <div className="page_dashboard-progress-container">
               <ProgressBar
+                secondaryColor={secondaryColor}
+                primaryColor={primaryColor}
                 variant="determinate"
                 value={lastLocation.progress || 50}
               />
             </div>
           </FlexBox>
-        </div>}
+        </div>
+      )}
       <div className="page_dashboard-autosuggest">
         <LandingActionCall
           minimal
@@ -114,20 +131,22 @@ const Dashboard = () => {
         </Link>
       </FlexBox>
 
-      {subjectData.length === 0
-        ? <FlexBox column align>
-            <Title variant="h5" gutterBottom>
-              No Subjects Yet?
-            </Title>
-            <Link to="/explore">
-              <Button>Add Subject</Button>
-            </Link>
-          </FlexBox>
-        : <SubjectSlider
-            isUserSubjects
-            className="page_dashbboard-subjects"
-            subjects={subjectData}
-          />}
+      {subjectData.length === 0 ? (
+        <FlexBox column align>
+          <Title variant="h5" gutterBottom>
+            No Subjects Yet?
+          </Title>
+          <Link to="/explore">
+            <Button>Add Subject</Button>
+          </Link>
+        </FlexBox>
+      ) : (
+        <SubjectSlider
+          isUserSubjects
+          className="page_dashbboard-subjects"
+          subjects={subjectData}
+        />
+      )}
 
       <div className="page_dashboard-community-container">
         <Title variant="h3" gutterBottom>
