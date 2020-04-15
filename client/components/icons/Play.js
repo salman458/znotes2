@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Discord = (props) => (
   <svg
@@ -13,9 +13,20 @@ const Discord = (props) => (
   >
     <defs>
       <circle id="path-1" cx="41" cy="41" r="41" />
-      <filter x="-102.4%" y="-102.4%" width="304.9%" height="304.9%" filterUnits="objectBoundingBox" id="filter-2">
+      <filter
+        x="-102.4%"
+        y="-102.4%"
+        width="304.9%"
+        height="304.9%"
+        filterUnits="objectBoundingBox"
+        id="filter-2"
+      >
         <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1" />
-        <feGaussianBlur stdDeviation="28" in="shadowOffsetOuter1" result="shadowBlurOuter1" />
+        <feGaussianBlur
+          stdDeviation="28"
+          in="shadowOffsetOuter1"
+          result="shadowBlurOuter1"
+        />
         <feColorMatrix
           values="0 0 0 0 0.529411765   0 0 0 0 0.945098039   0 0 0 0 0.764705882  0 0 0 1 0"
           type="matrix"
@@ -28,12 +39,22 @@ const Discord = (props) => (
         <g id="resume" transform="translate(141.000000, 259.000000)">
           <g id="Group-8" transform="translate(0.000000, 167.000000)">
             <g id="Oval">
-              <use fill="#051017" fillOpacity="1" filter="url(#filter-2)" xlinkHref="#path-1" className="play-glow" />
-              <use fill="#87F1C3" fillRule="evenodd" xlinkHref="#path-1" />
+              <use
+                fill="#051017"
+                fillOpacity="1"
+                filter="url(#filter-2)"
+                xlinkHref="#path-1"
+                className="play-glow"
+              />
+              <use
+                fill={props.primaryColor || "#87F1C3"}
+                fillRule="evenodd"
+                xlinkHref="#path-1"
+              />
             </g>
             <polygon
               id="Triangle"
-              fill="#FFFFFF"
+              fill={props.secondaryColor || "#FFFFFF"}
               transform="translate(43.500000, 42.000000) rotate(90.000000) translate(-43.500000, -42.000000) "
               points="43.5 28 61 56 26 56"
             />
