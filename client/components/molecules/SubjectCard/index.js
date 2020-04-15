@@ -101,6 +101,16 @@ const SubjectCard = ({
     setModules(allModules);
   };
 
+  const removeUserSubject = async () => {
+    const result = await Request({
+      action: "removeUserFromMySubjects",
+      body: {
+        userId: Meteor.userId(),
+        subjectId: id,
+      },
+    });
+  };
+
   return (
     <>
       <Menu
@@ -152,6 +162,14 @@ const SubjectCard = ({
             onClick={addUserSubject}
           >
             Add to My Subjects
+          </MenuItem>
+        )}
+        {isUserSubject && !_.isEmpty(user) && (
+          <MenuItem
+            className={classes.addSubjectButton}
+            onClick={removeUserSubject}
+          >
+            Remove to My Subjects
           </MenuItem>
         )}
       </Menu>

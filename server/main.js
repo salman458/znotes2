@@ -52,11 +52,11 @@ cards.schema = cardSchema;
 const chapters = new Mongo.Collection("chapters");
 chapters.schema = chapterSchema;
 
-Accounts.urls.verifyEmail = token => {
+Accounts.urls.verifyEmail = (token) => {
   const url = Meteor.absoluteUrl(`/email/verify/${token}`);
   return url;
 };
-Accounts.urls.resetPassword = token => {
+Accounts.urls.resetPassword = (token) => {
   const url = Meteor.absoluteUrl(`/password/reset/${token}`);
   return url;
 };
@@ -65,7 +65,7 @@ Accounts.config({
   forbidClientAccountCreation: false,
 });
 
-Accounts.emailTemplates.enrollAccount.subject = user =>
+Accounts.emailTemplates.enrollAccount.subject = (user) =>
   `Welcome to Znotes, ${user.profile.name}`;
 Accounts.emailTemplates.enrollAccount.text = (user, url) =>
   ` To activate your account, simply click the link below:\n\n${url}`;
@@ -94,7 +94,7 @@ Meteor.methods({
     Accounts.sendVerificationEmail(user._id);
   },
   verify(token) {
-    Accounts.verifyEmail(token, error => {
+    Accounts.verifyEmail(token, (error) => {
       if (error) console.log("Failed to verify the email");
       else console.log("The email is verified");
     });
@@ -130,7 +130,7 @@ Meteor.methods({
                     : { level: levelId }
                 )
                 .fetch();
-              const allSubjectsWithNames = allSubjects.map(subjectData => ({
+              const allSubjectsWithNames = allSubjects.map((subjectData) => ({
                 ...subjectData,
                 boardName,
                 levelName,
@@ -311,7 +311,7 @@ Meteor.methods({
             chapterId: chapterData._id,
           };
         })
-        .filter(v => v != null);
+        .filter((v) => v != null);
       return [...acc, ...chapterCards];
     }, []);
     return flatCards;
@@ -398,7 +398,7 @@ Meteor.methods({
             );
             return data;
           })
-          .filter(v => v != null);
+          .filter((v) => v != null);
         return {
           ...rest,
           ...chapterData,
@@ -620,6 +620,15 @@ Meteor.methods({
       );
     }
   },
+
+  removeUserFromMySubjects({ userId, subjectId }) {
+    Meteor.users.update(
+      {
+        _id: userId,
+      },
+      { $pull: { subjects: { _id: subjectId } } }
+    );
+  },
   updateChapterWithCard(obj) {
     return chapters.update(
       { _id: obj.chapterId },
@@ -635,8 +644,8 @@ Meteor.methods({
   },
   getChapterByCard(cardId) {
     let chapterId;
-    const allChapters = chapters.find().forEach(function(chapter) {
-      const card = chapter.cards.forEach(function(card) {
+    const allChapters = chapters.find().forEach(function (chapter) {
+      const card = chapter.cards.forEach(function (card) {
         if (card._id === cardId) {
           chapterId = chapter._id;
         }
@@ -739,7 +748,7 @@ Meteor.methods({
           };
         } else return null;
       })
-      .filter(v => v !== null);
+      .filter((v) => v !== null);
     return res;
   },
   getBoardKeywords(obj) {
@@ -748,7 +757,7 @@ Meteor.methods({
       return [];
     }
     const allBoards = boards.find({}, { fields: { name: 1, _id: 1 } }).fetch();
-    const res = allBoards.map(board => ({
+    const res = allBoards.map((board) => ({
       boardId: board._id,
       ...board,
       type: "board",
@@ -1145,7 +1154,7 @@ Meteor.methods({
         },
       },
       {},
-      function(err, result) {
+      function (err, result) {
         if (err) {
           console.log(err);
         } else if (result != 1) {
