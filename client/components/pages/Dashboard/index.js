@@ -68,16 +68,14 @@ const Dashboard = () => {
   const { color } =
     Subjects[!_.isEmpty(subjectName) ? SanitizeName(subjectName) : ""] || {};
   const primaryColor = color || "#D82057";
-  const { firstName = "", lastName = "" } = userData || {};
+  const { firstName = "", lastName = "", username = "" } = userData || {};
+  const name = username ? username : firstName + " " + lastName;
   const secondaryColor = lighten(primaryColor, 0.5);
   return (
     <PageContainer className="page_dashboard-container">
       {userData && (
         <Title variant="h1" className="page_dashboard-header">
-          Welcome back,{" "}
-          <Highlighted color="primary">
-            {firstName + " " + lastName}
-          </Highlighted>
+          Welcome back, <Highlighted color="primary">{name}</Highlighted>
         </Title>
       )}
       {!_.isEmpty(lastLocation) && (
