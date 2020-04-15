@@ -20,39 +20,44 @@ import Subjects from "/client/components/molecules/SubjectCard/subjectData";
 import _ from "lodash";
 import { SanitizeName } from "/client/utils";
 import { lighten } from "@material-ui/core/styles";
+import { useGlobal, setGlobal } from "reactn";
 
 const Dashboard = () => {
   const [lastLocation, setLast] = useState({});
   const [subjectData, setSubjectData] = useState([]);
   const userData = useUserData();
+  const [myAddedSubject, setMyAddedSubjectData] = useGlobal("myAddedSubject");
+
+  const setLastPosition = () => {
+    const { lastPositions } = userData || {};
+    if (lastPositions && lastPositions.length) {
+      const [lastItem] = lastPositions.sort(
+        (x, y) => y.timestamp - x.timestamp
+      );
+      setLast(lastItem || {});
+    }
+  };
+  useEffect(() => {
+    setLastPosition();
+  }, [userData]);
 
   useEffect(() => {
-    const getNecessaryData = async () => {
-      const id = Meteor.userId();
+    const getMyAddedSubjects = async () => {
+      if (!myAddedSubject.length || myAddedSubject.some((v) => !v.name)) {
+        const id = Meteor.userId();
+        const subjects =
+          (await Request({
+            action: "getUserSubjects",
+            body: id,
+          })) || [];
 
-      const [{ lastPositions }] = await Request({
-        action: "getUser",
-        body: id,
-      });
-
-      if (lastPositions.length) {
-        // Apparently we like everything being an array
-        // And reading data from the first element ALL THE FREAKING TIME
-        const [lastItem] = lastPositions.sort(
-          (x, y) => y.timestamp - x.timestamp
-        );
-        setLast(lastItem || {});
+        setSubjectData(subjects);
+        setMyAddedSubjectData(subjects);
+      } else {
+        setSubjectData(myAddedSubject);
       }
-
-      const subjects =
-        (await Request({
-          action: "getUserSubjects",
-          body: id,
-        })) || [];
-
-      setSubjectData(subjects);
     };
-    getNecessaryData();
+    getMyAddedSubjects();
   }, []);
 
   const handleResume = () => {
@@ -64,12 +69,14 @@ const Dashboard = () => {
     levelName = "",
     subjectName = "",
     moduleName = "",
+    progress = 0,
   } = lastLocation;
   const { color } =
     Subjects[!_.isEmpty(subjectName) ? SanitizeName(subjectName) : ""] || {};
   const primaryColor = color || "#D82057";
   const { firstName = "", lastName = "" } = userData || {};
   const secondaryColor = lighten(primaryColor, 0.5);
+  console.log(progress, "progress");
   return (
     <PageContainer className="page_dashboard-container">
       {userData && (
@@ -108,7 +115,7 @@ const Dashboard = () => {
                 secondaryColor={secondaryColor}
                 primaryColor={primaryColor}
                 variant="determinate"
-                value={lastLocation.progress || 50}
+                value={progress}
               />
             </div>
           </FlexBox>

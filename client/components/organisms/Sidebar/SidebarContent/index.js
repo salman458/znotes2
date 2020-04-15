@@ -21,7 +21,7 @@ import ClosePopup from "/client/components/molecules/ClosePopup";
 import ConfirmationDialog from "/client/components/molecules/ConfirmationDialog";
 import { SanitizeName } from "/client/utils";
 import { useGlobal, setGlobal } from "reactn";
-import _ from "lodash"
+import _ from "lodash";
 
 const SidebarContent = ({
   subject,
@@ -48,69 +48,82 @@ const SidebarContent = ({
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [name, setName] = useState("");
   const [cards] = useGlobal("cardsData");
-  const[subjectData, setSubject]= useState({})
+  const [subjectData, setSubject] = useState({});
+  const [globalUserData, setUserData] = useGlobal("userData");
 
   const saveLastPosition = async () => {
+    console.log(globalUserData, "async globalUserData");
     let urlToSave;
     const progressValue = getProgressValue();
-    if(!chapterId || !cardId){
+    if (!chapterId || !cardId) {
       urlToSave = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}`;
-    }else{
+    } else {
       urlToSave = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
     }
 
-    if(_.isEmpty(subjectData)){
+    if (_.isEmpty(subjectData)) {
       const subObj = await Request({
         action: "getSubjectBySlug",
         body: subjectSlugName,
       });
-
+      const subject = {
+        id: Meteor.userId(),
+        position: urlToSave,
+        progress: progressValue,
+        moduleName: subObj.moduleName,
+        boardName: subObj.boardName,
+        levelName: subObj.levelName,
+        subjectName: subObj.name,
+        timestamp: new Date(),
+      };
       const addLastPosition = await Request({
         action: "addLastPosition",
         body: {
           userId: Meteor.userId(),
-          subject: {
-            id: Meteor.userId(),
-            position: urlToSave,
-            progress: progressValue,
-            moduleName: subObj.moduleName,
-            boardName: subObj.boardName,
-            levelName: subObj.levelName,
-            subjectName: subObj.name,
-          },
+          subject: subject,
         },
       });
-     
-    }else {
+      const { lastPositions } = globalUserData;
+      setUserData({
+        ...globalUserData,
+        lastPositions: [subject],
+      });
+    } else {
+      const subject = {
+        id: Meteor.userId(),
+        position: urlToSave,
+        progress: progressValue,
+        moduleName: subjectData.moduleName,
+        boardName: subjectData.boardName,
+        levelName: subjectData.levelName,
+        subjectName: subjectData.name,
+        timestamp: new Date(),
+      };
       const addLastPosition = await Request({
         action: "addLastPosition",
         body: {
           userId: Meteor.userId(),
-          subject: {
-            id: Meteor.userId(),
-            position: urlToSave,
-            progress: progressValue,
-            moduleName: subjectData.moduleName,
-            boardName: subjectData.boardName,
-            levelName: subjectData.levelName,
-            subjectName: subjectData.name,
-          },
+          subject: subject,
         },
       });
-     
+      const { lastPositions } = globalUserData;
+      setUserData({
+        ...globalUserData,
+        lastPositions: [subject],
+      });
+      console.log(globalUserData, "globalUserData");
     }
   };
-
-const getSubjectDetail =async()=>{
-  const subjectData = await Request({
-    action: "getSubjectBySlug",
-    body: subjectSlugName,
-  });
-  setSubject(subjectData);
-}
+  const getSubjectDetail = async () => {
+    const subjectData = await Request({
+      action: "getSubjectBySlug",
+      body: subjectSlugName,
+    });
+    setSubject(subjectData);
+  };
 
   useEffect(() => {
-    getSubjectDetail()
+    getSubjectDetail();
   }, [subjectSlugName]);
 
   useEffect(() => {
@@ -119,7 +132,7 @@ const getSubjectDetail =async()=>{
 
   useEffect(() => {
     saveLastPosition();
-  }, [moduleSlugName,cardId]);
+  }, [moduleSlugName, cardId]);
 
   const addCard = async (chapId) => {
     const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapId}&cardId=${1}`;

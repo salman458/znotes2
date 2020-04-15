@@ -10,6 +10,8 @@ import { useGlobal, setGlobal } from "reactn";
 
 setGlobal({
   cardsData: [],
+  userData: {},
+  myAddedSubject: [],
 });
 
 import "./styles/root.scss";
@@ -63,7 +65,7 @@ const App = ({
         >
           {content({ setOpaque })}
         </Layout>
-        {withSidebar &&
+        {withSidebar && (
           <PermissionProvider>
             <Sidebar
               open={open}
@@ -79,7 +81,8 @@ const App = ({
               chapterId={chapterId}
               cardId={cardId}
             />
-          </PermissionProvider>}
+          </PermissionProvider>
+        )}
         <Footer
           currentRouteName={currentRouteName}
           open={open}
