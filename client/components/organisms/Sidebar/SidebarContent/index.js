@@ -22,6 +22,7 @@ import ConfirmationDialog from "/client/components/molecules/ConfirmationDialog"
 import { SanitizeName } from "/client/utils";
 import { useGlobal, setGlobal } from "reactn";
 import _ from "lodash";
+import { useUserData } from "/client/contexts/user";
 
 const SidebarContent = ({
   subject,
@@ -50,9 +51,9 @@ const SidebarContent = ({
   const [cards] = useGlobal("cardsData");
   const [subjectData, setSubject] = useState({});
   const [globalUserData, setUserData] = useGlobal("userData");
+  const userContext = useUserData();
 
   const saveLastPosition = async () => {
-    console.log(globalUserData, "async globalUserData");
     let urlToSave;
     const progressValue = getProgressValue();
     if (!chapterId || !cardId) {
@@ -83,11 +84,7 @@ const SidebarContent = ({
           subject: subject,
         },
       });
-      const { lastPositions } = globalUserData;
-      setUserData({
-        ...globalUserData,
-        lastPositions: [subject],
-      });
+      setLocallyLastPosition(subject);
     } else {
       const subject = {
         id: Meteor.userId(),
@@ -106,14 +103,21 @@ const SidebarContent = ({
           subject: subject,
         },
       });
-      const { lastPositions } = globalUserData;
-      setUserData({
-        ...globalUserData,
-        lastPositions: [subject],
-      });
-      console.log(globalUserData, "globalUserData");
+      setLocallyLastPosition(subject);
     }
   };
+
+  const setLocallyLastPosition = (subject) => {
+    // console.log(subject, "subject", userContext, "userContext");
+    if (!_.isEmpty(userContext)) {
+      const { lastPositions } = userContext;
+      setUserData({
+        ...userData,
+        lastPositions: [subject],
+      });
+    }
+  };
+
   const getSubjectDetail = async () => {
     const subjectData = await Request({
       action: "getSubjectBySlug",
