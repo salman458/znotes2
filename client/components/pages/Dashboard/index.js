@@ -143,6 +143,7 @@ const Dashboard = () => {
           isUserSubjects
           className="page_dashbboard-subjects"
           subjects={subjectData}
+          user={userData}
         />
       )}
 
