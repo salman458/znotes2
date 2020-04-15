@@ -112,7 +112,7 @@ const SidebarContent = ({
     if (!_.isEmpty(userContext)) {
       const { lastPositions } = userContext;
       setUserData({
-        ...userData,
+        ...userContext,
         lastPositions: [subject],
       });
     }

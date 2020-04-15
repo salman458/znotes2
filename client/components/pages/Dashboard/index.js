@@ -29,6 +29,7 @@ const Dashboard = () => {
   const [myAddedSubject, setMyAddedSubjectData] = useGlobal("myAddedSubject");
 
   const setLastPosition = () => {
+    console.log(userData, "userData setLastPosition");
     const { lastPositions } = userData || {};
     if (lastPositions && lastPositions.length) {
       const [lastItem] = lastPositions.sort(
