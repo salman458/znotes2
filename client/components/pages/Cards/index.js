@@ -87,7 +87,6 @@ const Cards = ({
   };
 
   const setTitle = (subject) => {
-    console.log(subject, "subject");
     if (!_.isEmpty(subject)) {
       document.title = `ZNotes | Learn ${subject.boardName} ${
         subject.levelName
