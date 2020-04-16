@@ -9,6 +9,7 @@ import CardActionItem from "./CardActionItem";
 import ClosePopup from "../ClosePopup";
 import Menu from "../Menu";
 import _ from "lodash";
+import { useGlobal, setGlobal } from "reactn";
 
 const useStyles = makeStyles((theme) => ({
   addSubjectButton: {
@@ -29,11 +30,13 @@ const SubjectCard = ({
   boardId,
   levelId,
   user,
+  onRemoveSubject,
 }) => {
   const [modules, setModules] = useState([]);
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
   const classes = useStyles();
+  const [myAddedSubject, setMyAddedSubjectData] = useGlobal("myAddedSubject");
 
   const onClose = () => {
     setOpen(false);
@@ -80,6 +83,7 @@ const SubjectCard = ({
         subjectId: id,
       },
     });
+    setMyAddedSubjectData([...myAddedSubject, { _id: id }]);
     if (result && result.error) {
       Bert.alert("Subject already added", "danger", "growl-top-right");
     }
@@ -96,6 +100,10 @@ const SubjectCard = ({
     });
 
     setModules(allModules);
+  };
+
+  const removeUserSubject = async () => {
+    onRemoveSubject(id);
   };
 
   return (
@@ -149,6 +157,14 @@ const SubjectCard = ({
             onClick={addUserSubject}
           >
             Add to My Subjects
+          </MenuItem>
+        )}
+        {isUserSubject && !_.isEmpty(user) && (
+          <MenuItem
+            className={classes.addSubjectButton}
+            onClick={removeUserSubject}
+          >
+            Remove to My Subjects
           </MenuItem>
         )}
       </Menu>

@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Meteor } from "meteor/meteor";
 import { Tracker } from "meteor/tracker";
 import { Request } from "/client/utils";
+import { useGlobal, setGlobal } from "reactn";
+import _ from "lodash";
 
 const UserContext = React.createContext({});
 
@@ -16,8 +18,9 @@ export const useUserData = () => {
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [globalUserData, setUserData] = useGlobal("userData");
 
-  const getUserData = async id => {
+  const getUserData = async (id) => {
     const data = await Request({
       action: "getUserData",
       body: id,
@@ -29,19 +32,20 @@ export const UserProvider = ({ children }) => {
     Tracker.autorun(async () => {
       const userData = Meteor.user() || {};
       if (userData && userData._id) {
-        const userGetData = await getUserData(userData._id);
-        const data = await setUser(userGetData[0]);
+        if (_.isEmpty(globalUserData)) {
+          const userGetData = await getUserData(userData._id);
+          const data = await setUser(userGetData[0]);
+          await setUserData(userGetData[0]);
+        } else {
+          setUser(globalUserData);
+        }
       } else {
         setUser(userData);
       }
     });
   }, []);
 
-  return (
-    <UserContext.Provider value={user}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };
 
 UserProvider.propTypes = {

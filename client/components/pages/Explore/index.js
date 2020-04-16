@@ -5,7 +5,7 @@ import {
   Title,
   Button,
   FlexBox,
-  PageContainer
+  PageContainer,
 } from "/client/components/atoms";
 import { SubjectSlider, AddPopup } from "/client/components/organisms";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,11 +16,11 @@ import { useUserData } from "/client/contexts/user";
 const useStyles = makeStyles(() => ({
   title: {
     fontSize: "3.5rem",
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 }));
 
-const Explore = props => {
+const Explore = (props) => {
   console.log(props);
   const { boardId, board, level, subject, module, ...rest } = props;
   const classes = useStyles();
@@ -37,28 +37,28 @@ const Explore = props => {
       if (board) {
         const boardId = await Request({
           action: "getBoardIdBySlugName",
-          body: board
+          body: board,
         });
         body.board = boardId;
       }
       if (level) {
         const levelId = await Request({
           action: "getLevelIdBySlugName",
-          body: level
+          body: level,
         });
         body.level = levelId;
       }
       if (module) {
         const moduleId = await Request({
           action: "getModuleIdBySlug",
-          body: module
+          body: module,
         });
         body.module = moduleId;
       }
       if (subject) {
         const subjectId = await Request({
           action: "getSubjectIdBySlug",
-          body: subject
+          body: subject,
         });
         body.subject = subjectId;
       }
@@ -66,12 +66,12 @@ const Explore = props => {
       if (board) {
         allBoards = await Request({
           action: "loadAllData",
-          body: body
+          body: body,
         });
       } else {
         allBoards = await Request({
           action: "loadAllData",
-          body: {}
+          body: {},
         });
       }
       setLoading(false);
@@ -83,7 +83,7 @@ const Explore = props => {
   const addBoard = async ({ itemId, name }) => {
     const boardSlugName = await Request({
       action: "getBoardSlugName",
-      body: itemId
+      body: itemId,
     });
 
     setBoards([
@@ -91,16 +91,16 @@ const Explore = props => {
         name,
         boardId: itemId,
         levels: [],
-        slug: boardSlugName
+        slug: boardSlugName,
       },
-      ...boards
+      ...boards,
     ]);
   };
 
-  const addLevel = boardId => async ({ itemId, name }) => {
+  const addLevel = (boardId) => async ({ itemId, name }) => {
     const levelSlugName = await Request({
       action: "getLevelSlugName",
-      body: itemId
+      body: itemId,
     });
 
     const newLevel = {
@@ -108,16 +108,15 @@ const Explore = props => {
       levelId: itemId,
       name,
       subjects: [],
-      slug: levelSlugName
+      slug: levelSlugName,
     };
-    const newBoards = boards.map(
-      board =>
-        board.boardId === boardId
-          ? {
-              ...board,
-              levels: [newLevel, ...board.levels]
-            }
-          : board
+    const newBoards = boards.map((board) =>
+      board.boardId === boardId
+        ? {
+            ...board,
+            levels: [newLevel, ...board.levels],
+          }
+        : board
     );
     setBoards(newBoards);
   };
@@ -125,7 +124,7 @@ const Explore = props => {
   const addSubject = ({ boardId, levelId }) => async ({ itemId, name }) => {
     const subjectSlugName = await Request({
       action: "getSubjectSlugName",
-      body: itemId
+      body: itemId,
     });
 
     const newSubject = {
@@ -133,30 +132,29 @@ const Explore = props => {
       board: boardId,
       level: levelId,
       name,
-      slug: subjectSlugName
+      slug: subjectSlugName,
       // slug:name.split(" ").join('-')
     };
-    const newBoards = boards.map(board => {
+    const newBoards = boards.map((board) => {
       if (board.boardId === boardId) {
-        const newLevels = board.levels.map(
-          level =>
-            level.levelId === levelId
-              ? {
-                  ...level,
-                  subjects: [
-                    {
-                      ...newSubject,
-                      boardName: board.name,
-                      levelName: level.name
-                    },
-                    ...level.subjects
-                  ]
-                }
-              : level
+        const newLevels = board.levels.map((level) =>
+          level.levelId === levelId
+            ? {
+                ...level,
+                subjects: [
+                  {
+                    ...newSubject,
+                    boardName: board.name,
+                    levelName: level.name,
+                  },
+                  ...level.subjects,
+                ],
+              }
+            : level
         );
         return {
           ...board,
-          levels: newLevels
+          levels: newLevels,
         };
       }
       return board;
@@ -170,17 +168,19 @@ const Explore = props => {
       <Title variant="h1" gutterBottom className={classes.title}>
         Explore the Subjects
       </Title>
-      {role > USER_PERMISSIONS.logged &&
+      {role > USER_PERMISSIONS.logged && (
         <AddPopup action="addBoard" onAdd={addBoard} title="Add a new board">
-          {openPopup =>
+          {(openPopup) => (
             <FlexBox column align>
               <Title variant="h3" gutterBottom>
                 Need to add a new board?
               </Title>
               <Button onClick={openPopup}>Add Board</Button>
-            </FlexBox>}
-        </AddPopup>}
-      {boards.map(({ boardId, name, levels, slug: boardSlugName }) =>
+            </FlexBox>
+          )}
+        </AddPopup>
+      )}
+      {boards.map(({ boardId, name, levels, slug: boardSlugName }) => (
         <Fragment key={boardId}>
           <AddPopup
             addData={{ board: boardId }}
@@ -188,20 +188,20 @@ const Explore = props => {
             onAdd={addLevel(boardId)}
             title="Add a new level"
           >
-            {openPopup =>
+            {(openPopup) => (
               <FlexBox justifyBetween align>
-                <Title variant="h3">
-                  {name}
-                </Title>
-                {role > USER_PERMISSIONS.logged &&
+                <Title variant="h3">{name}</Title>
+                {role > USER_PERMISSIONS.logged && (
                   <Button variant="text" onClick={openPopup}>
                     Add Level
-                  </Button>}
-              </FlexBox>}
+                  </Button>
+                )}
+              </FlexBox>
+            )}
           </AddPopup>
 
           {levels.map(
-            ({ levelId, name: levelName, subjects, slug: levelSlugName }) =>
+            ({ levelId, name: levelName, subjects, slug: levelSlugName }) => (
               <Fragment key={levelId}>
                 <AddPopup
                   addData={{ board: boardId, level: levelId }}
@@ -209,16 +209,16 @@ const Explore = props => {
                   onAdd={addSubject({ boardId, levelId })}
                   title="Add a new subject"
                 >
-                  {openPopup =>
+                  {(openPopup) => (
                     <FlexBox justifyBetween align>
-                      <Title variant="h4">
-                        {levelName}
-                      </Title>
-                      {role > USER_PERMISSIONS.logged &&
+                      <Title variant="h4">{levelName}</Title>
+                      {role > USER_PERMISSIONS.logged && (
                         <Button variant="text" onClick={openPopup}>
                           Add Subject
-                        </Button>}
-                    </FlexBox>}
+                        </Button>
+                      )}
+                    </FlexBox>
+                  )}
                 </AddPopup>
                 <SubjectSlider
                   subjects={subjects}
@@ -231,9 +231,10 @@ const Explore = props => {
                   user={user}
                 />
               </Fragment>
+            )
           )}
         </Fragment>
-      )}
+      ))}
     </PageContainer>
   );
 };

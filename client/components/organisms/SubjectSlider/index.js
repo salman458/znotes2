@@ -20,6 +20,7 @@ const SubjectSlider = ({
   levelSlugName,
   boardId,
   levelId,
+  onRemoveSubject,
 }) => {
   const breakponts = useMemo(GenerateBreakpoints, []);
   const slider = useRef(null);
@@ -98,6 +99,7 @@ const SubjectSlider = ({
                   boardId={boardId || board}
                   levelId={levelId || level}
                   user={user}
+                  onRemoveSubject={onRemoveSubject}
                 />
               )
             )}

@@ -83,6 +83,15 @@ const Cards = ({
     });
 
     setSubjectData(subjectData);
+    setTitle(subjectData);
+  };
+
+  const setTitle = (subject) => {
+    if (!_.isEmpty(subject)) {
+      document.title = `ZNotes | Learn ${subject.boardName} ${
+        subject.levelName
+      } ${subject.name} ${moduleSlugName.replace(/[^A-Za-z]+/g, " ")}`;
+    }
   };
 
   const getAllCardsByModuleSlugName = async () => {

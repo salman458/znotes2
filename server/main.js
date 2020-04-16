@@ -617,6 +617,15 @@ Meteor.methods({
       );
     }
   },
+
+  removeUserFromMySubjects({ userId, subjectId }) {
+    Meteor.users.update(
+      {
+        _id: userId,
+      },
+      { $pull: { subjects: { _id: subjectId } } }
+    );
+  },
   updateChapterWithCard(obj) {
     return chapters.update(
       { _id: obj.chapterId },

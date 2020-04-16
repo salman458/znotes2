@@ -21,8 +21,9 @@ import ClosePopup from "/client/components/molecules/ClosePopup";
 import ConfirmationDialog from "/client/components/molecules/ConfirmationDialog";
 import { SanitizeName } from "/client/utils";
 import { useGlobal, setGlobal } from "reactn";
-import _ from "lodash"
-
+import _ from "lodash";
+import { useUserData } from "/client/contexts/user";
+import { GeneralHelper } from "../../../../helper";
 const SidebarContent = ({
   subject,
   chapters,
@@ -48,69 +49,86 @@ const SidebarContent = ({
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [name, setName] = useState("");
   const [cards] = useGlobal("cardsData");
-  const[subjectData, setSubject]= useState({})
+  const [subjectData, setSubject] = useState({});
+  const [showUserLoginPopup, setShowUserLoginPopup] = useState(false);
+  const [globalUserData, setUserData] = useGlobal("userData");
+  const userContext = useUserData();
 
   const saveLastPosition = async () => {
     let urlToSave;
     const progressValue = getProgressValue();
-    if(!chapterId || !cardId){
+    if (!chapterId || !cardId) {
       urlToSave = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}`;
-    }else{
+    } else {
       urlToSave = `/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapterId}&cardId=${cardId}`;
     }
 
-    if(_.isEmpty(subjectData)){
+    if (_.isEmpty(subjectData)) {
       const subObj = await Request({
         action: "getSubjectBySlug",
         body: subjectSlugName,
       });
-
+      const subject = {
+        id: Meteor.userId(),
+        position: urlToSave,
+        progress: progressValue,
+        moduleName: subObj.moduleName,
+        boardName: subObj.boardName,
+        levelName: subObj.levelName,
+        subjectName: subObj.name,
+        timestamp: new Date(),
+      };
       const addLastPosition = await Request({
         action: "addLastPosition",
         body: {
           userId: Meteor.userId(),
-          subject: {
-            id: Meteor.userId(),
-            position: urlToSave,
-            progress: progressValue,
-            moduleName: subObj.moduleName,
-            boardName: subObj.boardName,
-            levelName: subObj.levelName,
-            subjectName: subObj.name,
-          },
+          subject: subject,
         },
       });
-     
-    }else {
+      setLocallyLastPosition(subject);
+    } else {
+      const subject = {
+        id: Meteor.userId(),
+        position: urlToSave,
+        progress: progressValue,
+        moduleName: subjectData.moduleName,
+        boardName: subjectData.boardName,
+        levelName: subjectData.levelName,
+        subjectName: subjectData.name,
+        timestamp: new Date(),
+      };
       const addLastPosition = await Request({
         action: "addLastPosition",
         body: {
           userId: Meteor.userId(),
-          subject: {
-            id: Meteor.userId(),
-            position: urlToSave,
-            progress: progressValue,
-            moduleName: subjectData.moduleName,
-            boardName: subjectData.boardName,
-            levelName: subjectData.levelName,
-            subjectName: subjectData.name,
-          },
+          subject: subject,
         },
       });
-     
+      setLocallyLastPosition(subject);
     }
   };
 
-const getSubjectDetail =async()=>{
-  const subjectData = await Request({
-    action: "getSubjectBySlug",
-    body: subjectSlugName,
-  });
-  setSubject(subjectData);
-}
+  const setLocallyLastPosition = (subject) => {
+    // console.log(subject, "subject", userContext, "userContext");
+    if (!_.isEmpty(userContext)) {
+      const { lastPositions } = userContext;
+      setUserData({
+        ...userContext,
+        lastPositions: [subject],
+      });
+    }
+  };
+
+  const getSubjectDetail = async () => {
+    const subjectData = await Request({
+      action: "getSubjectBySlug",
+      body: subjectSlugName,
+    });
+    setSubject(subjectData);
+  };
 
   useEffect(() => {
-    getSubjectDetail()
+    getSubjectDetail();
   }, [subjectSlugName]);
 
   useEffect(() => {
@@ -119,7 +137,7 @@ const getSubjectDetail =async()=>{
 
   useEffect(() => {
     saveLastPosition();
-  }, [moduleSlugName,cardId]);
+  }, [moduleSlugName, cardId, cards]);
 
   const addCard = async (chapId) => {
     const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapId}&cardId=${1}`;
@@ -230,6 +248,22 @@ const getSubjectDetail =async()=>{
     );
     setChapters(newState);
     onCloseEditPopup();
+  };
+
+  const downloadPdf = () => {
+    if (_.isEmpty(userContext)) {
+      setShowUserLoginPopup(true);
+    } else {
+      const url = GeneralHelper.getPdfDownloadUrl(
+        boardSlugName,
+        levelSlugName,
+        subjectSlugName,
+        moduleSlugName
+      );
+      var redirectWindow = window.open(url, "_blank");
+      redirectWindow.location;
+      // window.location.href = url;
+    }
   };
 
   return (
@@ -351,6 +385,29 @@ const getSubjectDetail =async()=>{
             deleteChapter(selectedChapter);
           }}
         />
+        <ConfirmationDialog
+          onClose={() => setShowUserLoginPopup(false)}
+          isShow={showUserLoginPopup}
+          onSubmit={() => {
+            setShowUserLoginPopup(false);
+            FlowRouter.go("/register");
+          }}
+          title={"Alert"}
+          description={"Please register to download the PDF"}
+          submitButtonText={"Register"}
+          cancelButtonText={"Cancel"}
+        />
+
+        <div
+          onClick={() => {
+            downloadPdf();
+          }}
+        >
+          <Title variant="h5" className="organism_sidebar-chapters">
+            <Chapters className="organism_sidebar-chapter-icon" />
+            Download as PDF
+          </Title>
+        </div>
       </div>
     </>
   );
