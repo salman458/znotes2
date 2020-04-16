@@ -7,7 +7,7 @@ class GeneralHelper {
   ) => {
     // https://images.znotes.org/pdfs/board-level-subject-module.pdf  //  sample
     const slugsUrls = `${boardSlugName}-${levelSlugName}-${subjectSlugName}-${moduleSlugName}`.toLowerCase();
-    const url = `http://images.znotes.org/pdfs/${slugsUrls}.pdf`;
+    const url = `https://images.znotes.org/pdfs/${slugsUrls}.pdf`;
     return url;
   };
 }
