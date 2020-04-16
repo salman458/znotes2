@@ -137,7 +137,7 @@ const SidebarContent = ({
 
   useEffect(() => {
     saveLastPosition();
-  }, [moduleSlugName, cardId]);
+  }, [moduleSlugName, cardId, cards]);
 
   const addCard = async (chapId) => {
     const url = `/editor/${boardSlugName}/${levelSlugName}/${subjectSlugName}/${moduleSlugName}?chapterId=${chapId}&cardId=${1}`;
