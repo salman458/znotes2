@@ -12,6 +12,7 @@ setGlobal({
   cardsData: [],
   userData: {},
   myAddedSubject: [],
+  allKeyWords: [],
 });
 
 import "./styles/root.scss";

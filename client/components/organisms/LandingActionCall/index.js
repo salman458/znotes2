@@ -10,16 +10,18 @@ import {
   Image,
   FlexBox,
   Autosuggest,
-  Spinner
+  Spinner,
 } from "/client/components/atoms";
 import { Search, ChevronRight } from "/client/components/icons";
 import { Request } from "/client/utils";
 import Suggestion from "./Suggestion";
 import "./styles.scss";
 import { defaultTheme } from "react-autosuggest/dist/theme";
-const useStyles = makeStyles(theme => ({
+import { useGlobal, setGlobal } from "reactn";
+
+const useStyles = makeStyles((theme) => ({
   small: {
-    fontSize: "2.5rem"
+    fontSize: "2.5rem",
   },
   search: {
     position: "relative",
@@ -27,24 +29,24 @@ const useStyles = makeStyles(theme => ({
     marginRight: 10,
     backgroundColor: fade("#383838", 1),
     "&:hover": {
-      backgroundColor: fade("#383838", 1)
+      backgroundColor: fade("#383838", 1),
     },
     marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(1),
-      width: "auto"
-    }
+      width: "auto",
+    },
   },
   searchIcon: {
     width: theme.spacing(7),
     height: "100%",
     position: "absolute",
     pointerEvents: "none",
-    zIndex: 1
+    zIndex: 1,
   },
   inputRoot: {
-    color: "inherit"
+    color: "inherit",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 6),
@@ -53,12 +55,12 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up("sm")]: {
       width: 0,
       "&:focus": {
-        width: 200
-      }
+        width: 200,
+      },
     },
     backgroundColor: fade("#383838", 1),
     "&:hover": {
-      backgroundColor: fade("#383838", 1)
+      backgroundColor: fade("#383838", 1),
     },
     border: "none",
     width: "100%",
@@ -66,9 +68,9 @@ const useStyles = makeStyles(theme => ({
     color: "white",
     "&:placeholder": {
       color: "white",
-      "font-weight": "600"
-    }
-  }
+      "font-weight": "600",
+    },
+  },
 }));
 
 const LandingActionCall = ({
@@ -77,11 +79,12 @@ const LandingActionCall = ({
   titleText,
   withHint,
   collapsibleSearch,
-  className
+  className,
 }) => {
   const classes = useStyles();
   const [keywords, setKeywords] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [allKeyWordsGlobal, setAllKeyWordsGlobal] = useGlobal("allKeyWords");
 
   useEffect(() => {
     const handleKeywords = async () => {
@@ -95,18 +98,26 @@ const LandingActionCall = ({
         ...subjects,
         ...levels,
         ...boards,
-        ...module
-      ].filter(el => el != null);
+        ...module,
+      ].filter((el) => el != null);
       setKeywords(allKeyWords);
+      setAllKeyWordsGlobal(allKeyWords);
     };
-    handleKeywords();
+
+    if (!allKeyWordsGlobal.length) {
+      console.log("if");
+      handleKeywords();
+    } else {
+      console.log("else");
+      setKeywords(allKeyWordsGlobal);
+    }
   }, []);
 
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionsCopy, setSuggestionsCopy] = useState([]);
   const [value, setValue] = useState("");
 
-  const getSuggestions = currentValue => {
+  const getSuggestions = (currentValue) => {
     const inputValue = currentValue.trim().toLowerCase();
     if (inputValue.length === 0) {
       return [];
@@ -119,14 +130,14 @@ const LandingActionCall = ({
 
   const [searchable, setSearchable] = useState({});
 
-  const getSearchString = data => {
+  const getSearchString = (data) => {
     const { name, levelName, boardName, subjectName, type } = data;
-    return `${name || ""}${subjectName ? ` ${subjectName}` : ""}${levelName
-      ? ` ${levelName}`
-      : ""}${boardName ? ` ${boardName}` : ""}`;
+    return `${name || ""}${subjectName ? ` ${subjectName}` : ""}${
+      levelName ? ` ${levelName}` : ""
+    }${boardName ? ` ${boardName}` : ""}`;
   };
 
-  const getSuggestionValue = data => {
+  const getSuggestionValue = (data) => {
     setSearchable(data);
     return getSearchString(data);
   };
@@ -148,32 +159,32 @@ const LandingActionCall = ({
     setValue(currentValue);
   };
 
-  const handleSearch = async searchResult => {
+  const handleSearch = async (searchResult) => {
     // console.log(searchResult, "searchResult");
     const { type, moduleId, boardId, subjectId, levelId } = searchResult;
     let moduleSlugName, boardSlugName, subjectSlugName, levelSlugName;
     if (moduleId) {
       moduleSlugName = await Request({
         action: "getModuleSlugName",
-        body: moduleId
+        body: moduleId,
       });
     }
     if (boardId) {
       boardSlugName = await Request({
         action: "getBoardSlugName",
-        body: boardId
+        body: boardId,
       });
     }
     if (subjectId) {
       subjectSlugName = await Request({
         action: "getSubjectSlugName",
-        body: subjectId
+        body: subjectId,
       });
     }
     if (levelId) {
       levelSlugName = await Request({
         action: "getLevelSlugName",
-        body: levelId
+        body: levelId,
       });
     }
 
@@ -236,14 +247,16 @@ const LandingActionCall = ({
   const onSearch = async () => {
     const result = await Request({
       action: "genericSearch",
-      body: searchable
+      body: searchable,
     });
 
     handleSearch(result);
   };
 
-  const onKeyDown = e => {
-    const isSearch = suggestionsCopy.some(val => getSearchString(val) == value);
+  const onKeyDown = (e) => {
+    const isSearch = suggestionsCopy.some(
+      (val) => getSearchString(val) == value
+    );
     if ((isSearch && e.key === "Enter") || e.code === "Enter") {
       onSearch();
     }
@@ -251,17 +264,73 @@ const LandingActionCall = ({
 
   return (
     <div style={{ zIndex: 1 }}>
-      {collapsibleSearch
-        ? <div className={classes.search}>
-            {/* <div className="auto-s"> */}
-            <FlexBox align justify className={classes.searchIcon}>
-              <Search />
-            </FlexBox>
+      {collapsibleSearch ? (
+        <div className={classes.search}>
+          {/* <div className="auto-s"> */}
+          <FlexBox align justify className={classes.searchIcon}>
+            <Search />
+          </FlexBox>
+          <Autosuggest
+            theme={{
+              ...defaultTheme,
+              input: classes.inputInput,
+            }}
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={onSuggestionsClearRequested}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={Suggestion}
+            className={className}
+            inputProps={{
+              value,
+              onChange,
+              onKeyDown,
+              placeholder: "Search..",
+            }}
+          />
+          {/* </div> */}
+        </div>
+      ) : (
+        <FlexBox
+          column
+          justify
+          align={align}
+          className="organism_action-call-root"
+        >
+          {!minimal && (
+            <Image className="organism_action-call-logo" src="/img/logo.png" />
+          )}
+          {titleText && (
+            <Title
+              variant="h1"
+              component="h1"
+              className={clsx(
+                "organism_action-call-header",
+                !minimal && classes.small
+              )}
+            >
+              {titleText}
+            </Title>
+          )}
+
+          {withHint && (
+            <Text>
+              Search for a course, or go to the{" "}
+              <Link className="organism_landing-hint-link" to="/explore">
+                Explore
+              </Link>{" "}
+              page to see whole content.
+            </Text>
+          )}
+          <FlexBox
+            justify
+            align
+            fullWidth
+            className="organism_landing-autosuggest"
+          >
+            <Search className="organism_landing-autosuggest-icon left" />
+
             <Autosuggest
-              theme={{
-                ...defaultTheme,
-                input: classes.inputInput
-              }}
               suggestions={suggestions}
               onSuggestionsFetchRequested={onSuggestionsFetchRequested}
               onSuggestionsClearRequested={onSuggestionsClearRequested}
@@ -272,71 +341,17 @@ const LandingActionCall = ({
                 value,
                 onChange,
                 onKeyDown,
-                placeholder: "Search.."
+                placeholder: "What do you want to revise?",
               }}
             />
-            {/* </div> */}
-          </div>
-        : <FlexBox
-            column
-            justify
-            align={align}
-            className="organism_action-call-root"
-          >
-            {!minimal &&
-              <Image
-                className="organism_action-call-logo"
-                src="/img/logo.png"
-              />}
-            {titleText &&
-              <Title
-                variant="h1"
-                component="h1"
-                className={clsx(
-                  "organism_action-call-header",
-                  !minimal && classes.small
-                )}
-              >
-                {titleText}
-              </Title>}
-
-            {withHint &&
-              <Text>
-                Search for a course, or go to the{" "}
-                <Link className="organism_landing-hint-link" to="/explore">
-                  Explore
-                </Link>{" "}
-                page to see whole content.
-              </Text>}
-            <FlexBox
-              justify
-              align
-              fullWidth
-              className="organism_landing-autosuggest"
-            >
-              <Search className="organism_landing-autosuggest-icon left" />
-
-              <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={Suggestion}
-                className={className}
-                inputProps={{
-                  value,
-                  onChange,
-                  onKeyDown,
-                  placeholder: "What do you want to revise?"
-                }}
-              />
-              <Spinner className="spinner" isLoading={isLoading} />
-              <ChevronRight
-                onClick={onSearch}
-                className="organism_landing-autosuggest-icon right"
-              />
-            </FlexBox>
-          </FlexBox>}
+            <Spinner className="spinner" isLoading={isLoading} />
+            <ChevronRight
+              onClick={onSearch}
+              className="organism_landing-autosuggest-icon right"
+            />
+          </FlexBox>
+        </FlexBox>
+      )}
     </div>
   );
 };
@@ -347,7 +362,7 @@ LandingActionCall.defaultProps = {
   align: true,
   titleText: undefined,
   className: "",
-  collapsibleSearch: false
+  collapsibleSearch: false,
 };
 
 LandingActionCall.propTypes = {
@@ -355,7 +370,7 @@ LandingActionCall.propTypes = {
   minimal: PropTypes.bool,
   withHint: PropTypes.bool,
   titleText: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default LandingActionCall;
