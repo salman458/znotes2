@@ -1,5 +1,22 @@
 import React from "react";
 
+const convertColor = (hex) => {
+  var m = hex.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
+
+  const r = parseInt(m[1], 16);
+  const g = parseInt(m[2], 16);
+  const b = parseInt(m[3], 16);
+
+  const rScaled = r / 255.0;
+  const gScaled = g / 255.0;
+  const bScaled = b / 255.0;
+
+  return `0 0 0 0 ${rScaled}
+  0 0 0 0 ${gScaled}
+  0 0 0 0 ${bScaled}
+  0 0 0 1 0`;
+};
+
 const Discord = (props) => (
   <svg
     className="playIcon"
@@ -28,7 +45,7 @@ const Discord = (props) => (
           result="shadowBlurOuter1"
         />
         <feColorMatrix
-          values="0 0 0 0 0.529411765   0 0 0 0 0.945098039   0 0 0 0 0.764705882  0 0 0 1 0"
+          values={convertColor(props.primaryColor || "#87F1C3")}
           type="matrix"
           in="shadowBlurOuter1"
         />
