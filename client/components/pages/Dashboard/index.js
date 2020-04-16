@@ -29,7 +29,6 @@ const Dashboard = () => {
   const [myAddedSubject, setMyAddedSubjectData] = useGlobal("myAddedSubject");
 
   const setLastPosition = () => {
-    console.log(userData, "userData setLastPosition");
     const { lastPositions } = userData || {};
     if (lastPositions && lastPositions.length) {
       const [lastItem] = lastPositions.sort(
@@ -91,7 +90,6 @@ const Dashboard = () => {
   const { firstName = "", lastName = "", username = "" } = userData || {};
   const name = username ? username : firstName + " " + lastName;
   const secondaryColor = lighten(primaryColor, 0.5);
-  console.log(progress, "progress");
   return (
     <PageContainer className="page_dashboard-container">
       {userData && (

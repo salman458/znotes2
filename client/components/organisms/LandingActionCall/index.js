@@ -105,10 +105,8 @@ const LandingActionCall = ({
     };
 
     if (!allKeyWordsGlobal.length) {
-      console.log("if");
       handleKeywords();
     } else {
-      console.log("else");
       setKeywords(allKeyWordsGlobal);
     }
   }, []);

@@ -109,7 +109,6 @@ const SidebarContent = ({
   };
 
   const setLocallyLastPosition = (subject) => {
-    // console.log(subject, "subject", userContext, "userContext");
     if (!_.isEmpty(userContext)) {
       const { lastPositions } = userContext;
       setUserData({

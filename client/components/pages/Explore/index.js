@@ -21,7 +21,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Explore = (props) => {
-  console.log(props);
   const { boardId, board, level, subject, module, ...rest } = props;
   const classes = useStyles();
   const [boards, setBoards] = useState([]);
