@@ -255,7 +255,7 @@ const Cards = ({
           </Paper>
 
           {isTeamRole && (
-            <div>
+            <div className="slider-edit-delet-box">
               <button
                 type="button"
                 className="Card-btn MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-98 MuiButton-containedPrimary"

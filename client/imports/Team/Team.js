@@ -120,10 +120,7 @@ class Team extends Component {
                 <div className="r-title">
                   {title}
                 </div>
-                <div className="r-desc">
-                  {desc}
-                </div>
-                <br />
+                
                 <div className="social-ta">
                   <a href={linkedIn}>
                     <i
@@ -138,6 +135,11 @@ class Team extends Component {
                     />
                   </a>
                 </div>
+                <br />
+                <div className="r-desc">
+                  {desc}
+                </div>
+                
               </div>
             </div>
           );
