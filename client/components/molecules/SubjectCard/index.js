@@ -148,7 +148,7 @@ const SubjectCard = ({
             );
           }
         )}
-        {role > USER_PERMISSIONS.logged && (
+        {!isUserSubject && role > USER_PERMISSIONS.logged && (
           <MenuItem onClick={openPopup}>Add Module</MenuItem>
         )}
         {!isUserSubject && !_.isEmpty(user) && (
@@ -164,7 +164,7 @@ const SubjectCard = ({
             className={classes.addSubjectButton}
             onClick={removeUserSubject}
           >
-            Remove to My Subjects
+            Remove from My Subjects
           </MenuItem>
         )}
       </Menu>
