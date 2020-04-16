@@ -135,7 +135,9 @@ const SidebarContent = ({
   }, [chapters]);
 
   useEffect(() => {
-    saveLastPosition();
+    if (Meteor.userId()) {
+      saveLastPosition();
+    }
   }, [moduleSlugName, cardId, cards]);
 
   const addCard = async (chapId) => {
