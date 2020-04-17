@@ -399,17 +399,19 @@ const SidebarContent = ({
           cancelButtonText={"Cancel"}
         />
 
-        <div
+        
+      </div>
+      <div className="pdf-btn-box"
           onClick={() => {
             downloadPdf();
           }}
         >
-          <Title variant="h5" className="organism_sidebar-chapters">
+          <Title variant="h5" className="organism_sidebar-chapters download-pdf-btn">
             <Chapters className="organism_sidebar-chapter-icon" />
+            <img src="/img/download.svg" />
             Download as PDF
           </Title>
         </div>
-      </div>
     </>
   );
 };
